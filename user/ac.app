@@ -19,3 +19,11 @@ access control rules
 	rule template logout() {
 		true
 	}
+	
+	rule template users(us : Set<User>) {	
+		true
+	}
+	
+	rule page user(u : User) {
+		true
+	}

@@ -9,9 +9,10 @@ define page home(u : User){
 			<h2> "Projects" </h2>
 			table {
 				for(p : Project in u.projects) {
-					row { navigate view(p) {output(p.name)}}
+					row { navigate project(p) {output(p.name)}}
 				}
 			}
+			navigate(registerProject()) {"Create New Project"}
 		}
 	}
 }

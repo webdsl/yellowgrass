@@ -11,13 +11,15 @@ define page registerUser(){
 			row{"Email"				input(u.email)}
 			row{"Password"			input(u.password)}
 			row{"Repeat Password"	input(temp){ validate(u.password == temp, "Passwords do not match") }}
-			//row{ captcha() }
+			row{ captcha() }
 				
 			break
 			action("Register",register())
 			action register(){
 				u.password := u.password.digest();
 				u.save();
+				securityContext.principal := u;
+				securityContext.loggedIn := true;
 				message("Registration completed");
 				return home(u);
 			}

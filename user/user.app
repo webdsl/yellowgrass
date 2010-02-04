@@ -16,3 +16,17 @@ entity User {
 	}
 }
 
+define page user(u : User) {
+	main()
+	define body(){
+		<h1> output(u.name) </h1>
+	}
+}
+
+define template users(us : Set<User>) {
+	table {
+		for(u : User in us) {
+			row { navigate(user(u)) {output(u.name)}}
+		}
+	}
+}

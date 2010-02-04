@@ -2,10 +2,14 @@ module project/ac
   
 access control rules
 	
-	rule page view(p : Project) {	
+	rule page project(p : Project) {	
 		true
 	}
+		
+	rule page edit(p : Project) {
+		principal in p.members
+	}
 	
-	rule template projectIssueList(p : Project) {
-		true
+	rule page registerProject() {
+		loggedIn
 	}
