@@ -1,13 +1,16 @@
 application issolar
 
 imports templates
-section pages
+imports ac
+imports issue/issue
+imports user/user
+imports project/project
 
 define page root() {
-  main()
-  define body() {
-    "Hello world!"
-  }
+	main()
+	define body() {
+		"Hello world!"
+	}
 }
 
 /*test colorsInitialized {

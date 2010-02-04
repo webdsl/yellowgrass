@@ -1,6 +1,6 @@
 <project name="Issolar" default="plugin-run">
 	<property name="plugindir" value="/Applications/eclipse/plugins/webdsl.editor_1.0.0.201002031644/" />
-	<property name="projectdir" value="/Users/sander/Documents/EclipseWorkspace/issolar" />
+	<property name="projectdir" value="/Users/sander/Dropbox/TUD/issolar" />
 	<property name="templatedir" value="${plugindir}/webdsl-template"/>
 	<property name="currentdir" value="${projectdir}"/>
 	<property name="webdslexec" value="java -ss4m -cp '${plugindir}/include/webdsl.jar' org.webdsl.webdslc.Main"/>

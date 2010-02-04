@@ -22,18 +22,22 @@ define body(){
 }
 
 define mainheader() {
-  navigate(root()){
-    image("/images/logosmall.png")
-  }
+	table {	row {
+		navigate(root()){
+    		image("/images/logosmall.png")
+  		}
+  		if(securityContext.loggedIn) {logout()}
+  		else {login()}
+  	}}
 }
 
 define applicationmenu() {
   <ul>
     <li>navigate(root()){"Home"}</li>
-    <li>navigate(managePerson()){ "Manage Person" }</li>
+    <li>navigate(registerUser()){"Register"}</li>
   </ul>
 }
- 
+
 define ignore-access-control errorTemplateInput(messages : List<String>){
   validatedInput
   for(ve: String in messages){
