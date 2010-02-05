@@ -3,14 +3,14 @@ module user/access
 define template login(){
 	var email : Email;
 	var pass : Secret;
-	
-	<h1> "Login" </h1>
 	form{ 
-		table{
-			row{ "Email: "		input(email) }
-			row{ "Password: "	input(pass) }
-			row{ action("Log In", login()) "" }
-		}
+		" Email "
+		input(email)
+		" Pass "
+		input(pass)
+		" "
+		actionLink("Log In", login())
+	
 		action login(){
 			var users : List<User> :=
 				select u from User as u 
@@ -26,6 +26,8 @@ define template login(){
 			return root();
 		}
 	}
+	" | "
+	navigate(registerUser()) {"Register"}
 }
 
 define template logout(){

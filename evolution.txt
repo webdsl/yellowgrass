@@ -2,7 +2,10 @@
 EVOLUTION TRACE
 ---------------
 
-
+Added issue numbering
+entity Issue/attribute title
+   :: add number : Int min(1) max(1)
+Problem: Filling the existing issues with incrementing numbers 
 
 ------------------
 INITIAL DATA MODEL

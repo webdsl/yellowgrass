@@ -1,20 +1,25 @@
 module templates
 
 define main() {
-  <div id="pagewrapper">
-     <div id="header">
-        mainheader()
-     </div>
-     <div id="navbar">
-       applicationmenu()
-     </div>
-     <div id="content">
-       body()
-     </div>
-     <div id="footer">
-       <p />"powered by " <a href="http://webdsl.org">"WebDSL"</a><p />
-     </div>
-  </div>
+	<div id="pagewrapper">
+		<div id="header">
+			mainheader()
+		</div>
+/* 	<div id="navbar">
+		applicationmenu()
+	</div>
+*/     
+		<div id="content">
+			body()
+		</div>
+		<div id="footer">
+			<p/>
+				"© 2010 " <a href="http://www.sandervermolen.nl"> "Sander Vermolen" </a> " All rights reserved"
+				" --- " 
+				"Powered by " <a href="http://webdsl.org">"WebDSL"</a>
+			<p/>
+		</div>
+	</div>
 }
 
 define body(){
@@ -22,13 +27,21 @@ define body(){
 }
 
 define mainheader() {
-	table {	row {
-		navigate(root()){
-    		image("/images/logosmall.png")
+	if(securityContext.loggedIn) {
+		block [class:="logo"] {
+			navigate(home(securityContext.principal)){
+    			image("/images/logosmall.png")
+  			}
   		}
-  		if(securityContext.loggedIn) {logout()}
-  		else {login()}
-  	}}
+  		logout()
+	} else {
+		block [class:="logo"] {
+			navigate(root()){
+    			image("/images/logosmall.png")
+  			}
+  		}
+		login()
+	}
 }
 
 define applicationmenu() {
@@ -49,4 +62,13 @@ define ignore-access-control errorTemplateInput(messages : List<String>){
     }
   }
 }
- 
+
+/*
+function getDecoratedRowClass (highlighted : Bool) : String{
+	if(highlighted) {
+		return "high"; 
+	} else {
+		return "low";
+	}
+}*/
+
