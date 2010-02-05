@@ -1,0 +1,32 @@
+---------------
+EVOLUTION TRACE
+---------------
+
+
+
+------------------
+INITIAL DATA MODEL
+------------------
+
+entity Issue {
+	// TODO add optional user association
+	title		:: String
+	description	:: WikiText
+	submitted 	:: DateTime
+	project		-> Project (inverse = Project.issues)
+}
+
+entity Project {
+	name		:: String (id, validate(isUniqueProject(this), "Another project with this name already exists"))
+	description	:: WikiText
+	url			:: URL
+	issues		-> Set<Issue>
+	members		-> Set<User>
+}
+
+entity User {
+	name			:: String
+	email			:: Email		(validate(userEmailExists(), "Another user already registered using this email address"))
+	password		:: Secret		(validate(password.length() >= 8, "Password needs to be at least 8 characters"))
+	projects		-> Set<Project> (inverse = Project.members)
+}
