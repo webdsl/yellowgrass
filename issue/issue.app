@@ -41,11 +41,16 @@ define template issues(is : Set<Issue>, showProjectName : Bool) {
 	issues(is, showProjectName, false)
 }
 define template issues(is : Set<Issue>, showProjectName : Bool, showTicks : Bool) {
+	issues(is, showProjectName, showTicks, true)
+}
+define template issues(is : Set<Issue>, showProjectName : Bool, showTicks : Bool, showNumbers : Bool) {
 	block [class := "Listing"] {
 		table {
 			for(i : Issue in is order by i.submitted desc) {
 				row {
-					output(i.number)
+					if(showNumbers) {
+						output(i.number)
+					}
 					output(i.submitted.format("MMM d")) // TODO Add year if needed
 					if(showProjectName) {
 						output(
@@ -69,10 +74,14 @@ define page issue(i : Issue) {
 	define body(){
 		block [class := "main"] {
 			par [class := "Back"] { navigate(project(i.project)) {"Ç Back to Project"} }
-			par{ <h2> output(i.project.name) " #" output(i.number) </h2> }
-			par{ output(i.submitted.format("MMM d")) } // TODO Add year if needed
-			par{ output(i.title) }
-			par{ label("Description") { output(i.description) } }
+			par{ <h2> 
+				output(i.project.name) 
+				" #" output(i.number) 
+				" ("  output(i.submitted.format("MMM d")) ")" // TODO Add year if needed
+				</h2> 
+			} 
+			par{ <i> output(i.title) </i> }
+			par{ output(i.description) }
 		}
 		block [class := "sidebar"] {
 			par { 

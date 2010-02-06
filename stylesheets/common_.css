@@ -36,22 +36,23 @@ img {
 }
 
 #content .main {
-	float:left;
+	float: left;
+	width: 75%; 
 }
 
 #content .sidebar {
-	float:right;
-	width:250px;
+	float: right;
+	width: 25%;
 }
 
 #content .column1 {
 	float: left;
-	width: 48%;
+	width: 38%;
 }
 
 #content .column2 {
 	float: right;
-	width: 48%;
+	width: 58%;
 }
 
 #header {

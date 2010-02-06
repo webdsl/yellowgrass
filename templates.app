@@ -15,7 +15,9 @@ define main() {
 		<div id="footer">
 			<p/>
 				"© 2010 " <a href="http://www.sandervermolen.nl"> "Sander Vermolen" </a> " All rights reserved"
-				" --- " 
+				" --- "
+				<a href="http://yellowgrass.org/project/YellowGrass"> "Provide feedback on YellowGrass" </a> 
+				" --- "
 				"Powered by " <a href="http://webdsl.org">"WebDSL"</a>
 			<p/>
 		</div>

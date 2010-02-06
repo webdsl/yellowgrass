@@ -12,9 +12,9 @@ define page root() {
 		block [class := "column1"] {
 			par { <h2>"About YellowGrass"</h2> }
 			par {
-				"YellowGrass is a light-weight and easy to use issue tracker."
-				"It provides a complete issue tracking solution, geared towards software development."
-				"YellowGrass is free. Registering your project is just a few clicks away... "
+				"YellowGrass is a light-weight and easy to use issue tracker. "
+				"It provides a complete issue tracking solution, geared towards software development. "
+				"Using YellowGrass is free. Registering your project is just a few clicks away... "
 				navigate(registerUser()){"Register"}
 			}
 			par { <h2>"New projects on YellowGrass"</h2> }
@@ -40,7 +40,7 @@ define page root() {
 					from Issue as i
 					order by _submitted desc
 					limit 20;
-				issues(recentIssues.set(), true)
+				issues(recentIssues.set(), true, false, false)
 			}
 		}
 	}
