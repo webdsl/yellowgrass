@@ -52,7 +52,7 @@ define template issues(is : Set<Issue>, showProjectName : Bool, showTicks : Bool
 							abbreviate(i.project.name, 20))
 					}
 					navigate(issue(i)) {
-						output(abbreviate(i.title, 40))
+						output(abbreviate(i.title, 33))
 					}
 					if(i.open || (!showTicks)) { 
 						"" 
@@ -68,7 +68,7 @@ define page issue(i : Issue) {
 	main()
 	define body(){
 		block [class := "main"] {
-			navigate(project(i.project)) {"Ç Back to Project"}
+			par [class := "Back"] { navigate(project(i.project)) {"Ç Back to Project"} }
 			par{ <h2> output(i.project.name) " #" output(i.number) </h2> }
 			par{ output(i.submitted.format("MMM d")) } // TODO Add year if needed
 			par{ output(i.title) }

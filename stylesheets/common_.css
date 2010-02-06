@@ -99,6 +99,15 @@ img {
 	background: #efefef;
 }
 
+.Back a:link 	{ color: #999999; }
+.Back a:visited	{ color: #999999; }
+.Back a:hover 	{ color: #608060; }
+.Back a:active 	{ color: #999999; }
+
+.Back {
+	color: #999999;
+}
+
 form { 
   display : inline;
 }

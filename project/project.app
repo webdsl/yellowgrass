@@ -18,6 +18,9 @@ define page project(p : Project) {
 	main()
 	define body() {
 		block [class := "main"] { 
+			if(securityContext.loggedIn) {
+				par [class := "Back"] { navigate(home(securityContext.principal)) {"Ç Back Home"} }
+			} 
 			par { <h2>"Open Issues"</h2>	}
 			par { issues(openIssues, false) }	// Limit the length of this set
 			par { navigate(projectIssues(p)) {"View All Issues"} }
@@ -31,10 +34,27 @@ define page project(p : Project) {
 			}
 			
 			par { navigate(createIssue(p))	{"New Issue"} }
-			par { navigate(edit(p)) 		{"Project Settings"} }
+			par { navigate(edit(p))			{"Project Settings"} }
+			if(securityContext.loggedIn) {
+				if(securityContext.principal in p.members) {
+					if(p.members.length > 1) {
+						par { actionLink("Leave Project", leaveProject()) }
+					}
+				} else {
+					par { actionLink("Join Project", joinProject()) }
+				}
+			}
 			
 			par { output(p.description) }
 		}
+	}
+	action joinProject() {
+		p.members.add(securityContext.principal);
+		return project(p);
+	}
+	action leaveProject() {
+		p.members.remove(securityContext.principal);
+		return home(securityContext.principal);
 	}
 }
 
@@ -85,7 +105,7 @@ define page projectIssues(p : Project) {
 	main()
 	define body() {
 		block [class := "main"] {
-			par { navigate(project(p)) {"Ç Back to Project"} } 
+			par [class := "Back"] { navigate(project(p)) {"Ç Back to Project"} } 
 			par { issues(p.issues, false, true) }
 		}
 		block [class := "sidebar"] {
