@@ -6,6 +6,10 @@ access control rules
 		true
 	}
 	
+	rule template issues(is : Set<Issue>, showProjectName : Bool, showTicks : Bool) {
+		true
+	}
+	
 	rule page issue(i : Issue) { 
 		true
 	}

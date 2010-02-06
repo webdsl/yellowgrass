@@ -12,6 +12,14 @@ entity Project/attribute members
    :: add created : DateTime min(1) max(1)
 Problem: Detection hangs
 
+Added open attribute to issues
+entity Issue/attribute project
+   :: add open : Bool min(1) max(1)
+
+Added url to users
+entity User/attribute projects
+   :: add url : URL min(1) max(1)
+
 ------------------
 INITIAL DATA MODEL
 ------------------

@@ -27,3 +27,7 @@ access control rules
 	rule page user(u : User) {
 		true
 	}
+	
+	rule page editUser(u : User) {
+		principal == u
+	}

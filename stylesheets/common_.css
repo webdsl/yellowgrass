@@ -7,26 +7,15 @@ body {
 }
 
 h1 {
-	font-size: 15pt;
-	color: #334d33;
+	font-size: 16pt;
+	color: #354b35;
 }
 
 h2 {
 	font-size: 10pt;
 	font-weight: bold;
 	font-style: italic;
-	color: #334d33;
-}
-
-a:link 		{ color: #333344; }
-a:visited	{ color: #333344; }
-a:hover 	{ color: #333355; }
-a:active 	{ color: #333344; }
-
-label {
-  display:block;
-  margin-bottom:0.1em;
-  margin-top:1em;
+	color: #354b35;
 }
 
 img {
@@ -132,13 +121,30 @@ textarea {
   height : 10em;
   width : 25em;
 }
+
 select {
   width : 20em;
 }
+
 input[type="text"]{
   width : 20em;
 }
+
 input[type="file"]{
   width : 20em;
+}
+
+a:link 		{ color: #333344; }
+a:visited	{ color: #333344; }
+a:hover 	{ color: #354b35; }
+a:active 	{ color: #333344; }
+
+label {
+	display:block;
+	margin-bottom:0.1em;
+	margin-top:1em;
+	font-size: 9pt;
+	font-style: italic; 
+	font-weight: bold;
 }
 

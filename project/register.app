@@ -5,10 +5,11 @@ define page registerProject(){
 	define body(){
 		var p := Project{};
 		<h1> "Create New Project" </h1>
-		form{table{
-			row{"Project name"		input(p.name)}
-				
-			break
+		par{ label("Project name") { input(p.name) } }
+		
+		par {		
+			navigate(home(securityContext.principal)) {"Cancel"}
+				" "	
 			action("Create",create())
 			action create(){
 				p.members.add(securityContext.principal);
@@ -17,6 +18,6 @@ define page registerProject(){
 				message("New Project Created");
 				return edit(p);
 			}
-		}}
+		}
 	}
 }

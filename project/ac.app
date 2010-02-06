@@ -13,3 +13,11 @@ access control rules
 	rule page registerProject() {
 		loggedIn
 	}
+	
+	rule page projectIssues(p : Project) {
+		true
+	}
+	
+	rule template projects(ps : Set<Project>) {
+		true
+	}

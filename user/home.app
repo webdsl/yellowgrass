@@ -6,16 +6,7 @@ define page home(u : User){
 
 		block [class := "main"] { 
 			par { <h2>"Your Projects"</h2>	}
-			par { 
-				table {
-					for(p : Project in u.projects) {
-						row { 
-							navigate project(p) {output(p.name)}
-							output(p.issues.length)
-						}
-					}
-				}
-			}
+			par { projects(u.projects) }
 			par{ <h2>"Recent Issues"</h2>	}
 			par {
 				var recentIssues : List<Issue> := 
@@ -32,7 +23,7 @@ define page home(u : User){
 			}
 			
 			par { navigate(registerProject())	{"Create New Project"}}
-			//par { navigate(editUser(u)) 		{"Edit Your Profile"} }
+			par { navigate(editUser(u)) 		{"Edit Your Profile"} }
 		}
 	}
 }

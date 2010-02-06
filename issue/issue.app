@@ -9,6 +9,14 @@ entity Issue {
 	description	:: WikiText
 	submitted 	:: DateTime
 	project		-> Project (inverse = Project.issues)
+	open		:: Bool
+	
+	function close() {
+		open := false;
+	}
+	function reopen() { 
+		open := true;
+	}
 }
 
 function newIssueNumber(p: Project) : Int {
@@ -25,6 +33,9 @@ function newIssueNumber(p: Project) : Int {
 }
 
 define template issues(is : Set<Issue>, showProjectName : Bool) {
+	issues(is, showProjectName, false)
+}
+define template issues(is : Set<Issue>, showProjectName : Bool, showTicks : Bool) {
 	block [class := "Listing"] {
 		table {
 			for(i : Issue in is order by i.submitted desc) {
@@ -38,6 +49,10 @@ define template issues(is : Set<Issue>, showProjectName : Bool) {
 					navigate(issue(i)) {
 						output(abbreviate(i.title, 40))
 					}
+					if(i.open || (!showTicks)) { 
+						"" 
+					} else {
+						image("/images/tick.png") }
 				}
 			}
 		}
@@ -47,31 +62,54 @@ define template issues(is : Set<Issue>, showProjectName : Bool) {
 define page issue(i : Issue) {
 	main()
 	define body(){
-		<h1> "Issue" output(i.number) </h1>
-		navigate(editIssue(i)) {"[Edit]"}
-		
-		form{table{
-			row{"Title"				output(i.title)}
-			row{"Submitted"			output(i.submitted.format("MMM d"))} // TODO Add year if needed
-			row{"Description"		output(i.description)}
-		}}
-	}	
+		block [class := "main"] {
+			navigate(project(i.project)) {"Ç Back to Project"}
+			par{ <h2> output(i.project.name) " #" output(i.number) </h2> }
+			par{ output(i.submitted.format("MMM d")) } // TODO Add year if needed
+			par{ output(i.title) }
+			par{ label("Description") { output(i.description) } }
+		}
+		block [class := "sidebar"] {
+			par { 
+				<h1> "Issue " output(i.number) </h1>
+			}
+			
+			par { navigate(editIssue(i))	{"Edit this Issue"}}
+			if(i.open) {
+				par { actionLink("Close Issue", close() ) }
+			} else {
+				par { actionLink("Reopen Issue", reopen() ) }
+			}
+		}
+	}
+	action close(){
+		i.close();
+		i.save();
+		return project(i.project);
+	}
+	action reopen(){
+		i.reopen();
+		i.save();
+		return issue(i);
+	}
 }
 
 define page editIssue(i : Issue) {
 	main()
 	define body(){
-		<h1> "Edit Issue" output(i.number) </h1>
+		<h1> "Edit Issue " output(i.number) </h1>
 		form {
 			par {
 				label("Title") {input(i.title)}
 				label("Description") {input(i.description)}
 			}
 			par {
+				navigate(project(i.project)) {"Cancel"}
+				" "
 				submit("Save",save())
 				action save(){
 					i.save();
-					return (project(i.project));
+					return project(i.project);
 				}
 			}
 		}
@@ -89,11 +127,13 @@ define page createIssue(p : Project) {
 			}
 		
 			par{
+				navigate(project(p)) {"Cancel"}
 				action("Post",post())
 				action post(){
 					i.submitted := now();
 					i.project := p;
 					i.number := newIssueNumber(p);
+					i.open := true;
 					i.save();
 					return editIssue(i);
 				}
