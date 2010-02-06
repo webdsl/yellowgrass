@@ -5,18 +5,20 @@ define page registerProject(){
 	define body(){
 		var p := Project{};
 		<h1> "Create New Project" </h1>
-		par{ label("Project name") { input(p.name) } }
+		form { 
+			par{ label("Project name") { input(p.name) } }
 		
-		par {		
-			navigate(home(securityContext.principal)) {"Cancel"}
-				" "	
-			action("Create",create())
-			action create(){
-				p.members.add(securityContext.principal);
-				p.created := now();
-				p.save();
-				message("New Project Created");
-				return edit(p);
+			par {
+				navigate(home(securityContext.principal)) {"Cancel"}
+					" "	
+				action("Create",create())
+				action create(){
+					p.members.add(securityContext.principal);
+					p.created := now();
+					p.save();
+					message("New Project Created");
+					return edit(p);
+				}
 			}
 		}
 	}

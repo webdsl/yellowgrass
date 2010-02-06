@@ -17,6 +17,11 @@ entity Issue {
 	function reopen() { 
 		open := true;
 	}
+	function notifyProjectMembers() {
+		for(u : User in project.members){
+			email(issueNotification(this, u));
+		}
+	}
 }
 
 function newIssueNumber(p: Project) : Int {
@@ -74,7 +79,7 @@ define page issue(i : Issue) {
 				<h1> "Issue " output(i.number) </h1>
 			}
 			
-			par { navigate(editIssue(i))	{"Edit this Issue"}}
+			par { navigate(editIssue(i, false))	{"Edit this Issue"}}
 			if(i.open) {
 				par { actionLink("Close Issue", close() ) }
 			} else {
@@ -94,7 +99,7 @@ define page issue(i : Issue) {
 	}
 }
 
-define page editIssue(i : Issue) {
+define page editIssue(i : Issue, new : Bool) {
 	main()
 	define body(){
 		<h1> "Edit Issue " output(i.number) </h1>
@@ -109,6 +114,7 @@ define page editIssue(i : Issue) {
 				submit("Save",save())
 				action save(){
 					i.save();
+					if(new) { i.notifyProjectMembers(); }
 					return project(i.project);
 				}
 			}
@@ -135,12 +141,28 @@ define page createIssue(p : Project) {
 					i.number := newIssueNumber(p);
 					i.open := true;
 					i.save();
-					return editIssue(i);
+					return editIssue(i, true);
 				}
 			}
 		}
 	}
 }
+
+define email issueNotification(i : Issue, u : User) {
+	to(u.email)
+	from("YellowGrass@YellowGrass.org")
+	subject(i.project.name+" - Issue "+i.number+" notification")
+	par { output(i.project.name) " - Issue " output(i.number)}
+	par {}
+	par { output(i.title) }
+	par {}
+	par { "Submitted on " output(i.submitted.format("MMM d yyyy")) }
+	par {}
+	par { output(i.description) }
+	par {}
+	par { "-- The YellowGrass Team" }
+}
+
 
 function abbreviate(s : String, length : Int) : String {
 	if(s.length() <= length) {

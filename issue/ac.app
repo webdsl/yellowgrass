@@ -13,8 +13,8 @@ access control rules
 	rule page issue(i : Issue) { 
 		true
 	}
-	
-	rule page editIssue(i : Issue) {
+		
+	rule page editIssue(i : Issue, new : Bool) {
 		true //principal in i.project.memebers
 	}
 	
