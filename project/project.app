@@ -66,8 +66,14 @@ define template projects(ps : Set<Project>) {
 		for(p : Project in psSorted) {
 			row { 
 				navigate project(p) {output(p.name)}
-				output([i | i : Issue in p.issues where i.open].length) " open issues "
-				output(p.members.length) " members "
+				block {
+					output([i | i : Issue in p.issues where i.open].length) 
+					" open issues "
+				}
+				block { 
+					output(p.members.length) 
+					" members "
+				}
 			}
 		}
 	}
