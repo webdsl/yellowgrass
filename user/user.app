@@ -18,6 +18,23 @@ entity User {
 			users.length == 0 ||
 			users.get(0) == this;
 	}
+	
+	// TODO inefficient! : remove getOpenIssues function when HQL functionality is fixed
+	function getOpenIssues() : List<Issue> {
+		return getOpenIssues(projects.list(), 0);
+	}
+	function getOpenIssues(ps : List<Project>, index : Int) : List<Issue> {
+		if(index >= ps.length) {
+			var empty : List<Issue> := [Issue{}];
+			empty.clear();
+			return empty;
+		} else {
+			var openIssues : List<Issue> := [i | i : Issue in ps.get(index).issues where i.open].list();
+			var otherIssues : List<Issue> := getOpenIssues(ps, index + 1);
+			otherIssues.addAll(openIssues);
+			return otherIssues;
+		}
+	}
 }
 
 define page user(u : User) {

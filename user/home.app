@@ -9,12 +9,16 @@ define page home(u : User){
 			par { projects(u.projects) }
 			par{ <h2>"Recent Issues"</h2>	}
 			par {
-				var recentIssues : List<Issue> := 
-					from Issue
+			/*	var recentIssues : List<Issue> := 
+					from Issue as i
+				//	where ~u in i._project._members
 				//	where _project in ~u.projects  TODO This fails in tomcat, fix it
-					order by _submitted desc
-					limit 15;
-				issues(recentIssues.set(), true)
+					order by i._submitted desc
+					limit 10;
+			*/	
+				var openIssues := u.getOpenIssues();
+				var sortedIssues := [i | i : Issue in openIssues order by i.submitted desc];		
+				issues(prefix(sortedIssues, 10).set(), true)
 			}
 		}
 		block [class := "sidebar"] {

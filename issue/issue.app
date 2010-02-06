@@ -159,3 +159,12 @@ function prefix(s : String, length : Int) : String {
 		return prefix(sChar.concat(), length);
 	}
 }
+
+function prefix(s : List<Issue>, length : Int) : List<Issue> {
+	if(s.length <= length) {
+		return s;
+	} else {
+		s.removeAt(length);
+		return prefix(s, length);
+	}
+}
