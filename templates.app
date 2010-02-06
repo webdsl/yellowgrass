@@ -30,14 +30,14 @@ define mainheader() {
 	if(securityContext.loggedIn) {
 		block [class:="logo"] {
 			navigate(home(securityContext.principal)){
-    			image("/images/logosmall.png")
+    			image("/images/logo.png")
   			}
   		}
   		logout()
 	} else {
 		block [class:="logo"] {
 			navigate(root()){
-    			image("/images/logosmall.png")
+    			image("/images/logo.png")
   			}
   		}
 		login()
