@@ -9,6 +9,7 @@ body {
 h1 {
 	font-size: 16pt;
 	color: #354b35;
+	padding-top: 10px;
 }
 
 h2 {
@@ -16,6 +17,7 @@ h2 {
 	font-weight: bold;
 	font-style: italic;
 	color: #354b35;
+	padding-top: 10px;
 }
 
 img {

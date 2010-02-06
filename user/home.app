@@ -17,8 +17,9 @@ define page home(u : User){
 					limit 10;
 			*/	
 				var openIssues := u.getOpenIssues();
-				var sortedIssues := [i | i : Issue in openIssues order by i.submitted desc];		
-				issues(prefix(sortedIssues, 10).set(), true)
+				var sortedIssues := [i | i : Issue in openIssues order by i.submitted desc];
+				
+				issues(prefix(sortedIssues, 10).set(), true, false, true, 60)
 			}
 		}
 		block [class := "sidebar"] {

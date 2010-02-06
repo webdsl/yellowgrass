@@ -22,7 +22,7 @@ define page project(p : Project) {
 				par [class := "Back"] { navigate(home(securityContext.principal)) {"Ç Back Home"} }
 			} 
 			par { <h2>"Open Issues"</h2>	}
-			par { issues(openIssues, false) }	// Limit the length of this set
+			par { issues(openIssues, false, false, true, 60) }	// Limit the length of this set
 			par { navigate(projectIssues(p)) {"View All Issues"} }
 			
 			par { <h2>"Project Members"</h2> }
@@ -112,11 +112,11 @@ define page projectIssues(p : Project) {
 	define body() {
 		block [class := "main"] {
 			par [class := "Back"] { navigate(project(p)) {"Ç Back to Project"} } 
-			par { issues(p.issues, false, true) }
+			par { issues(p.issues, false, true, true, 60) }
 		}
 		block [class := "sidebar"] {
 			par {
-				<h1> output(p.name) "'s Issues" </h1>
+				<h1> output(p.name) </h1>
 			}
 			
 			par { navigate(createIssue(p))	{"New Issue"} }

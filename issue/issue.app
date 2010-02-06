@@ -44,6 +44,9 @@ define template issues(is : Set<Issue>, showProjectName : Bool, showTicks : Bool
 	issues(is, showProjectName, showTicks, true)
 }
 define template issues(is : Set<Issue>, showProjectName : Bool, showTicks : Bool, showNumbers : Bool) {
+	issues(is, showProjectName, showTicks, showNumbers, 33)
+}
+define template issues(is : Set<Issue>, showProjectName : Bool, showTicks : Bool, showNumbers : Bool, titleLength : Int) {
 	block [class := "Listing"] {
 		table {
 			for(i : Issue in is order by i.submitted desc) {
@@ -57,7 +60,7 @@ define template issues(is : Set<Issue>, showProjectName : Bool, showTicks : Bool
 							abbreviate(i.project.name, 20))
 					}
 					navigate(issue(i)) {
-						output(abbreviate(i.title, 33))
+						output(abbreviate(i.title, titleLength))
 					}
 					if(i.open || (!showTicks)) { 
 						"" 
@@ -87,8 +90,9 @@ define page issue(i : Issue) {
 			par { 
 				<h1> "Issue " output(i.number) </h1>
 			}
-			
-			par { navigate(editIssue(i, false))	{"Edit this Issue"}}
+			if(securityContext.loggedIn) {
+				par { navigate(editIssue(i, false))	{"Edit this Issue"}}
+			}
 			if(i.open) {
 				par { actionLink("Close Issue", close() ) }
 			} else {
@@ -140,6 +144,9 @@ define page createIssue(p : Project) {
 			par { 
 				label("Title") {input(i.title)}
 			}
+			if(!securityContext.loggedIn) {
+				par { captcha() }
+			}
 		
 			par{
 				navigate(project(p)) {"Cancel"}
@@ -161,11 +168,12 @@ define email issueNotification(i : Issue, u : User) {
 	to(u.email)
 	from("YellowGrass@YellowGrass.org")
 	subject(i.project.name+" - Issue "+i.number+" notification")
-	par { output(i.project.name) " - Issue " output(i.number)}
+	par {	output(i.project.name) 
+			" - Issue " output(i.number) 
+			" (" output(i.submitted.format("MMM d yyyy")) ")"
+	}
 	par {}
 	par { output(i.title) }
-	par {}
-	par { "Submitted on " output(i.submitted.format("MMM d yyyy")) }
 	par {}
 	par { output(i.description) }
 	par {}
