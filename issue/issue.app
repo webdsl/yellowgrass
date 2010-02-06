@@ -13,7 +13,7 @@ entity Issue {
 
 function newIssueNumber(p: Project) : Int {
 	var lastProjectIssues : List<Issue> := 
-		from Issue as i
+		from Issue
 		where _project = ~p
 		order by _number desc
 		limit 1;
@@ -24,18 +24,21 @@ function newIssueNumber(p: Project) : Int {
 	}
 }
 
-define template issues(is : Set<Issue>) {
+define template issues(is : Set<Issue>, showProjectName : Bool) {
 	block [class := "Listing"] {
 		table {
-		//	var odd := -1;
 			for(i : Issue in is order by i.submitted desc) {
 				row {
 					output(i.number)
-					output(i.submitted.format("MMM d")) // TODO Add year if needed 
-					navigate(issue(i)){output(i.title)}
+					output(i.submitted.format("MMM d")) // TODO Add year if needed
+					if(showProjectName) {
+						output(
+							abbreviate(i.project.name, 20))
+					}
+					navigate(issue(i)) {
+						output(abbreviate(i.title, 40))
+					}
 				}
-			//	init {
-				//	odd := 0 - odd; }
 			}
 		}
 	}
@@ -49,7 +52,7 @@ define page issue(i : Issue) {
 		
 		form{table{
 			row{"Title"				output(i.title)}
-			row{"Submitted"			output(i.submitted)}
+			row{"Submitted"			output(i.submitted.format("MMM d"))} // TODO Add year if needed
 			row{"Description"		output(i.description)}
 		}}
 	}	
@@ -61,7 +64,6 @@ define page editIssue(i : Issue) {
 		<h1> "Edit Issue" output(i.number) </h1>
 		form {
 			par {
-				label("Submitted") {output(i.submitted)} 
 				label("Title") {input(i.title)}
 				label("Description") {input(i.description)}
 			}
@@ -97,5 +99,23 @@ define page createIssue(p : Project) {
 				}
 			}
 		}
+	}
+}
+
+function abbreviate(s : String, length : Int) : String {
+	if(s.length() <= length) {
+		return s;
+	} else {
+		return prefix(s, length - 4) + " ...";
+	}
+}
+
+function prefix(s : String, length : Int) : String {
+	if(s.length() <= length) {
+		return s;
+	} else {
+		var sChar := s.split();
+		sChar.removeAt(length);
+		return prefix(sChar.concat(), length);
 	}
 }

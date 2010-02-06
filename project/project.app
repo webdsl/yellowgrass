@@ -9,6 +9,7 @@ entity Project {
 	url			:: URL
 	issues		-> Set<Issue>
 	members		-> Set<User>
+	created		:: DateTime
 }
 
 define page project(p : Project) {
@@ -18,7 +19,7 @@ define page project(p : Project) {
 	
 		block [class := "main"] { 
 			par { <h2>"Open Issues"</h2>	}
-			par { issues(p.issues) }
+			par { issues(p.issues, false) }
 			
 			par { <h2>"Project Members"</h2> }
 			par { users(p.members) }

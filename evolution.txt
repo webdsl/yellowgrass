@@ -7,6 +7,11 @@ entity Issue/attribute title
    :: add number : Int min(1) max(1)
 Problem: Filling the existing issues with incrementing numbers 
 
+Added creation date to projects
+entity Project/attribute members
+   :: add created : DateTime min(1) max(1)
+Problem: Detection hangs
+
 ------------------
 INITIAL DATA MODEL
 ------------------

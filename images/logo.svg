@@ -21,11 +21,11 @@
     <linearGradient
        id="linearGradient4344">
       <stop
-         style="stop-color:#334d33;stop-opacity:0.90196079;"
+         style="stop-color:#334d33;stop-opacity:0.82352942;"
          offset="0"
          id="stop4346" />
       <stop
-         style="stop-color:#334d33;stop-opacity:0.74509805;"
+         style="stop-color:#334d33;stop-opacity:0.72549021;"
          offset="1"
          id="stop4348" />
     </linearGradient>
@@ -2211,8 +2211,8 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="1.4142136"
-     inkscape:cx="146.0417"
-     inkscape:cy="514.61208"
+     inkscape:cx="211.25978"
+     inkscape:cy="854.02334"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -3509,5 +3509,16 @@
        inkscape:export-filename="/Users/sander/Dropbox/TUD/issolar/images/logo.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90" />
+    <rect
+       inkscape:transform-center-y="-52.627787"
+       inkscape:transform-center-x="99.136065"
+       ry="13.102201"
+       rx="14.075476"
+       y="7.6045103"
+       x="252.67387"
+       height="127.79306"
+       width="231.75928"
+       id="rect4504"
+       style="fill:#444444;fill-opacity:1;stroke:#ffffff;stroke-width:1.27103019000000006;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0" />
   </g>
 </svg>

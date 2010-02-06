@@ -2,7 +2,7 @@ module issues/ac
   
 access control rules
 	
-	rule template issues(is : Set<Issue>) {	
+	rule template issues(is : Set<Issue>, showProjectName : Bool) {	
 		true
 	}
 	
