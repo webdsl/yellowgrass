@@ -196,7 +196,7 @@ define email issueNotification(i : Issue, u : User) {
 	par {}
 	par { output(i.description) }
 	par {}
-	par { "-- The YellowGrass Team" }
+	par { " -- http://yellowgrass.org -- " }
 }
 
 function prefix(s : List<Issue>, length : Int) : List<Issue> {
