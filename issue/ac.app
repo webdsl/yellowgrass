@@ -23,7 +23,9 @@ access control rules
 	}
 		
 	rule page editIssue(i : Issue, new : Bool) {
-		true //principal in i.project.memebers
+		// TODO This is of course not a safe check, creation should be done in edit page, 
+		// if (or when) it is possible to pass unsaved objects
+		principal in i.project.members || new
 	}
 	
 	rule page createIssue(p : Project) {

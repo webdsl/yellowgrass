@@ -150,7 +150,7 @@ define page editIssue(i : Issue, new : Bool) {
 				action save(){
 					i.save();
 					if(new) { i.notifyProjectMembers(); }
-					return project(i.project);
+					return issue(i);
 				}
 			}
 		}
@@ -179,7 +179,7 @@ define page createIssue(p : Project) {
 					i.number := newIssueNumber(p);
 					i.open := true;
 					i.reporter := securityContext.principal;
-					i.save();
+					i.save();	// TODO Is it possible to pass this without saving it? Security is not guaranteed now (see ac.app)
 					return editIssue(i, true);
 				}
 			}

@@ -4,7 +4,7 @@ imports project/ac
 imports project/register
 
 entity Project {
-	name		:: String (id, validate(isUniqueProject(this), "Another project with this name already exists"))
+	name		:: String (id, validate(isUniqueProject(this), "Another project with this name already exists"), validate(name.length() >= 3, "Project names should be three characters or longer"))
 	description	:: WikiText
 	url			:: URL
 	issues		-> Set<Issue>
