@@ -19,7 +19,12 @@ define page project(p : Project) {
 	define body() {
 		block [class := "main"] { 
 			if(securityContext.loggedIn) {
-				par [class := "Back"] { navigate(home(securityContext.principal)) {"Ç Back Home"} }
+				par [class := "Back"] { 
+					" È "
+					navigate(home(securityContext.principal)) {"Home"}
+					" È "
+					"Project " output(p.name) 
+				}
 			} 
 			par { <h2>"Open Issues"</h2>	}
 			par { issues(openIssues, false, false, true, 60) }	// Limit the length of this set
@@ -111,7 +116,19 @@ define page projectIssues(p : Project) {
 	main()
 	define body() {
 		block [class := "main"] {
-			par [class := "Back"] { navigate(project(p)) {"Ç Back to Project"} } 
+			if(securityContext.loggedIn) {
+				par [class := "Back"] { 
+					" È "
+					navigate(home(securityContext.principal)) {"Home"}
+					" È "
+					navigate(project(p)) {"Project " output(p.name)}
+					" È "
+					"Issues"
+				}
+			} else { 
+				par [class := "Back"] { navigate(project(p)) {"Ç Back to Project"} }
+			}
+			 
 			par { issues(p.issues, false, true, true, 60) }
 		}
 		block [class := "sidebar"] {

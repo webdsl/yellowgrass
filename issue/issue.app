@@ -32,7 +32,7 @@ function newIssueNumber(p: Project) : Int {
 		order by _number desc
 		limit 1;
 	if(lastProjectIssues.length == 0) {
-		return 0;
+		return 1;
 	} else {
 		return lastProjectIssues.get(0).number + 1;
 	}
@@ -77,7 +77,19 @@ define page issue(i : Issue) {
 	main()
 	define body(){
 		block [class := "main"] {
-			par [class := "Back"] { navigate(project(i.project)) {"Ç Back to Project"} }
+			if(securityContext.loggedIn) {
+				par [class := "Back"] {
+					" È " 
+					navigate(home(securityContext.principal)) {"Home"}
+					" È "
+					navigate(project(i.project)) {"Project " output(i.project.name)}
+					" È "
+					"Issue " output(i.number)
+				}
+			} else {
+				par [class := "Back"] { navigate(project(i.project)) {"Ç Back to Project"} }
+			}
+			
 			par{ <h2> 
 				output(i.project.name) 
 				" #" output(i.number) 

@@ -3,8 +3,8 @@ module user/home
 define page home(u : User){
 	main()
 	define body(){
-
-		block [class := "main"] { 
+		block [class := "main"] {
+			par [class := "Back"] { " È Home" } 
 			par { <h2>"Your Projects"</h2>	}
 			par { projects(u.projects) }
 			par{ <h2>"Recent Issues"</h2>	}

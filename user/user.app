@@ -40,7 +40,13 @@ entity User {
 define page user(u : User) {
 	main()
 	define body(){
-		<h1> output(u.name) </h1>
+		if(securityContext.loggedIn) {
+			par [class := "Back"] { 
+				" È "
+				navigate(home(securityContext.principal)) {"Home"}
+			}
+		}
+		par{ <h1> output(u.name) </h1> }
 		par{ label("Home Page") { output(u.url) } }
 		par{ label("Projects") { projects(u.projects) } }
 	}
