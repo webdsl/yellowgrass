@@ -2181,7 +2181,7 @@
        y1="471.12419"
        x2="477.04497"
        y2="471.12419"
-       gradientTransform="translate(-78,155)" />
+       gradientTransform="translate(-74,155)" />
     <linearGradient
        inkscape:collect="always"
        xlink:href="#linearGradient3860"
@@ -2212,7 +2212,7 @@
      inkscape:pageshadow="2"
      inkscape:zoom="1.4142136"
      inkscape:cx="211.25978"
-     inkscape:cy="854.02334"
+     inkscape:cy="486.32782"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -2220,7 +2220,7 @@
      inkscape:window-height="856"
      inkscape:window-x="0"
      inkscape:window-y="0"
-     inkscape:window-maximized="0" />
+     inkscape:window-maximized="1" />
   <metadata
      id="metadata7">
     <rdf:RDF>
@@ -3484,12 +3484,12 @@
        inkscape:export-filename="/Users/sander/Dropbox/TUD/issolar/images/logo.png"
        xml:space="preserve"
        style="font-size:14.47924709px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;fill:url(#linearGradient4494);fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans"
-       x="188.8555"
+       x="192.8555"
        y="630.11871"
        id="text4490"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
-         x="188.8555"
+         x="192.8555"
          y="630.11871"
          id="tspan4492"
          style="font-size:14.47924709px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;fill:url(#linearGradient4494);fill-opacity:1;font-family:Sans;-inkscape-font-specification:Sans">Grass can always be greener</tspan></text>
