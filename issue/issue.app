@@ -112,21 +112,21 @@ define page issue(i : Issue) {
 				par { navigate(editIssue(i, false))	{"Edit this Issue"}}
 			}
 			if(i.open) {
-				par { actionLink("Close Issue", close() ) }
+				par { actionLink("Close Issue", close(i) ) }
 			} else {
-				par { actionLink("Reopen Issue", reopen() ) }
+				par { actionLink("Reopen Issue", reopen(i) ) }
 			}
 		}
 	}
-	action close(){
-		i.close();
-		i.save();
-		return project(i.project);
+	action close(issue : Issue){
+		issue.close();
+		issue.save();
+		return project(issue.project);
 	}
-	action reopen(){
-		i.reopen();
-		i.save();
-		return issue(i);
+	action reopen(issue : Issue){
+		issue.reopen();
+		issue.save();
+		return issue(issue);
 	}
 }
 

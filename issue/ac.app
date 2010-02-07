@@ -29,3 +29,11 @@ access control rules
 	rule page createIssue(p : Project) {
 		true //principal in i.project.memebers
 	}
+	
+	rule action close(issue : Issue) {
+		principal in issue.project.members
+	}
+	
+	rule action reopen(issue : Issue) {
+		principal in issue.project.members
+	}
