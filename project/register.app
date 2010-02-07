@@ -16,7 +16,7 @@ define page registerProject(){
 					p.members.add(securityContext.principal);
 					p.created := now();
 					p.save();
-					message("New Project Created");
+					//message("New Project Created");
 					return edit(p);
 				}
 			}

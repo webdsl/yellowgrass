@@ -25,7 +25,7 @@ define page registerUser(){
 					securityContext.principal := u;
 					securityContext.loggedIn := true;
 					email(registerUserEmail(u));
-					message("Registration completed");
+					// message("Registration completed");
 					return home(u);
 				}
 			}

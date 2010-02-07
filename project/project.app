@@ -104,7 +104,7 @@ define page edit(p : Project) {
 				action("Save",save())
 				action save(){
 					p.save();
-					message("Project saved");
+					//message("Project saved");
 					return project(p);
 				}
 			}

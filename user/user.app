@@ -80,7 +80,7 @@ define page editUser(u : User) {
 				submit("Save",save())
 				action save(){
 					u.save();
-					message("Profile saved");
+					//message("Profile saved");
 					return home(u);
 				}
 			}
