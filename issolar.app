@@ -2,6 +2,7 @@ application issolar
 
 imports templates
 imports ac
+imports auxiliary
 imports issue/issue
 imports user/user
 imports project/project

@@ -9,6 +9,7 @@ entity Issue {
 	description	:: WikiText
 	submitted 	:: DateTime
 	project		-> Project (inverse = Project.issues)
+	reporter	-> User
 	open		:: Bool
 	
 	function close() {
@@ -84,6 +85,11 @@ define page issue(i : Issue) {
 				</h2> 
 			} 
 			par{ <i> output(i.title) </i> }
+			if(i.reporter != null) {
+				par{	"Reported by " 
+						navigate(user(i.reporter)){output(i.reporter.name)}
+				}
+			}
 			par{ output(i.description) }
 		}
 		block [class := "sidebar"] {
@@ -156,6 +162,7 @@ define page createIssue(p : Project) {
 					i.project := p;
 					i.number := newIssueNumber(p);
 					i.open := true;
+					i.reporter := securityContext.principal;
 					i.save();
 					return editIssue(i, true);
 				}
@@ -178,25 +185,6 @@ define email issueNotification(i : Issue, u : User) {
 	par { output(i.description) }
 	par {}
 	par { "-- The YellowGrass Team" }
-}
-
-
-function abbreviate(s : String, length : Int) : String {
-	if(s.length() <= length) {
-		return s;
-	} else {
-		return prefix(s, length - 4) + " ...";
-	}
-}
-
-function prefix(s : String, length : Int) : String {
-	if(s.length() <= length) {
-		return s;
-	} else {
-		var sChar := s.split();
-		sChar.removeAt(length);
-		return prefix(sChar.concat(), length);
-	}
 }
 
 function prefix(s : List<Issue>, length : Int) : List<Issue> {

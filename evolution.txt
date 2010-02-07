@@ -19,6 +19,10 @@ entity Issue/attribute project
 Added url to users
 entity User/attribute projects
    :: add url : URL min(1) max(1)
+   
+Added reporter to Issue
+entity Issue/list()
+   :: add reporter - User min(0) max(1)
 
 ------------------
 INITIAL DATA MODEL
