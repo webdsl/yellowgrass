@@ -37,7 +37,7 @@ define page project(p : Project) {
 			par { 
 				<h1> output(p.name) </h1>
 			}
-			
+			sidebarSeparator()
 			par { navigate(createIssue(p))	{"New Issue"} }
 			par { navigate(edit(p))			{"Project Settings"} }
 			if(securityContext.loggedIn) {
@@ -49,9 +49,12 @@ define page project(p : Project) {
 					par { actionLink("Join Project", joinProject()) }
 				}
 			}
-			
+			sidebarSeparator()
 			par { output(p.description) }
 			par { output(p.url) }
+			sidebarSeparator()
+			par { output(openIssues.length) " open issues"}
+			par { output(p.members.length) " members"}
 		}
 	}
 	action joinProject() {

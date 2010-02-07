@@ -21,3 +21,7 @@ module ac
 	rule template applicationmenu() {
 		true
 	}
+	
+	rule template sidebarSeparator() {
+		true
+	}

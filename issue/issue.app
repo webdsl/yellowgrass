@@ -111,6 +111,7 @@ define page issue(i : Issue) {
 			par { 
 				<h1> "Issue " output(i.number) </h1>
 			}
+			sidebarSeparator()
 			if(securityContext.loggedIn) {
 				par { navigate(editIssue(i, false))	{"Edit this Issue"}}
 			}

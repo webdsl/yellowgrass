@@ -19,6 +19,21 @@
   <defs
      id="defs4">
     <linearGradient
+       id="linearGradient4062">
+      <stop
+         style="stop-color:#d2d2d2;stop-opacity:1;"
+         offset="0"
+         id="stop4064" />
+      <stop
+         id="stop4080"
+         offset="0.5"
+         style="stop-color:#d2d2d2;stop-opacity:1;" />
+      <stop
+         style="stop-color:#d2d2d2;stop-opacity:0;"
+         offset="1"
+         id="stop4066" />
+    </linearGradient>
+    <linearGradient
        id="linearGradient4344">
       <stop
          style="stop-color:#334d33;stop-opacity:0.82352942;"
@@ -2202,6 +2217,36 @@
        y1="760.00347"
        x2="169.11038"
        y2="760.00347" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient4062"
+       id="linearGradient4068"
+       x1="344.5681"
+       y1="249.0889"
+       x2="470.726"
+       y2="249.0889"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1.0531906,0,0,1,-18.358883,0)" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3842"
+       id="linearGradient4071"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1.2946278,0,0,1.1328524,-145.33804,-428.65942)"
+       x1="296.80807"
+       y1="118.27412"
+       x2="313.77864"
+       y2="118.27412" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3824"
+       id="linearGradient4074"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1.3646284,0,0,0.18122736,-616.71756,283.22211)"
+       x1="276.43103"
+       y1="63.181158"
+       x2="342.25146"
+       y2="63.181158" />
   </defs>
   <sodipodi:namedview
      id="base"
@@ -2210,9 +2255,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="1.4142136"
-     inkscape:cx="211.25978"
-     inkscape:cy="486.32782"
+     inkscape:zoom="1"
+     inkscape:cx="357.58291"
+     inkscape:cy="715.12819"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -2220,7 +2265,7 @@
      inkscape:window-height="856"
      inkscape:window-x="0"
      inkscape:window-y="0"
-     inkscape:window-maximized="1" />
+     inkscape:window-maximized="0" />
   <metadata
      id="metadata7">
     <rdf:RDF>
@@ -2229,7 +2274,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -2395,8 +2440,7 @@
        id="rect3820"
        style="fill:#334d33;fill-opacity:1;stroke:#ffffff;stroke-width:1.27103019000000006;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0" />
     <g
-       id="g4214"
-       transform="translate(-214.96046,386.0803)">
+       id="g4076">
       <rect
          inkscape:export-ydpi="90"
          inkscape:export-xdpi="90"
@@ -2404,12 +2448,12 @@
          transform="matrix(0,-1,1,0,0,0)"
          ry="0"
          rx="0"
-         y="296.86798"
-         x="-110.09138"
+         y="286.26138"
+         x="-239.49193"
          height="16.821861"
          width="89.820435"
          id="rect3822"
-         style="fill:url(#linearGradient4218);fill-opacity:1;fill-rule:nonzero;stroke:none" />
+         style="fill:url(#linearGradient4074);fill-opacity:1;fill-rule:nonzero;stroke:none" />
       <rect
          inkscape:export-ydpi="90"
          inkscape:export-xdpi="90"
@@ -2417,12 +2461,12 @@
          transform="matrix(0,1,-1,0,0,0)"
          ry="0"
          rx="0"
-         y="-313.68997"
-         x="109.5174"
+         y="-303.08337"
+         x="238.91795"
          height="16.822001"
          width="21.970562"
          id="rect3838"
-         style="fill:url(#linearGradient4220);fill-opacity:1;fill-rule:nonzero;stroke:none" />
+         style="fill:url(#linearGradient4071);fill-opacity:1;fill-rule:nonzero;stroke:none" />
     </g>
     <path
        sodipodi:nodetypes="ccscsc"
@@ -3520,5 +3564,12 @@
        width="231.75928"
        id="rect4504"
        style="fill:#444444;fill-opacity:1;stroke:#ffffff;stroke-width:1.27103019000000006;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0" />
+    <path
+       style="fill:none;stroke:url(#linearGradient4068);stroke-width:1;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       d="m 345.0636,249.0889 131.81513,0"
+       id="path3280"
+       inkscape:export-filename="/Users/sander/Dropbox/TUD/issolar/images/sidebarSeparator.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
   </g>
 </svg>

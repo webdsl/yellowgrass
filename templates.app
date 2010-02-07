@@ -65,6 +65,10 @@ define ignore-access-control errorTemplateInput(messages : List<String>){
   }
 }
 
+define template sidebarSeparator() {
+	image("/images/sidebarSeparator.png")
+}
+
 /*
 function getDecoratedRowClass (highlighted : Bool) : String{
 	if(highlighted) {

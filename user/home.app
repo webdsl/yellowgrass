@@ -26,9 +26,10 @@ define page home(u : User){
 			par { 
 				<h1> output(u.name) </h1>
 			}
-			
+			sidebarSeparator()
 			par { navigate(registerProject())	{"Create New Project"}}
 			par { navigate(editUser(u)) 		{"Edit Your Profile"} }
+			sidebarSeparator()
 		}
 	}
 }
