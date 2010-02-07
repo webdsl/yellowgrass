@@ -51,6 +51,7 @@ define page project(p : Project) {
 			}
 			
 			par { output(p.description) }
+			par { output(p.url) }
 		}
 	}
 	action joinProject() {

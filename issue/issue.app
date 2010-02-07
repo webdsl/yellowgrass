@@ -87,15 +87,18 @@ define page issue(i : Issue) {
 					"Issue " output(i.number)
 				}
 			} else {
-				par [class := "Back"] { navigate(project(i.project)) {"Ç Back to Project"} }
+				par [class := "Back"] { navigate(project(i.project)) {"Ç To Project"} }
 			}
 			
 			par{ <h2> 
 				output(i.project.name) 
 				" #" output(i.number) 
-				" ("  output(i.submitted.format("MMM d")) ")" // TODO Add year if needed
-				</h2> 
-			} 
+				" ("  output(i.submitted.format("MMM d")) ") " // TODO Add year if needed
+				if(!i.open) {
+					image("/images/tick.png")
+				}
+				</h2>
+			}
 			par{ <i> output(i.title) </i> }
 			if(i.reporter != null) {
 				par{	"Reported by " 
