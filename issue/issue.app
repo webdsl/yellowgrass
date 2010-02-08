@@ -10,6 +10,7 @@ entity Issue {
 	submitted 	:: DateTime
 	project		-> Project (inverse = Project.issues)
 	reporter	-> User
+	type		-> IssueType
 	open		:: Bool
 	
 	function close() {
@@ -23,7 +24,46 @@ entity Issue {
 			email(issueNotification(this, u));
 		}
 	}
+		
+/*	function getIssueType() : String {
+		case(type) {
+			1 		{ return getIssueErrorString();		}
+			2 		{ return getIssueFeatureString();	}
+			default { return "Improvement";			}
+		}
+	}
+	function setIssueType(t : String) {
+		if(t == getIssueErrorString()) {
+			type := 1;
+		} else {
+		if(t == getIssueFeatureString()) {
+			type := 2;
+		} else {
+			type := 0;
+		}}
+	}
+*/	
 }
+
+entity IssueType {
+	name	:: String	(id)
+}
+
+var improvementIssueType : IssueType := 
+	IssueType { name := "Improvement" };
+var errorIssueType : IssueType := 
+	IssueType { name := "Error" };
+var featureIssueType : IssueType := 
+	IssueType { name := "New Feature" };
+
+
+/*function getIssueImprovementString() : String	{ return "Improvement"; }
+function getIssueErrorString() : String			{ return "Error"; }
+function getIssueFeatureString() : String		{ return "New Feature"; }
+
+function getIssueTypeOptions() : List<IssueType> {
+	return [improvementIssueType, errorIssueType, featureIssueType];
+}*/
 
 function newIssueNumber(p: Project) : Int {
 	var lastProjectIssues : List<Issue> := 
@@ -92,7 +132,8 @@ define page issue(i : Issue) {
 			
 			par{ <h2> 
 				output(i.project.name) 
-				" #" output(i.number) 
+				" #" output(i.number)
+				" - " output(i.type.name)
 				" ("  output(i.submitted.format("MMM d")) ") " // TODO Add year if needed
 				if(!i.open) {
 					image("/images/tick.png")
@@ -141,6 +182,13 @@ define page editIssue(i : Issue, new : Bool) {
 		form {
 			par {
 				label("Title") {input(i.title)}
+			}
+			par {
+				label("Type") {
+					select(i.type from [improvementIssueType, errorIssueType, featureIssueType])
+				}
+			}
+			par {
 				label("Description") {input(i.description)}
 			}
 			par {
@@ -190,9 +238,10 @@ define page createIssue(p : Project) {
 define email issueNotification(i : Issue, u : User) {
 	to(u.email)
 	from("YellowGrass@YellowGrass.org")
-	subject(i.project.name+" - Issue "+i.number+" notification")
-	par {	output(i.project.name) 
-			" - Issue " output(i.number) 
+	subject(i.project.name+" - Issue "+i.number+" ("+i.type.name+")")
+	par {	output(i.project.name)
+			" #" output(i.number)
+			" - " output(i.type.name)
 			" (" output(i.submitted.format("MMM d yyyy")) ")"
 	}
 	par {}

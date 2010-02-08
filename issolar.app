@@ -40,7 +40,7 @@ define page root() {
 				var recentIssues : List<Issue> := 
 					from Issue as i
 					order by _submitted desc
-					limit 20;
+					limit 16;
 				issues(recentIssues.set(), true, false, false)
 			}
 		}
