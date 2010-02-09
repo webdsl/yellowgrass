@@ -24,25 +24,6 @@ entity Issue {
 			email(issueNotification(this, u));
 		}
 	}
-		
-/*	function getIssueType() : String {
-		case(type) {
-			1 		{ return getIssueErrorString();		}
-			2 		{ return getIssueFeatureString();	}
-			default { return "Improvement";			}
-		}
-	}
-	function setIssueType(t : String) {
-		if(t == getIssueErrorString()) {
-			type := 1;
-		} else {
-		if(t == getIssueFeatureString()) {
-			type := 2;
-		} else {
-			type := 0;
-		}}
-	}
-*/	
 }
 
 entity IssueType {
@@ -55,15 +36,6 @@ var errorIssueType : IssueType :=
 	IssueType { name := "Error" };
 var featureIssueType : IssueType := 
 	IssueType { name := "New Feature" };
-
-
-/*function getIssueImprovementString() : String	{ return "Improvement"; }
-function getIssueErrorString() : String			{ return "Error"; }
-function getIssueFeatureString() : String		{ return "New Feature"; }
-
-function getIssueTypeOptions() : List<IssueType> {
-	return [improvementIssueType, errorIssueType, featureIssueType];
-}*/
 
 function newIssueNumber(p: Project) : Int {
 	var lastProjectIssues : List<Issue> := 

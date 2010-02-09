@@ -1,4 +1,4 @@
-<project name="Issolar" default="cleandeploy">
+<project name="YellowGrass" default="cleandeploy">
 	<property name="plugindir" value="/Applications/eclipse/plugins/webdsl.editor_1.0.0.201002031644/" />
 	<property name="projectdir" value="/Users/sander/Dropbox/TUD/issolar" />
 	<property name="templatedir" value="${plugindir}/webdsl-template"/>
