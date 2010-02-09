@@ -21,3 +21,7 @@ access control rules
 	rule template projects(ps : Set<Project>) {
 		true
 	}
+	
+	rule page projectList() {
+		true
+	}

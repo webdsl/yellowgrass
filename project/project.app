@@ -89,6 +89,19 @@ define template projects(ps : Set<Project>) {
 	}
 }
 
+define page projectList() {
+	title{"YellowGrass.org - Project List"}
+	main()
+	define body(){
+		<h1>"Project List"</h1>
+		var projectList : List<Project> := 
+			from Project;
+		block [class := "Listing"] {
+			projects(projectList.set())
+		}
+	}
+}
+
 define page edit(p : Project) {
 	title{"YellowGrass.org - " output(p.name)}
 	main()
