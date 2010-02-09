@@ -28,6 +28,15 @@ Added Issue types
 entity Issue/reporter
    :: add type - IssueType min(0) max(1)
 
+Added issue comments
+entity Comment {
+	submitted		:: Date
+	text			:: WikiText
+	author			-> User 
+}
+comments	-> Set<Comment>
+(did not try the evolution)
+
 ------------------
 INITIAL DATA MODEL
 ------------------

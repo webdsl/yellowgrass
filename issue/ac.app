@@ -39,3 +39,7 @@ access control rules
 	rule action reopen(issue : Issue) {
 		principal in issue.project.members
 	}
+	
+	rule action newComment(text : WikiText, issue : Issue) {
+		loggedIn
+	}

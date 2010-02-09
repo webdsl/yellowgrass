@@ -1,6 +1,8 @@
 module issue/issue
 
 imports issue/ac
+imports comment/comment
+imports issue/emails
 
 entity Issue {
 	// TODO add optional user association
@@ -12,6 +14,7 @@ entity Issue {
 	reporter	-> User
 	type		-> IssueType
 	open		:: Bool
+	comments	-> Set<Comment>
 	
 	function close() {
 		open := false;
@@ -23,9 +26,9 @@ entity Issue {
 		for(u : User in project.members){
 			email(issueNotification(this, u));
 		}
-		if(reporter != null && !(reporter in project.members)) {
+		/*if(reporter != null && !(reporter in project.members)) {
 			email(issueNotification(this, reporter));
-		}
+		}*/
 	}
 	
 	function notifyClose() {
@@ -43,6 +46,17 @@ entity Issue {
 		}
 		if(reporter != null && !(reporter in project.members)) {
 			email(issueReopenNotification(this, reporter));
+		}
+	}
+	
+	function addComment(c : Comment) {
+		comments.add(c);
+		this.save();
+		for(u : User in project.members){
+			email(issueCommentNotification(this, u, c));
+		}
+		if(reporter != null && !(reporter in project.members)) {
+			email(issueCommentNotification(this, reporter, c));
 		}
 	}
 }
@@ -150,7 +164,19 @@ define page issue(p : Project, issueNumber : Int) {
 						navigate(user(i.reporter)){output(i.reporter.name)}
 				}
 			}
-			par{ output(i.description) }
+			par { output(i.description) }
+			par { <h2> "Comments" </h2> }
+			par { comments(i.comments) }
+			if(securityContext.loggedIn) {
+				var newCommentText : WikiText := "";
+				par { <h2> "Add Comment" </h2> }
+				form {
+					par { input(newCommentText) }
+					par { action("Post Comment", newComment(newCommentText, i)) }
+				}
+			} else {
+				par { <i> "Log in to post comments" </i> }
+			}
 		}
 		block [class := "sidebar"] {
 			par { 
@@ -177,6 +203,11 @@ define page issue(p : Project, issueNumber : Int) {
 		issue.reopen();
 		issue.save();
 		issue.notifyReopen();
+		return issue(issue.project, issue.number);
+	}
+	action newComment(text : WikiText, issue : Issue) {
+		var comment := createComment(text);
+		issue.addComment(comment);
 		return issue(issue.project, issue.number);
 	}
 }
@@ -241,57 +272,6 @@ define page createIssue(p : Project) {
 			}
 		}
 	}
-}
-
-define email issueNotification(i : Issue, u : User) {
-	to(u.email)
-	from("YellowGrass@YellowGrass.org")
-	subject(i.project.name+" - Issue "+i.number+" ("+i.type.name+")")
-	par {	output(i.project.name)
-			" #" output(i.number)
-			" - " output(i.type.name)
-			" (" output(i.submitted.format("MMM d yyyy")) ")"
-	}
-	par {}
-	par { output(i.title) }
-	par {}
-	par { output(i.description) }
-	par {}
-	par { " -- http://yellowgrass.org -- " }
-}
-
-define email issueCloseNotification(i : Issue, u : User) {
-	to(u.email)
-	from("YellowGrass <info@yellowgrass.org>")
-	subject(i.project.name+" - Issue "+i.number+" has been closed")
-	par {	output(i.project.name)
-			" #" output(i.number)
-			" - " output(i.type.name)
-			" (" output(i.submitted.format("MMM d yyyy")) ")"
-	}
-	par {}
-	par { output(i.title) }
-	par {}
-	par { "Issue has been closed (" navigate(issue(i.project, i.number)){"Issue on YellowGrass"} ")." }
-	par {}
-	par { " -- http://yellowgrass.org -- " }
-}
-
-define email issueReopenNotification(i : Issue, u : User) {
-	to(u.email)
-	from("YellowGrass <info@yellowgrass.org>")
-	subject(i.project.name+" - Issue "+i.number+" has been closed")
-	par {	output(i.project.name)
-			" #" output(i.number)
-			" - " output(i.type.name)
-			" (" output(i.submitted.format("MMM d yyyy")) ")"
-	}
-	par {}
-	par { output(i.title) }
-	par {}
-	par { "Issue has been reopened (" navigate(issue(i.project, i.number)){"Issue on YellowGrass"} ")." }
-	par {}
-	par { " -- http://yellowgrass.org -- " }
 }
 
 function prefix(s : List<Issue>, length : Int) : List<Issue> {

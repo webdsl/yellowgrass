@@ -112,6 +112,16 @@ img {
 	font-size: 8pt;
 }
 
+.CommentHeader {
+	font-size: 8pt;
+	font-weight: bold;
+	font-style: italic;
+}
+
+.CommentText {
+	text-indent: 20px;
+}
+
 form { 
   display : inline;
 }

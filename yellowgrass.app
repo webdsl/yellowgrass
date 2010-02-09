@@ -24,7 +24,7 @@ define page root() {
 				var recentProjects : List<Project> := 
 					from Project as p
 					order by _created desc
-					limit 8;
+					limit 10;
 				table {
 					for(p : Project in recentProjects) {
 						row {
