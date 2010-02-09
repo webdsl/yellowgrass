@@ -18,7 +18,7 @@ access control rules
 		true
 	}
 	
-	rule page issue(i : Issue) { 
+	rule page issue(p : Project, number : Int) { 
 		true
 	}
 		

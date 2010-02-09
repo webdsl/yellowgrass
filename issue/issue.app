@@ -93,7 +93,7 @@ define template issues(is : Set<Issue>, showProjectName : Bool, showTicks : Bool
 						output(
 							abbreviate(i.project.name, 20))
 					}
-					navigate(issue(i)) {
+					navigate(issue(i.project, i.number)) {
 						output(abbreviate(i.title, titleLength))
 					}
 					if(i.open || (!showTicks)) { 
@@ -106,7 +106,17 @@ define template issues(is : Set<Issue>, showProjectName : Bool, showTicks : Bool
 	}
 }
 
-define page issue(i : Issue) {
+define page issue(p : Project, issueNumber : Int) {
+	var issuesWithNumber : List<Issue> := 
+		from Issue as i
+		where i._project = ~p and i._number = ~issueNumber
+		limit 1;
+	if(issuesWithNumber.length == 0) {
+		var i := Issue {};
+	} else {
+		var i := issuesWithNumber.get(0);
+	}
+	
 	title{"YellowGrass.org - " output(i.project.name) " - #" output(i.number)}
 	main()
 	define body(){
@@ -167,7 +177,7 @@ define page issue(i : Issue) {
 		issue.reopen();
 		issue.save();
 		issue.notifyReopen();
-		return issue(issue);
+		return issue(issue.project, issue.number);
 	}
 }
 
@@ -195,7 +205,7 @@ define page editIssue(i : Issue, new : Bool) {
 				action save(){
 					i.save();
 					if(new) { i.notifyProjectMembers(); }
-					return issue(i);
+					return issue(i.project, i.number);
 				}
 			}
 		}
@@ -262,7 +272,7 @@ define email issueCloseNotification(i : Issue, u : User) {
 	par {}
 	par { output(i.title) }
 	par {}
-	par { "Issue has been closed (" navigate(issue(i)){"Issue on YellowGrass"} ")." }
+	par { "Issue has been closed (" navigate(issue(i.project, i.number)){"Issue on YellowGrass"} ")." }
 	par {}
 	par { " -- http://yellowgrass.org -- " }
 }
@@ -279,7 +289,7 @@ define email issueReopenNotification(i : Issue, u : User) {
 	par {}
 	par { output(i.title) }
 	par {}
-	par { "Issue has been reopened (" navigate(issue(i)){"Issue on YellowGrass"} ")." }
+	par { "Issue has been reopened (" navigate(issue(i.project, i.number)){"Issue on YellowGrass"} ")." }
 	par {}
 	par { " -- http://yellowgrass.org -- " }
 }

@@ -13,7 +13,7 @@ entity Project {
 }
 
 define page project(p : Project) {
-	var openIssues : Set<Issue> := [ i | i : Issue in p.issues where i.open order by i.submitted desc ];
+	var openIssues : Set<Issue> := [ i | i : Issue in p.issues where i.open ];
 	
 	title{"YellowGrass.org - " output(p.name)}
 	main()
