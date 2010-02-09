@@ -19,7 +19,7 @@ function createComment(t : WikiText) : Comment {
 }
 
 define template comments(cs : Set<Comment>) {
-	if(cs.length() == 0) {
+	if(cs.length == 0) {
 		par { "No comments" }
 	}
 	for(c : Comment in cs order by c.submitted desc) {
