@@ -8,6 +8,7 @@ imports user/user
 imports project/project
 
 define page root() {
+	title{"YellowGrass.org"}
 	main()
 	define body() {
 		block [class := "column1"] {

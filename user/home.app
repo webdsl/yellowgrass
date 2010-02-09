@@ -1,6 +1,7 @@
 module user/home
 
 define page home(u : User){
+	title{"YellowGrass.org - " output(u.name)}
 	main()
 	define body(){
 		block [class := "main"] {

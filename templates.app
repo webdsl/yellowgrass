@@ -31,7 +31,7 @@ define body(){
 define mainheader() {
 	if(securityContext.loggedIn) {
 		block [class:="logo"] {
-			navigate(home(securityContext.principal)){
+			navigate(root()){
     			image("/images/logo.png")
   			}
   		}

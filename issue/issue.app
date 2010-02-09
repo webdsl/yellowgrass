@@ -23,6 +23,27 @@ entity Issue {
 		for(u : User in project.members){
 			email(issueNotification(this, u));
 		}
+		if(reporter != null && !(reporter in project.members)) {
+			email(issueNotification(this, reporter));
+		}
+	}
+	
+	function notifyClose() {
+		for(u : User in project.members){
+			email(issueCloseNotification(this, u));
+		}
+		if(reporter != null && !(reporter in project.members)) {
+			email(issueCloseNotification(this, reporter));
+		}
+	}
+	
+	function notifyReopen() {
+		for(u : User in project.members){
+			email(issueReopenNotification(this, u));
+		}
+		if(reporter != null && !(reporter in project.members)) {
+			email(issueReopenNotification(this, reporter));
+		}
 	}
 }
 
@@ -86,6 +107,7 @@ define template issues(is : Set<Issue>, showProjectName : Bool, showTicks : Bool
 }
 
 define page issue(i : Issue) {
+	title{"YellowGrass.org - " output(i.project.name) " - #" output(i.number)}
 	main()
 	define body(){
 		block [class := "main"] {
@@ -138,16 +160,19 @@ define page issue(i : Issue) {
 	action close(issue : Issue){
 		issue.close();
 		issue.save();
+		issue.notifyClose();
 		return project(issue.project);
 	}
 	action reopen(issue : Issue){
 		issue.reopen();
 		issue.save();
+		issue.notifyReopen();
 		return issue(issue);
 	}
 }
 
 define page editIssue(i : Issue, new : Bool) {
+	title{"YellowGrass.org - " output(i.project.name) " - #" output(i.number)}
 	main()
 	define body(){
 		<h1> "Edit Issue " output(i.number) </h1>
@@ -178,6 +203,7 @@ define page editIssue(i : Issue, new : Bool) {
 }
 
 define page createIssue(p : Project) {
+	title{"YellowGrass.org - " output(p.name) " - New Issue"}
 	main()
 	define body(){
 		var i := Issue{};
@@ -220,6 +246,40 @@ define email issueNotification(i : Issue, u : User) {
 	par { output(i.title) }
 	par {}
 	par { output(i.description) }
+	par {}
+	par { " -- http://yellowgrass.org -- " }
+}
+
+define email issueCloseNotification(i : Issue, u : User) {
+	to(u.email)
+	from("YellowGrass <info@yellowgrass.org>")
+	subject(i.project.name+" - Issue "+i.number+" has been closed")
+	par {	output(i.project.name)
+			" #" output(i.number)
+			" - " output(i.type.name)
+			" (" output(i.submitted.format("MMM d yyyy")) ")"
+	}
+	par {}
+	par { output(i.title) }
+	par {}
+	par { "Issue has been closed (" navigate(issue(i)){"Issue on YellowGrass"} ")." }
+	par {}
+	par { " -- http://yellowgrass.org -- " }
+}
+
+define email issueReopenNotification(i : Issue, u : User) {
+	to(u.email)
+	from("YellowGrass <info@yellowgrass.org>")
+	subject(i.project.name+" - Issue "+i.number+" has been closed")
+	par {	output(i.project.name)
+			" #" output(i.number)
+			" - " output(i.type.name)
+			" (" output(i.submitted.format("MMM d yyyy")) ")"
+	}
+	par {}
+	par { output(i.title) }
+	par {}
+	par { "Issue has been reopened (" navigate(issue(i)){"Issue on YellowGrass"} ")." }
 	par {}
 	par { " -- http://yellowgrass.org -- " }
 }

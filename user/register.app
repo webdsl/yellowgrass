@@ -1,6 +1,7 @@
 module user/register
 
-define page registerUser(){ 
+define page registerUser(){
+	title{"YellowGrass.org - Registration"} 
 	main()
 	define body(){
 		var u := User{};

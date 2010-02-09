@@ -61,6 +61,7 @@ define template users(us : Set<User>) {
 }
 
 define page editUser(u : User) {
+	title{"YellowGrass.org - " output(u.name)}
 	main()
 	define body(){
 		<h1> "Edit Profile" </h1>

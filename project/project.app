@@ -13,8 +13,9 @@ entity Project {
 }
 
 define page project(p : Project) {
-	var openIssues : Set<Issue> := [ i | i : Issue in p.issues where i.open ];
-
+	var openIssues : Set<Issue> := [ i | i : Issue in p.issues where i.open order by i.submitted desc ];
+	
+	title{"YellowGrass.org - " output(p.name)}
 	main()
 	define body() {
 		block [class := "main"] { 
@@ -89,6 +90,7 @@ define template projects(ps : Set<Project>) {
 }
 
 define page edit(p : Project) {
+	title{"YellowGrass.org - " output(p.name)}
 	main()
 	define body(){
 		<h1> "Edit Project" </h1>
@@ -117,6 +119,7 @@ define page edit(p : Project) {
 }
 
 define page projectIssues(p : Project) {
+	title{"YellowGrass.org - " output(p.name)}
 	main()
 	define body() {
 		block [class := "main"] {

@@ -1,6 +1,7 @@
 module user/register
 
 define page registerProject(){
+	title{"YellowGrass.org - Project Registration"}
 	main()
 	define body(){
 		var p := Project{};

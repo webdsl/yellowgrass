@@ -32,7 +32,8 @@ define template login(){
 
 define template logout(){
 	"Logged in as " 
-	output(securityContext.principal.name)
+	navigate(home(securityContext.principal)) 
+		{output(securityContext.principal.name)}
 	" "
 	form{
 		actionLink("Log Out", logout())
