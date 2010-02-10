@@ -14,7 +14,7 @@ define email issueNotification(i : Issue, e : Email) {
 	par {}
 	par { output(i.description) }
 	par {}
-	par { " -- http://yellowgrass.org -- " }
+	par { " -- " navigate(issue(i.project, i.number)){"Issue on YellowGrass"} " -- http://yellowgrass.org -- " }
 }
 
 
@@ -30,9 +30,9 @@ define email issueCloseNotification(i : Issue, e : Email) {
 	par {}
 	par { output(i.title) }
 	par {}
-	par { "Issue has been closed (" navigate(issue(i.project, i.number)){"Issue on YellowGrass"} ")." }
+	par { "Issue has been closed." }
 	par {}
-	par { " -- http://yellowgrass.org -- " }
+	par { " -- " navigate(issue(i.project, i.number)){"Issue on YellowGrass"} " -- http://yellowgrass.org -- " }
 }
 
 define email issueReopenNotification(i : Issue, e : Email) {
@@ -47,9 +47,9 @@ define email issueReopenNotification(i : Issue, e : Email) {
 	par {}
 	par { output(i.title) }
 	par {}
-	par { "Issue has been reopened (" navigate(issue(i.project, i.number)){"Issue on YellowGrass"} ")." }
+	par { "Issue has been reopened." }
 	par {}
-	par { " -- http://yellowgrass.org -- " }
+	par { " -- " navigate(issue(i.project, i.number)){"Issue on YellowGrass"} " -- http://yellowgrass.org -- " }
 }
 
 define email issueCommentNotification(i : Issue, e : Email, c : Comment) {
@@ -62,13 +62,13 @@ define email issueCommentNotification(i : Issue, e : Email, c : Comment) {
 			" (" output(i.submitted.format("MMM d yyyy")) ")"
 	}
 	par {}
-	par { output(i.title) " (" navigate(issue(i.project, i.number)){"Issue on YellowGrass"} ")"}
+	par { output(i.title) }
 	par {}
 	par { output(c.author.name) " commented:" }
 	par {}
 	par { output(c.text) }
 	par {}
-	par { " -- http://yellowgrass.org -- " }
+	par { " -- " navigate(issue(i.project, i.number)){"Issue on YellowGrass"} " -- http://yellowgrass.org -- " }
 }
 
 define email issueCommentCloseNotification(i : Issue, e : Email, c : Comment) {
@@ -83,9 +83,9 @@ define email issueCommentCloseNotification(i : Issue, e : Email, c : Comment) {
 	par {}
 	par { output(i.title) }
 	par {}
-	par { "Issue has been closed with comment: (" navigate(issue(i.project, i.number)){"Issue on YellowGrass"} ")." }
+	par { "Issue has been closed saying:" }
 	par {}
 	par { output(c.text) }
 	par {}
-	par { " -- http://yellowgrass.org -- " }
+	par { " -- " navigate(issue(i.project, i.number)){"Issue on YellowGrass"} " -- http://yellowgrass.org -- " }
 }

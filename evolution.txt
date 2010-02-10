@@ -30,7 +30,7 @@ entity Issue/reporter
 
 Added issue comments
 entity Comment {
-	submitted		:: Date
+	submitted		:: DateTime
 	text			:: WikiText
 	author			-> User 
 }

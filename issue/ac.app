@@ -33,13 +33,20 @@ access control rules
 	}
 	
 	rule action close(issue : Issue) {
-		principal in issue.project.members
+		principal in issue.project.members &&
+		issue.open
 	}
 	
 	rule action reopen(issue : Issue) {
-		principal in issue.project.members
+		principal in issue.project.members &&
+		(!issue.open)
 	}
 	
 	rule action newComment(text : WikiText, issue : Issue) {
 		loggedIn
+	}
+	
+	rule action commentClose(text : WikiText, issue : Issue) {
+		principal in issue.project.members &&
+		issue.open
 	}
