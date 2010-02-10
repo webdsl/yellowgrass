@@ -141,20 +141,20 @@ td {
 }
 
 textarea { 
-  height : 10em;
-  width : 25em;
+	height : 10em;
+	width : 100%;
 }
 
 select {
-  width : 20em;
+	width : 30em;
 }
 
 input[type="text"]{
-  width : 20em;
+	width : 30em;
 }
 
 input[type="file"]{
-  width : 20em;
+	width : 30em;
 }
 
 a:link 		{ color: #333344; }
