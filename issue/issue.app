@@ -15,6 +15,7 @@ entity Issue {
 	type		-> IssueType
 	open		:: Bool
 	comments	-> Set<Comment>
+	email		:: Email // Only when reporter == null
 	
 	function close() {
 		open := false;
@@ -24,28 +25,31 @@ entity Issue {
 	}
 	function notifyProjectMembers() {
 		for(u : User in project.members){
-			email(issueNotification(this, u));
+			email(issueNotification(this, u.email));
 		}
-		/*if(reporter != null && !(reporter in project.members)) {
-			email(issueNotification(this, reporter));
-		}*/
 	}
 	
 	function notifyClose() {
 		for(u : User in project.members){
-			email(issueCloseNotification(this, u));
+			email(issueCloseNotification(this, u.email));
 		}
 		if(reporter != null && !(reporter in project.members)) {
-			email(issueCloseNotification(this, reporter));
+			email(issueCloseNotification(this, reporter.email));
+		}
+		if(reporter == null && email != "") {
+			email(issueCloseNotification(this, email));
 		}
 	}
 	
 	function notifyReopen() {
 		for(u : User in project.members){
-			email(issueReopenNotification(this, u));
+			email(issueReopenNotification(this, u.email));
 		}
 		if(reporter != null && !(reporter in project.members)) {
-			email(issueReopenNotification(this, reporter));
+			email(issueReopenNotification(this, reporter.email));
+		}
+		if(reporter == null && email != "") {
+			email(issueReopenNotification(this, email));
 		}
 	}
 	
@@ -53,10 +57,13 @@ entity Issue {
 		comments.add(c);
 		this.save();
 		for(u : User in project.members){
-			email(issueCommentNotification(this, u, c));
+			email(issueCommentNotification(this, u.email, c));
 		}
 		if(reporter != null && !(reporter in project.members)) {
-			email(issueCommentNotification(this, reporter, c));
+			email(issueCommentNotification(this, reporter.email, c));
+		}
+		if(reporter == null && email != "") {
+			email(issueCommentNotification(this, email, c));
 		}
 	}
 }
@@ -71,6 +78,8 @@ var errorIssueType : IssueType :=
 	IssueType { name := "Error" };
 var featureIssueType : IssueType := 
 	IssueType { name := "New Feature" };
+var questionIssueType : IssueType := 
+	IssueType { name := "Question" };
 
 function newIssueNumber(p: Project) : Int {
 	var lastProjectIssues : List<Issue> := 
@@ -164,6 +173,9 @@ define page issue(p : Project, issueNumber : Int) {
 						navigate(user(i.reporter)){output(i.reporter.name)}
 				}
 			}
+			if(i.reporter == null && i.email != "" && securityContext.principal in p.members) {
+				par{ "Reported by " output(i.email) }
+			}
 			par { output(i.description) }
 			par { <h2> "Comments" </h2> }
 			par { comments(i, i.comments) }
@@ -223,7 +235,7 @@ define page editIssue(i : Issue, new : Bool) {
 			}
 			par {
 				label("Type") {
-					select(i.type from [improvementIssueType, errorIssueType, featureIssueType])
+					select(i.type from [improvementIssueType, errorIssueType, featureIssueType, questionIssueType])
 				}
 			}
 			par {
@@ -248,12 +260,14 @@ define page createIssue(p : Project) {
 	main()
 	define body(){
 		var i := Issue{};
+		var email : Email := "" 
 		<h1> "Post New Issue" </h1>
 		form { 
 			par { 
 				label("Title") {input(i.title)}
 			}
 			if(!securityContext.loggedIn) {
+				par { label("Email") {input(email)} }
 				par { captcha() }
 			}
 		
@@ -266,6 +280,7 @@ define page createIssue(p : Project) {
 					i.number := newIssueNumber(p);
 					i.open := true;
 					i.reporter := securityContext.principal;
+					i.email := email;
 					i.save();	// TODO Is it possible to pass this without saving it? Security is not guaranteed now (see ac.app)
 					return editIssue(i, true);
 				}

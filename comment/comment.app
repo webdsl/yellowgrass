@@ -22,7 +22,7 @@ define template comments(i : Issue, cs : Set<Comment>) {
 	if(cs.length == 0) {
 		par { "No comments" }
 	}
-	for(c : Comment in cs order by c.submitted desc) {
+	for(c : Comment in cs order by c.submitted asc) {
 		par [class := "CommentHeader"] {
 			"On " output(c.submitted) " " output(c.author.name) " wrote: "
 			navigate(editComment(i, c)){"[edit]"}
