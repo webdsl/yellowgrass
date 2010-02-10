@@ -4,12 +4,13 @@ define template login(){
 	var email : Email;
 	var pass : Secret;
 	form{ 
-		" Email "
-		input(email)
-		" Pass "
-		input(pass)
+		label("Email ") {input(email)}
 		" "
-		actionLink("Log In", login())
+		label("Pass ") {input(pass)}
+		" "
+		block [class := "LoginButton"] {
+			action("Log In", login())
+		}
 	
 		action login(){
 			var users : List<User> :=
@@ -24,8 +25,10 @@ define template login(){
 			}
 			securityContext.loggedIn := false;
 			return root();
-		}
+		}	
 	}
+	" | "
+	navigate(resetUserPassword()) {"Reset Pass"}
 	" | "
 	navigate(registerUser()) {"Register"}
 }

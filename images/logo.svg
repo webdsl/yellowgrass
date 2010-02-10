@@ -19,6 +19,25 @@
   <defs
      id="defs4">
     <linearGradient
+       id="linearGradient4063">
+      <stop
+         id="stop4065"
+         offset="0"
+         style="stop-color:#b4b252;stop-opacity:0.94117647;" />
+      <stop
+         style="stop-color:#b4b252;stop-opacity:0.94117647;"
+         offset="0.30000001"
+         id="stop4067" />
+      <stop
+         id="stop4069"
+         offset="0.89999998"
+         style="stop-color:#b4b252;stop-opacity:0.70588237;" />
+      <stop
+         id="stop4071"
+         offset="1"
+         style="stop-color:#b4b252;stop-opacity:0.70588237;" />
+    </linearGradient>
+    <linearGradient
        id="linearGradient4062">
       <stop
          style="stop-color:#d2d2d2;stop-opacity:1;"
@@ -2247,6 +2266,26 @@
        y1="63.181158"
        x2="342.25146"
        y2="63.181158" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient4063"
+       id="linearGradient3285"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(0.3698075,0,0,0.21365849,117.69077,635.49682)"
+       x1="144.55156"
+       y1="740.83087"
+       x2="249.11401"
+       y2="740.83087" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient4063"
+       id="linearGradient3287"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(-0.3698075,0,0,0.26859102,232.9458,585.71274)"
+       x1="115.93144"
+       y1="760.00348"
+       x2="169.11038"
+       y2="760.00348" />
   </defs>
   <sodipodi:namedview
      id="base"
@@ -2255,16 +2294,16 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="1"
-     inkscape:cx="357.58291"
-     inkscape:cy="715.12819"
+     inkscape:zoom="2"
+     inkscape:cx="58.002463"
+     inkscape:cy="192.42754"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
      inkscape:window-width="1379"
      inkscape:window-height="856"
-     inkscape:window-x="0"
-     inkscape:window-y="0"
+     inkscape:window-x="1506"
+     inkscape:window-y="38"
      inkscape:window-maximized="0" />
   <metadata
      id="metadata7">
@@ -2274,7 +2313,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -3571,5 +3610,31 @@
        inkscape:export-filename="/Users/sander/Dropbox/TUD/issolar/images/sidebarSeparator.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90" />
+    <path
+       inkscape:export-ydpi="90"
+       inkscape:export-xdpi="90"
+       inkscape:export-filename="/Users/sander/Dropbox/TUD/issolar/images/logo.png"
+       style="font-size:medium;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:normal;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;color:#000000;fill:url(#linearGradient3285);fill-opacity:1.0;fill-rule:nonzero;stroke:none;stroke-width:22;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:AlArabiya;-inkscape-font-specification:AlArabiya"
+       d="m 191.93238,829.13051 7.67344,0 c 0,0 4.74928,-15.50829 -2.49163,-29.53412 -12.29003,-23.80612 -33.39916,-40.41362 -33.39916,-40.41362 0,0 24.02428,32.37215 29.01686,46.80472 4.59035,13.26992 -0.79951,23.14302 -0.79951,23.14302 z"
+       id="path3281"
+       sodipodi:nodetypes="ccscsc" />
+    <path
+       inkscape:export-ydpi="90"
+       inkscape:export-xdpi="90"
+       inkscape:export-filename="/Users/sander/Dropbox/TUD/issolar/images/logo.png"
+       sodipodi:nodetypes="ccscsc"
+       id="path3283"
+       d="m 184.22546,829.13051 -7.67344,0 c 0,0 -7.01605,-15.69281 -1.23158,-39.23005 4.49024,-18.27098 32.17767,-45.21653 32.17767,-45.21653 0,0 -23.29944,32.15488 -26.64527,49.80537 -2.37351,12.52112 3.37262,34.64121 3.37262,34.64121 z"
+       style="font-size:medium;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:normal;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;color:#000000;fill:url(#linearGradient3287);fill-opacity:1.0;fill-rule:nonzero;stroke:none;stroke-width:22;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:AlArabiya;-inkscape-font-specification:AlArabiya" />
+    <rect
+       style="fill:none;stroke:#ffffff;stroke-width:0;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:0;stroke-dasharray:none;stroke-dashoffset:0"
+       id="rect3289"
+       width="65.638809"
+       height="65.638809"
+       x="143.0896"
+       y="758.27502"
+       inkscape:export-filename="/Users/sander/Dropbox/TUD/issolar/html/favicon.ico.png"
+       inkscape:export-xdpi="72.911392"
+       inkscape:export-ydpi="72.911392" />
   </g>
 </svg>

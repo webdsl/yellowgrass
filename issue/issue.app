@@ -29,41 +29,41 @@ entity Issue {
 		}
 	}
 	
+	function mailinglist() : Set<Email> {
+		var mailinglist := 
+			[u.email | u : User in project.members];
+		if(reporter != null && !(reporter in project.members)) {
+			mailinglist.add(reporter.email);
+		}
+		if(reporter == null && email != "") {
+			mailinglist.add(email);
+		}
+		return mailinglist;
+	}
+	
 	function notifyClose() {
-		for(u : User in project.members){
-			email(issueCloseNotification(this, u.email));
-		}
-		if(reporter != null && !(reporter in project.members)) {
-			email(issueCloseNotification(this, reporter.email));
-		}
-		if(reporter == null && email != "") {
-			email(issueCloseNotification(this, email));
+		for(e : Email in mailinglist()){
+			email(issueCloseNotification(this, e));
 		}
 	}
-	
 	function notifyReopen() {
-		for(u : User in project.members){
-			email(issueReopenNotification(this, u.email));
-		}
-		if(reporter != null && !(reporter in project.members)) {
-			email(issueReopenNotification(this, reporter.email));
-		}
-		if(reporter == null && email != "") {
-			email(issueReopenNotification(this, email));
+		for(e : Email in mailinglist()){
+			email(issueReopenNotification(this, e));
 		}
 	}
-	
 	function addComment(c : Comment) {
 		comments.add(c);
 		this.save();
-		for(u : User in project.members){
-			email(issueCommentNotification(this, u.email, c));
+		for(e : Email in mailinglist()){
+			email(issueCommentNotification(this, e, c));
 		}
-		if(reporter != null && !(reporter in project.members)) {
-			email(issueCommentNotification(this, reporter.email, c));
-		}
-		if(reporter == null && email != "") {
-			email(issueCommentNotification(this, email, c));
+	}
+	function commentClose(c : Comment) {
+		comments.add(c);
+		close();
+		this.save();
+		for(e : Email in mailinglist()){
+			email(issueCommentCloseNotification(this, e, c));
 		}
 	}
 }
@@ -184,7 +184,10 @@ define page issue(p : Project, issueNumber : Int) {
 				par { <h2> "Add Comment" </h2> }
 				form {
 					par { input(newCommentText) }
-					par { action("Post Comment", newComment(newCommentText, i)) }
+					par { 
+						action("Post Comment", newComment(newCommentText, i)) 
+						action("Post Comment & Close", commentClose(newCommentText, i)) 
+					}
 				}
 			} else {
 				par { <i> "Log in to post comments" </i> }
@@ -221,6 +224,11 @@ define page issue(p : Project, issueNumber : Int) {
 		var comment := createComment(text);
 		issue.addComment(comment);
 		return issue(issue.project, issue.number);
+	}
+	action commentClose(text : WikiText, issue : Issue) {
+		var comment := createComment(text);
+		issue.commentClose(comment);
+		return project(issue.project);
 	}
 }
 

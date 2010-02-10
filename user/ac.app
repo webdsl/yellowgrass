@@ -31,3 +31,15 @@ access control rules
 	rule page editUser(u : User) {
 		principal == u
 	}
+	
+	rule page editUserPassword(u : User){
+		principal == u
+	}
+	
+	rule page resetUserPassword() {
+		true
+	}
+	
+	rule page resetUserPasswordComplete() {
+		true
+	}

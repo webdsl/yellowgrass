@@ -1,5 +1,7 @@
 module user/home
 
+imports user/password
+
 define page home(u : User){
 	title{"YellowGrass.org - " output(u.name)}
 	main()
@@ -28,6 +30,7 @@ define page home(u : User){
 			sidebarSeparator()
 			par { navigate(registerProject())	{"Create New Project"}}
 			par { navigate(editUser(u)) 		{"Edit Your Profile"} }
+			par { navigate(editUserPassword(u))	{"Change Your Password"} }
 			sidebarSeparator()
 		}
 	}

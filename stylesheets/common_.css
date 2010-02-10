@@ -76,6 +76,24 @@ img {
 	width: 100px;
 }
 
+#header .LoginButton {
+	display: inline
+}
+
+#header .LoginButton input {
+	width: 40px;
+	border: 1px solid #dddddd;
+	background-color: #ffffff;
+	color: #444444;
+}
+
+
+#header label {
+	display:inline;
+	font-style: italic;
+	font-weight: normal;
+}
+
 #footer {
     clear:both;
     text-align: center;
@@ -157,10 +175,10 @@ input[type="file"]{
 	width : 30em;
 }
 
-a:link 		{ color: #333344; }
-a:visited	{ color: #333344; }
+a:link 		{ color: #444444; }
+a:visited	{ color: #444444; }
 a:hover 	{ color: #354b35; }
-a:active 	{ color: #333344; }
+a:active 	{ color: #444444; }
 
 label {
 	display:block;

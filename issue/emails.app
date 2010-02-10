@@ -70,3 +70,22 @@ define email issueCommentNotification(i : Issue, e : Email, c : Comment) {
 	par {}
 	par { " -- http://yellowgrass.org -- " }
 }
+
+define email issueCommentCloseNotification(i : Issue, e : Email, c : Comment) {
+	to(e)
+	from("YellowGrass <info@yellowgrass.org>")
+	subject(i.project.name+" - Issue "+i.number+" has been closed")
+	par {	output(i.project.name)
+			" #" output(i.number)
+			" - " output(i.type.name)
+			" (" output(i.submitted.format("MMM d yyyy")) ")"
+	}
+	par {}
+	par { output(i.title) }
+	par {}
+	par { "Issue has been closed with comment: (" navigate(issue(i.project, i.number)){"Issue on YellowGrass"} ")." }
+	par {}
+	par { output(c.text) }
+	par {}
+	par { " -- http://yellowgrass.org -- " }
+}
