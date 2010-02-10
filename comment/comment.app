@@ -18,16 +18,39 @@ function createComment(t : WikiText) : Comment {
 	return c;
 }
 
-define template comments(cs : Set<Comment>) {
+define template comments(i : Issue, cs : Set<Comment>) {
 	if(cs.length == 0) {
 		par { "No comments" }
 	}
 	for(c : Comment in cs order by c.submitted desc) {
 		par [class := "CommentHeader"] {
-			"On " output(c.submitted) " " output(c.author.name) " wrote:"
+			"On " output(c.submitted) " " output(c.author.name) " wrote: "
+			navigate(editComment(i, c)){"[edit]"}
 		}
 		block [class := "CommentText"] {
 			output(c.text)
+		}
+	}
+}
+
+define page editComment(i : Issue, c : Comment) {
+	title{"YellowGrass.org - Edit Comment"}
+	main()
+	define body(){
+		<h1> "Edit Comment" </h1>
+		form {
+			par {
+				label("Comment") { input(c.text) }
+			}
+			par {
+				navigate(issue(i.project, i.number)) {"Cancel"}
+				" "	
+				submit("Save",save())
+				action save(){
+					c.save();
+					return issue(i.project, i.number);
+				}
+			}
 		}
 	}
 }

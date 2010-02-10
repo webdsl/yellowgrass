@@ -166,7 +166,7 @@ define page issue(p : Project, issueNumber : Int) {
 			}
 			par { output(i.description) }
 			par { <h2> "Comments" </h2> }
-			par { comments(i.comments) }
+			par { comments(i, i.comments) }
 			if(securityContext.loggedIn) {
 				var newCommentText : WikiText := "";
 				par { <h2> "Add Comment" </h2> }
