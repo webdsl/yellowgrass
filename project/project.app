@@ -4,12 +4,13 @@ imports project/ac
 imports project/register
 
 entity Project {
-	name		:: String (id, validate(isUniqueProject(this), "Another project with this name already exists"), validate(name.length() >= 3, "Project names should be three characters or longer"))
-	description	:: WikiText
-	url			:: URL
-	issues		-> Set<Issue>
-	members		-> Set<User>
-	created		:: DateTime
+	name			:: String (id, validate(isUniqueProject(this), "Another project with this name already exists"), validate(name.length() >= 3, "Project names should be three characters or longer"))
+	description		:: WikiText
+	url				:: URL
+	issues			-> Set<Issue>
+	members			-> Set<User>
+	memberRequests	-> Set<User>
+	created			:: DateTime
 }
 
 define page project(p : Project) {
@@ -26,7 +27,8 @@ define page project(p : Project) {
 					" È "
 					"Project " output(p.name) 
 				}
-			} 
+			}
+			projectMembershipRequests(p)
 			par { <h2>"Open Issues"</h2>	}
 			par { issues(openIssues, false, false, true, 60) }	// Limit the length of this set
 			par { navigate(projectIssues(p)) {"View All Issues"} }
@@ -41,15 +43,8 @@ define page project(p : Project) {
 			sidebarSeparator()
 			par { navigate(createIssue(p))	{"New Issue"} }
 			par { navigate(edit(p))			{"Project Settings"} }
-			if(securityContext.loggedIn) {
-				if(securityContext.principal in p.members) {
-					if(p.members.length > 1) {
-						par { actionLink("Leave Project", leaveProject()) }
-					}
-				} else {
-					par { actionLink("Join Project", joinProject()) }
-				}
-			}
+			par { actionLink("Leave Project", leaveProject(p)) }
+			par { actionLink("Request Project Membership", requestJoinProject(p)) }
 			sidebarSeparator()
 			par { output(p.description) }
 			par { output(p.url) }
@@ -58,13 +53,36 @@ define page project(p : Project) {
 			par { output(p.members.length) " members"}
 		}
 	}
-	action joinProject() {
-		p.members.add(securityContext.principal);
+	action requestJoinProject(p : Project) {
+		p.memberRequests.add(securityContext.principal);
+		message("Project membership requested, awaiting project member approval...");
 		return project(p);
 	}
-	action leaveProject() {
+	action leaveProject(p : Project) {
 		p.members.remove(securityContext.principal);
 		return home(securityContext.principal);
+	}
+}
+
+define template projectMembershipRequests(p : Project) {
+	par { <h2>"Membership Requests"</h2>	}
+	for(r : User in p.memberRequests order by r.name) {
+		par { 
+			navigate(user(r)){output(r.name)}
+			" - "
+			actionLink("Accept", acceptMembershipRequest(r, p))
+			" - "
+			actionLink("Decline", declineMembershipRequest(r, p))
+		}
+	}
+	action acceptMembershipRequest(u : User, p : Project) {
+		p.members.add(u);
+		p.memberRequests.remove(u);
+		return project(p);
+	}
+	action declineMembershipRequest(u : User, p : Project) {
+		p.memberRequests.remove(u);
+		return project(p);
 	}
 }
 

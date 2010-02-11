@@ -42,6 +42,10 @@ entity Issue/list()
    :: add email : Email min(1) max(1)
 Detection does not work (gives id trafo as a result), seems like it does not incorporate the entire data model
 
+Added member requests to Projects:
+memberRequests	-> Set<User>
+Detection hangs (or takes a long time)
+
 ------------------
 INITIAL DATA MODEL
 ------------------
