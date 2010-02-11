@@ -22,6 +22,7 @@ define page editUserPassword(u : User){
 					input(temp){ validate(u.password == temp, "Passwords do not match") } 
 				}
 			}
+			navigate(user(u)){"Cancel"} " "
 			action("change",changePassword())
 			action changePassword(){
 				var pass : String := u.password.toString();

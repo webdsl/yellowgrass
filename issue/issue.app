@@ -167,14 +167,17 @@ define page issue(p : Project, issueNumber : Int) {
 				}
 				</h2>
 			}
-			par{ <i> output(i.title) </i> }
-			if(i.reporter != null) {
-				par{	"Reported by " 
-						navigate(user(i.reporter)){output(i.reporter.name)}
+			par{ 
+				<i> 
+				output(i.title)
+				" "
+				if(i.reporter != null) {
+					"(by " navigate(user(i.reporter)){output(i.reporter.name) ")"}
 				}
-			}
-			if(i.reporter == null && i.email != "" && securityContext.principal in p.members) {
-				par{ "Reported by " output(i.email) }
+				if(i.reporter == null && i.email != "" && securityContext.principal in p.members) {
+					"(by " output(i.email) ")"
+				}
+				</i>
 			}
 			par { output(i.description) }
 			par { <h2> "Comments" </h2> }
