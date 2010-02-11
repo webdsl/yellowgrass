@@ -201,14 +201,9 @@ define page issue(p : Project, issueNumber : Int) {
 				<h1> "Issue " output(i.number) </h1>
 			}
 			sidebarSeparator()
-			if(securityContext.loggedIn) {
-				par { navigate(editIssue(i, false))	{"Edit this Issue"}}
-			}
-			if(i.open) {
-				par { actionLink("Close Issue", close(i) ) }
-			} else {
-				par { actionLink("Reopen Issue", reopen(i) ) }
-			}
+			par { navigate(editIssue(i))	{"Edit this Issue"}}
+			par { actionLink("Close Issue", close(i) ) }
+			par { actionLink("Reopen Issue", reopen(i) ) }
 		}
 	}
 	action close(issue : Issue){
@@ -235,7 +230,7 @@ define page issue(p : Project, issueNumber : Int) {
 	}
 }
 
-define page editIssue(i : Issue, new : Bool) {
+define page editIssue(i : Issue) {
 	title{"YellowGrass.org - " output(i.project.name) " - #" output(i.number)}
 	main()
 	define body(){
@@ -258,7 +253,6 @@ define page editIssue(i : Issue, new : Bool) {
 				submit("Save",save())
 				action save(){
 					i.save();
-					if(new) { i.notifyProjectMembers(); }
 					return issue(i.project, i.number);
 				}
 			}
@@ -270,13 +264,17 @@ define page createIssue(p : Project) {
 	title{"YellowGrass.org - " output(p.name) " - New Issue"}
 	main()
 	define body(){
-		var i := Issue{};
+		var i := Issue{ type := improvementIssueType };
 		var email : Email := "" 
 		<h1> "Post New Issue" </h1>
 		form { 
-			par { 
-				label("Title") {input(i.title)}
+			par { label("Title") {input(i.title)} }
+			par {
+				label("Type") {
+					select(i.type from [improvementIssueType, errorIssueType, featureIssueType, questionIssueType])
+				}
 			}
+			par { label("Description") {input(i.description)} }
 			if(!securityContext.loggedIn) {
 				par { label("Email") {input(email)} }
 				par { captcha() }
@@ -292,8 +290,9 @@ define page createIssue(p : Project) {
 					i.open := true;
 					i.reporter := securityContext.principal;
 					i.email := email;
-					i.save();	// TODO Is it possible to pass this without saving it? Security is not guaranteed now (see ac.app)
-					return editIssue(i, true);
+					i.save();
+					i.notifyProjectMembers();
+					return issue(p, i.number);
 				}
 			}
 		}
