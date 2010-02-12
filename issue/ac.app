@@ -18,6 +18,10 @@ access control rules
 		true
 	}
 	
+	rule template issues(is : Set<Issue>, showProjectName : Bool, showTicks : Bool, showNumbers : Bool, titleLength : Int, showTags : Bool) {
+		true
+	}
+	
 	rule page issue(p : Project, number : Int) { 
 		true
 	}
@@ -60,6 +64,15 @@ access control rules
 	}
 	
 	rule action addSuggestedTag(suggestion : Tag, i : Issue) {
+		principal in i.project.members || 
+		(loggedIn && principal == i.reporter)
+	}
+	
+	rule template tags(i : Issue, editing : Bool) {
+		true
+	}
+	
+	rule action deleteTag(i : Issue, t : Tag) {
 		principal in i.project.members || 
 		(loggedIn && principal == i.reporter)
 	}

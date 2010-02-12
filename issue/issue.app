@@ -105,6 +105,10 @@ define template issues(is : Set<Issue>, showProjectName : Bool, showTicks : Bool
 	issues(is, showProjectName, showTicks, showNumbers, 33)
 }
 define template issues(is : Set<Issue>, showProjectName : Bool, showTicks : Bool, showNumbers : Bool, titleLength : Int) {
+	issues(is, showProjectName, showTicks, showNumbers, titleLength, false)
+}
+
+define template issues(is : Set<Issue>, showProjectName : Bool, showTicks : Bool, showNumbers : Bool, titleLength : Int, showTags : Bool) {
 	block [class := "Listing"] {
 		table {
 			for(i : Issue in is order by i.submitted desc) {
@@ -123,7 +127,11 @@ define template issues(is : Set<Issue>, showProjectName : Bool, showTicks : Bool
 					if(i.open || (!showTicks)) { 
 						"" 
 					} else {
-						image("/images/tick.png") }
+						image("/images/tick.png") 
+					}
+					if(showTags) { 
+						tags(i, false)
+					}
 				}
 			}
 		}
@@ -181,13 +189,13 @@ define page issue(p : Project, issueNumber : Int) {
 				</i>
 			}
 			par { 
-				for(tag : Tag in i.tags) {
-					output(tag.name) " "
-				}
+				tags(i, true)
 			}
 			par { output(i.description) }
-			par { <h2> "Comments" </h2> }
-			par { comments(i, i.comments) }
+			if(i.comments.length > 0) {
+				par { <h2> "Comments" </h2> }
+				par { comments(i, i.comments) }
+			}
 			if(securityContext.loggedIn) {
 				var newCommentText : WikiText := "";
 				par { <h2> "Add Comment" </h2> }
@@ -286,7 +294,7 @@ define page createIssue(p : Project) {
 				par { label("Email") {input(email)} }
 				par { captcha() }
 			}
-		
+			
 			par{
 				navigate(project(p)) {"Cancel"}
 				action("Post",post())

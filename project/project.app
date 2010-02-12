@@ -30,7 +30,7 @@ define page project(p : Project) {
 			}
 			projectMembershipRequests(p)
 			par { <h2>"Open Issues"</h2>	}
-			par { issues(openIssues, false, false, true, 60) }	// Limit the length of this set
+			par { issues(openIssues, false, false, true, 60, true) }
 			par { navigate(projectIssues(p)) {"View All Issues"} }
 			
 			par { <h2>"Project Members"</h2> }
@@ -60,6 +60,9 @@ define page project(p : Project) {
 	}
 	action leaveProject(p : Project) {
 		p.members.remove(securityContext.principal);
+		if(securityContext.principal.tag != "") {
+			tagCleanup(tag("@"+securityContext.principal.tag, p));
+		}
 		return home(securityContext.principal);
 	}
 }
@@ -78,6 +81,9 @@ define template projectMembershipRequests(p : Project) {
 	action acceptMembershipRequest(u : User, p : Project) {
 		p.members.add(u);
 		p.memberRequests.remove(u);
+		if(u.tag != "") {
+			tag("@"+u.tag, p);
+		}
 		return project(p);
 	}
 	action declineMembershipRequest(u : User, p : Project) {

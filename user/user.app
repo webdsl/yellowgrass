@@ -6,11 +6,16 @@ imports user/register
 imports user/access
 
 entity User {
-	name			:: String
+	name			:: String		(validate(name.length() >= 4,	"Names need to be at least 4 characters"))
 	email			:: Email		(validate(userEmailTaken(), "Another user already registered using this email address"))
 	password		:: Secret		(validate(password.length() >= 8, "Password needs to be at least 8 characters"))
 	projects		-> Set<Project> (inverse = Project.members)
 	url				:: URL
+	tag				:: String		(validate(
+										tag.length() >= 4 && 
+										/[a-z]*/.match(tag),	
+										"User tags need to be at least 4 characters and can only contain lower case characters"),
+									 validate(userTagTaken(), "Another user already registered this tag"))
 	
 	function userEmailTaken() : Bool {
 		var users := findUserByEmail(email);
@@ -19,28 +24,12 @@ entity User {
 			users.get(0) == this;
 	}
 	
-	// TODO inefficient! : remove getOpenIssues function when HQL functionality is fixed
-/*	function getOpenIssues() : List<Issue> {
-		var openIssues := getOpenIssues(projects.list(), 0);
-		var reportedIssues : List<Issue> := 
-			from Issue
-			where _reporter = ~this and _open=true;
-		openIssues.addAll(reportedIssues); 
-		return openIssues;
+	function userTagTaken() : Bool {
+		var users := findUserByTag(tag);
+		return
+			users.length == 0 ||
+			users.get(0) == this;
 	}
-	function getOpenIssues(ps : List<Project>, index : Int) : List<Issue> {
-		if(index >= ps.length) {
-			var empty : List<Issue> := [Issue{}];
-			empty.clear();
-			return empty;
-		} else {
-			var openIssues : List<Issue> := [i | i : Issue in ps.get(index).issues where i.open].list();
-			var otherIssues : List<Issue> := getOpenIssues(ps, index + 1);
-			otherIssues.addAll(openIssues);
-			return otherIssues;
-		}
-	}
-*/
 }
 
 define page user(u : User) {
@@ -77,6 +66,12 @@ define page editUser(u : User) {
 			}
 			par {
 				label("Email") { input(u.email)}
+			}
+			if(u.tag == "") {
+				par {
+					label("Tag") { input(u.tag) }
+					" Used for following or assigning isues"
+				}
 			}
 			par {
 				label("Home Page") { input(u.url)}

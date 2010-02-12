@@ -206,6 +206,28 @@ label {
 .TagAddition .Suggestions a:hover 	{ color: #608060; }
 .TagAddition .Suggestions a:active 	{ color: #999999; }
 
+.Tags {
+	font-size: 9pt;
+	font-style: italic;
+	color: #b4b252;
+}
 
+.Tags .Tag {
+	padding-left: 4px;
+	padding-right: 4px;
+	display: inline;
+}
 
+.Tags .Delete {
+	font-size: 7pt;
+	color: #b45252;
+	display: inline;
+	padding-left: 2px;
+	padding-right: 2px;
+}
+
+.Tags .Delete a:link 	{ color: #b45252; }
+.Tags .Delete a:visited	{ color: #b45252; }
+.Tags .Delete a:hover 	{ color: #b45252; }
+.Tags .Delete a:active 	{ color: #b45252; }
 

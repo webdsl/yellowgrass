@@ -46,6 +46,14 @@ Added member requests to Projects:
 memberRequests	-> Set<User>
 Detection hangs (or takes a long time)
 
+Added 
+entity Tag {
+	name 		:: String (id)
+	project 	-> Project
+}
+and added to Issue:
+tags		-> Set<Tag>
+Detection hangs :(
 ------------------
 INITIAL DATA MODEL
 ------------------

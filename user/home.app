@@ -3,6 +3,20 @@ module user/home
 imports user/password
 
 define page home(u : User){
+	var assignedTag := "@" + u.tag;
+	var recentIssues : List<Issue> := 
+		select i from Issue as i
+		left join i._project._members as m
+		where m = ~u
+		order by i._submitted desc
+		limit 5;
+	var assignedIssues : List<Issue> := 
+		select i from Issue as i
+		left join i._tags as t
+		where t._name = ~assignedTag
+		order by i._submitted desc
+		limit 5;
+	
 	title{"YellowGrass.org - " output(u.name)}
 	main()
 	define body(){
@@ -10,16 +24,14 @@ define page home(u : User){
 			par [class := "Back"] { " È Home" } 
 			par { <h2>"Your Projects"</h2>	}
 			par { projects(u.projects) }
-			par{ <h2>"Recent Issues"</h2>	}
-			par {
-				var recentIssues : List<Issue> := 
-					select i from Issue as i
-					left join i._project._members as m
-					where m = ~u
-					order by i._submitted desc
-					limit 10;
-				issues(recentIssues.set(), true, false, true, 60)
+			if(assignedIssues.length > 0) {
+				par{ <h2>"Assigned Issues"</h2>	}
+				par { issues(assignedIssues.set(), true, false, true, 60, true) }
 			}
+			if(recentIssues.length > 0) {
+				par{ <h2>"Recent Issues"</h2>	}
+			}
+			par { issues(recentIssues.set(), true, false, true, 60, true) }
 		}
 		block [class := "sidebar"] {
 			par { 
