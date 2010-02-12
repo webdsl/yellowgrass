@@ -5,10 +5,6 @@ define main() {
 		<div id="header">
 			mainheader()
 		</div>
-/* 	<div id="navbar">
-		applicationmenu()
-	</div>
-*/     
 		<div id="content">
 			body()
 		</div>
@@ -22,6 +18,16 @@ define main() {
 			<p/>
 		</div>
 	</div>
+	<script type="text/javascript">
+		var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+		document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+	</script>
+	<script type="text/javascript">
+		try {
+			var pageTracker = _gat._getTracker("UA-12964403-1");
+			pageTracker._trackPageview();
+		} catch(err) {}
+	</script>
 }
 
 define body(){
@@ -44,13 +50,6 @@ define mainheader() {
   		}
 		login()
 	}
-}
-
-define applicationmenu() {
-  <ul>
-    <li>navigate(root()){"Home"}</li>
-    <li>navigate(registerUser()){"Register"}</li>
-  </ul>
 }
 
 define ignore-access-control errorTemplateInput(messages : List<String>){
