@@ -3,6 +3,7 @@ module issue/issue
 imports issue/ac
 imports comment/comment
 imports issue/emails
+imports issue/tag
 
 entity Issue {
 	// TODO add optional user association
@@ -15,6 +16,7 @@ entity Issue {
 	type		-> IssueType
 	open		:: Bool
 	comments	-> Set<Comment>
+	tags		-> Set<Tag>
 	email		:: Email // Only when reporter == null
 	
 	function close() {
@@ -30,8 +32,7 @@ entity Issue {
 	}
 	
 	function mailinglist() : Set<Email> {
-		var mailinglist := 
-			[u.email | u : User in project.members];
+		var mailinglist := [u.email | u : User in this.project.members];
 		if(reporter != null && !(reporter in project.members)) {
 			mailinglist.add(reporter.email);
 		}
@@ -179,6 +180,11 @@ define page issue(p : Project, issueNumber : Int) {
 				}
 				</i>
 			}
+			par { 
+				for(tag : Tag in i.tags) {
+					output(tag.name) " "
+				}
+			}
 			par { output(i.description) }
 			par { <h2> "Comments" </h2> }
 			par { comments(i, i.comments) }
@@ -204,6 +210,7 @@ define page issue(p : Project, issueNumber : Int) {
 			par { navigate(editIssue(i))	{"Edit this Issue"}}
 			par { actionLink("Close Issue", close(i) ) }
 			par { actionLink("Reopen Issue", reopen(i) ) }
+			par { addTag(i) }
 		}
 	}
 	action close(issue : Issue){

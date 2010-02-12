@@ -49,3 +49,17 @@ access control rules
 		principal in issue.project.members &&
 		issue.open
 	}
+	
+	rule template addTag(i : Issue) {
+		principal in i.project.members || 
+		(loggedIn && principal == i.reporter)
+	}
+	
+	rule ajaxtemplate tagSuggestions(tagPrefix : String, i : Issue) {
+		true
+	}
+	
+	rule action addSuggestedTag(suggestion : Tag, i : Issue) {
+		principal in i.project.members || 
+		(loggedIn && principal == i.reporter)
+	}

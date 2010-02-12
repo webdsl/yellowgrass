@@ -18,10 +18,6 @@ module ac
 		true
 	}
 	
-	rule template applicationmenu() {
-		true
-	}
-	
 	rule template sidebarSeparator() {
 		true
 	}

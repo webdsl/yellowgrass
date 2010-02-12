@@ -189,3 +189,23 @@ label {
 	font-weight: bold;
 }
 
+.TagAddition input[type="text"] {
+	width : 100px;
+}
+
+.TagAddition .Suggestions p {
+	padding: 0px;
+	margin: 5px;
+	text-indent: 5px;
+	font-size: 9pt;
+	color: #999999;
+}
+
+.TagAddition .Suggestions a:link 	{ color: #999999; }
+.TagAddition .Suggestions a:visited	{ color: #999999; }
+.TagAddition .Suggestions a:hover 	{ color: #608060; }
+.TagAddition .Suggestions a:active 	{ color: #999999; }
+
+
+
+
