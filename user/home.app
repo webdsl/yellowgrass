@@ -12,15 +12,13 @@ define page home(u : User){
 			par { projects(u.projects) }
 			par{ <h2>"Recent Issues"</h2>	}
 			par {
-			/*	var recentIssues : List<Issue> := 
-					from Issue as i
-				//	where ~u in i._project._members
-				//	where _project in ~u.projects  TODO This fails in tomcat, fix it
+				var recentIssues : List<Issue> := 
+					select i from Issue as i
+					left join i._project._members as m
+					where m = ~u
 					order by i._submitted desc
 					limit 10;
-			*/	
-				var openIssues := u.getOpenIssues();
-				issues(prefix(openIssues, 10).set(), true, false, true, 60)
+				issues(recentIssues.set(), true, false, true, 60)
 			}
 		}
 		block [class := "sidebar"] {

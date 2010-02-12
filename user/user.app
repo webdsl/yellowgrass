@@ -20,7 +20,7 @@ entity User {
 	}
 	
 	// TODO inefficient! : remove getOpenIssues function when HQL functionality is fixed
-	function getOpenIssues() : List<Issue> {
+/*	function getOpenIssues() : List<Issue> {
 		var openIssues := getOpenIssues(projects.list(), 0);
 		var reportedIssues : List<Issue> := 
 			from Issue
@@ -40,6 +40,7 @@ entity User {
 			return otherIssues;
 		}
 	}
+*/
 }
 
 define page user(u : User) {
