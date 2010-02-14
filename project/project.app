@@ -17,8 +17,8 @@ define page project(p : Project) {
 	var recentIssues : List<Issue> := 
 		from Issue
 		where _open = true and _project = ~p
-		order by _submitted
-		limit 5;
+		order by _submitted desc
+		limit 8;
 	var openIssues : List<Issue> := 
 		from Issue
 		where _open = true and _project = ~p

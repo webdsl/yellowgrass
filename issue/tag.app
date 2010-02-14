@@ -45,7 +45,7 @@ function tagCleanup(tag : Tag) {
 				select p // Selecting the project does not make sense, bu I am working around a bug in the type checker
 				from Project as p
 				left join p._members as m
-				where m._tag = ~tagSuffix;
+				where m._tag = ~tagSuffix and p = ~tag.project;
 				
 			//log("members.length: "+members.length);
 				
