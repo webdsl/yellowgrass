@@ -8,15 +8,15 @@ imports user/user
 imports project/project
 
 define page root() {
-	title{"YellowGrass.org"}
+	title{"YellowGrass.org - The Tag-Based Issue Tracker"}
 	main()
 	define body() {
 		block [class := "column1"] {
 			par { <h2>"About YellowGrass"</h2> }
 			par {
 				"YellowGrass is a tag-based issue tracker. "
-				"It provides a complete issue tracking solution, geared towards software development. "
-				"Using YellowGrass is free. Registering your project is just a few clicks away... "
+				"It provides a complete issue and bug tracking solution, geared towards software development projects. "
+				"YellowGrass is fully web-based and free of charge. Registering your project is just a few clicks away... "
 				navigate(registerUser()){"Register"}
 			}
 			par { <h2>"New projects on YellowGrass"</h2> }

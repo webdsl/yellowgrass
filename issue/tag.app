@@ -1,11 +1,8 @@
 module issue/tag
 
 entity Tag {
-	name 		:: String	validate(	
-								name.length() > 1 && 
-								/[a-z0-9\._/@]*/.match(name),	
-								"Tags need to have at least 2 characters (a-z 0-9 . _ / @)"
-							)
+	name 		:: String	(validate(name.length() > 1, "Tags need to have at least 2 characters"),
+							 validate(/[a-z0-9\._@]*/.match(name),"Tags may consist of: a-z 0-9 . _ @"))
 	project 	-> Project
 }
 

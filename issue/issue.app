@@ -288,8 +288,8 @@ define page createIssue(p : Project) {
 	main()
 	define body(){
 		var i := Issue{ type := improvementIssueType };
-		var email : Email := "" 
-		<h1> "Post New Issue" </h1>
+		var email : Email := ""
+		<h1> "Post New " output(p.name) " Issue" </h1>
 		form { 
 			par { label("Title") {input(i.title)} }
 			par {
