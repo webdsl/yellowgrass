@@ -14,7 +14,7 @@ define page root() {
 		block [class := "column1"] {
 			par { <h2>"About YellowGrass"</h2> }
 			par {
-				"YellowGrass is a light-weight and easy to use issue tracker. "
+				"YellowGrass is a tag-based issue tracker. "
 				"It provides a complete issue tracking solution, geared towards software development. "
 				"Using YellowGrass is free. Registering your project is just a few clicks away... "
 				navigate(registerUser()){"Register"}

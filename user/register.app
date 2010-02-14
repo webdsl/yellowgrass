@@ -10,6 +10,10 @@ define page registerUser(){
 		
 		form { 
 			par{ label("Name") { input(u.name) } }
+			par{ label("User Name") { input(u.tag) } }
+			"User names are used for urls (e.g. http://yellowgrass.org/user/johnsmith) and tags (e.g. @johnsmith)"
+			"Preferably choose a user name, which is easy to remember by your project members" 
+			
 			par{ label("Email") { input(u.email) } }
 			par{ label("Password") { input(u.password) } }
 			par{ label("Repeat Password") { 

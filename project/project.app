@@ -14,7 +14,10 @@ entity Project {
 }
 
 define page project(p : Project) {
-	var openIssues : Set<Issue> := [ i | i : Issue in p.issues where i.open ];
+	var openIssues : List<Issue> := 
+		from Issue
+		where _open = true;
+	var untaggedIssues : List<Issue> := [ i | i : Issue in openIssues where i.tags.length == 0 ];
 	
 	title{"YellowGrass.org - " output(p.name)}
 	main()
@@ -29,8 +32,10 @@ define page project(p : Project) {
 				}
 			}
 			projectMembershipRequests(p)
-			par { <h2>"Open Issues"</h2>	}
-			par { issues(openIssues, false, false, true, 60, true) }
+			if(untaggedIssues.length > 0) {
+				par { <h2>"Untagged Issues"</h2>	}
+				par { issues(untaggedIssues.set(), false, false, true, 60, true) }
+			}
 			par { navigate(projectIssues(p)) {"View All Issues"} }
 			
 			par { <h2>"Project Members"</h2> }
@@ -60,9 +65,7 @@ define page project(p : Project) {
 	}
 	action leaveProject(p : Project) {
 		p.members.remove(securityContext.principal);
-		if(securityContext.principal.tag != "") {
-			tagCleanup(tag("@"+securityContext.principal.tag, p));
-		}
+		tagCleanup(tag("@"+securityContext.principal.tag, p));
 		return home(securityContext.principal);
 	}
 }
@@ -81,9 +84,7 @@ define template projectMembershipRequests(p : Project) {
 	action acceptMembershipRequest(u : User, p : Project) {
 		p.members.add(u);
 		p.memberRequests.remove(u);
-		if(u.tag != "") {
-			tag("@"+u.tag, p);
-		}
+		tag("@"+u.tag, p);
 		return project(p);
 	}
 	action declineMembershipRequest(u : User, p : Project) {

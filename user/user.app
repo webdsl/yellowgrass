@@ -13,9 +13,9 @@ entity User {
 	url				:: URL
 	tag				:: String		(validate(
 										tag.length() >= 4 && 
-										/[a-z]*/.match(tag),	
-										"User tags need to be at least 4 characters and can only contain lower case characters"),
-									 validate(userTagTaken(), "Another user already registered this tag"))
+										/[a-z0-9]*/.match(tag),	
+										"User tags need to be at least 4 characters and can only contain lower case characters and numbers"),
+									 validate(userTagTaken(), "Another user already registered this user name"))
 	
 	function userEmailTaken() : Bool {
 		var users := findUserByEmail(email);
@@ -66,12 +66,6 @@ define page editUser(u : User) {
 			}
 			par {
 				label("Email") { input(u.email)}
-			}
-			if(u.tag == "") {
-				par {
-					label("Tag") { input(u.tag) }
-					" Used for following or assigning isues"
-				}
 			}
 			par {
 				label("Home Page") { input(u.url)}

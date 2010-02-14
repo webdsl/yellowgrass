@@ -1,20 +1,23 @@
 body {
     margin: 0;
     padding: 0;
-    font-size: 10pt;
+    font-size: 9pt;
     font-family: sans-serif, Arial, Helvetica;
     color: #444444;
+    line-height: 125%;
 }
 
 h1 {
 	font-size: 16pt;
 	color: #354b35;
 	padding-top: 10px;
+	font-weight: normal;
+	font-style: normal;
 }
 
 h2 {
-	font-size: 10pt;
-	font-weight: bold;
+	font-size: 12pt;
+	font-weight: normal;
 	font-style: italic;
 	color: #354b35;
 	padding-top: 10px;
@@ -63,7 +66,7 @@ img {
     height: 88px;
     margin: 0;
     padding: 12px 20px;
-    font-size: 9pt;
+    font-size: 8pt;
     text-align: right;
 }
 
@@ -98,7 +101,7 @@ img {
     clear:both;
     text-align: center;
     color: #999999;
-    font-size: 8pt;
+    font-size: 7pt;
     padding: 12px 20px;
 }
 
@@ -127,11 +130,11 @@ img {
 
 .Back {
 	color: #999999;
-	font-size: 8pt;
+	font-size: 7pt;
 }
 
 .CommentHeader {
-	font-size: 8pt;
+	font-size: 7pt;
 	font-weight: bold;
 	font-style: italic;
 }
@@ -184,7 +187,7 @@ label {
 	display:block;
 	margin-bottom:0.1em;
 	margin-top:1em;
-	font-size: 9pt;
+	font-size: 8pt;
 	font-style: italic; 
 	font-weight: bold;
 }
@@ -207,7 +210,7 @@ label {
 .TagAddition .Suggestions a:active 	{ color: #999999; }
 
 .Tags {
-	font-size: 9pt;
+	font-size: 8pt;
 	font-style: italic;
 	color: #b4b252;
 }
@@ -219,15 +222,16 @@ label {
 }
 
 .Tags .Delete {
-	font-size: 7pt;
-	color: #b45252;
+	font-size: 5pt;
+	color: #b4b252;
+	//color: #b45252;
 	display: inline;
 	padding-left: 2px;
 	padding-right: 2px;
 }
 
-.Tags .Delete a:link 	{ color: #b45252; }
-.Tags .Delete a:visited	{ color: #b45252; }
-.Tags .Delete a:hover 	{ color: #b45252; }
-.Tags .Delete a:active 	{ color: #b45252; }
+.Tags a:link 	{ color: #b45252; text-decoration: underline; }
+.Tags a:visited	{ color: #b45252; text-decoration: underline; }
+.Tags a:hover 	{ color: #b45252; text-decoration: underline; }
+.Tags a:active 	{ color: #b45252; text-decoration: underline; }
 
