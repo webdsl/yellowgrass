@@ -68,6 +68,10 @@ access control rules
 		(loggedIn && principal == i.reporter)
 	}
 	
+	rule page tag(p : Project, tag : String) {
+		true
+	}
+	
 	rule template tags(i : Issue, editing : Bool) {
 		true
 	}

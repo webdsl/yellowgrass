@@ -38,6 +38,9 @@ define page project(p : Project) {
 			}
 			par { navigate(projectIssues(p)) {"View All Issues"} }
 			
+			//par { <h2>"Tags"</h2> }
+			//par { users(p.members) }
+			
 			par { <h2>"Project Members"</h2> }
 			par { users(p.members) }
 		}
@@ -174,7 +177,7 @@ define page projectIssues(p : Project) {
 				par [class := "Back"] { navigate(project(p)) {"Ç Back to Project"} }
 			}
 			 
-			par { issues(p.issues, false, true, true, 60) }
+			par { issues(p.issues, false, true, true, 60, true) }
 		}
 		block [class := "sidebar"] {
 			par {

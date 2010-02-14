@@ -116,7 +116,7 @@ img {
 }
 
 .Listing td {
-	padding: 4px 15px;
+	padding: 3px 12px;
 }
 
 .Listing tr:nth-child(even) {
@@ -163,7 +163,7 @@ td {
 
 textarea { 
 	height : 10em;
-	width : 100%;
+	width : 95%;
 }
 
 select {
@@ -213,6 +213,7 @@ label {
 	font-size: 8pt;
 	font-style: italic;
 	color: #b4b252;
+	display: inline;
 }
 
 .Tags .Tag {
@@ -222,16 +223,15 @@ label {
 }
 
 .Tags .Delete {
-	font-size: 5pt;
-	color: #b4b252;
+	font-size: 6pt;
 	//color: #b45252;
 	display: inline;
 	padding-left: 2px;
 	padding-right: 2px;
 }
 
-.Tags a:link 	{ color: #b45252; text-decoration: underline; }
-.Tags a:visited	{ color: #b45252; text-decoration: underline; }
-.Tags a:hover 	{ color: #b45252; text-decoration: underline; }
-.Tags a:active 	{ color: #b45252; text-decoration: underline; }
+.Tags a:link 	{ color: #b4b252; text-decoration: none; }
+.Tags a:visited	{ color: #b4b252; text-decoration: none; }
+.Tags a:hover 	{ color: #b4b252; text-decoration: none; }
+.Tags a:active 	{ color: #b4b252; text-decoration: none; }
 

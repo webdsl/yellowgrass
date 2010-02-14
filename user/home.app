@@ -7,9 +7,9 @@ define page home(u : User){
 	var assignedIssues : List<Issue> := 
 		select i from Issue as i
 		left join i._tags as t
-		where t._name = ~assignedTag
+		where t._name = ~assignedTag and i._open=true
 		order by i._submitted desc
-		limit 5;
+		limit 15;
 	
 	title{"YellowGrass.org - " output(u.name)}
 	main()

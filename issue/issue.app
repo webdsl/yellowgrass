@@ -187,8 +187,6 @@ define page issue(p : Project, issueNumber : Int) {
 					"(by " output(i.email) ")"
 				}
 				</i>
-			}
-			par { 
 				tags(i, true)
 			}
 			par { output(i.description) }

@@ -37,7 +37,7 @@ function tagCleanup(tag : Tag) {
 	// Is the tag used?
 	if(	tagged.length == 0) {
 		// 	Are there any project memebers using this tag
-		if(/@[a-z]+/.match(tag.name)) {
+		if(/@[a-z0-9]+/.match(tag.name)) {
 			var tagSuffixArray := tag.name.split();
 			tagSuffixArray.removeAt(0);
 			var tagSuffix := tagSuffixArray.concat();
@@ -57,12 +57,38 @@ function tagCleanup(tag : Tag) {
 		}
 	}
 }
+
+define page tag(p : Project, tag : String) {
+	var taggedIssues : List<Issue> :=
+		select i 
+		from Issue as i
+		left join i._tags as t
+		where t._name = ~tag and t._project = ~p
+		limit 500
+	
+	main()
+	define body(){
+		if(securityContext.loggedIn) {
+			par [class := "Back"] { 
+				" È "
+				navigate(home(securityContext.principal)) {"Home"}
+				" È "
+				navigate(project(p)) {"Project " output(p.name)}
+				" È Tag " ouput(tag)
+			}
+		} else { 
+			par [class := "Back"] { navigate(project(p)) {"Ç Back to Project"} }
+		}
+		par{ <h1> output(p.name) " Issues Tagged " output(tag) </h1> }
+		issues(taggedIssues.set(), false, true, true, 60, true)
+	}
+}
 	
 define template tags(i : Issue, editing : Bool) {
 	block [class:="Tags"] {
 		for(tag : Tag in i.tags) {
 			block [class := "Tag"] {
-				output(tag.name) 
+				navigate(tag(i.project, tag.name)){output(tag.name)} 
 				if(editing) {
 					block [class := "Delete"] {
 						actionLink("x", deleteTag(i, tag))
