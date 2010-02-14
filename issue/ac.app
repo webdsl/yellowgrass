@@ -76,6 +76,10 @@ access control rules
 		true
 	}
 	
+	rule template tags(ts : List<Tag>, p : Project) {
+		true
+	}
+	
 	rule action deleteTag(i : Issue, t : Tag) {
 		principal in i.project.members || 
 		(loggedIn && principal == i.reporter)

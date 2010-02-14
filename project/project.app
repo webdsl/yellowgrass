@@ -14,10 +14,23 @@ entity Project {
 }
 
 define page project(p : Project) {
+	var recentIssues : List<Issue> := 
+		from Issue
+		where _open = true and _project = ~p
+		order by _submitted
+		limit 5;
 	var openIssues : List<Issue> := 
 		from Issue
-		where _open = true;
-	var untaggedIssues : List<Issue> := [ i | i : Issue in openIssues where i.tags.length == 0 ];
+		where _open = true and _project = ~p
+		order by _submitted
+		limit 2000;
+	var unassignedIssues : List<Issue> := [ i | i : Issue in openIssues where !(i.isAssigned()) ];
+	var tags : List<Tag> := 
+		from Tag
+		where _project = ~p
+		order by _name
+		limit 200;
+	
 	
 	title{"YellowGrass.org - " output(p.name)}
 	main()
@@ -32,14 +45,18 @@ define page project(p : Project) {
 				}
 			}
 			projectMembershipRequests(p)
-			if(untaggedIssues.length > 0) {
-				par { <h2>"Untagged Issues"</h2>	}
-				par { issues(untaggedIssues.set(), false, false, true, 60, true) }
-			}
-			par { navigate(projectIssues(p)) {"View All Issues"} }
 			
-			//par { <h2>"Tags"</h2> }
-			//par { users(p.members) }
+			if(unassignedIssues.length > 0) {
+				par { <h2>"Unassigned Issues"</h2>	}
+				par { issues(unassignedIssues.set(), false, false, true, 60, true) }
+			}
+			
+			par { <h2>"Tags"</h2> }
+			par { tags(tags, p) }
+			
+			par { <h2>"Recent Issues"</h2> }
+			par { issues(recentIssues.set(), false, false, true, 60, true) }
+			par { navigate(projectIssues(p)) {"View All Issues"} }
 			
 			par { <h2>"Project Members"</h2> }
 			par { users(p.members) }

@@ -74,7 +74,7 @@ define page tag(p : Project, tag : String) {
 				navigate(home(securityContext.principal)) {"Home"}
 				" È "
 				navigate(project(p)) {"Project " output(p.name)}
-				" È Tag " ouput(tag)
+				" È Tag " output(tag)
 			}
 		} else { 
 			par [class := "Back"] { navigate(project(p)) {"Ç Back to Project"} }
@@ -102,6 +102,16 @@ define template tags(i : Issue, editing : Bool) {
 		i.save();
 		tagCleanup(t);
 		return issue(i.project, i.number);
+	}
+}
+
+define template tags(ts : List<Tag>, p : Project) {
+	block [class:="Tags"] {
+		for(tag : Tag in ts) {
+			block [class := "Tag"] {
+				navigate(tag(p, tag.name)){output(tag.name)}
+			}
+		}
 	}
 }
 

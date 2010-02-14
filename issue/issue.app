@@ -67,6 +67,15 @@ entity Issue {
 			email(issueCommentCloseNotification(this, e, c));
 		}
 	}
+	
+	function isAssigned() : Bool {
+		for(tag : Tag in tags) {
+			if(/@.+/.match(tag.name)) {
+				return true;
+			}
+		}
+		return false;
+	}
 }
 
 entity IssueType {
@@ -261,7 +270,7 @@ define page editIssue(i : Issue) {
 				label("Description") {input(i.description)}
 			}
 			par {
-				navigate(project(i.project)) {"Cancel"}
+				navigate(issue(i)) {"Cancel"}
 				" "
 				submit("Save",save())
 				action save(){
@@ -295,6 +304,7 @@ define page createIssue(p : Project) {
 			
 			par{
 				navigate(project(p)) {"Cancel"}
+				" "
 				action("Post",post())
 				action post(){
 					i.submitted := now();
