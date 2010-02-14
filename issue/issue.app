@@ -133,13 +133,13 @@ define template issues(is : Set<Issue>, showProjectName : Bool, showTicks : Bool
 					navigate(issue(i.project, i.number)) {
 						output(abbreviate(i.title, titleLength))
 					}
+					if(showTags) { 
+						tags(i, false)
+					}
 					if(i.open || (!showTicks)) { 
 						"" 
 					} else {
 						image("/images/tick.png") 
-					}
-					if(showTags) { 
-						tags(i, false)
 					}
 				}
 			}
@@ -190,7 +190,7 @@ define page issue(p : Project, issueNumber : Int) {
 				output(i.title)
 				" "
 				if(i.reporter != null) {
-					"(by " navigate(user(i.reporter)){output(i.reporter.name) ")"}
+					"(by " navigate(user(i.reporter.tag)){output(i.reporter.name) ")"}
 				}
 				if(i.reporter == null && i.email != "" && securityContext.principal in p.members) {
 					"(by " output(i.email) ")"
@@ -210,6 +210,7 @@ define page issue(p : Project, issueNumber : Int) {
 					par { input(newCommentText) }
 					par { 
 						action("Post Comment", newComment(newCommentText, i)) 
+						" "
 						action("Post Comment & Close", commentClose(newCommentText, i)) 
 					}
 				}
@@ -270,7 +271,7 @@ define page editIssue(i : Issue) {
 				label("Description") {input(i.description)}
 			}
 			par {
-				navigate(issue(i)) {"Cancel"}
+				navigate(issue(i.project, i.number)) {"Cancel"}
 				" "
 				submit("Save",save())
 				action save(){

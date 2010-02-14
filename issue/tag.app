@@ -79,7 +79,7 @@ define page tag(p : Project, tag : String) {
 		} else { 
 			par [class := "Back"] { navigate(project(p)) {"Ç Back to Project"} }
 		}
-		par{ <h1> output(p.name) " Issues Tagged " output(tag) </h1> }
+		par{ <h1> output(p.name) " issues tagged " output(tag) </h1> }
 		issues(taggedIssues.set(), false, true, true, 60, true)
 	}
 }
@@ -138,20 +138,17 @@ define template addTag(i : Issue) {
 
 define ajax tagSuggestions(tagPrefix : String, i : Issue) {
 	var tagSearchString := tagPrefix.toLowerCase() + "%"
-	block [class := "Suggestions"] {
-		if(tagPrefix != "") {
-			var suggestions : List<Tag> :=
-				from	Tag as t
-				where	t._project = ~i.project and 
-						t._name like ~tagSearchString
-				order by t._name	// TODO Improve ordering based on usage
-				limit 5;
-			for(suggestion : Tag in suggestions) {
-				par { form {
-					//output(suggestion.name)
-					actionLink(suggestion.name, addSuggestedTag(suggestion, i))[ajax]
-				}}
-			}
+	if(tagPrefix != "") {
+		var suggestions : List<Tag> :=
+			from	Tag as t
+			where	t._project = ~i.project and 
+					t._name like ~tagSearchString
+			order by t._name	// TODO Improve ordering based on usage
+			limit 5;
+		for(suggestion : Tag in suggestions) {
+			form { block [class := "Suggestion"] {
+				actionLink(suggestion.name, addSuggestedTag(suggestion, i))[ajax]
+			}}
 		}
 	}
 	action addSuggestedTag(suggestion : Tag, i : Issue) {

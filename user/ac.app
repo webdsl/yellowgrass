@@ -24,8 +24,8 @@ access control rules
 		true
 	}
 	
-	rule page user(u : User) {
-		true
+	rule page user(tag : String) {
+		findUserByTag(tag).length == 1
 	}
 	
 	rule page editUser(u : User) {

@@ -9,7 +9,7 @@ define page home(u : User){
 		left join i._tags as t
 		where t._name = ~assignedTag and i._open=true
 		order by i._submitted desc
-		limit 15;
+		limit 20;
 	
 	title{"YellowGrass.org - " output(u.name)}
 	main()

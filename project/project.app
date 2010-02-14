@@ -94,7 +94,7 @@ define template projectMembershipRequests(p : Project) {
 	par { <h2>"Membership Requests"</h2>	}
 	for(r : User in p.memberRequests order by r.name) {
 		par { 
-			navigate(user(r)){output(r.name)}
+			navigate(user(r.tag)){output(r.name)}
 			" - "
 			actionLink("Accept", acceptMembershipRequest(r, p))
 			" - "

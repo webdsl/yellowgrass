@@ -14,7 +14,7 @@ entity User {
 	tag				:: String		(validate(
 										tag.length() >= 4 && 
 										/[a-z0-9]*/.match(tag),	
-										"User tags need to be at least 4 characters and can only contain lower case characters and numbers"),
+										"User names consist of lowercase characters and numbers. Their minimum length is 4 characters."),
 									 validate(userTagTaken(), "Another user already registered this user name"))
 	
 	function userEmailTaken() : Bool {
@@ -32,7 +32,9 @@ entity User {
 	}
 }
 
-define page user(u : User) {
+define page user(usertag : String) {
+	var u : User := findUserByTag(usertag).get(0)
+	
 	main()
 	define body(){
 		if(securityContext.loggedIn) {
@@ -50,7 +52,7 @@ define page user(u : User) {
 define template users(us : Set<User>) {
 	table {
 		for(u : User in us) {
-			row { navigate(user(u)) {output(u.name)}}
+			row { navigate(user(u.tag)) {output(u.name)}}
 		}
 	}
 }
