@@ -4,6 +4,7 @@ imports issue/ac
 imports comment/comment
 imports issue/emails
 imports issue/tag
+imports issue/register
 
 entity Issue {
 	// TODO add optional user association
@@ -31,31 +32,41 @@ entity Issue {
 		}
 	}
 	
-	function mailinglist() : Set<Email> {
+	function mailinglist(ignore : Email) : Set<Email> {
 		var mailinglist := [u.email | u : User in this.project.members];
+		
 		if(reporter != null && !(reporter in project.members)) {
 			mailinglist.add(reporter.email);
 		}
 		if(reporter == null && email != "") {
 			mailinglist.add(email);
 		}
+		
+		var commenters := [c.author.email | c : Comment in comments];
+		mailinglist.addAll(commenters);
+		
+		var followers : Set<User> := getFollowers(tags);
+		mailinglist.addAll([u.email | u : User in followers]);
+		
+		mailinglist.remove(ignore);
+		
 		return mailinglist;
 	}
 	
 	function notifyClose() {
-		for(e : Email in mailinglist()){
+		for(e : Email in mailinglist(securityContext.principal.email)){
 			email(issueCloseNotification(this, e));
 		}
 	}
 	function notifyReopen() {
-		for(e : Email in mailinglist()){
+		for(e : Email in mailinglist(securityContext.principal.email)){
 			email(issueReopenNotification(this, e));
 		}
 	}
 	function addComment(c : Comment) {
 		comments.add(c);
 		this.save();
-		for(e : Email in mailinglist()){
+		for(e : Email in mailinglist(c.author.email)){
 			email(issueCommentNotification(this, e, c));
 		}
 	}
@@ -63,7 +74,7 @@ entity Issue {
 		comments.add(c);
 		close();
 		this.save();
-		for(e : Email in mailinglist()){
+		for(e : Email in mailinglist(c.author.email)){
 			email(issueCommentCloseNotification(this, e, c));
 		}
 	}
@@ -203,20 +214,8 @@ define page issue(p : Project, issueNumber : Int) {
 				par { <h2> "Comments" </h2> }
 				par { comments(i, i.comments) }
 			}
-			if(securityContext.loggedIn) {
-				var newCommentText : WikiText := "";
-				par { <h2> "Add Comment" </h2> }
-				form {
-					par { input(newCommentText) }
-					par { 
-						action("Post Comment", newComment(newCommentText, i)) 
-						" "
-						action("Post Comment & Close", commentClose(newCommentText, i)) 
-					}
-				}
-			} else {
-				par { <i> "Log in to post comments" </i> }
-			}
+			commentAddition(i)
+			noCommentAddition()
 		}
 		block [class := "sidebar"] {
 			par { 
@@ -226,6 +225,7 @@ define page issue(p : Project, issueNumber : Int) {
 			par { navigate(editIssue(i))	{"Edit this Issue"}}
 			par { actionLink("Close Issue", close(i) ) }
 			par { actionLink("Reopen Issue", reopen(i) ) }
+			par { navigate(createIssue(p))	{"New Issue"} }
 			par { addTag(i) }
 		}
 	}
@@ -240,16 +240,6 @@ define page issue(p : Project, issueNumber : Int) {
 		issue.save();
 		issue.notifyReopen();
 		return issue(issue.project, issue.number);
-	}
-	action newComment(text : WikiText, issue : Issue) {
-		var comment := createComment(text);
-		issue.addComment(comment);
-		return issue(issue.project, issue.number);
-	}
-	action commentClose(text : WikiText, issue : Issue) {
-		var comment := createComment(text);
-		issue.commentClose(comment);
-		return project(issue.project);
 	}
 }
 
@@ -283,46 +273,23 @@ define page editIssue(i : Issue) {
 	}
 }
 
-define page createIssue(p : Project) {
-	title{"YellowGrass.org - " output(p.name) " - New Issue"}
+define page postedIssues() {
+	var postedIssues := 
+		from Issue
+		where _reporter = ~securityContext.principal
+		order by _submitted desc
+		limit 200
+
 	main()
-	define body(){
-		var i := Issue{ type := improvementIssueType };
-		var email : Email := ""
-		<h1> "Post New " output(p.name) " Issue" </h1>
-		form { 
-			par { label("Title") {input(i.title)} }
-			par {
-				label("Type") {
-					select(i.type from [improvementIssueType, errorIssueType, featureIssueType, questionIssueType])
-				}
-			}
-			par { label("Description") {input(i.description)} }
-			if(!securityContext.loggedIn) {
-				par { label("Email") {input(email)} }
-				par { captcha() }
-			}
-			
-			par{
-				navigate(project(p)) {"Cancel"}
-				" "
-				action("Post",post())
-				action post(){
-					i.submitted := now();
-					i.project := p;
-					i.number := newIssueNumber(p);
-					i.open := true;
-					i.reporter := securityContext.principal;
-					i.email := email;
-					if (p.members.length == 1) {
-						i.tags.add(tag("@"+p.members.list().get(0).tag, p));
-					}
-					i.save();
-					i.notifyProjectMembers();
-					return issue(p, i.number);
-				}
-			}
+	define body() {
+		par [class := "Back"] { 
+			" È "
+			navigate(home(securityContext.principal)) {"Home"}
+			" È "
+			"Posted Issues"
 		}
+		par { <h1> "Issues Posted by You" </h1> }
+		par { issues(postedIssues.set(), true, true, true, 60, true) }
 	}
 }
 

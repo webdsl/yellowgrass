@@ -11,3 +11,11 @@ access control rules
 		&&
 		(c.author == securityContext.principal)
 	}
+	
+	rule template commentAddition(i : Issue) {
+		loggedIn
+	}
+	
+	rule template noCommentAddition() {
+		!loggedIn
+	}

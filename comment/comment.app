@@ -33,6 +33,36 @@ define template comments(i : Issue, cs : Set<Comment>) {
 	}
 }
 
+define template commentAddition(i : Issue) {
+	var newCommentText : WikiText := "";
+	par { <h2> "Add Comment" </h2> }
+	block [class := "CommentAdd"] {
+		form {
+			par { input(newCommentText) }
+			par { 
+				action("Post Comment", newComment(newCommentText, i)) 
+				" "
+				action("Post Comment & Close", commentClose(newCommentText, i)) 
+			}
+		}
+	}
+	
+	action newComment(text : WikiText, issue : Issue) {
+		var comment := createComment(text);
+		issue.addComment(comment);
+		return issue(issue.project, issue.number);
+	}
+	action commentClose(text : WikiText, issue : Issue) {
+		var comment := createComment(text);
+		issue.commentClose(comment);
+		return project(issue.project);
+	}
+}
+
+define template noCommentAddition() {
+	par { <i> "Log in to post comments" </i> }
+}
+
 define page editComment(i : Issue, c : Comment) {
 	title{"YellowGrass.org - Edit Comment"}
 	main()

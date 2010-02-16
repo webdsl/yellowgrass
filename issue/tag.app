@@ -2,7 +2,7 @@ module issue/tag
 
 entity Tag {
 	name 		:: String	(validate(name.length() > 1, "Tags need to have at least 2 characters"),
-							 validate(/[a-z0-9\._@]*/.match(name),"Tags may consist of: a-z 0-9 . _ @"))
+							 validate(/[a-z0-9\._@!]*/.match(name),"Tags may consist of: a-z 0-9 . _ @ !"))
 	project 	-> Project
 }
 
@@ -20,6 +20,25 @@ function tag(t : String, p : Project) : Tag {
 	} else {
 		return tags.get(0);
 	}
+}
+
+function getFollowers(ts : Set<Tag>) : Set<User> {
+	var followers : Set<User> := {User{}};
+	followers.clear();
+	for(t : Tag in ts) {
+		if(/![a-z0-9]+/.match(t.name)) {
+			var tagSuffixArray := t.name.split();
+			tagSuffixArray.removeAt(0);
+			var tagSuffix := tagSuffixArray.concat();
+			var us : List<User> := 
+				from User
+				where _tag = ~tagSuffix;
+			if(us.length > 0) {
+				followers.add(us.get(0));
+			}
+		}
+	}
+	return followers;
 }
 
 function tagCleanup(tag : Tag) {

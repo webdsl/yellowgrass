@@ -6,6 +6,7 @@ define main() {
 			mainheader()
 		</div>
 		<div id="content">
+			messages()
 			body()
 		</div>
 		<div id="footer">

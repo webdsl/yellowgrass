@@ -14,6 +14,21 @@ entity Project {
 	members			-> Set<User>
 	memberRequests	-> Set<User>
 	created			:: DateTime
+	
+	function getCommonTags() : List<Tag>{
+		return
+			from Tag as t
+			where (t._project = ~this) and (t._name not like ~"@%")
+			limit 8; // Cannot parameterize this (syntax bug)
+			
+			/*select new Tag(t._name, t._project)
+			from Issue as i left join i.tags as t
+			where (t in i.tags) and (t._project = ~this) and (t._name not like ~"@%")
+			group by t
+			order by count(i)
+			limit 8;	// Cannot parameterize this (syntax bug)
+			*/
+	}
 }
 
 define page project(p : Project) {
@@ -57,9 +72,9 @@ define page project(p : Project) {
 			par { <h2>"Tags"</h2> }
 			par { tags(tags, p) }
 			
-			par { <h2>"Recent Issues"</h2> }
+			par { <h2>"Recent Open Issues"</h2> }
 			par { issues(recentIssues.set(), false, false, true, 60, true) }
-			par { navigate(projectIssues(p)) {"View All Issues"} }
+			par { navigate(projectIssues(p)) {"View all issues"} }
 			
 			par { <h2>"Project Members"</h2> }
 			par { users(p.members) }
@@ -121,8 +136,8 @@ define template projects(ps : Set<Project>) {
 		var psSorted : Set<Project> := 
 			[punsorted | punsorted : Project in ps order by punsorted.name asc]
 		
-		for(p : Project in psSorted) {
-			row { 
+		for(p : Project in psSorted) { 
+			row {
 				navigate project(p) {output(p.name)}
 				block {
 					output([i | i : Issue in p.issues where i.open].length) 
@@ -131,6 +146,9 @@ define template projects(ps : Set<Project>) {
 				block { 
 					output(p.members.length) 
 					" members "
+				}
+				block {
+					tags(p.getCommonTags(), p)
 				}
 			}
 		}

@@ -84,3 +84,7 @@ access control rules
 		principal in i.project.members || 
 		(loggedIn && principal == i.reporter)
 	}
+	
+	rule page postedIssues() {
+		loggedIn
+	}

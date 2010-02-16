@@ -143,6 +143,10 @@ img {
 	text-indent: 20px;
 }
 
+.CommentAdd textarea {
+	height : 5em;
+}
+
 form { 
   display : inline;
 }
@@ -164,10 +168,7 @@ td {
 textarea { 
 	height : 5em;
 	width : 95%;
-}
-
-textarea:focus { 
-	height : 30em;
+	height : 25em;
 }
 
 select {
