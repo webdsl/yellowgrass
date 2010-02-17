@@ -36,7 +36,7 @@ define page project(p : Project) {
 		from Issue
 		where _open = true and _project = ~p
 		order by _submitted desc
-		limit 8;
+		limit 15;
 	var openIssues : List<Issue> := 
 		from Issue
 		where _open = true and _project = ~p
@@ -66,14 +66,13 @@ define page project(p : Project) {
 			
 			if(unassignedIssues.length > 0) {
 				par { <h2>"Unassigned Issues"</h2>	}
-				par { issues(unassignedIssues.set(), false, false, true, 60, true) }
+				par { issues(unassignedIssues.set(), false, false, true, 50, true) }
 			}
 			
-			par { <h2>"Tags"</h2> }
 			par { tags(tags, p) }
 			
 			par { <h2>"Recent Open Issues"</h2> }
-			par { issues(recentIssues.set(), false, false, true, 60, true) }
+			par { issues(recentIssues.set(), false, false, true, 50, true) }
 			par { navigate(projectIssues(p)) {"View all issues"} }
 			
 			par { <h2>"Project Members"</h2> }

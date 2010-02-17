@@ -15,6 +15,7 @@ define page createIssue(p : Project) {
 				}
 			}
 			par { label("Description") {input(i.description)} }
+			par [align := "center"] { navigate(url("http://en.wikipedia.org/wiki/Markdown#Syntax_examples")){ "Syntax help" } }
 			if(!securityContext.loggedIn) {
 				par { label("Email") {input(email)} }
 				par { <i> 	"Email addresses are used for notifications and questions only. "
@@ -38,6 +39,7 @@ define page createIssue(p : Project) {
 						i.tags.add(tag("@"+p.members.list().get(0).tag, p));
 					}
 					i.save();
+					flush();
 					i.notifyProjectMembers();
 					return issue(p, i.number);
 				}

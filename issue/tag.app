@@ -102,7 +102,7 @@ define page tag(p : Project, tag : String) {
 	
 define template tags(i : Issue, editing : Bool) {
 	block [class:="Tags"] {
-		for(tag : Tag in i.tags) {
+		for(tag : Tag in i.tags order by tag.name) {
 			block [class := "Tag"] {
 				navigate(tag(i.project, tag.name)){output(tag.name)} 
 				if(editing) {
@@ -123,7 +123,7 @@ define template tags(i : Issue, editing : Bool) {
 
 define template tags(ts : List<Tag>, p : Project) {
 	block [class:="Tags"] {
-		for(tag : Tag in ts) {
+		for(tag : Tag in ts order by tag.name) {
 			block [class := "Tag"] {
 				navigate(tag(p, tag.name)){output(tag.name)}
 			}
@@ -140,7 +140,9 @@ define template addTag(i : Issue) {
 			}
 			action("+", addTag(t, i))
 		}
-		placeholder tagSuggestionsBox {}
+		placeholder tagSuggestionsBox {
+			tagSuggestions(t, i)
+		}
 	}
 	action addTag(t : String, i : Issue) {
 		i.tags.add(tag(t, i.project));
@@ -154,19 +156,18 @@ define template addTag(i : Issue) {
 
 define ajax tagSuggestions(tagPrefix : String, i : Issue) {
 	var tagSearchString := tagPrefix.toLowerCase() + "%"
-	if(tagPrefix != "") {
-		var suggestions : List<Tag> :=
-			from	Tag as t
-			where	t._project = ~i.project and 
-					t._name like ~tagSearchString
-			order by t._name	// TODO Improve ordering based on usage
-			limit 5;
-		for(suggestion : Tag in suggestions) {
-			form { block [class := "Suggestion"] {
-				actionLink(suggestion.name, addSuggestedTag(suggestion, i))[ajax]
-			}}
-		}
+	var suggestions : List<Tag> :=
+		from	Tag as t
+		where	t._project = ~i.project and 
+				t._name like ~tagSearchString
+		order by t._name	// TODO Improve ordering based on usage
+		limit 5;
+	for(suggestion : Tag in suggestions) {
+		form { block [class := "Suggestion"] {
+			actionLink(suggestion.name, addSuggestedTag(suggestion, i))[ajax]
+		}}
 	}
+	
 	action addSuggestedTag(suggestion : Tag, i : Issue) {
 		i.tags.add(suggestion);
 		i.save();
