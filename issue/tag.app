@@ -154,6 +154,7 @@ define template addTag(i : Issue) {
 	}
 }
 
+// NOTE: Do not make this publicly available, the AJAX causes a lot of bad links
 define ajax tagSuggestions(tagPrefix : String, i : Issue) {
 	var tagSearchString := tagPrefix.toLowerCase() + "%"
 	var suggestions : List<Tag> :=

@@ -52,6 +52,7 @@ define page user(usertag : String) {
 define template users(us : Set<User>) {
 	for(u : User in us) {
 		navigate(user(u.tag)) {output(u.name)}
+		" "
 	}
 }
 

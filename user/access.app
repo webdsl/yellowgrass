@@ -39,7 +39,9 @@ define template logout(){
 		{output(securityContext.principal.name)}
 	" "
 	form{
-		actionLink("Log Out", logout())
+		block [class := "LoginButton"] {
+			action("Log Out", logout())
+		}
 		action logout(){
 			securityContext.loggedIn := false;
 			securityContext.principal := null;
