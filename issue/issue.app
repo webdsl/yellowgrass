@@ -88,6 +88,12 @@ entity Issue {
 		}
 		return false;
 	}
+	
+	function assign() {
+		if (project.members.length == 1) {
+			tags.add(tag("@"+project.members.list().get(0).tag, project));
+		}
+	}
 }
 
 entity IssueType {
@@ -226,6 +232,8 @@ define page issue(p : Project, issueNumber : Int) {
 			par { navigate(editIssue(i))	{"Edit this Issue"}}
 			par { actionLink("Close Issue", close(i) ) }
 			par { actionLink("Reopen Issue", reopen(i) ) }
+			par { actionLink("Move Issue To", showIssueMoveTargets(i)) [ajax] }
+			par [class := "IssueMoveTargets"] { placeholder issueMoveTargetsBox {} }
 			par { navigate(createIssue(p))	{"New Issue"} }
 			par { addTag(i) }
 		}
@@ -241,6 +249,37 @@ define page issue(p : Project, issueNumber : Int) {
 		issue.save();
 		issue.notifyReopen();
 		return issue(issue.project, issue.number);
+	}
+	action showIssueMoveTargets(issue : Issue){
+		replace(issueMoveTargetsBox, issueMoveTargets(issue));
+	}
+}
+
+define ajax issueMoveTargets (i : Issue){
+	for(p : Project in securityContext.principal.projects) {
+		if(p != i.project) {
+			par{ form{ actionLink(p.name, moveIssue(i, p)) }}
+		}
+	}
+	action moveIssue(old : Issue, p : Project) {
+		var new := Issue {
+			title := old.title
+			description := old.description
+			type := old.type
+			submitted := old.submitted
+			project := p
+			number := newIssueNumber(p)
+			open := true
+			reporter := old.reporter
+			email := old.email
+		};
+		new.assign();
+		old.close();
+		new.save();
+		old.save();
+		flush();
+		new.notifyProjectMembers();
+		return issue(p, new.number);
 	}
 }
 

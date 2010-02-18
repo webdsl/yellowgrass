@@ -43,9 +43,7 @@ define page createIssue(p : Project) {
 					i.open := true;
 					i.reporter := securityContext.principal;
 					i.email := email;
-					if (p.members.length == 1) {
-						i.tags.add(tag("@"+p.members.list().get(0).tag, p));
-					}
+					i.assign();
 					i.save();
 					flush();
 					i.notifyProjectMembers();

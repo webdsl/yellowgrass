@@ -251,4 +251,11 @@ label {
 
 .IssueSuggestions {
 	margin-bottom: 30px;
+	text-indent: 20px;
+	font-size: 8pt;
+}
+
+.IssueMoveTargets {
+	margin-left: 20px;
+	font-size: 8pt;
 }

@@ -92,3 +92,13 @@ access control rules
 	rule ajaxtemplate issueSuggestions(t : String, p : Project) {
 		true
 	}
+	
+	rule action showIssueMoveTargets(issue : Issue){
+		principal in issue.project.members && 
+		principal.projects.length > 1
+	}
+	
+	rule ajaxtemplate issueMoveTargets (issue : Issue){
+		principal in issue.project.members && 
+		principal.projects.length > 1
+	}
