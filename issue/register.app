@@ -10,14 +10,13 @@ define page createIssue(p : Project) {
 		var email : Email := ""
 		<h1> "Post New " output(p.name) " Issue" </h1>
 		
-		par {
-				placeholder issueSuggestionsBox {} // TODO does not work 
-			}
-		
 		form { 
 			par { label("Title") {
 					input (t) [onkeyup := updateIssueSuggestions(t), autocomplete:="off"]
 			}}
+			par [class := "IssueSuggestions"] {
+				placeholder issueSuggestionsBox {} // TODO does not work 
+			}
 			par {
 				label("Type") {
 					select(i.type from [improvementIssueType, errorIssueType, featureIssueType, questionIssueType])
@@ -61,9 +60,10 @@ define page createIssue(p : Project) {
 }
 
 define ajax issueSuggestions(t : String, p : Project) {
-	//var suggestions := searchIssue(t, 5);
-	var suggestions := [Issue{ title := "bla"}]
+	var suggestions := searchIssue(t, 5);
 	for(i : Issue in suggestions) {
-		navigate(issue(p, i.number)){output(i.project.name) " - " output(i.title)}
+		par {
+			navigate(issue(p, i.number)){output(i.project.name) " - " output(i.title)}
+		}
 	}
 }

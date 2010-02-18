@@ -249,3 +249,6 @@ label {
 .Tags a:hover 	{ color: #b4b252; text-decoration: none; }
 .Tags a:active 	{ color: #b4b252; text-decoration: none; }
 
+.IssueSuggestions {
+	margin-bottom: 30px;
+}
