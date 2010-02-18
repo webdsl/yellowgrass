@@ -88,3 +88,7 @@ access control rules
 	rule page postedIssues() {
 		loggedIn
 	}
+	
+	rule ajaxtemplate issueSuggestions(t : String, p : Project) {
+		true
+	}

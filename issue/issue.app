@@ -8,11 +8,12 @@ imports issue/register
 
 entity Issue {
 	// TODO add optional user association
-	number		:: Int
-	title		:: String
-	description	:: WikiText
+	number		:: Int		(searchable)
+	title		:: String	(searchable)
+	description	:: WikiText (searchable)
 	submitted 	:: DateTime
-	project		-> Project (inverse = Project.issues)
+	project		-> Project	(inverse = Project.issues)
+	projectName :: String 	(searchable) := project.name	// TODO Does not work yet
 	reporter	-> User
 	type		-> IssueType
 	open		:: Bool

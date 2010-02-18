@@ -1,5 +1,7 @@
 module templates
 
+imports search
+
 define main() {
 	<div id="pagewrapper">
 		<div id="header">
@@ -51,6 +53,20 @@ define mainheader() {
   		}
 		login()
 	}
+	
+	var query : String := "";
+	block [class := "SearchBox"] {
+		form {
+			input(query)
+			" "
+			block [class := "LoginButton"] {
+				submit("Search", doSearch())
+			}
+			action doSearch() {
+				return search(query);
+			}
+		}
+	}
 }
 
 define ignore-access-control errorTemplateInput(messages : List<String>){
@@ -68,13 +84,4 @@ define ignore-access-control errorTemplateInput(messages : List<String>){
 define template sidebarSeparator() {
 	image("/images/sidebarSeparator.png")
 }
-
-/*
-function getDecoratedRowClass (highlighted : Bool) : String{
-	if(highlighted) {
-		return "high"; 
-	} else {
-		return "low";
-	}
-}*/
 

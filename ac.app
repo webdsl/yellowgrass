@@ -21,3 +21,7 @@ module ac
 	rule template sidebarSeparator() {
 		true
 	}
+	
+	rule page search(q : String) {
+		true
+	}

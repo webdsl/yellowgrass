@@ -1,14 +1,23 @@
 module issue/register
 
 define page createIssue(p : Project) {
+	var t : String := ""
+	
 	title{"YellowGrass.org - " output(p.name) " - New Issue"}
 	main()
 	define body(){
 		var i := Issue{ type := improvementIssueType };
 		var email : Email := ""
 		<h1> "Post New " output(p.name) " Issue" </h1>
+		
+		par {
+				placeholder issueSuggestionsBox {} // TODO does not work 
+			}
+		
 		form { 
-			par { label("Title") {input(i.title)} }
+			par { label("Title") {
+					input (t) [onkeyup := updateIssueSuggestions(t), autocomplete:="off"]
+			}}
 			par {
 				label("Type") {
 					select(i.type from [improvementIssueType, errorIssueType, featureIssueType, questionIssueType])
@@ -44,6 +53,17 @@ define page createIssue(p : Project) {
 					return issue(p, i.number);
 				}
 			}
+			action updateIssueSuggestions(t : String) {
+				replace(issueSuggestionsBox, issueSuggestions(t, p));
+			}
 		}
+	}
+}
+
+define ajax issueSuggestions(t : String, p : Project) {
+	//var suggestions := searchIssue(t, 5);
+	var suggestions := [Issue{ title := "bla"}]
+	for(i : Issue in suggestions) {
+		navigate(issue(p, i.number)){output(i.project.name) " - " output(i.title)}
 	}
 }

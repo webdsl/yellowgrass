@@ -71,7 +71,7 @@ img {
 }
 
 #header .logo {
-	float:left;
+	float: left;
 	height: 88px;
 }
 
@@ -88,6 +88,11 @@ img {
 	border: 1px solid #dddddd;
 	background-color: #ffffff;
 	color: #444444;
+}
+
+#header .SearchBox {
+	float: bottom;
+	margin-top: 40px;
 }
 
 
