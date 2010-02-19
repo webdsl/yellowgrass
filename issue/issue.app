@@ -258,7 +258,7 @@ define page issue(p : Project, issueNumber : Int) {
 define ajax issueMoveTargets (i : Issue){
 	for(p : Project in securityContext.principal.projects) {
 		if(p != i.project) {
-			par{ form{ actionLink(p.name, moveIssue(i, p)) }}
+			par{ form{ "> " actionLink(p.name, moveIssue(i, p)) [ajax] }}
 		}
 	}
 	action moveIssue(old : Issue, p : Project) {
