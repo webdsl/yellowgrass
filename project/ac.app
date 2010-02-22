@@ -41,3 +41,7 @@ access control rules
 		principal in p.members && 
 		p.memberRequests.length > 0
 	}
+	
+	rule template projectSideBar(p : Project) {
+		true
+	}

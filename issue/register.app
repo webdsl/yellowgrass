@@ -58,10 +58,12 @@ define page createIssue(p : Project) {
 }
 
 define ajax issueSuggestions(t : String, p : Project) {
-	var suggestions := searchIssue(t, 5);
-	for(i : Issue in suggestions) {
+	// TODO Cannot search on project names, so doing big search and project limit. Fix this when search for project name is enabled.
+	var suggestions := searchIssue(t, 100);
+	var projectSuggestions := [ i | i : Issue in suggestions where i.project == p limit 5];
+	for(i : Issue in projectSuggestions) {
 		par {
-			navigate(issue(p, i.number)){output(i.project.name) " - " output(i.title)}
+			navigate(issue(p, i.number)){output(i.title)}
 		}
 	}
 }

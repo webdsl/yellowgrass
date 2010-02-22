@@ -37,6 +37,8 @@ define page project(p : Project) {
 		where _open = true and _project = ~p
 		order by _submitted desc
 		limit 20;
+		
+	// TODO Make next two queries more efficient by integration
 	var openIssues : List<Issue> := 
 		from Issue
 		where _open = true and _project = ~p
@@ -78,32 +80,7 @@ define page project(p : Project) {
 			par { <h2>"Project Members"</h2> }
 			par { users(p.members) }
 		}
-		block [class := "sidebar"] {
-			par { 
-				<h1> output(p.name) </h1>
-			}
-			sidebarSeparator()
-			par { navigate(createIssue(p))	{"New Issue"} }
-			par { navigate(edit(p))			{"Project Settings"} }
-			par { actionLink("Leave Project", leaveProject(p)) }
-			par { actionLink("Request Project Membership", requestJoinProject(p)) }
-			sidebarSeparator()
-			par { output(p.description) }
-			par { output(p.url) }
-			sidebarSeparator()
-			par { output(openIssues.length) " open issues"}
-			par { output(p.members.length) " members"}
-		}
-	}
-	action requestJoinProject(p : Project) {
-		p.memberRequests.add(securityContext.principal);
-		message("Project membership requested, awaiting project member approval...");
-		return project(p);
-	}
-	action leaveProject(p : Project) {
-		p.members.remove(securityContext.principal);
-		tagCleanup(tag("@"+securityContext.principal.tag, p));
-		return home(securityContext.principal);
+		projectSideBar(p)
 	}
 }
 
@@ -127,6 +104,35 @@ define template projectMembershipRequests(p : Project) {
 	action declineMembershipRequest(u : User, p : Project) {
 		p.memberRequests.remove(u);
 		return project(p);
+	}
+}
+
+define template projectSideBar(p : Project) {
+	block [class := "sidebar"] {
+		par { 
+			<h1> output(p.name) </h1>
+		}
+		sidebarSeparator()
+		par { navigate(createIssue(p))	{"New Issue"} }
+		par { navigate(edit(p))			{"Project Settings"} }
+		par { actionLink("Leave Project", leaveProject(p)) }
+		par { actionLink("Request Project Membership", requestJoinProject(p)) }
+		sidebarSeparator()
+		par { output(p.description) }
+		par { output(p.url) }
+		sidebarSeparator()
+		par { output(newIssueNumber(p) - 1) " issues"}	// TODO make query count
+		par { output(p.members.length) " members"}
+	}
+	action requestJoinProject(p : Project) {
+		p.memberRequests.add(securityContext.principal);
+		message("Project membership requested, awaiting project member approval...");
+		return project(p);
+	}
+	action leaveProject(p : Project) {
+		p.members.remove(securityContext.principal);
+		tagCleanup(tag("@"+securityContext.principal.tag, p));
+		return home(securityContext.principal);
 	}
 }
 
@@ -216,14 +222,6 @@ define page projectIssues(p : Project) {
 			 
 			par { issues(p.issues, false, true, true, 60, true) }
 		}
-		block [class := "sidebar"] {
-			par {
-				<h1> output(p.name) </h1>
-			}
-			
-			par { navigate(createIssue(p))	{"New Issue"} }
-			
-			par { output(p.description) }
-		}
+		projectSideBar(p)
 	}
 }

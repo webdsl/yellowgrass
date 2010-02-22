@@ -84,19 +84,22 @@ define page tag(p : Project, tag : String) {
 	
 	main()
 	define body(){
-		if(securityContext.loggedIn) {
-			par [class := "Back"] { 
-				" È "
-				navigate(home(securityContext.principal)) {"Home"}
-				" È "
-				navigate(project(p)) {"Project " output(p.name)}
-				" È Tag " output(tag)
+		block [class := "main"] { 
+			if(securityContext.loggedIn) {
+				par [class := "Back"] { 
+					" È "
+					navigate(home(securityContext.principal)) {"Home"}
+					" È "
+					navigate(project(p)) {"Project " output(p.name)}
+					" È Tag " output(tag)
+				}
+			} else { 
+				par [class := "Back"] { navigate(project(p)) {"Ç Back to Project"} }
 			}
-		} else { 
-			par [class := "Back"] { navigate(project(p)) {"Ç Back to Project"} }
+			par{ <h1> "Tagged " output(tag) </h1> }
+			issues(taggedIssues.set(), false, true, true, 60, true)
 		}
-		par{ <h1> output(p.name) " issues tagged " output(tag) </h1> }
-		issues(taggedIssues.set(), false, true, true, 60, true)
+		projectSideBar(p)
 	}
 }
 	
