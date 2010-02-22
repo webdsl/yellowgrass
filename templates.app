@@ -12,13 +12,13 @@ define main() {
 			body()
 		</div>
 		<div id="footer">
-			<p/>
-				"© 2010 " <a href="http://www.sandervermolen.nl"> "Sander Vermolen" </a> " All rights reserved"
-				" --- "
-				"Provide " <a href="http://yellowgrass.org/project/YellowGrass"> "Feedback" </a> 
-				" --- "
-				"Powered by " <a href="http://webdsl.org">"WebDSL"</a>
-			<p/>
+			block [class := "Item"] { "YellowGrass.org  The Tag-Based Issue Tracker" }
+			block [class := "Item"] { " - " }
+			block [class := "Item"] { "© 2010 " <a href="http://www.sandervermolen.nl"> "Sander Vermolen" </a> " All rights reserved" }
+			block [class := "Item"] { " - " }
+			block [class := "Item"] { "Provide " <a href="http://yellowgrass.org/project/YellowGrass"> "Feedback" </a> } 
+			block [class := "Item"] { " - " }
+			block [class := "Item"] { "Powered by " <a href="http://webdsl.org">"WebDSL"</a> }
 		</div>
 	</div>
 	<script type="text/javascript">

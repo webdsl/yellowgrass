@@ -1,8 +1,6 @@
 module issue/register
 
 define page createIssue(p : Project) {
-	var t : String := ""
-	
 	title{"YellowGrass.org - " output(p.name) " - New Issue"}
 	main()
 	define body(){
@@ -12,7 +10,7 @@ define page createIssue(p : Project) {
 		
 		form { 
 			par { label("Title") {
-					input (t) [onkeyup := updateIssueSuggestions(t), autocomplete:="off"]
+					input (i.title) [onkeyup := updateIssueSuggestions(i.title), autocomplete:="off"]
 			}}
 			par [class := "IssueSuggestions"] {
 				placeholder issueSuggestionsBox {} // TODO does not work 

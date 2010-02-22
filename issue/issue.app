@@ -9,7 +9,7 @@ imports issue/register
 entity Issue {
 	// TODO add optional user association
 	number		:: Int		(searchable)
-	title		:: String	(searchable)
+	title		:: String	(searchable, validate(title.length() >= 5, "Use a longer and more descriptive title"))
 	description	:: WikiText (searchable)
 	submitted 	:: DateTime
 	project		-> Project	(inverse = Project.issues)
