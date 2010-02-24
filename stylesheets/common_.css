@@ -147,16 +147,17 @@ img {
 
 .CommentHeader {
 	font-size: 7pt;
-	font-weight: bold;
 	font-style: italic;
+	color: #999999;
 }
+
+.CommentHeader a:link 	{ color: #999999; }
+.CommentHeader a:visited{ color: #999999; }
+.CommentHeader a:hover 	{ color: #608060; }
+.CommentHeader a:active { color: #999999; }
 
 .CommentText {
-	text-indent: 20px;
-}
-
-.CommentAdd textarea {
-	height : 5em;
+	margin-left: 10px;
 }
 
 form { 
@@ -237,18 +238,23 @@ label {
 	display: inline;
 }
 
-.Tags .Tag {
-	padding-left: 4px;
-	padding-right: 4px;
-	display: inline;
-}
-
 .Tags .Delete {
 	font-size: 6pt;
 	//color: #b45252;
 	display: inline;
-	padding-left: 2px;
-	padding-right: 2px;
+	padding-left: 0px;
+	padding-right: 8px;
+}
+
+.Tags .Delete a {
+	padding-left: 0px;
+	padding-right: 0px;
+}
+
+.Tags a {
+	padding-left: 4px;
+	padding-right: 4px;
+	display: inline;
 }
 
 .Tags a:link 	{ color: #b4b252; text-decoration: none; }

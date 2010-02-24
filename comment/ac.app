@@ -16,6 +16,10 @@ access control rules
 		loggedIn
 	}
 	
+	rule ajaxtemplate commentAdditionInput(i : Issue) {
+		loggedIn
+	}
+	
 	rule template noCommentAddition() {
 		!loggedIn
 	}

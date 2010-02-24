@@ -106,12 +106,10 @@ define page tag(p : Project, tag : String) {
 define template tags(i : Issue, editing : Bool) {
 	block [class:="Tags"] {
 		for(tag : Tag in i.tags order by tag.name) {
-			block [class := "Tag"] {
-				navigate(tag(i.project, tag.name)){output(tag.name)} 
-				if(editing) {
-					block [class := "Delete"] {
-						actionLink("x", deleteTag(i, tag))
-					}
+			navigate(tag(i.project, tag.name)){output(tag.name)} 
+			if(editing) {
+				block [class := "Delete"] {
+					actionLink("x", deleteTag(i, tag))
 				}
 			}
 		}
@@ -127,9 +125,7 @@ define template tags(i : Issue, editing : Bool) {
 define template tags(ts : List<Tag>, p : Project) {
 	block [class:="Tags"] {
 		for(tag : Tag in ts order by tag.name) {
-			block [class := "Tag"] {
-				navigate(tag(p, tag.name)){output(tag.name)}
-			}
+			navigate (tag(p, tag.name)){output(tag.name)} " "
 		}
 	}
 }

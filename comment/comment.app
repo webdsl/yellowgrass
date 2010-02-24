@@ -23,7 +23,7 @@ define template comments(i : Issue, cs : Set<Comment>) {
 		par { "No comments" }
 	}
 	for(c : Comment in cs order by c.submitted asc) {
-		par [class := "CommentHeader"] {
+		block [class := "CommentHeader"] {
 			"On " output(c.submitted.format("MMM d")) " " output(c.author.name) " wrote: "
 			navigate(editComment(i, c)){"[edit]"}
 		}
@@ -34,8 +34,17 @@ define template comments(i : Issue, cs : Set<Comment>) {
 }
 
 define template commentAddition(i : Issue) {
+	placeholder commentAdditionBox {
+		par { actionLink("New Comment", showCommentAdditionInput(i)) [ajax] }
+	}
+	action showCommentAdditionInput( i : Issue ) {
+		replace(commentAdditionBox, commentAdditionInput(i));
+	}
+}
+
+define ajax template commentAdditionInput(i : Issue) {
 	var newCommentText : WikiText := "";
-	par { <h2> "Add Comment" </h2> }
+	par { <h2> "New Comment" </h2> }
 	block [class := "CommentAdd"] {
 		form {
 			par { input(newCommentText) }

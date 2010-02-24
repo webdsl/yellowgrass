@@ -29,6 +29,51 @@ entity Project {
 			limit 8;	// Cannot parameterize this (syntax bug)
 			*/
 	}
+	
+	function getIssueStatsWeekly() : List<Int> {
+		var year : Int := 2010;
+		var weekDel : List<DateTime>; 
+		for(week : Int from 1 to 51) {
+			weekDel.add(
+				DateTime(year +  "." + week, "yyyy.w")
+			);
+		}
+		var stats : List<Int>;
+		for(nr : Int from 0 to weekDel.length - 2) {
+			var start : DateTime := weekDel.get(nr);
+			var end : DateTime := weekDel.get(nr + 1);
+			stats.add(
+				select count(*)
+				from Issue
+				where _submitted > ~start 
+				and _submitted < ~end
+				and _project = ~this
+			);
+		}
+		return stats;
+	}
+	
+	function getWeeklyStatsGraph() : String {
+		var stats := getIssueStatsWeekly();
+		var maxStat := maxList(stats);
+	
+		var prefix := "http://chart.apis.google.com/chart?cht=bvg&chs=250x100&chco=bbcebb&chbh=a,5,10&chxt=y";
+		var rangePrefix := "&chds=0," + maxStat;
+		var axisPrefix := "&chxr=0,0," + maxStat;
+		var dataPrefix := "&chd=t:";
+		
+		var url : List<String>;
+		url.add(prefix);
+		url.add(rangePrefix);
+		url.add(axisPrefix);
+		url.add(dataPrefix);
+		for(nr : Int from 0 to stats.length - 2) {
+			url.add(stats.get(nr).toString() + ",");
+		}
+		url.add(stats.get(stats.length - 1).toString());
+		
+		return url.concat();
+	}
 }
 
 define page project(p : Project) {
@@ -45,6 +90,8 @@ define page project(p : Project) {
 		order by _submitted
 		limit 2000;
 	var unassignedIssues : List<Issue> := [ i | i : Issue in openIssues where !(i.isAssigned()) ];
+	var unassignedIssuesOrd : List<Issue> := [ i | i : Issue in unassignedIssues order by i.submitted ];
+	var unassignedIssuesOrdSumm : List<Issue> := [ i | i : Issue in unassignedIssuesOrd limit 5 ]; // TODO Workaround
 	var tags : List<Tag> := 
 		from Tag
 		where _project = ~p
@@ -69,8 +116,11 @@ define page project(p : Project) {
 			projectMembershipRequests(p)
 			
 			if(unassignedIssues.length > 0) {
-				par { <h2>"Unassigned Issues"</h2>	}
-				par { issues(unassignedIssues.set(), false, false, true, 50, true) }
+				par { <h2>"Recent Unassigned Issues"</h2>	}
+				par { issues(unassignedIssuesOrdSumm.set(), false, false, true, 50, true) }
+				if(unassignedIssues.length > 5) {
+					navigate(projectUnAssignedIssues(p)) {output(unassignedIssues.length - 5) " more unassigned issues"}
+				}
 			}
 			
 			par { <h2>"Recent Open Issues"</h2> }
@@ -123,6 +173,9 @@ define template projectSideBar(p : Project) {
 		sidebarSeparator()
 		par { output(newIssueNumber(p) - 1) " issues"}	// TODO make query count
 		par { output(p.members.length) " members"}
+		sidebarSeparator()
+		par { <i> "Issue Count (weekly)" </i> }
+		par { image(p.getWeeklyStatsGraph()) }
 	}
 	action requestJoinProject(p : Project) {
 		p.memberRequests.add(securityContext.principal);
@@ -134,6 +187,11 @@ define template projectSideBar(p : Project) {
 		tagCleanup(tag("@"+securityContext.principal.tag, p));
 		return home(securityContext.principal);
 	}
+}
+
+define page projectStats(p : Project) {
+	par { <i> "Issue Count (weekly)" </i> }
+	par { image(p.getWeeklyStatsGraph()) }
 }
 
 define template projects(ps : Set<Project>) {	 
@@ -224,4 +282,52 @@ define page projectIssues(p : Project) {
 		}
 		projectSideBar(p)
 	}
+}
+
+define page projectUnAssignedIssues(p : Project) {
+	// TODO Make next two queries more efficient by integration
+	var openIssues : List<Issue> := 
+		from Issue
+		where _open = true and _project = ~p
+		order by _submitted
+		limit 2000;
+	var unassignedIssues : List<Issue> := [ i | i : Issue in openIssues where !(i.isAssigned()) ];
+	
+	title{"YellowGrass.org - " output(p.name)}
+	main()
+	define body() {
+		block [class := "main"] {
+			if(securityContext.loggedIn) {
+				par [class := "Back"] { 
+					" È "
+					navigate(home(securityContext.principal)) {"Home"}
+					" È "
+					navigate(project(p)) {"Project " output(p.name)}
+					" È "
+					"Unassigned Issues"
+				}
+			} else { 
+				par [class := "Back"] { navigate(project(p)) {"Ç Back to Project"} }
+			}
+			
+			par { issues(unassignedIssues.set(), false, true, true, 60, true) }
+		}
+		projectSideBar(p)
+	}
+}
+
+function max(i1 : Int, i2 : Int) : Int {
+	if(i1 >= i2) {
+		return i1;
+	}
+	return i2;
+}
+
+function maxList(is : List<Int>) : Int {
+	var m : Int := is.get(0);
+	for(i : Int from 0 to is.length - 1) {
+		var current : Int := is.get(i); 
+		m := max(m, current);
+	}
+	return m;
 }

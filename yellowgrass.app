@@ -52,3 +52,4 @@ define page root() {
 /*test colorsInitialized {
   assert((from Color).length == 4);
 }*/
+

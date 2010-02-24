@@ -2,7 +2,7 @@ module issue/emails
 
 define email issueNotification(i : Issue, e : Email) {
 	to(e)
-	from("YellowGrass@YellowGrass.org")
+	from("YellowGrass <noreply@yellowgrass.org>")
 	subject(i.project.name+" - Issue "+i.number+" ("+i.type.name+")")
 	par {	output(i.project.name)
 			" #" output(i.number)
@@ -24,7 +24,7 @@ define email issueNotification(i : Issue, e : Email) {
 
 define email issueCloseNotification(i : Issue, e : Email) {
 	to(e)
-	from("YellowGrass <info@yellowgrass.org>")
+	from("YellowGrass <noreply@yellowgrass.org>")
 	subject(i.project.name+" - Issue "+i.number+" has been closed")
 	par {	output(i.project.name)
 			" #" output(i.number)
@@ -41,7 +41,7 @@ define email issueCloseNotification(i : Issue, e : Email) {
 
 define email issueReopenNotification(i : Issue, e : Email) {
 	to(e)
-	from("YellowGrass <info@yellowgrass.org>")
+	from("YellowGrass <noreply@yellowgrass.org>")
 	subject(i.project.name+" - Issue "+i.number+" has been reopened")
 	par {	output(i.project.name)
 			" #" output(i.number)
@@ -58,7 +58,7 @@ define email issueReopenNotification(i : Issue, e : Email) {
 
 define email issueCommentNotification(i : Issue, e : Email, c : Comment) {
 	to(e)
-	from("YellowGrass <info@yellowgrass.org>")
+	from("YellowGrass <noreply@yellowgrass.org>")
 	subject(i.project.name+" - Issue "+i.number+" has received a comment")
 	par {	output(i.project.name)
 			" #" output(i.number)
@@ -77,7 +77,7 @@ define email issueCommentNotification(i : Issue, e : Email, c : Comment) {
 
 define email issueCommentCloseNotification(i : Issue, e : Email, c : Comment) {
 	to(e)
-	from("YellowGrass <info@yellowgrass.org>")
+	from("YellowGrass <noreply@yellowgrass.org>")
 	subject(i.project.name+" - Issue "+i.number+" has been closed")
 	par {	output(i.project.name)
 			" #" output(i.number)

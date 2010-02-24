@@ -18,6 +18,10 @@ access control rules
 		true
 	}
 	
+	rule page projectUnAssignedIssues(p : Project) {
+		true
+	}
+	
 	rule template projects(ps : Set<Project>) {
 		true
 	}
@@ -43,5 +47,9 @@ access control rules
 	}
 	
 	rule template projectSideBar(p : Project) {
+		true
+	}
+	
+	rule page projectStats(p : Project) {
 		true
 	}

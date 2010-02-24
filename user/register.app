@@ -40,7 +40,7 @@ define page registerUser(){
 
 define email registerUserEmail(u : User) {
 	to(u.email)
-	from("YellowGrass <info@yellowgrass.org>")
+	from("YellowGrass <noreply@yellowgrass.org>")
 	subject("Welcome to YellowGrass")
 	par { "Dear " output(u.name) "," }
 	par {}

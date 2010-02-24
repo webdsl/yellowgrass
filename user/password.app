@@ -74,7 +74,7 @@ define page resetUserPasswordComplete(){
 
 define email notifyNewPassword(u:User, p: String){
 	to(u.email)
-	from("info@yellowgrass.org")
+	from("YellowGrass <noreply@yellowgrass.org>")
 	subject("Password reset")
     
 	par{ "Dear " output(u.name) ", " }
