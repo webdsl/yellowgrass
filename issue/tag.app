@@ -141,7 +141,6 @@ define template addTag(i : Issue) {
 			action("+", addTag(t, i))
 		}
 		placeholder tagSuggestionsBox {
-			par{"start"}
 			tagSuggestions(t, i)
 		}
 	}
@@ -164,7 +163,11 @@ function tagSuggestionFilter(tagPrefix : String) : String{
 
 // NOTE: Do not make this publicly available, the AJAX causes a lot of bad links
 define ajax tagSuggestions(tagPrefix : String, i : Issue) {
-	var tagSearchString := tagPrefix.toLowerCase() + "%"
+/*	var tagFilterString := "@%";
+	init { if(tagPrefix != "") {
+		tagFilterString := "";
+	}}
+*/	var tagSearchString := tagPrefix.toLowerCase() + "%"
 	var suggestions : List<Tag> :=
 		from	Tag as t
 		where	t._project = ~i.project and 

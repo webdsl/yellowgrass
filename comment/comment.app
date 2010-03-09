@@ -25,7 +25,7 @@ define template comments(i : Issue, cs : Set<Comment>) {
 	for(c : Comment in cs order by c.submitted asc) {
 		block [class := "CommentHeader"] {
 			"On " output(c.submitted.format("MMM d")) " " output(c.author.name) " wrote: "
-			navigate(editComment(i, c)){"[edit]"}
+			navigate(editComment(i, c)){"edit"}
 		}
 		block [class := "CommentText"] {
 			output(c.text)
