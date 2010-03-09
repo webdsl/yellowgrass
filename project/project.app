@@ -174,7 +174,7 @@ define template projectSideBar(p : Project) {
 		par { output(newIssueNumber(p) - 1) " issues"}	// TODO make query count
 		par { output(p.members.length) " members"}
 		sidebarSeparator()
-		par { <i> "Issue Count (weekly)" </i> }
+		par { <i> "Weekly Issue Count" </i> }
 		par { image(p.getWeeklyStatsGraph()) }
 	}
 	action requestJoinProject(p : Project) {

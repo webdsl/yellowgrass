@@ -82,6 +82,7 @@ define page tag(p : Project, tag : String) {
 		where t._name = ~tag and t._project = ~p
 		limit 500
 	
+	title{"YellowGrass.org - " output(p.name) " - " output(tag)}
 	main()
 	define body(){
 		block [class := "main"] { 
@@ -140,6 +141,7 @@ define template addTag(i : Issue) {
 			action("+", addTag(t, i))
 		}
 		placeholder tagSuggestionsBox {
+			par{"start"}
 			tagSuggestions(t, i)
 		}
 	}
@@ -153,15 +155,24 @@ define template addTag(i : Issue) {
 	}
 }
 
+function tagSuggestionFilter(tagPrefix : String) : String{
+	if(tagPrefix != "") {
+		return "";
+	}
+	return "@%";
+}
+
 // NOTE: Do not make this publicly available, the AJAX causes a lot of bad links
 define ajax tagSuggestions(tagPrefix : String, i : Issue) {
 	var tagSearchString := tagPrefix.toLowerCase() + "%"
 	var suggestions : List<Tag> :=
 		from	Tag as t
 		where	t._project = ~i.project and 
-				t._name like ~tagSearchString
+				t._name like ~tagSearchString and
+				t._name not like ~tagSuggestionFilter(tagPrefix)
 		order by t._name	// TODO Improve ordering based on usage
 		limit 5;
+	
 	for(suggestion : Tag in suggestions) {
 		form { block [class := "Suggestion"] {
 			actionLink(suggestion.name, addSuggestedTag(suggestion, i))[ajax]

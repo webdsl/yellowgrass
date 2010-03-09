@@ -203,7 +203,7 @@ define page issue(p : Project, issueNumber : Int) {
 				}
 				</h2>
 			}
-			par{ 
+			par{
 				<i> 
 				output(i.title)
 				" "

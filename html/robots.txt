@@ -2,4 +2,3 @@ User-agent: *
 Disallow: /*__action__link__*
 Disallow: /*%5C%22*
 Allow: /
-Sitemap: http://yellowgrass.org/sitemap.xml

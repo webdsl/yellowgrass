@@ -49,9 +49,9 @@ define ajax template commentAdditionInput(i : Issue) {
 		form {
 			par { input(newCommentText) }
 			par { 
-				action("Post Comment", newComment(newCommentText, i)) 
+				action("Post Comment", newComment(newCommentText, i))  [ajax]
 				" "
-				action("Post Comment & Close", commentClose(newCommentText, i)) 
+				action("Post Comment & Close", commentClose(newCommentText, i)) [ajax]
 			}
 		}
 	}

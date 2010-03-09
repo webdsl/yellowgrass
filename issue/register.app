@@ -13,7 +13,7 @@ define page createIssue(p : Project) {
 					input (i.title) [onkeyup := updateIssueSuggestions(i.title), autocomplete:="off"]
 			}}
 			par [class := "IssueSuggestions"] {
-				placeholder issueSuggestionsBox {} // TODO does not work 
+				placeholder issueSuggestionsBox {} 
 			}
 			par {
 				label("Type") {
