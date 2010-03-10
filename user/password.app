@@ -24,13 +24,13 @@ define page editUserPassword(u : User){
 			}
 			navigate(home(u)){"Cancel"} " "
 			action("change",changePassword())
-			action changePassword(){
-				var pass : String := u.password.toString();
-				u.password := u.password.digest();
-				u.save();
-				return home(u);
-			}
 		}
+	}
+	action changePassword(){
+		var pass : String := u.password.toString();
+		u.password := u.password.digest();
+		u.save();
+		return home(u);
 	}
 }
 
@@ -46,20 +46,20 @@ define page resetUserPassword(){
 				input(email){ validate(findUserByEmail(email).length > 0, "Unknown email address") } 
 			} }
 			action("Reset Password", resetPassword())
-			action resetPassword(){
-				// Lookup user
-				var users : List<User> := findUserByEmail(email);
-				var user : User := users.get(0);
-				// Generate new pass
-				var newPassword : String := randomUUID().toString();
-				var secret : Secret := newPassword;
-				secret := secret.digest();
-				email(notifyNewPassword(user, newPassword));
-				user.password := secret;
-				user.save();
-				return resetUserPasswordComplete();
-			}
 		}
+	}
+	action resetPassword(){
+		// Lookup user
+		var users : List<User> := findUserByEmail(email);
+		var user : User := users.get(0);
+		// Generate new pass
+		var newPassword : String := randomUUID().toString();
+		var secret : Secret := newPassword;
+		secret := secret.digest();
+		email(notifyNewPassword(user, newPassword));
+		user.password := secret;
+		user.save();
+		return resetUserPasswordComplete();
 	}
 }
 

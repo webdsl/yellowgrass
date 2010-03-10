@@ -194,11 +194,10 @@ define page projectStats(p : Project) {
 	par { image(p.getWeeklyStatsGraph()) }
 }
 
-define template projects(ps : Set<Project>) {	 
+define template projects(ps : Set<Project>) {
+	var psSorted : Set<Project> := 
+		[punsorted | punsorted : Project in ps order by punsorted.name asc]	 
 	table {
-		var psSorted : Set<Project> := 
-			[punsorted | punsorted : Project in ps order by punsorted.name asc]
-		
 		for(p : Project in psSorted) { 
 			row {
 				navigate project(p) {output(p.name)}
@@ -250,13 +249,13 @@ define page edit(p : Project) {
 				navigate(project(p)) {"Cancel"}
 				" "
 				action("Save",save())
-				action save(){
-					p.save();
-					//message("Project saved");
-					return project(p);
-				}
 			}
 		}
+	}
+	action save(){
+		p.save();
+		//message("Project saved");
+		return project(p);
 	}
 }
 

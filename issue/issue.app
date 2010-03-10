@@ -170,11 +170,11 @@ define page issue(p : Project, issueNumber : Int) {
 		from Issue as i
 		where i._project = ~p and i._number = ~issueNumber
 		limit 1;
-	if(issuesWithNumber.length == 0) {
-		var i := Issue {};
-	} else {
-		var i := issuesWithNumber.get(0);
-	}
+	var i := Issue {};
+	init {
+		if(issuesWithNumber.length != 0) {
+			i := issuesWithNumber.get(0);
+	}}
 	
 	title{"YellowGrass.org - " output(i.project.name) " - #" output(i.number)}
 	main()
@@ -304,12 +304,12 @@ define page editIssue(i : Issue) {
 				navigate(issue(i.project, i.number)) {"Cancel"}
 				" "
 				submit("Save",save())
-				action save(){
-					i.save();
-					return issue(i.project, i.number);
-				}
 			}
 		}
+	}
+	action save(){
+		i.save();
+		return issue(i.project, i.number);
 	}
 }
 

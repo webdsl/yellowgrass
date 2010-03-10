@@ -75,12 +75,12 @@ define page editUser(u : User) {
 				navigate(home(u)) {"Cancel"}
 				" "	
 				submit("Save",save())
-				action save(){
-					u.save();
-					//message("Profile saved");
-					return home(u);
-				}
 			}
 		}
+	}
+	action save(){
+		u.save();
+		//message("Profile saved");
+		return home(u);
 	}
 }

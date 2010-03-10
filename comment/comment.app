@@ -85,11 +85,11 @@ define page editComment(i : Issue, c : Comment) {
 				navigate(issue(i.project, i.number)) {"Cancel"}
 				" "	
 				submit("Save",save())
-				action save(){
-					c.save();
-					return issue(i.project, i.number);
-				}
 			}
 		}
+	}
+	action save(){
+		c.save();
+		return issue(i.project, i.number);
 	}
 }

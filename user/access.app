@@ -12,25 +12,24 @@ define template login(){
 			block [class := "LoginButton"] {
 				action("Log In", login())
 			}
-		
-			action login(){
-				var users : List<User> :=
-					select u from User as u 
-					where (u._email = ~email);
-				for (us : User in users ){
-					if (us.password.check(pass)){
-						securityContext.principal := us;
-						securityContext.loggedIn := true;
-						return home(securityContext.principal);
-					}
-				}
-				securityContext.loggedIn := false;
-				return root();
-			}
 		}
 		navigate(registerUser()) {"Register"}
 		" | "
 		navigate(resetUserPassword()) {"Reset Pass"}
+	}
+	action login(){
+		var users : List<User> :=
+			select u from User as u 
+			where (u._email = ~email);
+		for (us : User in users ){
+			if (us.password.check(pass)){
+				securityContext.principal := us;
+				securityContext.loggedIn := true;
+				return home(securityContext.principal);
+			}
+		}
+		securityContext.loggedIn := false;
+		return root();
 	}
 }
 
@@ -43,10 +42,10 @@ define template logout(){
 		block [class := "LoginButton"] {
 			action("Log Out", logout())
 		}
-		action logout(){
-			securityContext.loggedIn := false;
-			securityContext.principal := null;
-			return root();
-		}
+	}
+	action logout(){
+		securityContext.loggedIn := false;
+		securityContext.principal := null;
+		return root();
 	}
 }

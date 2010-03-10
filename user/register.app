@@ -1,11 +1,12 @@
 module user/register
 
 define page registerUser(){
+	var u := User{};
+	var temp : Secret := "";
+		
 	title{"YellowGrass.org - Registration"} 
 	main()
 	define body(){
-		var u := User{};
-		var temp : Secret := "";
 		<h1> "User Registration" </h1>
 		
 		form { 
@@ -24,17 +25,17 @@ define page registerUser(){
 				navigate(root()) {"Cancel"}
 				" "
 				action("Register",register())
-				action register(){
-					u.password := u.password.digest();
-					u.save();
-					securityContext.principal := u;
-					securityContext.loggedIn := true;
-					email(registerUserEmail(u));
-					// message("Registration completed");
-					return home(u);
-				}
 			}
 		}
+	}
+	action register(){
+		u.password := u.password.digest();
+		u.save();
+		securityContext.principal := u;
+		securityContext.loggedIn := true;
+		email(registerUserEmail(u));
+		// message("Registration completed");
+		return home(u);
 	}
 }
 

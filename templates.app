@@ -62,10 +62,10 @@ define mainheader() {
 			block [class := "LoginButton"] {
 				submit("Search", doSearch())
 			}
-			action doSearch() {
-				return search(query);
-			}
 		}
+	}
+	action doSearch() {
+		return search(query);
 	}
 }
 

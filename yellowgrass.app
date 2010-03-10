@@ -8,6 +8,15 @@ imports user/user
 imports project/project
 
 define page root() {
+	var recentProjects : List<Project> := 
+		from Project as p
+		order by _created desc
+		limit 15;
+	var recentIssues : List<Issue> := 
+		from Issue as i
+		order by _submitted desc
+		limit 18;	
+				
 	title{"YellowGrass.org - The Tag-Based Issue Tracker"}
 	main()
 	define body() {
@@ -21,10 +30,6 @@ define page root() {
 			}
 			par { <h2>"New projects on YellowGrass"</h2> }
 			par {
-				var recentProjects : List<Project> := 
-					from Project as p
-					order by _created desc
-					limit 15;
 				table {
 					for(p : Project in recentProjects) {
 						row {
@@ -38,13 +43,7 @@ define page root() {
 		}
 		block [class:= "column2"] {
 			par { <h2>"Recent Issues"</h2> }
-			par {
-				var recentIssues : List<Issue> := 
-					from Issue as i
-					order by _submitted desc
-					limit 18;
-				issues(recentIssues.set(), true, false, false, 40)
-			}
+			par { issues(recentIssues.set(), true, false, false, 40) }
 		}
 	}
 }
