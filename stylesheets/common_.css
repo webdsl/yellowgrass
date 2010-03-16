@@ -145,6 +145,11 @@ img {
 	font-size: 7pt;
 }
 
+.IssueTitle {
+	font-weight : bold;
+	display: inline;
+}
+
 .CommentHeader {
 	font-size: 7pt;
 	font-style: italic;

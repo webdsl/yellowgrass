@@ -87,10 +87,10 @@ define page project(p : Project) {
 	var openIssues : List<Issue> := 
 		from Issue
 		where _open = true and _project = ~p
-		order by _submitted
+		order by _submitted desc
 		limit 2000;
 	var unassignedIssues : List<Issue> := [ i | i : Issue in openIssues where !(i.isAssigned()) ];
-	var unassignedIssuesOrd : List<Issue> := [ i | i : Issue in unassignedIssues order by i.submitted ];
+	var unassignedIssuesOrd : List<Issue> := [ i | i : Issue in unassignedIssues order by i.submitted desc ];
 	var unassignedIssuesOrdSumm : List<Issue> := [ i | i : Issue in unassignedIssuesOrd limit 5 ]; // TODO Workaround
 	var tags : List<Tag> := 
 		from Tag

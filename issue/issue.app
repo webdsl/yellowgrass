@@ -5,6 +5,7 @@ imports comment/comment
 imports issue/emails
 imports issue/tag
 imports issue/register
+imports user/user
 
 entity Issue {
 	// TODO add optional user association
@@ -96,6 +97,19 @@ entity Issue {
 	}
 }
 
+function getIssue(p : Project, issueNumber : Int) : Issue {
+	var issuesWithNumber : List<Issue> := 
+		from Issue as i
+		where i._project = ~p and i._number = ~issueNumber
+		limit 1;
+	
+	if(issuesWithNumber.length != 0) {
+		return issuesWithNumber.get(0);
+	} else {
+		return Issue {};
+	}
+}
+
 entity IssueType {
 	name	:: String	(id)
 }
@@ -166,15 +180,7 @@ define template issues(is : Set<Issue>, showProjectName : Bool, showTicks : Bool
 }
 
 define page issue(p : Project, issueNumber : Int) {
-	var issuesWithNumber : List<Issue> := 
-		from Issue as i
-		where i._project = ~p and i._number = ~issueNumber
-		limit 1;
-	var i := Issue {};
-	init {
-		if(issuesWithNumber.length != 0) {
-			i := issuesWithNumber.get(0);
-	}}
+	var i := getIssue(p, issueNumber)
 	
 	title{"YellowGrass.org - " output(i.project.name) " - #" output(i.number)}
 	main()
@@ -205,7 +211,9 @@ define page issue(p : Project, issueNumber : Int) {
 			}
 			par{
 				<i> 
-				output(i.title)
+				block [class := "IssueTitle"] {
+					output(i.title)
+				}
 				" "
 				if(i.reporter != null) {
 					"(by " navigate(user(i.reporter.tag)){output(i.reporter.name) ")"}
@@ -274,8 +282,16 @@ define ajax issueMoveTargets (i : Issue){
 			email := old.email
 		};
 		new.assign();
-		old.close();
 		new.save();
+		
+		var moveComment := Comment {
+			submitted := now()
+			text := "Issue has been moved to [" + p.name + "](/project/" + p.name + ") / " +
+					"[Issue " + new.number + "](/issue/" + p.name + "/" + new.number + ")" 
+			author := yellowGrass
+		};
+		old.comments.add(moveComment);
+		old.close();
 		old.save();
 		flush();
 		new.notifyProjectMembers();

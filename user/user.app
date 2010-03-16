@@ -32,6 +32,15 @@ entity User {
 	}
 }
 
+var yellowGrass := 
+	User {
+		name := "YellowGrass"
+		email := "info@yellowgrass.org"
+		password := (randomUUID().toString() as Secret).digest()
+		url := "http://yellowgrass.org"
+		tag := "yellowgrass"
+	};
+
 define page user(usertag : String) {
 	var u : User := findUserByTag(usertag).get(0)
 	

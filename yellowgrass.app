@@ -48,6 +48,10 @@ define page root() {
 	}
 }
 
+function debug(msg : String) {
+	log(msg);
+}
+
 /*test colorsInitialized {
   assert((from Color).length == 4);
 }*/

@@ -35,6 +35,10 @@ access control rules
 		true
 	}
 	
+	rule action updateIssueSuggestions(t : String) {
+		true
+	}
+	
 	rule action close(issue : Issue) {
 		principal in issue.project.members &&
 		issue.open

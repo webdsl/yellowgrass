@@ -11,7 +11,7 @@ define page createIssue(p : Project) {
 		
 		form { 
 			par { label("Title") {
-					input (i.title) [onkeyup := updateIssueSuggestions(i.title), autocomplete:="off"]
+				input (i.title) [onkeyup := updateIssueSuggestions(i.title), autocomplete:="off"]
 			}}
 			par [class := "IssueSuggestions"] {
 				placeholder issueSuggestionsBox {} 
@@ -59,7 +59,10 @@ define page createIssue(p : Project) {
 define ajax issueSuggestions(t : String, p : Project) {
 	// TODO Cannot search on project names, so doing big search and project limit. Fix this when search for project name is enabled.
 	var suggestions := searchIssue(t, 100);
+	init { log(suggestions.length.toString()); }
 	var projectSuggestions := [ i | i : Issue in suggestions where i.project == p limit 5];
+	" Nr suggestions: " output(suggestions.length)
+	" Nr project suggestions: " output(projectSuggestions.length)
 	for(i : Issue in projectSuggestions) {
 		par {
 			navigate(issue(p, i.number)){output(i.title)}
