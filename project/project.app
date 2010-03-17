@@ -99,7 +99,7 @@ define page project(p : Project) {
 		limit 200;
 	
 	
-	title{"YellowGrass.org - " output(p.name)}
+	title{output(p.name) " on YellowGrass.org" }
 	main()
 	define body() {
 		block [class := "main"] { 
@@ -231,7 +231,7 @@ define page projectList() {
 }
 
 define page edit(p : Project) {
-	title{"YellowGrass.org - " output(p.name)}
+	title{output(p.name) " on YellowGrass.org [Editing]"}
 	main()
 	define body(){
 		<h1> "Edit Project" </h1>
@@ -260,7 +260,7 @@ define page edit(p : Project) {
 }
 
 define page projectIssues(p : Project) {
-	title{"YellowGrass.org - " output(p.name)}
+	title{output(p.name) " issues on YellowGrass.org"}
 	main()
 	define body() {
 		block [class := "main"] {
@@ -288,11 +288,11 @@ define page projectUnAssignedIssues(p : Project) {
 	var openIssues : List<Issue> := 
 		from Issue
 		where _open = true and _project = ~p
-		order by _submitted
+		order by _submitted desc
 		limit 2000;
 	var unassignedIssues : List<Issue> := [ i | i : Issue in openIssues where !(i.isAssigned()) ];
 	
-	title{"YellowGrass.org - " output(p.name)}
+	title{output(p.name) " unassigned issues on YellowGrass.org" }
 	main()
 	define body() {
 		block [class := "main"] {

@@ -4,7 +4,7 @@ define page registerUser(){
 	var u := User{};
 	var temp : Secret := "";
 		
-	title{"YellowGrass.org - Registration"} 
+	title{"YellowGrass.org - User Registration"} 
 	main()
 	define body(){
 		<h1> "User Registration" </h1>

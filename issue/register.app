@@ -4,7 +4,7 @@ define page createIssue(p : Project) {
 	var i := Issue{ type := improvementIssueType };
 	var email : Email := ""
 		
-	title{"YellowGrass.org - " output(p.name) " - New Issue"}
+	title{output(p.name) " - Create new issue on YellowGrass.org"}
 	main()
 	define body(){
 		<h1> "Post New " output(p.name) " Issue" </h1>

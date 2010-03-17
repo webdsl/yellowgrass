@@ -43,7 +43,13 @@ var yellowGrass :=
 
 define page user(usertag : String) {
 	var u : User := findUserByTag(usertag).get(0)
+	var reportedIssues : List<Issue> := 
+		from Issue
+		where _reporter = ~u
+		order by _submitted desc
+		limit 15;
 	
+	title{output(u.name) " on YellowGrass.org" }
 	main()
 	define body(){
 		if(securityContext.loggedIn) {
@@ -52,9 +58,11 @@ define page user(usertag : String) {
 				navigate(home(securityContext.principal)) {"Home"}
 			}
 		}
-		par{ <h1> output(u.name) </h1> }
-		par{ label("Home Page") { output(u.url) } }
-		par{ label("Projects") { projects(u.projects) } }
+		par { <h1> output(u.name) </h1> }
+		par { label("Home Page") { output(u.url) } }
+		par { label("Projects") { projects(u.projects) } }
+		par { <h2> Recent reported issues </h2> }
+		par { issues(reportedIssues.set(), true, true, true, 50, true) }
 	}
 }
 
@@ -66,7 +74,7 @@ define template users(us : Set<User>) {
 }
 
 define page editUser(u : User) {
-	title{"YellowGrass.org - " output(u.name)}
+	title{output(u.name) " on YellowGrass.org [Editing]"}
 	main()
 	define body(){
 		<h1> "Edit Profile" </h1>

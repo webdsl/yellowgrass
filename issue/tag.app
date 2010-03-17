@@ -82,7 +82,7 @@ define page tag(p : Project, tag : String) {
 		where t._name = ~tag and t._project = ~p
 		limit 500
 	
-	title{"YellowGrass.org - " output(p.name) " - " output(tag)}
+	title{output(p.name) " / " output(tag) " - on YellowGrass.org"}
 	main()
 	define body(){
 		block [class := "main"] { 

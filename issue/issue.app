@@ -182,7 +182,7 @@ define template issues(is : Set<Issue>, showProjectName : Bool, showTicks : Bool
 define page issue(p : Project, issueNumber : Int) {
 	var i := getIssue(p, issueNumber)
 	
-	title{"YellowGrass.org - " output(i.project.name) " - #" output(i.number)}
+	title{output(i.project.name) " issue #" output(i.number) " on YellowGrass.org"}
 	main()
 	define body(){
 		block [class := "main"] {
@@ -300,7 +300,7 @@ define ajax issueMoveTargets (i : Issue){
 }
 
 define page editIssue(i : Issue) {
-	title{"YellowGrass.org - " output(i.project.name) " - #" output(i.number)}
+	title{output(i.project.name) " issue #" output(i.number) " on YellowGrass.org [editing]"}
 	main()
 	define body(){
 		<h1> "Edit Issue " output(i.number) </h1>
@@ -336,6 +336,7 @@ define page postedIssues() {
 		order by _submitted desc
 		limit 200
 
+	title{"Issues posted by " output(securityContext.principal.name) " on YellowGrass.org [editing]"}
 	main()
 	define body() {
 		par [class := "Back"] { 
