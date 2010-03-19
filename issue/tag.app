@@ -95,7 +95,7 @@ define page tag(p : Project, tag : String) {
 					rawoutput { "&raquo; " } " Tag " output(tag)
 				}
 			} else { 
-				par [class := "Back"] { navigate(project(p)) {"Ç Back to Project"} }
+				par [class := "Back"] { navigate(project(p)) {rawoutput { "&raquo; " } " Back to Project"} }
 			}
 			par{ <h1> "Tagged " output(tag) </h1> }
 			issues(taggedIssues.set(), false, true, true, 50, true)

@@ -196,7 +196,7 @@ define page issue(p : Project, issueNumber : Int) {
 					"Issue " output(i.number)
 				}
 			} else {
-				par [class := "Back"] { navigate(project(i.project)) {"Ç To Project"} }
+				par [class := "Back"] { navigate(project(i.project)) {rawoutput { " &raquo; " } " To Project"} }
 			}
 			
 			par{ <h2> 

@@ -274,7 +274,7 @@ define page projectIssues(p : Project) {
 					"Issues"
 				}
 			} else { 
-				par [class := "Back"] { navigate(project(p)) {"Ç Back to Project"} }
+				par [class := "Back"] { navigate(project(p)) {rawoutput { " &raquo; " } " Back to Project"} }
 			}
 			 
 			par { issues(p.issues, false, true, true, 50, true) }
@@ -306,7 +306,7 @@ define page projectUnAssignedIssues(p : Project) {
 					"Unassigned Issues"
 				}
 			} else { 
-				par [class := "Back"] { navigate(project(p)) {"Ç Back to Project"} }
+				par [class := "Back"] { navigate(project(p)) {rawoutput { " &raquo; " } " Back to Project"} }
 			}
 			
 			par { issues(unassignedIssues.set(), false, true, true, 50, true) }
