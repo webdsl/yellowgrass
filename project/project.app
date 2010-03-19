@@ -105,9 +105,9 @@ define page project(p : Project) {
 		block [class := "main"] { 
 			if(securityContext.loggedIn) {
 				par [class := "Back"] { 
-					" È "
+					rawoutput { " &raquo; " }
 					navigate(home(securityContext.principal)) {"Home"}
-					" È "
+					rawoutput { " &raquo; " }
 					"Project " output(p.name) 
 				}
 			}
@@ -266,11 +266,11 @@ define page projectIssues(p : Project) {
 		block [class := "main"] {
 			if(securityContext.loggedIn) {
 				par [class := "Back"] { 
-					" È "
+					rawoutput { " &raquo; " }
 					navigate(home(securityContext.principal)) {"Home"}
-					" È "
+					rawoutput { " &raquo; " }
 					navigate(project(p)) {"Project " output(p.name)}
-					" È "
+					rawoutput { " &raquo; " }
 					"Issues"
 				}
 			} else { 
@@ -298,11 +298,11 @@ define page projectUnAssignedIssues(p : Project) {
 		block [class := "main"] {
 			if(securityContext.loggedIn) {
 				par [class := "Back"] { 
-					" È "
+					rawoutput { " &raquo; " }
 					navigate(home(securityContext.principal)) {"Home"}
-					" È "
+					rawoutput { " &raquo; " }
 					navigate(project(p)) {"Project " output(p.name)}
-					" È "
+					rawoutput { " &raquo; " }
 					"Unassigned Issues"
 				}
 			} else { 

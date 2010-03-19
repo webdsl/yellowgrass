@@ -88,11 +88,11 @@ define page tag(p : Project, tag : String) {
 		block [class := "main"] { 
 			if(securityContext.loggedIn) {
 				par [class := "Back"] { 
-					" È "
+					rawoutput { " &raquo; " }
 					navigate(home(securityContext.principal)) {"Home"}
-					" È "
+					rawoutput { " &raquo; " }
 					navigate(project(p)) {"Project " output(p.name)}
-					" È Tag " output(tag)
+					rawoutput { "&raquo; " } " Tag " output(tag)
 				}
 			} else { 
 				par [class := "Back"] { navigate(project(p)) {"Ç Back to Project"} }

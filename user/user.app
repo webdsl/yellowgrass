@@ -54,7 +54,7 @@ define page user(usertag : String) {
 	define body(){
 		if(securityContext.loggedIn) {
 			par [class := "Back"] { 
-				" È "
+				rawoutput { " &raquo; " } 
 				navigate(home(securityContext.principal)) {"Home"}
 			}
 		}

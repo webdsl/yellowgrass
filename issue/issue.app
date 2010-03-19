@@ -188,11 +188,11 @@ define page issue(p : Project, issueNumber : Int) {
 		block [class := "main"] {
 			if(securityContext.loggedIn) {
 				par [class := "Back"] {
-					" È " 
+					rawoutput { " &raquo; " } 
 					navigate(home(securityContext.principal)) {"Home"}
-					" È "
+					rawoutput { " &raquo; " }
 					navigate(project(i.project)) {"Project " output(i.project.name)}
-					" È "
+					rawoutput { " &raquo; " }
 					"Issue " output(i.number)
 				}
 			} else {
@@ -340,9 +340,9 @@ define page postedIssues() {
 	main()
 	define body() {
 		par [class := "Back"] { 
-			" È "
+			rawoutput { " &raquo; " }
 			navigate(home(securityContext.principal)) {"Home"}
-			" È "
+			rawoutput { " &raquo; " }
 			"Posted Issues"
 		}
 		par { <h1> "Issues Posted by You" </h1> }
