@@ -8,15 +8,23 @@ imports user/user
 imports project/project
 
 define page root() {
-	var recentProjects : List<Project> := 
+/*	var recentProjects : List<Project> := 
 		from Project as p
 		order by _created desc
 		limit 15;
+*/		
+	var activeProjects : List<Project> := 
+		from Project as p
+		join p.issues as i
+		group by p
+		order by max(i._submitted) desc
+		limit 15;
+
 	var recentIssues : List<Issue> := 
 		from Issue as i
 		order by _submitted desc
-		limit 18;	
-				
+		limit 18;
+						
 	title{"YellowGrass.org - The Tag-Based Issue Tracker"}
 	main()
 	define body() {
@@ -31,7 +39,7 @@ define page root() {
 			par { <h2>"New projects on YellowGrass"</h2> }
 			par {
 				table {
-					for(p : Project in recentProjects) {
+					for(p : Project in activeProjects) {
 						row {
 							navigate(project(p)) {output(p.name)}
 							output(p.url)

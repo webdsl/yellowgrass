@@ -5,6 +5,7 @@ body {
     font-family: sans-serif, Arial, Helvetica;
     color: #444444;
     line-height: 125%;
+    min-width: 900px;
 }
 
 h1 {
