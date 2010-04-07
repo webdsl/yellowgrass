@@ -13,7 +13,11 @@ define page createIssue(p : Project) {
 		form { 
 		
 			par { label("Title") {
-				input (title) [onkeyup := updateIssueSuggestions(title), autocomplete:="off"]
+				if(securityContext.loggedIn) {
+					input (title) [onkeyup := updateIssueSuggestions(title), autocomplete:="off"]
+				} else {
+					input (title) [autocomplete:="off"]
+				}
 			}}
 			par [class := "IssueSuggestions"] {
 				placeholder issueSuggestionsBox {} 

@@ -36,7 +36,7 @@ access control rules
 	}
 	
 	rule action updateIssueSuggestions(t : String) {
-		true
+		loggedIn
 	}
 	
 	rule action close(issue : Issue) {
@@ -94,7 +94,7 @@ access control rules
 	}
 	
 	rule ajaxtemplate issueSuggestions(t : String, p : Project) {
-		true
+		loggedIn
 	}
 	
 	rule action showIssueMoveTargets(issue : Issue){
