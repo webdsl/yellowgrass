@@ -1,0 +1,12 @@
+<project name="clean-project" default="clean-project">
+	<target name="clean-project">
+		<delete dir="${basedir}/.webdsl-parsecache" />
+		<delete dir="${basedir}/.servletapp" />
+		<delete dir="${basedir}/.webdsl-fragment-cache" />
+		<delete includeemptydirs="true">
+			<fileset dir="${basedir}/WebContent" includes="**/*"/>
+		</delete>
+		<eclipse.convertPath fileSystemPath="${basedir}" property="resourcePath" />
+		<eclipse.refreshLocal resource="${resourcePath}" depth="infinite" />
+	</target>
+</project>

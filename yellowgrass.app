@@ -12,22 +12,26 @@ define page root() {
 		from Project as p
 		order by _created desc
 		limit 15;
-*/		
-	var activeProjects : List<Project> := 
-		from Project as p
-		join p.issues as i
-		group by p
-		order by max(i._submitted) desc
-		limit 15;
-
-	var recentIssues : List<Issue> := 
-		from Issue as i
-		order by _submitted desc
-		limit 18;
+*/	
 						
 	title{"YellowGrass.org - The Tag-Based Issue Tracker"}
 	main()
 	define body() {
+		var activeProjects : List<Project> := 
+			select p
+			from Project as p
+			join p.issues as i
+			group by p
+			order by max(i._submitted) desc
+			limit 15;
+
+		var recentIssues : List<Issue> := 
+			from Issue as i
+			order by _submitted desc
+			limit 18;
+
+		
+		
 		block [class := "column1"] {
 			par { <h2>"About YellowGrass"</h2> }
 			par {

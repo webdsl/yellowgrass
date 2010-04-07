@@ -6,6 +6,7 @@ imports issue/emails
 imports issue/tag
 imports issue/register
 imports user/user
+//imports issue/attachment
 
 entity Issue {
 	// TODO add optional user association
@@ -21,6 +22,7 @@ entity Issue {
 	comments	-> Set<Comment>
 	tags		-> Set<Tag>
 	email		:: Email // Only when reporter == null
+//	attachments -> Set<Attachment>
 	
 	function close() {
 		open := false;
@@ -225,7 +227,13 @@ define page issue(p : Project, issueNumber : Int) {
 				tags(i, true)
 			}
 			par { output(i.description) }
-			if(i.comments.length > 0) {
+/*			par { <h3> "Attachments" </h3> }
+			par {
+				for( a : Attachment in i.attachments) {
+					output(a)
+				}
+			}
+*/			if(i.comments.length > 0) {
 				par { <h2> "Comments" </h2> }
 				par { comments(i, i.comments) }
 			}
