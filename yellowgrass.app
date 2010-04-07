@@ -40,7 +40,7 @@ define page root() {
 				"YellowGrass is fully web-based and free of charge. Registering your project is just a few clicks away... "
 				navigate(registerUser()){"Register"}
 			}
-			par { <h2>"New projects on YellowGrass"</h2> }
+			par { <h2>"Some Active Projects"</h2> }
 			par {
 				table {
 					for(p : Project in activeProjects) {

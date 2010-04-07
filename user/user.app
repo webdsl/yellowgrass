@@ -61,7 +61,7 @@ define page user(usertag : String) {
 		par { <h1> output(u.name) </h1> }
 		par { label("Home Page") { output(u.url) } }
 		par { label("Projects") { projects(u.projects) } }
-		par { <h2> "Recent reported issues" </h2> }
+		par { <h2> "Recently reported issues" </h2> }
 		par { issues(reportedIssues.set(), true, true, true, 50, true) }
 	}
 }
