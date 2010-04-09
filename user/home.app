@@ -15,12 +15,16 @@ define page home(u : User){
 	main()
 	define body(){
 		block [class := "main"] {
-			par [class := "Back"] { rawoutput { "&raquo;" } " Home" } 
-			par { <h2>"Your Projects"</h2>	}
-			par { projects(u.projects) }
-			par { <h2>"Assigned Issues"</h2>	}
-			par { issues(assignedIssues.set(), true, false, true, 60, true) }
-			par { navigate(postedIssues()) {"View issues posted by you"} }
+			par [class := "Back"] { rawoutput { "&raquo;" } " Home" }
+			block [class := "Block"] { 
+				par { <h2>"Your Projects"</h2>	}
+				par { projects(u.projects) }
+			}
+			block [class := "Block"] {
+				par { <h2>"Assigned Issues"</h2>	}
+				par { issues(assignedIssues.set(), true, false, true, 60, true) }
+				par { navigate(postedIssues()) {"View issues posted by you"} }
+			}
 		}
 		block [class := "sidebar"] {
 			par { 

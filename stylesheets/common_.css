@@ -166,6 +166,19 @@ img {
 	margin-left: 10px;
 }
 
+.Block {
+	-moz-border-radius: 6px;
+	-webkit-border-radius: 6px;
+	
+	-moz-box-shadow: 2px 2px 4px #EEEEEE;
+	-webkit-box-shadow: 2px 2px 4px #EEEEEE;
+	
+	border: 1px solid #EEEEEE;
+	background: #FAFAFA;
+	margin: 20px 30px 20px 0px;
+	padding: 0px 10px 0px 10px;
+}
+
 form { 
   display : inline;
 }
@@ -188,18 +201,30 @@ textarea {
 	height : 5em;
 	width : 95%;
 	height : 25em;
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
+	border: 1px solid #BBBBBB;
 }
 
 select {
 	width : 30em;
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
+	border: 1px solid #BBBBBB;
 }
 
 input[type="text"]{
 	width : 30em;
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
+	border: 1px solid #BBBBBB;
 }
 
 input[type="file"]{
 	width : 30em;
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
+	border: 1px solid #BBBBBB;
 }
 
 a:link 		{ color: #444444; }
