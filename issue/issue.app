@@ -6,6 +6,7 @@ imports issue/emails
 imports issue/tag
 imports issue/register
 imports user/user
+imports project/project
 //imports issue/attachment
 
 entity Issue {
@@ -202,31 +203,35 @@ define page issue(p : Project, issueNumber : Int) {
 			}
 			
 			par{ <h2> 
-				output(i.project.name) 
-				" #" output(i.number)
-				" - " output(i.type.name)
-				" ("  output(i.submitted.format("MMM d")) ") " // TODO Add year if needed
+				output(i.title) 
 				if(!i.open) {
 					image("/images/tick.png")
 				}
-				</h2>
-			}
+			</h2> }
 			par{
 				<i> 
 				block [class := "IssueTitle"] {
-					output(i.title)
+					output(i.project.name) 
+					" #" output(i.number)
+					" - " output(i.type.name)
+					" ("
+					if(i.reporter != null) {
+						"by " navigate(user(i.reporter.tag)){output(i.reporter.name) " "}
+					}
+					if(i.reporter == null && i.email != "" && securityContext.principal in p.members) {
+						"by " output(i.email) " "
+					}
+					"on " output(i.submitted.format("MMM d")) // TODO Add year if needed 
+					") " 
 				}
 				" "
-				if(i.reporter != null) {
-					"(by " navigate(user(i.reporter.tag)){output(i.reporter.name) ")"}
-				}
-				if(i.reporter == null && i.email != "" && securityContext.principal in p.members) {
-					"(by " output(i.email) ")"
-				}
 				</i>
 				tags(i, true)
 			}
 			par { output(i.description) }
+			
+			// output(/\n/.replaceAll("<br />", b1.text) as WikiText)
+			
 /*			par { <h3> "Attachments" </h3> }
 			par {
 				for( a : Attachment in i.attachments) {
@@ -282,7 +287,7 @@ define ajax issueMoveTargets (i : Issue){
 			title := old.title
 			description := old.description
 			type := old.type
-			submitted := old.submitted
+			submitted := now()
 			project := p
 			number := newIssueNumber(p)
 			open := true
