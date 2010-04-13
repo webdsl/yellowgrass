@@ -1,10 +1,19 @@
 module issue/tag
 
+imports project/project
+imports user/user
+imports issue/issue
+
+
 entity Tag {
 	name 		:: String	(validate(name.length() > 1, "Tags need to have at least 2 characters"),
 							 validate(/[a-z0-9\._@!]*/.match(name),"Tags may consist of: a-z 0-9 . _ @ !"))
 	project 	-> Project
 }
+
+/*entity Taggable {
+	tags		-> Set<Tag>	
+}*/
 
 function tag(t : String, p : Project) : Tag {
 	var tags : List<Tag> := 
@@ -75,6 +84,7 @@ function tagCleanup(tag : Tag) {
 }
 
 define page tag(p : Project, tag : String) {
+	var t := findTagByName(tag).get(0)
 	var taggedIssues : List<Issue> :=
 		select i 
 		from Issue as i
@@ -101,16 +111,27 @@ define page tag(p : Project, tag : String) {
 			issues(taggedIssues.set(), false, true, true, 50, true)
 		}
 		projectSideBar(p)
+		/*
+		block [class := "sidebar"] {
+			par { 
+				<h1> output(tag) </h1>
+			}
+			sidebarSeparator()
+			
+		}
+		*/
 	}
 }
 	
 define template tags(i : Issue, editing : Bool) {
 	block [class:="Tags"] {
 		for(tag : Tag in i.tags order by tag.name) {
-			navigate(tag(i.project, tag.name)){output(tag.name)} 
-			if(editing) {
-				block [class := "Delete"] {
-					actionLink("x", deleteTag(i, tag))
+			block [class:="Tag"] {
+				navigate(tag(i.project, tag.name)){output(tag.name)} 
+				if(editing) {
+					block [class := "Delete"] {
+						actionLink("x", deleteTag(i, tag))
+					}
 				}
 			}
 		}
