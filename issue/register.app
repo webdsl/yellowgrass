@@ -28,7 +28,7 @@ define page createIssue(p : Project) {
 				}
 			}
 			par { label("Description") {input(i.description)} }
-			par [align := "center"] { navigate(url("http://en.wikipedia.org/wiki/Markdown#Syntax_examples")){ "Syntax help" } }
+			par [align := "center"] { navigate(url("http://en.wikipedia.org/wiki/Markdown#Syntax_examples")) [target:="_blank"] { "Syntax help" } }
 			if(!securityContext.loggedIn) {
 				par { label("Email") {input(email)} }
 				par { <i> 	"Email addresses are used for notifications and questions only. "

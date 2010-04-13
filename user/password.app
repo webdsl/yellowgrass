@@ -35,11 +35,11 @@ define page editUserPassword(u : User){
 }
 
 define page resetUserPassword(){
-	var email : Email;
-	
 	title{"YellowGrass.org - Request Password Reset"}
 	main()
 	define body(){
+		var email : Email;
+		
 		<h1> "Request Password Reset" </h1>
 		form {
 			par { label("Email"){ 
@@ -47,20 +47,21 @@ define page resetUserPassword(){
 			} }
 			action("Reset Password", resetPassword())
 		}
+		action resetPassword(){
+			// Lookup user
+			var users : List<User> := findUserByEmail(email);
+			var user : User := users.get(0);
+			// Generate new pass
+			var newPassword : String := randomUUID().toString();
+			var secret : Secret := newPassword;
+			secret := secret.digest();
+			email(notifyNewPassword(user, newPassword));
+			user.password := secret;
+			user.save();
+			return resetUserPasswordComplete();
+		}
 	}
-	action resetPassword(){
-		// Lookup user
-		var users : List<User> := findUserByEmail(email);
-		var user : User := users.get(0);
-		// Generate new pass
-		var newPassword : String := randomUUID().toString();
-		var secret : Secret := newPassword;
-		secret := secret.digest();
-		email(notifyNewPassword(user, newPassword));
-		user.password := secret;
-		user.save();
-		return resetUserPasswordComplete();
-	}
+	
 }
 
 define page resetUserPasswordComplete(){
