@@ -1,5 +1,10 @@
 module issues/ac
-  
+
+imports issue/issue
+imports project/project
+imports user/user
+imports issue/tag
+
 access control rules
 	
 	rule template issues(is : Set<Issue>, showProjectName : Bool) {	
@@ -73,7 +78,7 @@ access control rules
 	}
 	
 	rule page tag(p : Project, tag : String) {
-		true
+		findTagByName(tag).length > 0
 	}
 	
 	rule template tags(i : Issue, editing : Bool) {
