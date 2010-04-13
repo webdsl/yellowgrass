@@ -4,26 +4,33 @@ define page features() {
 	title{"YellowGrass.org - The Tag-Based Issue Tracker"}
 	main()
 	define body() {
-		par { <h1> "YellowGrass features"</h1> }
+		par { <h1> "YellowGrass in a Nutshell"</h1> }
+		
+		Project managament 
 		
 		
-		par { 
-			<h2> "Project Management" </h2>
-			image("/images/projectManagement.png")
-			"YellowGrass sorts its issues in projects. Users can create and manage any number of projects. "
-			"Projects are open to be joined, yet any membershuip requires approval of existing members. "
-		}
-		par { 
-			<h2> "Issue Tagging" </h2>
-			image("/images/issueTagging.png")
-			"Issue management in YellowGrass is tag-based. "
-			"Any tag is allowed. "
-			"Content completion while tagging, prevents typos and makes tagging a breeze. "
-		}
-		par { <h2> "Issue Assignment" </h2> }
-		par { <h2> "Assigned Issues" </h2> }
-		par { <h2> "Unassigned Issues" </h2> }
-		par { <h2> "Issue Followers" </h2> }
+		Intro
+			Issue management
+			Web-based
 		
+		par { <h2> Tagging </h2> }
+			Any tag
+			Grouping Categorizing Subdividing
+			Priorities Components Releases (versions)
+			Tag filters
+			Tag clouds
+		
+		par { <h2> Project Management </h2> }
+			Join / leave projects
+			Moving issues from one project to the other
+			
+		par { <h2> Staying up to Date </h2> }
+			Home page
+			Search
+			Email updates
+		
+		par { <h2> Tagging Ninja </h2> }
+			Assigning issues
+			Following issues
 	}
 }

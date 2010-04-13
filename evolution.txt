@@ -7,26 +7,38 @@ entity Issue/attribute title
    :: add number : Int min(1) max(1)
 Problem: Filling the existing issues with incrementing numbers 
 
+----------
+
 Added creation date to projects
 entity Project/attribute members
    :: add created : DateTime min(1) max(1)
 Problem: Detection hangs
 
+----------
+
 Added open attribute to issues
 entity Issue/attribute project
    :: add open : Bool min(1) max(1)
 
+----------
+
 Added url to users
 entity User/attribute projects
    :: add url : URL min(1) max(1)
-   
+
+----------
+
 Added reporter to Issue
 entity Issue/list()
    :: add reporter - User min(0) max(1)
+
+----------
    
 Added Issue types
 entity Issue/reporter
    :: add type - IssueType min(0) max(1)
+
+----------
 
 Added issue comments
 entity Comment {
@@ -37,14 +49,20 @@ entity Comment {
 comments	-> Set<Comment>
 (did not try the evolution)
 
+----------
+
 Added email to Issue (for anonymous issue reports)
 entity Issue/list()
    :: add email : Email min(1) max(1)
 Detection does not work (gives id trafo as a result), seems like it does not incorporate the entire data model
 
+----------
+
 Added member requests to Projects:
 memberRequests	-> Set<User>
 Detection hangs (or takes a long time)
+
+----------
 
 Added 
 entity Tag {
@@ -53,7 +71,24 @@ entity Tag {
 }
 and added to Issue:
 tags		-> Set<Tag>
-Detection hangs :(
+Detection hangs (fixed)
+
+----------
+
+Introduced a taggable type. An issue now becomes an extension of taggable (extract taggable from issue)
+
+
+Detection fails:
+identity crisis: rewriting failed, trace:
+	editor_detect_transformation_0_0
+	editor_detect_transformation_0_0
+	weigh_and_derive_transformation_0_2
+	weighedDT_0_3
+	deriveTransformation_0_0
+	deriveTransformation_0_2
+[ identity crisis | critical ] Internal error: with clause failed unexpectedly in rule 'editor-detect-transformation'
+
+
 ------------------
 INITIAL DATA MODEL
 ------------------

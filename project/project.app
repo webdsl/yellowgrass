@@ -2,6 +2,9 @@ module project/project
 
 imports project/ac
 imports project/register
+imports issue/issue
+imports user/user
+imports issue/tag
 
 entity Project {
 	name			:: String (id, 
@@ -158,7 +161,7 @@ define template projectMembershipRequests(p : Project) {
 }
 
 define template projectSideBar(p : Project) {
-	block [class := "sidebar"] {
+	block [class := "sidebar"] { 
 		par { 
 			<h1> output(p.name) </h1>
 		}
@@ -171,9 +174,9 @@ define template projectSideBar(p : Project) {
 		par { output(p.description) }
 		par { output(p.url) }
 		sidebarSeparator()
-		par { output(newIssueNumber(p) - 1) " issues"}	// TODO make query count
-		par { output(p.members.length) " members"}
-		sidebarSeparator()
+		par {	output(newIssueNumber(p) - 1) " issues " // TODO make query count
+				output(p.members.length) " members"		}
+		
 		par { <i> "Weekly Issue Count" </i> }
 		par { image(p.getWeeklyStatsGraph()) }
 	}
