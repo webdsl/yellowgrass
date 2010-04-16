@@ -3,17 +3,24 @@ module issue/tag
 imports project/project
 imports user/user
 imports issue/issue
-
+imports project/roadmap
 
 entity Tag {
 	name 		:: String	(validate(name.length() > 1, "Tags need to have at least 2 characters"),
 							 validate(/[a-z0-9\._@!]*/.match(name),"Tags may consist of: a-z 0-9 . _ @ !"))
 	project 	-> Project
+	tags		-> Set<Tag>
+	
+	function hasTag(tagName : String) : Bool {
+		// TODO Optimize to query?
+		for( t : Tag in tags) {
+			if(t.name == tagName) {
+				return true;
+			}
+		}
+		return false;
+	}
 }
-
-/*entity Taggable {
-	tags		-> Set<Tag>	
-}*/
 
 function tag(t : String, p : Project) : Tag {
 	var tags : List<Tag> := 
@@ -58,9 +65,15 @@ function tagCleanup(tag : Tag) {
 		left join i._tags as t
 		where t = ~tag
 		limit 1;
+	var taggedTags : List<Tag> := 
+		select tag
+		from Tag as tag
+		left join tag._tags as t
+		where t = ~tag
+		limit 1;
 		
 	// Is the tag used?
-	if(	tagged.length == 0) {
+	if(	tagged.length == 0 && taggedTags.length == 0) {
 		// 	Are there any project memebers using this tag
 		if(/@[a-z0-9]+/.match(tag.name)) {
 			var tagSuffixArray := tag.name.split();
@@ -84,17 +97,21 @@ function tagCleanup(tag : Tag) {
 }
 
 define page tag(p : Project, tag : String) {
-	var t := findTagByName(tag).get(0)
-	var taggedIssues : List<Issue> :=
-		select i 
-		from Issue as i
-		left join i._tags as t
-		where t._name = ~tag and t._project = ~p
-		limit 500
-	
 	title{output(p.name) " / " output(tag) " - on YellowGrass.org"}
 	main()
 	define body(){
+		var tagMatches : List<Tag> := 
+			from Tag
+			where _name=~tag and _project=~p
+			limit 1
+		var t := tagMatches.get(0);
+		var taggedIssues : List<Issue> :=
+			select i 
+			from Issue as i
+			left join i._tags as t
+			where t._name = ~tag and t._project = ~p
+			limit 500
+
 		block [class := "main"] { 
 			if(securityContext.loggedIn) {
 				par [class := "Back"] { 
@@ -107,25 +124,51 @@ define page tag(p : Project, tag : String) {
 			} else { 
 				par [class := "Back"] { navigate(project(p)) {rawoutput { "&raquo; " } " Back to Project"} }
 			}
-			par{ <h1> "Tagged " output(tag) </h1> }
+			par{ 
+				<h1> "Tagged " output(t.name) tags(t, true) </h1>
+			}
 			issues(taggedIssues.set(), false, true, true, 50, true)
 		}
-		projectSideBar(p)
-		/*
 		block [class := "sidebar"] {
 			par { 
 				<h1> output(tag) </h1>
 			}
 			sidebarSeparator()
-			
+			par { actionLink("Make Release", makeRelease(t, p) ) }
 		}
-		*/
+		action makeRelease(t : Tag, p : Project) {
+			t.tags.add(tag("release", p));
+			return tag(p, t.name);
+		}
 	}
 }
-	
-define template tags(i : Issue, editing : Bool) {
+
+define template tags(t : Tag, editing : Bool) {
 	block [class:="Tags"] {
-		for(tag : Tag in i.tags order by tag.name) {
+		for(tag : Tag in t.tags order by tag.name) {
+			block [class:="Tag"] {
+				output(tag.name) 
+				if(editing) {
+					block [class := "Delete"] {
+						actionLink("x", deleteTag(t, tag))
+					}
+				}
+			}
+		}
+	}
+	action deleteTag(tagToRemoveFrom : Tag, tagToRemove : Tag) {
+		tagToRemoveFrom.tags.remove(tagToRemove);
+		tagCleanup(tagToRemove);
+		return tag(t.project, t.name);
+	}
+}
+
+define template tags(i : Issue, editing : Bool) {
+	tags(i, editing, false)
+}
+define template tags(i : Issue, editing : Bool, summary : Bool) {
+	block [class:="Tags"] {
+		for(tag : Tag in i.tags where !(summary && tag.name.contains("@")) order by tag.name) {
 			block [class:="Tag"] {
 				navigate(tag(i.project, tag.name)){output(tag.name)} 
 				if(editing) {

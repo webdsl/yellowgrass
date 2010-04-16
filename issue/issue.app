@@ -160,7 +160,11 @@ define template issues(is : Set<Issue>, showProjectName : Bool, showTicks : Bool
 					if(showNumbers) {
 						output(i.number)
 					}
-					output(i.submitted.format("MMM d yyyy")) // TODO Add year if needed
+					if(now().format("yyyy") == i.submitted.format("yyyy")) {
+						output(i.submitted.format("MMM d"))
+					} else {
+						output(i.submitted.format("MMM d yyyy"))
+					}
 					if(showProjectName) {
 						output(
 							abbreviate(i.project.name, 20))

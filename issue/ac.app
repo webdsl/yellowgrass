@@ -1,4 +1,4 @@
-module issues/ac
+module issue/ac
 
 imports issue/issue
 imports project/project
@@ -78,21 +78,41 @@ access control rules
 	}
 	
 	rule page tag(p : Project, tag : String) {
-		findTagByName(tag).length > 0
+		( 
+			from Tag
+			where _name=~tag and _project=~p
+			limit 1
+		).length > 0
+		
+		rule action makeRelease(tag : Tag, p : Project) {
+			principal in p.members && !tag.hasTag("release")
+		}
 	}
 	
 	rule template tags(i : Issue, editing : Bool) {
 		true
 	}
 	
+	rule template tags(i : Issue, editing : Bool, summary : Bool) {
+		true
+		rule action deleteTag(i : Issue, t : Tag) {
+			principal in i.project.members || 
+			(loggedIn && principal == i.reporter)
+		}
+	}
+	
+	rule template tags(t : Tag, editing : Bool) {
+		true
+		rule action deleteTag(tagToRemoveFrom : Tag, tagToRemove : Tag) {
+			principal in tagToRemoveFrom.project.members
+		}
+	}
+	
 	rule template tags(ts : List<Tag>, p : Project) {
 		true
 	}
 	
-	rule action deleteTag(i : Issue, t : Tag) {
-		principal in i.project.members || 
-		(loggedIn && principal == i.reporter)
-	}
+	
 	
 	rule page postedIssues() {
 		loggedIn

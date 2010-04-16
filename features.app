@@ -5,7 +5,7 @@ define page features() {
 	main()
 	define body() {
 		par { <h1> "YellowGrass in a Nutshell"</h1> }
-		
+/*		
 		Project managament 
 		
 		
@@ -32,5 +32,5 @@ define page features() {
 		par { <h2> Tagging Ninja </h2> }
 			Assigning issues
 			Following issues
-	}
+*/	}
 }

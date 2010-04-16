@@ -6,6 +6,7 @@ imports auxiliary
 imports issue/issue
 imports user/user
 imports project/project
+imports user/register
 
 define page root() {
 /*	var recentProjects : List<Project> := 

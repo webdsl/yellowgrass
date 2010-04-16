@@ -53,3 +53,12 @@ access control rules
 	rule page projectStats(p : Project) {
 		true
 	}
+	
+	rule page roadmap(p : Project) {
+		(
+			from Tag as t
+			left join t.tags as ts
+			where t._project=~p and ts._name=~"release"
+			limit 1
+		).length > 0
+	}

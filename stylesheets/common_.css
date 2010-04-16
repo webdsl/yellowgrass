@@ -278,7 +278,7 @@ label {
 	background: #ebebd1;
 	
 	padding: 1px 3px 1px 3px;
-	margin: 0px 1px 0px 1px;
+	margin: 0px 2px;
 }
 
 .Tag .Delete {
@@ -290,7 +290,7 @@ label {
 }
 
 .Tag .Delete a {
-	padding-left: 0px;
+	padding-left: 1px;
 	padding-right: 0px;
 }
 

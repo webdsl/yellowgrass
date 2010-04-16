@@ -16,7 +16,7 @@
 	<classpathentry kind="lib" path=".servletapp/bin/WEB-INF/lib/commons-collections.jar"/>
 	<classpathentry kind="lib" path=".servletapp/bin/WEB-INF/lib/commons-fileupload-1.2.1.jar"/>
 	<classpathentry kind="lib" path=".servletapp/bin/WEB-INF/lib/commons-io-1.4.jar"/>
-	<classpathentry kind="lib" path=".servletapp/bin/WEB-INF/lib/commons-lang-2.3.jar"/>
+	<classpathentry kind="lib" path=".servletapp/bin/WEB-INF/lib/commons-lang-2.5.jar"/>
 	<classpathentry kind="lib" path=".servletapp/bin/WEB-INF/lib/commons-logging.jar"/>
 	<classpathentry kind="lib" path=".servletapp/bin/WEB-INF/lib/dom4j.jar"/>
 	<classpathentry kind="lib" path=".servletapp/bin/WEB-INF/lib/ehcache-1.2.3.jar"/>

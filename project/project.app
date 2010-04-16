@@ -2,6 +2,7 @@ module project/project
 
 imports project/ac
 imports project/register
+imports project/roadmap
 imports issue/issue
 imports user/user
 imports issue/tag
@@ -168,6 +169,7 @@ define template projectSideBar(p : Project) {
 		sidebarSeparator()
 		par { navigate(createIssue(p))	{"New Issue"} }
 		par { navigate(edit(p))			{"Project Settings"} }
+		par { navigate(roadmap(p)) 		{"Project Roadmap"} }
 		par { actionLink("Leave Project", leaveProject(p)) }
 		par { actionLink("Request Project Membership", requestJoinProject(p)) }
 		sidebarSeparator()
