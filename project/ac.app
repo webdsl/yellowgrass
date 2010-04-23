@@ -14,7 +14,7 @@ access control rules
 		loggedIn
 	}
 	
-	rule page projectIssues(p : Project) {
+	rule page projectIssues(p : Project, filterOpen : Bool) {
 		true
 	}
 	

@@ -23,6 +23,7 @@ entity Issue {
 	comments	-> Set<Comment>
 	tags		-> Set<Tag>
 	email		:: Email // Only when reporter == null
+	nrVotes		:: Int := [ t | t : Tag in tags where /!.*/.match(t.name)].length
 //	attachments -> Set<Attachment>
 	
 	function close() {
@@ -98,6 +99,16 @@ entity Issue {
 			tags.add(tag("@"+project.members.list().get(0).tag, project));
 		}
 	}
+	
+	function hasTag(tagName : String) : Bool {
+		// TODO Optimize to query?
+		for( t : Tag in tags) {
+			if(t.name == tagName) {
+				return true;
+			}
+		}
+		return false;
+	}
 }
 
 function getIssue(p : Project, issueNumber : Int) : Issue {
@@ -153,9 +164,14 @@ define template issues(is : Set<Issue>, showProjectName : Bool, showTicks : Bool
 }
 
 define template issues(is : Set<Issue>, showProjectName : Bool, showTicks : Bool, showNumbers : Bool, titleLength : Int, showTags : Bool) {
+	issues([i | i : Issue in is.list()  order by i.submitted desc], 
+		showProjectName, showTicks, showNumbers, titleLength, showTags)
+}
+
+define template issues(is : List<Issue>, showProjectName : Bool, showTicks : Bool, showNumbers : Bool, titleLength : Int, showTags : Bool) {
 	block [class := "Listing"] {
 		table {
-			for(i : Issue in is order by i.submitted desc) {
+			for(i : Issue in is) {
 				row {
 					if(showNumbers) {
 						output(i.number)
@@ -257,6 +273,7 @@ define page issue(p : Project, issueNumber : Int) {
 			par { navigate(editIssue(i))	{"Edit this Issue"}}
 			par { actionLink("Close Issue", close(i) ) }
 			par { actionLink("Reopen Issue", reopen(i) ) }
+			par { actionLink("Vote and follow Issue", vote(i) ) }
 			par { actionLink("Move Issue To", showIssueMoveTargets(i)) [ajax] }
 			par [class := "IssueMoveTargets"] { placeholder issueMoveTargetsBox {} }
 			par { navigate(createIssue(p))	{"New Issue"} }
@@ -273,6 +290,11 @@ define page issue(p : Project, issueNumber : Int) {
 		issue.reopen();
 		issue.save();
 		issue.notifyReopen();
+		return issue(issue.project, issue.number);
+	}
+	action vote(issue : Issue){
+		var tag := tag("!" + securityContext.principal.tag, p);
+		issue.tags.add(tag);
 		return issue(issue.project, issue.number);
 	}
 	action showIssueMoveTargets(issue : Issue){

@@ -11,7 +11,7 @@ define page roadmap(p : Project) {
 			from Tag as t
 			left join t.tags as tt
 			where t._project=~p	and tt._name = ~"release"
-			order by t._name
+			order by t._name desc
 			limit 5000;
 		
 		block [class := "main"] { 
@@ -32,7 +32,7 @@ define page roadmap(p : Project) {
 				par {
 					issues(
 						(select i from Issue as i left join i._tags as t where t=~release).set(),
-						false, true, true, 50, false
+						false, true, true, 60, false
 					)
 				}
 			}

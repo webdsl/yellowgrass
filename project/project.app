@@ -85,18 +85,31 @@ define page project(p : Project) {
 		from Issue
 		where _open = true and _project = ~p
 		order by _submitted desc
-		limit 20;
-		
-	// TODO Make next two queries more efficient by integration
+		limit 10;
+	
+	var popularIssues : List<Issue> := 
+		select i
+		from Issue as i
+		left join i.tags as t
+		where 
+			i._open = true and 
+			i._project = ~p and
+			t._name like ~"!%"
+		group by i 
+		order by count(t._name) desc //ORDER BY AGGREGATION IS NOT SUPPORTED BY MySQL :(
+		limit 10;
+	
+	// TODO Make following more efficient by integration and querying
 	var openIssues : List<Issue> := 
 		from Issue
 		where _open = true and _project = ~p
 		order by _submitted desc
 		limit 2000;
-	var unassignedIssues : List<Issue> := [ i | i : Issue in openIssues where !(i.isAssigned()) ];
+//	var popularIssues : List<Issue> := [ i | i : Issue in openIssues order by i.nrVotes desc];
+/*	var unassignedIssues : List<Issue> := [ i | i : Issue in openIssues where !(i.isAssigned()) ];
 	var unassignedIssuesOrd : List<Issue> := [ i | i : Issue in unassignedIssues order by i.submitted desc ];
 	var unassignedIssuesOrdSumm : List<Issue> := [ i | i : Issue in unassignedIssuesOrd limit 5 ]; // TODO Workaround
-	var tags : List<Tag> := 
+*/	var tags : List<Tag> := 
 		from Tag
 		where _project = ~p
 		order by _name
@@ -119,17 +132,21 @@ define page project(p : Project) {
 			par { tags(tags, p) }
 			projectMembershipRequests(p)
 			
-			if(unassignedIssues.length > 0) {
+/*			if(unassignedIssues.length > 0) {
 				par { <h2>"Recent Unassigned Issues"</h2>	}
 				par { issues(unassignedIssuesOrdSumm.set(), false, false, true, 50, true) }
 				if(unassignedIssues.length > 5) {
 					navigate(projectUnAssignedIssues(p)) {output(unassignedIssues.length - 5) " more unassigned issues"}
 				}
 			}
-			
+*/			if(popularIssues.length > 0) {
+				par { <h2>"Popular Open Issues"</h2> }
+				par { issues(popularIssues, false, false, true, 50, true) }
+			}
 			par { <h2>"Recent Open Issues"</h2> }
-			par { issues(recentIssues.set(), false, false, true, 50, true) }
-			par { navigate(projectIssues(p)) {"View all issues"} }
+			par { issues(recentIssues, false, false, true, 50, true) }
+
+			par { navigate(projectIssues(p, true)) {"View all open issues"} " --- " navigate(projectIssues(p, false)) {"View all issues"} }
 			
 			par { <h2>"Project Members"</h2> }
 			par { users(p.members) }
@@ -264,10 +281,12 @@ define page edit(p : Project) {
 	}
 }
 
-define page projectIssues(p : Project) {
+define page projectIssues(p : Project, filterOpen : Bool) {
 	title{output(p.name) " issues on YellowGrass.org"}
 	main()
 	define body() {
+		var issues := [i | i : Issue in p.issues where (!filterOpen) || i.open];
+		
 		block [class := "main"] {
 			if(securityContext.loggedIn) {
 				par [class := "Back"] { 
@@ -282,7 +301,7 @@ define page projectIssues(p : Project) {
 				par [class := "Back"] { navigate(project(p)) {rawoutput { " &raquo; " } " Back to Project"} }
 			}
 			 
-			par { issues(p.issues, false, true, true, 50, true) }
+			par { issues(issues, false, true, true, 50, true) }
 		}
 		projectSideBar(p)
 	}

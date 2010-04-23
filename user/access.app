@@ -29,6 +29,7 @@ define template login(){
 			}
 		}
 		securityContext.loggedIn := false;
+		message("Incorrect email address or incorrect password");
 		return root();
 	}
 }

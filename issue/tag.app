@@ -20,6 +20,14 @@ entity Tag {
 		}
 		return false;
 	}
+	
+	function getStylingClass() : String{
+		if(hasTag("release")) {
+			return "ReleaseTag Tag";
+		} else {
+			return "Tag";
+		}
+	}
 }
 
 function tag(t : String, p : Project) : Tag {
@@ -168,8 +176,8 @@ define template tags(i : Issue, editing : Bool) {
 }
 define template tags(i : Issue, editing : Bool, summary : Bool) {
 	block [class:="Tags"] {
-		for(tag : Tag in i.tags where !(summary && tag.name.contains("@")) order by tag.name) {
-			block [class:="Tag"] {
+		for(tag : Tag in i.tags where !(summary && tag.name.contains("@") && tag.name.contains("!")) order by tag.name) {
+			block [class:=tag.getStylingClass()] {
 				navigate(tag(i.project, tag.name)){output(tag.name)} 
 				if(editing) {
 					block [class := "Delete"] {

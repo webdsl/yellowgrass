@@ -27,8 +27,26 @@ access control rules
 		true
 	}
 	
+	rule template issues(is : List<Issue>, showProjectName : Bool, showTicks : Bool, showNumbers : Bool, titleLength : Int, showTags : Bool) {
+		true
+	}
+	
 	rule page issue(p : Project, number : Int) { 
 		true
+
+		rule action close(issue : Issue) {
+			principal in issue.project.members &&
+			issue.open
+		}
+		
+		rule action reopen(issue : Issue) {
+			principal in issue.project.members &&
+			(!issue.open)
+		}
+		
+		rule action vote(issue : Issue) {
+			loggedIn && !issue.hasTag("!"+principal.tag) && !(principal == issue.reporter)
+		}
 	}
 		
 	rule page editIssue(i : Issue) {
@@ -43,17 +61,7 @@ access control rules
 	rule action updateIssueSuggestions(t : String) {
 		loggedIn
 	}
-	
-	rule action close(issue : Issue) {
-		principal in issue.project.members &&
-		issue.open
-	}
-	
-	rule action reopen(issue : Issue) {
-		principal in issue.project.members &&
-		(!issue.open)
-	}
-	
+		
 	rule action newComment(text : WikiText, issue : Issue) {
 		loggedIn
 	}
