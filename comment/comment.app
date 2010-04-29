@@ -1,8 +1,9 @@
 module comment/comment
 
 imports comment/ac
+imports comment/event
 
-entity Comment {
+entity Comment : Event {
 	submitted		:: DateTime
 	text			:: WikiText
 	author			-> User 
@@ -18,18 +19,13 @@ function createComment(t : WikiText) : Comment {
 	return c;
 }
 
-define template comments(i : Issue, cs : Set<Comment>) {
-	if(cs.length == 0) {
-		par { "No comments" }
+define template eventDescription(c : Comment) {
+	block [class := "CommentHeader"] {
+		"On " output(c.moment.format("MMM d")) " " output(c.author.name) " wrote: "
+		navigate(editComment(c)){"edit"}
 	}
-	for(c : Comment in cs order by c.submitted asc) {
-		block [class := "CommentHeader"] {
-			"On " output(c.submitted.format("MMM d")) " " output(c.author.name) " wrote: "
-			navigate(editComment(i, c)){"edit"}
-		}
-		block [class := "CommentText"] {
-			output(c.text)
-		}
+	block [class := "CommentText"] {
+		output(c.text)
 	}
 }
 
@@ -72,10 +68,16 @@ define template noCommentAddition() {
 	par { <i> "Log in to post comments" </i> }
 }
 
-define page editComment(i : Issue, c : Comment) {
+define page editComment(c : Comment) {
 	title{"YellowGrass.org - Edit Comment"}
 	main()
 	define body(){
+		var is := 
+			from Issue
+			where c in i.log
+			limit 1
+		var i := is.get(0);
+		
 		<h1> "Edit Comment" </h1>
 		form {
 			par {
@@ -87,9 +89,10 @@ define page editComment(i : Issue, c : Comment) {
 				submit("Save",save())
 			}
 		}
-	}
-	action save(){
+		action save(){
 		c.save();
 		return issue(i.project, i.number);
 	}
+}
+	
 }

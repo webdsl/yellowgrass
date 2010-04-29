@@ -283,7 +283,6 @@ label {
 
 .Tag .Delete {
 	font-size: 6pt;
-	//color: #b45252;
 	display: inline;
 	padding-left: 0px;
 	padding-right: 8px;
@@ -300,10 +299,20 @@ label {
 	display: inline;
 }
 
-.Tag a:link 	{ color: #b4b252; text-decoration: none; }
-.Tag a:visited	{ color: #b4b252; text-decoration: none; }
-.Tag a:hover 	{ color: #b4b252; text-decoration: none; }
-.Tag a:active 	{ color: #b4b252; text-decoration: none; }
+.Tag a:link 	{ color: #bdb947; text-decoration: none; }
+.Tag a:visited	{ color: #bdb947; text-decoration: none; }
+.Tag a:hover 	{ color: #bdb947; text-decoration: none; }
+.Tag a:active 	{ color: #bdb947; text-decoration: none; }
+
+.ReleaseTag {
+	border: 1px solid #b2cdde;
+	background: #d1e1eb;
+}
+
+.ReleaseTag a:link 		{ color: #488fbc; }
+.ReleaseTag a:visited	{ color: #488fbc; }
+.ReleaseTag a:hover 	{ color: #488fbc; }
+.ReleaseTag a:active 	{ color: #488fbc; }
 
 .IssueSuggestions {
 	margin-bottom: 30px;

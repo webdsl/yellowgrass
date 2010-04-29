@@ -2,11 +2,7 @@ module comment/ac
   
 access control rules
 	
-	rule template comments(i : Issue, cs : Set<Comment>) {	
-		true
-	}
-	
-	rule page editComment(i : Issue, c : Comment) {
+	rule page editComment(c : Comment) {
 		(c.author != null) 
 		&&
 		(c.author == securityContext.principal)
@@ -22,4 +18,24 @@ access control rules
 	
 	rule template noCommentAddition() {
 		!loggedIn
+	}
+	
+	rule template events(es : Set<Event>) {
+		true
+	}
+
+	rule template eventDescription(e : Event) {
+		true
+	}
+	
+	rule template eventDescription(c : Comment) {
+		true
+	}
+	
+	rule template eventDescription(ic : IssueClose) {
+		true
+	}
+	
+	rule template eventDescription(ic : IssueReopen) {
+		true
 	}

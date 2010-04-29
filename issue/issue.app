@@ -2,6 +2,8 @@ module issue/issue
 
 imports issue/ac
 imports comment/comment
+imports comment/event
+imports comment/issueControl
 imports issue/emails
 imports issue/tag
 imports issue/register
@@ -20,7 +22,7 @@ entity Issue {
 	reporter	-> User
 	type		-> IssueType
 	open		:: Bool
-	comments	-> Set<Comment>
+	log			-> Set<Event>
 	tags		-> Set<Tag>
 	email		:: Email // Only when reporter == null
 	nrVotes		:: Int := [ t | t : Tag in tags where /!.*/.match(t.name)].length
@@ -28,10 +30,24 @@ entity Issue {
 	
 	function close() {
 		open := false;
+		log.add(
+			IssueClose{ 
+				moment := now()
+				actor := securityContext.principal
+			}
+		);
 	}
 	function reopen() { 
 		open := true;
+		log.add(
+			IssueReopen{ 
+				moment := now()
+				actor := securityContext.principal
+			}
+		);
+
 	}
+	
 	function notifyProjectMembers() {
 		for(u : User in project.members){
 			email(issueNotification(this, u.email));
@@ -48,7 +64,7 @@ entity Issue {
 			mailinglist.add(email);
 		}
 		
-		var commenters := [c.author.email | c : Comment in comments];
+		var commenters := [(e as Comment).author.email | e : Event in log where e is a Comment];
 		mailinglist.addAll(commenters);
 		
 		var followers : Set<User> := getFollowers(tags);
@@ -70,14 +86,14 @@ entity Issue {
 		}
 	}
 	function addComment(c : Comment) {
-		comments.add(c);
+		log.add(c);
 		this.save();
 		for(e : Email in mailinglist(c.author.email)){
 			email(issueCommentNotification(this, e, c));
 		}
 	}
 	function commentClose(c : Comment) {
-		comments.add(c);
+		log.add(c);
 		close();
 		this.save();
 		for(e : Email in mailinglist(c.author.email)){
@@ -258,9 +274,9 @@ define page issue(p : Project, issueNumber : Int) {
 					output(a)
 				}
 			}
-*/			if(i.comments.length > 0) {
+*/			if(i.log.length > 0) {
 				par { <h2> "Comments" </h2> }
-				par { comments(i, i.comments) }
+				par { events(i.log) }
 			}
 			commentAddition(i)
 			noCommentAddition()
@@ -329,7 +345,7 @@ define ajax issueMoveTargets (i : Issue){
 					"[Issue " + new.number + "](/issue/" + p.name + "/" + new.number + ")" 
 			author := yellowGrass
 		};
-		old.comments.add(moveComment);
+		old.log.add(moveComment);
 		old.close();
 		old.save();
 		flush();
