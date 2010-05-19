@@ -205,7 +205,7 @@ define template issues(is : List<Issue>, showProjectName : Bool, showTicks : Boo
 						output(abbreviate(i.title, titleLength))
 					}
 					if(showTags) { 
-						tags(i, false)
+						tags(i, false, true)
 					}
 					if(i.open || (!showTicks)) { 
 						"" 

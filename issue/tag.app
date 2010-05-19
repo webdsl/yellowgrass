@@ -176,7 +176,7 @@ define template tags(i : Issue, editing : Bool) {
 }
 define template tags(i : Issue, editing : Bool, summary : Bool) {
 	block [class:="Tags"] {
-		for(tag : Tag in i.tags where !(summary && tag.name.contains("@") && tag.name.contains("!")) order by tag.name) {
+		for(tag : Tag in i.tags where (!summary || (!tag.name.contains("@") && !tag.name.contains("!"))) order by tag.name) {
 			block [class:=tag.getStylingClass()] {
 				navigate(tag(i.project, tag.name)){output(tag.name)} 
 				if(editing) {
