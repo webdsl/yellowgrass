@@ -8,13 +8,13 @@ entity Issue/attribute comments {
 	DeclType/name
    		:: substitute Event;
 	name
-   		:: substitute log
+   		:: substitute log;
 };
 entity Comment
    :: add IssueClose :: Event {
               actor - User min(0) max(1) };
 entity Event
    :: add IssueReopen :: Event {
-              actor - User min(0) max(1) }
+              actor - User min(0) max(1) };
               
 

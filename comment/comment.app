@@ -12,14 +12,14 @@ entity Comment : Event {
 function createComment(t : WikiText) : Comment {
 	var c := Comment {
 		text := t
-		submitted := now()
+		moment := now()
 		author := securityContext.principal
 	};
 	c.save();
 	return c;
 }
 
-define template eventDescription(c : Comment) {
+define template comment(c : Comment) {
 	block [class := "CommentHeader"] {
 		"On " output(c.moment.format("MMM d")) " " output(c.author.name) " wrote: "
 		navigate(editComment(c)){"edit"}

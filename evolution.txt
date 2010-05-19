@@ -94,6 +94,32 @@ Added coupled operator for making a class part of a type hierarchy.
 
 ----------
 
+Added additional event types for closing and reopening issues:
+
+
+entity Comment
+   :: add IssueClose Event {
+              actor - User min(0) max(1) };
+entity Event
+   :: add IssueReopen Event {
+              actor - User min(0) max(1) }
+
+----------
+
+Generalized comments reference in Issues to refer events:
+
+entity Issue/attribute comments/DeclType/name
+   :: substitute Event;
+
+----------
+
+Renamed comments reference to log:
+
+entity Issue/attribute comments/name
+   :: substitute log;
+
+----------
+
 Introduced a taggable type. An issue now becomes an extension of taggable (extract taggable from issue)
 
 

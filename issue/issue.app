@@ -274,8 +274,10 @@ define page issue(p : Project, issueNumber : Int) {
 					output(a)
 				}
 			}
-*/			if(i.log.length > 0) {
-				par { <h2> "Comments" </h2> }
+			
+*/
+			if(i.log.length > 0) {
+				par { <h2> "Issue Log" </h2> }
 				par { events(i.log) }
 			}
 			commentAddition(i)

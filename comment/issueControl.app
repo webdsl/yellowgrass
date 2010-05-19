@@ -7,7 +7,7 @@ entity IssueClose : Event {
 	actor -> User
 }
 
-define template eventDescription(ic : IssueClose) {
+define template issueClose(ic : IssueClose) {
 	block [class := "CommentHeader"] {
 		"On " output(ic.moment.format("MMM d")) " " output(ic.actor.name) " closed this issue."
 	}
@@ -17,7 +17,7 @@ entity IssueReopen : Event {
 	actor -> User
 }
 
-define template eventDescription(ic : IssueReopen) {
+define template issueReopen(ic : IssueReopen) {
 	block [class := "CommentHeader"] {
 		"On " output(ic.moment.format("MMM d")) " " output(ic.actor.name) " reopened this issue."
 	}

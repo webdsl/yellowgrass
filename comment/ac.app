@@ -28,14 +28,14 @@ access control rules
 		true
 	}
 	
-	rule template eventDescription(c : Comment) {
+	rule template comment(c : Comment) {
 		true
 	}
 	
-	rule template eventDescription(ic : IssueClose) {
+	rule template issueClose(ic : IssueClose) {
 		true
 	}
 	
-	rule template eventDescription(ic : IssueReopen) {
+	rule template issueReopen(ic : IssueReopen) {
 		true
 	}
