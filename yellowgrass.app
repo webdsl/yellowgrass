@@ -3,6 +3,7 @@ application yellowgrass
 imports templates
 imports ac
 imports auxiliary
+imports features
 imports issue/issue
 imports user/user
 imports project/project
@@ -14,7 +15,7 @@ define page root() {
 		order by _created desc
 		limit 15;
 */	
-						
+	
 	title{"YellowGrass.org - The Tag-Based Issue Tracker"}
 	main()
 	define body() {
@@ -30,8 +31,6 @@ define page root() {
 			from Issue as i
 			order by _submitted desc
 			limit 18;
-
-		
 		
 		block [class := "column1"] {
 			par { <h2>"About YellowGrass"</h2> }
@@ -39,7 +38,8 @@ define page root() {
 				"YellowGrass is a tag-based issue tracker. "
 				"It provides a complete issue and bug tracking solution, geared towards software development projects. "
 				"YellowGrass is fully web-based and free of charge. Registering your project is just a few clicks away... "
-				navigate(registerUser()){"Register"}
+			} par {
+				"Take a look at YellowGrass's " navigate(features()){"Feature List"} " or " navigate(registerUser()){"Register"} " right away."
 			}
 			par { <h2>"Some Active Projects"</h2> }
 			par {

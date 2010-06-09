@@ -120,8 +120,6 @@ access control rules
 		true
 	}
 	
-	
-	
 	rule page postedIssues() {
 		loggedIn
 	}
@@ -138,4 +136,25 @@ access control rules
 	rule ajaxtemplate issueMoveTargets (issue : Issue){
 		principal in issue.project.members && 
 		principal.projects.length > 1
+	}
+
+	rule template attachmentAddition(i : Issue) {
+		principal in i.project.members || 
+		principal == i.reporter
+	}
+	
+	rule template attachmentAdditionInput(i : Issue) {
+		principal in i.project.members || 
+		principal == i.reporter
+	}
+	
+	rule ajaxtemplate attachmentList(i : Issue) {
+		true		
+		rule action deleteAttachment(a : Attachment) {
+			principal in i.project.members || 
+			principal == i.reporter
+		}
+		rule action attachmentList_inline_action0(a : Attachment) {	// Bug in WebDSL: workaround
+			true
+		}
 	}

@@ -73,8 +73,10 @@ define page editComment(c : Comment) {
 	main()
 	define body(){
 		var is := 
-			from Issue
-			where c in i.log
+			select i
+			from Issue as i
+			left join i.log as l
+			where ~c = l
 			limit 1
 		var i := is.get(0);
 		

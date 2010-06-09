@@ -9,7 +9,7 @@ imports issue/tag
 imports issue/register
 imports user/user
 imports project/project
-//imports issue/attachment
+imports issue/attachment
 
 entity Issue {
 	// TODO add optional user association
@@ -26,7 +26,7 @@ entity Issue {
 	tags		-> Set<Tag>
 	email		:: Email // Only when reporter == null
 	nrVotes		:: Int := [ t | t : Tag in tags where /!.*/.match(t.name)].length
-//	attachments -> Set<Attachment>
+	attachments -> Set<Attachment>
 	
 	function close() {
 		open := false;
@@ -221,7 +221,7 @@ define template issues(is : List<Issue>, showProjectName : Bool, showTicks : Boo
 define page issue(p : Project, issueNumber : Int) {
 	var i := getIssue(p, issueNumber)
 	
-	title{output(i.project.name) " issue #" output(i.number) " on YellowGrass.org"}
+	title{output(i.project.name) " issue #" output(i.number) " - " output(i.title)}
 	main()
 	define body(){
 		block [class := "main"] {
@@ -276,12 +276,19 @@ define page issue(p : Project, issueNumber : Int) {
 			}
 			
 */
+
+			attachmentList(i)
+			attachmentAddition(i)
+			
+			image("/images/hr.png")
+			
 			if(i.log.length > 0) {
 				par { <h2> "Issue Log" </h2> }
 				par { events(i.log) }
 			}
 			commentAddition(i)
 			noCommentAddition()
+			
 		}
 		block [class := "sidebar"] {
 			par { 
@@ -342,7 +349,7 @@ define ajax issueMoveTargets (i : Issue){
 		new.save();
 		
 		var moveComment := Comment {
-			submitted := now()
+			moment := now()
 			text := "Issue has been moved to [" + p.name + "](/project/" + p.name + ") / " +
 					"[Issue " + new.number + "](/issue/" + p.name + "/" + new.number + ")" 
 			author := yellowGrass

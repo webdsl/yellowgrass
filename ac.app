@@ -25,3 +25,7 @@ module ac
 	rule page search(q : String) {
 		true
 	}
+	
+	 rule page features() {
+	 	true
+	 }

@@ -4,7 +4,10 @@ define page createIssue(p : Project) {
 	title{output(p.name) " - Create new issue on YellowGrass.org"}
 	main()
 	define body(){
-		var i := Issue{ type := improvementIssueType };
+		var i := Issue{ 
+			type := improvementIssueType
+			reporter := securityContext.principal 
+		};
 		var title : String := "";
 		var email : Email := "";
 		
@@ -35,8 +38,7 @@ define page createIssue(p : Project) {
 							"Email addresses are never presented publicly."</i> 
 				}
 				par { captcha() }
-			}
-			
+			}		
 			par{
 				navigate(project(p)) {"Cancel"}
 				" "
@@ -50,7 +52,6 @@ define page createIssue(p : Project) {
 			i.project := p;
 			i.number := newIssueNumber(p);
 			i.open := true;
-			i.reporter := securityContext.principal;
 			i.email := email;
 			i.assign();
 			i.save();
