@@ -92,11 +92,8 @@ access control rules
 		rule action makeRelease(tag : Tag, p : Project) {
 			principal in p.members && !tag.hasTag("release")
 		}
-		rule action makeRed(tag : Tag, p : Project) {
-			principal in p.members && !tag.isColored()
-		}
-		rule action makeGreen(tag : Tag, p : Project) {
-			principal in p.members && !tag.isColored()
+		rule action color(t : Tag, p : Project, color : String) {
+			principal in p.members && !t.isColored()
 		}
 	}
 	

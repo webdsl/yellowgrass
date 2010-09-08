@@ -126,6 +126,7 @@ img {
 
 .Listing table {
 	border-spacing : 0;
+	min-width: 500px;
 }
 
 .Listing td {
@@ -333,6 +334,16 @@ label {
 .GreenTag a:visited	{ color: #48bc56; }
 .GreenTag a:hover 	{ color: #48bc56; }
 .GreenTag a:active 	{ color: #48bc56; }
+
+.GreyTag {
+	border: 1px solid #c8c8c8;
+	background: #dedede;
+}
+
+.GreyTag a:link 	{ color: #828282; }
+.GreyTag a:visited	{ color: #828282; }
+.GreyTag a:hover 	{ color: #828282; }
+.GreyTag a:active 	{ color: #828282; }
 
 .IssueSuggestions {
 	margin-bottom: 30px;

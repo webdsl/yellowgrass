@@ -27,13 +27,17 @@ entity Tag {
 			return "RedTag Tag";
 		} if(hasTag("green")) {
 			return "GreenTag Tag";
+		} if(hasTag("grey")) {
+			return "GreyTag Tag";
 		} else {
 			return "Tag";
 		}
 	}
 	
 	function isColored() : Bool {
-		return hasTag("red") || hasTag("green");
+		return 	hasTag("red") 	|| 
+				hasTag("green") ||
+				hasTag("grey");
 	}
 }
 
@@ -150,20 +154,17 @@ define page tag(p : Project, tag : String) {
 			}
 			sidebarSeparator()
 			par { actionLink("Make Release", makeRelease(t, p) ) }
-			par { actionLink("Color Red", makeRed(t, p) ) }
-			par { actionLink("Color Green", makeGreen(t, p) ) }
+			par { actionLink("Color Red", color(t, p, "red") ) }
+			par { actionLink("Color Green", color(t, p, "green") ) }
+			par { actionLink("Color Grey", color(t, p, "grey") ) }
 			sidebarSeparator()
 		}
 		action makeRelease(t : Tag, p : Project) {
 			t.tags.add(tag("release", p));
 			return tag(p, t.name);
 		}
-		action makeRed(t : Tag, p : Project) {
-			t.tags.add(tag("red", p));
-			return tag(p, t.name);
-		}
-		action makeGreen(t : Tag, p : Project) {
-			t.tags.add(tag("green", p));
+		action color(t : Tag, p : Project, color : String) {
+			t.tags.add(tag(color, p));
 			return tag(p, t.name);
 		}
 	}
