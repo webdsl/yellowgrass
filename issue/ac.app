@@ -72,17 +72,14 @@ access control rules
 	}
 	
 	rule template addTag(i : Issue) {
-		principal in i.project.members || 
-		(loggedIn && principal == i.reporter)
+		principal in i.project.members
 	}
 	
 	rule ajaxtemplate tagSuggestions(tagPrefix : String, i : Issue) {
 		true
-	}
-	
-	rule action addSuggestedTag(suggestion : Tag, i : Issue) {
-		principal in i.project.members || 
-		(loggedIn && principal == i.reporter)
+		rule action addSuggestedTag(suggestion : Tag) {
+			principal in i.project.members
+		}
 	}
 	
 	rule page tag(p : Project, tag : String) {
@@ -94,6 +91,12 @@ access control rules
 		
 		rule action makeRelease(tag : Tag, p : Project) {
 			principal in p.members && !tag.hasTag("release")
+		}
+		rule action makeRed(tag : Tag, p : Project) {
+			principal in p.members && !tag.isColored()
+		}
+		rule action makeGreen(tag : Tag, p : Project) {
+			principal in p.members && !tag.isColored()
 		}
 	}
 	

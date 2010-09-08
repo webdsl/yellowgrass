@@ -6,7 +6,6 @@ entity Attachment {
 }
 
 define template attachmentAddition(i : Issue) {
-	var newFile : File;
 	block [id:=attOpener] {
 		par { 
 			<a href="javascript:void(0)" onCLick="javascript:document.getElementById('attachmentAdditionBox').style.display='block';document.getElementById('attOpener').style.display='none'">
@@ -32,7 +31,7 @@ define template attachmentAdditionInput(i : Issue) {
 //	block [class := "AttachmentAdd"] {
 		form {
 			par { 
-				input(newFile) 
+				input(newFile) {validate(newFile != null && newFile.fileName() != "", "")}
 				action("Add", addAttachment(newFile, i)) 
 			}
 		}
@@ -52,7 +51,7 @@ define template attachmentAdditionInput(i : Issue) {
 define ajax template attachmentList(i : Issue) {
 	if(i.attachments.length > 0) {
 		table  {
-			for(a : Attachment in i.attachments) {
+			for(a : Attachment in i.attachments order by a.date desc) {
 				form {row { 
 					column{ output(a.file) } 
 					column{ output(a.date.format("MMM d")) }

@@ -314,6 +314,26 @@ label {
 .ReleaseTag a:hover 	{ color: #488fbc; }
 .ReleaseTag a:active 	{ color: #488fbc; }
 
+.RedTag {
+	border: 1px solid #deb2b2;
+	background: #ebd1d1;
+}
+
+.RedTag a:link 		{ color: #bc4848; }
+.RedTag a:visited	{ color: #bc4848; }
+.RedTag a:hover 	{ color: #bc4848; }
+.RedTag a:active 	{ color: #bc4848; }
+
+.GreenTag {
+	border: 1px solid #b2deb7;
+	background: #d1ebd4;
+}
+
+.GreenTag a:link 	{ color: #48bc56; }
+.GreenTag a:visited	{ color: #48bc56; }
+.GreenTag a:hover 	{ color: #48bc56; }
+.GreenTag a:active 	{ color: #48bc56; }
+
 .IssueSuggestions {
 	margin-bottom: 30px;
 	text-indent: 20px;

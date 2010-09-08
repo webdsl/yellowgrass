@@ -48,12 +48,6 @@ entity Issue {
 
 	}
 	
-	function notifyProjectMembers() {
-		for(u : User in project.members){
-			email(issueNotification(this, u.email));
-		}
-	}
-	
 	function mailinglist(ignore : Email) : Set<Email> {
 		var mailinglist := [u.email | u : User in this.project.members];
 		
@@ -73,6 +67,12 @@ entity Issue {
 		mailinglist.remove(ignore);
 		
 		return mailinglist;
+	}
+	
+	function notifyRegister() {
+		for(e : Email in mailinglist(securityContext.principal.email)){
+			email(issueNotification(this, e));
+		}
 	}
 	
 	function notifyClose() {
@@ -189,6 +189,11 @@ define template issues(is : List<Issue>, showProjectName : Bool, showTicks : Boo
 		table {
 			for(i : Issue in is) {
 				row {
+					if(i.open || (!showTicks)) { 
+						"" 
+					} else {
+						image("/images/tick.png") 
+					}
 					if(showNumbers) {
 						output(i.number)
 					}
@@ -206,11 +211,6 @@ define template issues(is : List<Issue>, showProjectName : Bool, showTicks : Boo
 					}
 					if(showTags) { 
 						tags(i, false, true)
-					}
-					if(i.open || (!showTicks)) { 
-						"" 
-					} else {
-						image("/images/tick.png") 
 					}
 				}
 			}
@@ -358,7 +358,7 @@ define ajax issueMoveTargets (i : Issue){
 		old.close();
 		old.save();
 		flush();
-		new.notifyProjectMembers();
+		new.notifyRegister();
 		return issue(p, new.number);
 	}
 }

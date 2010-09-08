@@ -21,11 +21,19 @@ entity Tag {
 	}
 	
 	function getStylingClass() : String{
-		if(hasTag("release")) {
+		  if(hasTag("release")) {
 			return "ReleaseTag Tag";
+		} if(hasTag("red")) {
+			return "RedTag Tag";
+		} if(hasTag("green")) {
+			return "GreenTag Tag";
 		} else {
 			return "Tag";
 		}
+	}
+	
+	function isColored() : Bool {
+		return hasTag("red") || hasTag("green");
 	}
 }
 
@@ -142,9 +150,20 @@ define page tag(p : Project, tag : String) {
 			}
 			sidebarSeparator()
 			par { actionLink("Make Release", makeRelease(t, p) ) }
+			par { actionLink("Color Red", makeRed(t, p) ) }
+			par { actionLink("Color Green", makeGreen(t, p) ) }
+			sidebarSeparator()
 		}
 		action makeRelease(t : Tag, p : Project) {
 			t.tags.add(tag("release", p));
+			return tag(p, t.name);
+		}
+		action makeRed(t : Tag, p : Project) {
+			t.tags.add(tag("red", p));
+			return tag(p, t.name);
+		}
+		action makeGreen(t : Tag, p : Project) {
+			t.tags.add(tag("green", p));
 			return tag(p, t.name);
 		}
 	}
@@ -249,11 +268,11 @@ define ajax tagSuggestions(tagPrefix : String, i : Issue) {
 	
 	for(suggestion : Tag in suggestions) {
 		form { block [class := "Suggestion"] {
-			actionLink(suggestion.name, addSuggestedTag(suggestion, i))[ajax]
+			actionLink(suggestion.name, addSuggestedTag(suggestion))[ajax]
 		}}
 	}
 	
-	action addSuggestedTag(suggestion : Tag, i : Issue) {
+	action addSuggestedTag(suggestion : Tag) {
 		i.tags.add(suggestion);
 		i.save();
 		refresh();

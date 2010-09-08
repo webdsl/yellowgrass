@@ -30,8 +30,13 @@ define page roadmap(p : Project) {
 			for(release : Tag in releases) {
 				par { <h2> navigate(tag(p, release.name)) { output(release.name) } </h2> }
 				par {
-					issues(
-						(select i from Issue as i left join i._tags as t where t=~release).set(),
+					issues((
+							select i 
+							from Issue as i 
+							left join i._tags as t 
+							where t=~release
+							order by i._open desc, i._submitted desc
+						),
 						false, true, true, 60, false
 					)
 				}

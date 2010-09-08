@@ -2,6 +2,28 @@
 EVOLUTION TRACE
 ---------------
 
+Added projects:
+
+entity Project {
+	name		:: String (id, validate(isUniqueProject(this), "Another project with this name already exists"))
+	url			:: URL
+	issues		-> Set<Issue>
+	members		-> Set<User>
+}
+
+Attached issues to a project (in Issue):
+project		-> Project (inverse = Project.issues)
+
+Assigned users to projects (in User):
+projects		-> Set<Project> (inverse = Project.members)
+
+----------
+
+Added descriptions to Issue and Project
+description :: WikiText (2x)
+
+----------
+
 Added issue numbering
 entity Issue/attribute title
    :: add number : Int min(1) max(1)
@@ -120,6 +142,19 @@ entity Issue/attribute comments/name
 
 ----------
 
+Added attachments to issues
+
+entity Issue/list()
+   :: add attachments - Attachment min(0) max(-1);
+entity IssueClose
+   :: add Attachment {
+              date : DateTime min(1) max(1)
+              file : File min(1) max(1) };
+              
+No problems, migration ok local and on server
+
+----------
+
 Introduced a taggable type. An issue now becomes an extension of taggable (extract taggable from issue)
 
 
@@ -135,17 +170,6 @@ identity crisis: rewriting failed, trace:
 
 Fixed this
 
-----------
-
-Added attachments to issues
-
-entity Issue/list()
-   :: add attachments - Attachment min(0) max(-1);
-entity IssueClose
-   :: add Attachment {
-              date : DateTime min(1) max(1)
-              file : File min(1) max(1) };
-
 ------------------
 INITIAL DATA MODEL
 ------------------
@@ -153,22 +177,11 @@ INITIAL DATA MODEL
 entity Issue {
 	// TODO add optional user association
 	title		:: String
-	description	:: WikiText
 	submitted 	:: DateTime
-	project		-> Project (inverse = Project.issues)
-}
-
-entity Project {
-	name		:: String (id, validate(isUniqueProject(this), "Another project with this name already exists"))
-	description	:: WikiText
-	url			:: URL
-	issues		-> Set<Issue>
-	members		-> Set<User>
 }
 
 entity User {
 	name			:: String
 	email			:: Email		(validate(userEmailExists(), "Another user already registered using this email address"))
 	password		:: Secret		(validate(password.length() >= 8, "Password needs to be at least 8 characters"))
-	projects		-> Set<Project> (inverse = Project.members)
 }

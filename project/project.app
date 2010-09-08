@@ -19,19 +19,20 @@ entity Project {
 	memberRequests	-> Set<User>
 	created			:: DateTime
 	
-	function getCommonTags() : List<Tag>{
-		return
+	function getCommonTags(nr : Int) : List<Tag>{
+		var tags :=
 			from Tag as t
-			where (t._project = ~this) and (t._name not like ~"@%")
-			limit 8; // Cannot parameterize this (syntax bug)
+			where (t._project = ~this) and (t._name not like ~"@%") and (t._name not like ~"!%")
+			limit 100; // Cannot parameterize this ny nr (syntax bug)
+		return [t | t:Tag in tags limit nr];
 			
-			/*select new Tag(t._name, t._project)
+		/*	select new Tag(t._name, t._project)
 			from Issue as i left join i.tags as t
 			where (t in i.tags) and (t._project = ~this) and (t._name not like ~"@%")
 			group by t
-			order by count(i)
-			limit 8;	// Cannot parameterize this (syntax bug)
-			*/
+			order by count(i) desc
+			limit ~nr;	// Cannot parameterize this (syntax bug)
+		*/	
 	}
 	
 	function getIssueStatsWeekly() : List<Int> {
@@ -109,11 +110,7 @@ define page project(p : Project) {
 /*	var unassignedIssues : List<Issue> := [ i | i : Issue in openIssues where !(i.isAssigned()) ];
 	var unassignedIssuesOrd : List<Issue> := [ i | i : Issue in unassignedIssues order by i.submitted desc ];
 	var unassignedIssuesOrdSumm : List<Issue> := [ i | i : Issue in unassignedIssuesOrd limit 5 ]; // TODO Workaround
-*/	var tags : List<Tag> := 
-		from Tag
-		where _project = ~p
-		order by _name
-		limit 200;
+*/
 	
 	
 	title{output(p.name) " on YellowGrass.org" }
@@ -129,7 +126,7 @@ define page project(p : Project) {
 				}
 			}
 			
-			par { tags(tags, p) }
+			par { tags(p.getCommonTags(40), p) }
 			projectMembershipRequests(p)
 			
 /*			if(unassignedIssues.length > 0) {
@@ -232,7 +229,7 @@ define template projects(ps : Set<Project>) {
 					" members "
 				}
 				block {
-					tags(p.getCommonTags(), p)
+					tags(p.getCommonTags(8), p)
 				}
 			}
 		}
