@@ -181,6 +181,7 @@ define template tags(t : Tag, editing : Bool) {
 					}
 				}
 			}
+			output(" ")
 		}
 	}
 	action deleteTag(tagToRemoveFrom : Tag, tagToRemove : Tag) {
@@ -204,6 +205,7 @@ define template tags(i : Issue, editing : Bool, summary : Bool) {
 					}
 				}
 			}
+			output(" ")
 		}
 	}
 	action deleteTag(i : Issue, t : Tag) {
