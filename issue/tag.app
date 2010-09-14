@@ -9,6 +9,7 @@ entity Tag {
 							 validate(/[a-z0-9\._@!]*/.match(name),"Tags may consist of: a-z 0-9 . _ @ !"))
 	project 	-> Project
 	tags		-> Set<Tag>
+//	issues		-> Set<Issue> (inverse=Issue.tags)
 	
 	function hasTag(tagName : String) : Bool {
 		// TODO Optimize to query?

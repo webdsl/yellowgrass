@@ -20,19 +20,21 @@ entity Project {
 	created			:: DateTime
 	
 	function getCommonTags(nr : Int) : List<Tag>{
-		var tags :=
+/*		return
 			from Tag as t
 			where (t._project = ~this) and (t._name not like ~"@%") and (t._name not like ~"!%")
-			limit 100; // Cannot parameterize this ny nr (syntax bug)
-		return [t | t:Tag in tags limit nr];
-			
-		/*	select new Tag(t._name, t._project)
-			from Issue as i left join i.tags as t
-			where (t in i.tags) and (t._project = ~this) and (t._name not like ~"@%")
-			group by t
-			order by count(i) desc
-			limit ~nr;	// Cannot parameterize this (syntax bug)
-		*/	
+			limit ~nr;
+*/			
+			// TODO Fixme Order by clause does not seem to function properly
+			var result :List<Tag> := 
+				(	select t
+					from Issue as i inner join i.tags as t
+					where (i._project = ~this) and (t._name not like ~"@%") and (t._name not like ~"!%")
+					group by t._name
+					order by count(i) desc
+					limit ~nr
+				) as List<Tag>;
+			return result;
 	}
 	
 	function getIssueStatsWeekly() : List<Int> {
@@ -126,7 +128,7 @@ define page project(p : Project) {
 				}
 			}
 			
-			par { tags(p.getCommonTags(40), p) }
+			par { tags(p.getCommonTags(80), p) }
 			projectMembershipRequests(p)
 			
 /*			if(unassignedIssues.length > 0) {

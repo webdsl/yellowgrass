@@ -18,7 +18,6 @@ entity Issue {
 	description	:: WikiText (searchable)
 	submitted 	:: DateTime
 	project		-> Project	(inverse = Project.issues)
-	projectName :: String 	(searchable) := project.name	// TODO Does not work yet
 	reporter	-> User
 	type		-> IssueType
 	open		:: Bool
@@ -27,6 +26,18 @@ entity Issue {
 	email		:: Email // Only when reporter == null
 	nrVotes		:: Int := [ t | t : Tag in tags where /!.*/.match(t.name)].length
 	attachments -> Set<Attachment>
+	
+	projectName  :: String (searchable) := project.name
+	reporterName :: String (searchable) := getReporterName()
+	
+	function getReporterName() : String {
+		return "";
+	/*	if (true){//reporter == null) {
+			return "b";//reporter.name;
+		} else {
+			return "a";
+		}
+	*/}
 	
 	function close() {
 		open := false;
@@ -48,7 +59,7 @@ entity Issue {
 
 	}
 	
-	function mailinglist(ignore : Email) : Set<Email> {
+	function mailinglist() : Set<Email> {
 		var mailinglist := [u.email | u : User in this.project.members];
 		
 		if(reporter != null && !(reporter in project.members)) {
@@ -64,31 +75,33 @@ entity Issue {
 		var followers : Set<User> := getFollowers(tags);
 		mailinglist.addAll([u.email | u : User in followers]);
 		
-		mailinglist.remove(ignore);
+		if(securityContext.principal != null) {
+			mailinglist.remove(securityContext.principal.email);
+		}
 		
 		return mailinglist;
 	}
 	
 	function notifyRegister() {
-		for(e : Email in mailinglist(securityContext.principal.email)){
+		for(e : Email in mailinglist()){
 			email(issueNotification(this, e));
 		}
 	}
 	
 	function notifyClose() {
-		for(e : Email in mailinglist(securityContext.principal.email)){
+		for(e : Email in mailinglist()){
 			email(issueCloseNotification(this, e));
 		}
 	}
 	function notifyReopen() {
-		for(e : Email in mailinglist(securityContext.principal.email)){
+		for(e : Email in mailinglist()){
 			email(issueReopenNotification(this, e));
 		}
 	}
 	function addComment(c : Comment) {
 		log.add(c);
 		this.save();
-		for(e : Email in mailinglist(c.author.email)){
+		for(e : Email in mailinglist()){
 			email(issueCommentNotification(this, e, c));
 		}
 	}
@@ -96,7 +109,7 @@ entity Issue {
 		log.add(c);
 		close();
 		this.save();
-		for(e : Email in mailinglist(c.author.email)){
+		for(e : Email in mailinglist()){
 			email(issueCommentCloseNotification(this, e, c));
 		}
 	}
@@ -207,7 +220,7 @@ define template issues(is : List<Issue>, showProjectName : Bool, showTicks : Boo
 							abbreviate(i.project.name, 20))
 					}
 					navigate(issue(i.project, i.number)) {
-						output(abbreviate(i.title, titleLength))
+						output(abbreviate(i.title, titleLength))[style:="min-width:280px"]
 					}
 					if(showTags) { 
 						tags(i, false, true)
