@@ -14,7 +14,7 @@ entity Project {
 Attached issues to a project (in Issue):
 project		-> Project (inverse = Project.issues)
 
-Assigned users to projects (in User):
+Assigned users to projects (in User) and made it an inverse:
 projects		-> Set<Project> (inverse = Project.members)
 
 ----------
@@ -57,6 +57,10 @@ entity Issue/list()
 ----------
    
 Added Issue types
+
+entity IssueType {
+	name	:: String	(id)
+}
 entity Issue/reporter
    :: add type - IssueType min(0) max(1)
 
@@ -76,6 +80,7 @@ comments	-> Set<Comment>
 Added email to Issue (for anonymous issue reports)
 entity Issue/list()
    :: add email : Email min(1) max(1)
+Generalized the attribute to optional later.
 Detection does not work (gives id trafo as a result), seems like it does not incorporate the entire data model
 
 ----------
@@ -83,6 +88,10 @@ Detection does not work (gives id trafo as a result), seems like it does not inc
 Added member requests to Projects:
 memberRequests	-> Set<User>
 Detection hangs (or takes a long time)
+
+----------
+
+Extracted class memberRequest to store additional dates, but decided against it for now (requests are rare and tagging is more urgent). May redo this later.
 
 ----------
 
@@ -150,7 +159,8 @@ entity IssueClose
    :: add Attachment {
               date : DateTime min(1) max(1)
               file : File min(1) max(1) };
-              
+
+(Used an attachment limit at first, but generalized it later)
 No problems, migration ok local and on server
 
 ----------
