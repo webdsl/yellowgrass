@@ -5,8 +5,8 @@ imports comment/comment
 imports comment/event
 imports comment/issueControl
 imports issue/emails
-imports issue/tag
 imports issue/register
+imports issue/sidebar
 imports user/user
 imports project/project
 imports issue/attachment
@@ -303,79 +303,10 @@ define page issue(p : Project, issueNumber : Int) {
 			noCommentAddition()
 			
 		}
-		block [class := "sidebar"] {
-			par { 
-				<h1> "Issue " output(i.number) </h1>
-			}
-			sidebarSeparator()
-			par { navigate(editIssue(i))	{"Edit this Issue"}}
-			par { actionLink("Close Issue", close(i) ) }
-			par { actionLink("Reopen Issue", reopen(i) ) }
-			par { actionLink("Vote and follow Issue", vote(i) ) }
-			par { actionLink("Move Issue To", showIssueMoveTargets(i)) [ajax] }
-			par [class := "IssueMoveTargets"] { placeholder issueMoveTargetsBox {} }
-			par { navigate(createIssue(p))	{"New Issue"} }
-			par { addTag(i) }
-		}
-	}
-	action close(issue : Issue){
-		issue.close();
-		issue.save();
-		issue.notifyClose();
-		return project(issue.project);
-	}
-	action reopen(issue : Issue){
-		issue.reopen();
-		issue.save();
-		issue.notifyReopen();
-		return issue(issue.project, issue.number);
-	}
-	action vote(issue : Issue){
-		var tag := tag("!" + securityContext.principal.tag, p);
-		issue.tags.add(tag);
-		return issue(issue.project, issue.number);
-	}
-	action showIssueMoveTargets(issue : Issue){
-		replace(issueMoveTargetsBox, issueMoveTargets(issue));
+		issueSideBar(i)
 	}
 }
-
-define ajax issueMoveTargets (i : Issue){
-	for(p : Project in securityContext.principal.projects) {
-		if(p != i.project) {
-			par{ form{ actionLink(p.name, moveIssue(i, p)) [ajax] }}
-		}
-	}
-	action moveIssue(old : Issue, p : Project) {
-		var new := Issue {
-			title := old.title
-			description := old.description
-			type := old.type
-			submitted := now()
-			project := p
-			number := newIssueNumber(p)
-			open := true
-			reporter := old.reporter
-			email := old.email
-		};
-		new.assign();
-		new.save();
-		
-		var moveComment := Comment {
-			moment := now()
-			text := "Issue has been moved to [" + p.name + "](/project/" + p.name + ") / " +
-					"[Issue " + new.number + "](/issue/" + p.name + "/" + new.number + ")" 
-			author := yellowGrass
-		};
-		old.log.add(moveComment);
-		old.close();
-		old.save();
-		flush();
-		new.notifyRegister();
-		return issue(p, new.number);
-	}
-}
-
+	
 define page editIssue(i : Issue) {
 	title{output(i.project.name) " issue #" output(i.number) " on YellowGrass.org [editing]"}
 	main()
@@ -424,14 +355,5 @@ define page postedIssues() {
 		}
 		par { <h1> "Issues Posted by You" </h1> }
 		par { issues(postedIssues.set(), true, true, true, 60, true) }
-	}
-}
-
-function prefix(s : List<Issue>, length : Int) : List<Issue> {
-	if(s.length <= length) {
-		return s;
-	} else {
-		s.removeAt(length);
-		return prefix(s, length);
 	}
 }

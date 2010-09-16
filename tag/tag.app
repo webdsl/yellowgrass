@@ -1,5 +1,7 @@
-module issue/tag
+module tag/tag
 
+imports tag/ac
+imports tag/sidebar
 imports user/user
 imports issue/issue
 imports project/roadmap
@@ -149,25 +151,7 @@ define page tag(p : Project, tag : String) {
 			}
 			issues(taggedIssues.set(), false, true, true, 50, true)
 		}
-		block [class := "sidebar"] {
-			par { 
-				<h1> output(tag) </h1>
-			}
-			sidebarSeparator()
-			par { actionLink("Make Release", makeRelease(t, p) ) }
-			par { actionLink("Color Red", color(t, p, "red") ) }
-			par { actionLink("Color Green", color(t, p, "green") ) }
-			par { actionLink("Color Grey", color(t, p, "grey") ) }
-			sidebarSeparator()
-		}
-		action makeRelease(t : Tag, p : Project) {
-			t.tags.add(tag("release", p));
-			return tag(p, t.name);
-		}
-		action color(t : Tag, p : Project, color : String) {
-			t.tags.add(tag(color, p));
-			return tag(p, t.name);
-		}
+		tagSideBar(t)
 	}
 }
 

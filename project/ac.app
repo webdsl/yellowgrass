@@ -30,17 +30,6 @@ access control rules
 		true
 	}
 	
-	rule action requestJoinProject(p : Project) {
-		loggedIn && 
-		!(principal in p.members) &&
-		!(principal in p.memberRequests)
-	}
-	
-	rule action leaveProject(p : Project) {
-		principal in p.members &&
-		p.members.length > 1
-	}
-	
 	rule template projectMembershipRequests(p : Project) {
 		principal in p.members && 
 		p.memberRequests.length > 0
@@ -62,3 +51,18 @@ access control rules
 			limit 1
 		).length > 0
 	}
+	
+	rule template projectCommands(p : Project) {
+		true
+		
+		rule action requestJoinProject(p : Project) {
+			loggedIn && 
+			!(principal in p.members) &&
+			!(principal in p.memberRequests)
+		}
+		
+/*		rule action leaveProject(p : Project) {
+			principal in p.members &&
+			p.members.length > 1
+		}
+*/	}

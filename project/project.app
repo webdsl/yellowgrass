@@ -3,9 +3,11 @@ module project/project
 imports project/ac
 imports project/register
 imports project/roadmap
+imports project/membership
+imports project/sidebar
 imports issue/issue
+imports tag/tag
 imports user/user
-imports issue/tag
 
 entity Project {
 	name			:: String (id, 
@@ -99,7 +101,7 @@ define page project(p : Project) {
 			i._project = ~p and
 			t._name like ~"!%"
 		group by i 
-		order by count(t._name) desc //ORDER BY AGGREGATION IS NOT SUPPORTED BY MySQL :(
+		order by count(t._name) desc //order by aggregation is not supported in MySQL :(
 		limit 10;
 	
 	// TODO Make following more efficient by integration and querying
@@ -108,13 +110,7 @@ define page project(p : Project) {
 		where _open = true and _project = ~p
 		order by _submitted desc
 		limit 2000;
-//	var popularIssues : List<Issue> := [ i | i : Issue in openIssues order by i.nrVotes desc];
-/*	var unassignedIssues : List<Issue> := [ i | i : Issue in openIssues where !(i.isAssigned()) ];
-	var unassignedIssuesOrd : List<Issue> := [ i | i : Issue in unassignedIssues order by i.submitted desc ];
-	var unassignedIssuesOrdSumm : List<Issue> := [ i | i : Issue in unassignedIssuesOrd limit 5 ]; // TODO Workaround
-*/
-	
-	
+
 	title{output(p.name) " on YellowGrass.org" }
 	main()
 	define body() {
@@ -131,14 +127,7 @@ define page project(p : Project) {
 			par { tags(p.getCommonTags(80), p) }
 			projectMembershipRequests(p)
 			
-/*			if(unassignedIssues.length > 0) {
-				par { <h2>"Recent Unassigned Issues"</h2>	}
-				par { issues(unassignedIssuesOrdSumm.set(), false, false, true, 50, true) }
-				if(unassignedIssues.length > 5) {
-					navigate(projectUnAssignedIssues(p)) {output(unassignedIssues.length - 5) " more unassigned issues"}
-				}
-			}
-*/			if(popularIssues.length > 0) {
+			if(popularIssues.length > 0) {
 				par { <h2>"Popular Open Issues"</h2> }
 				par { issues(popularIssues, false, false, true, 50, true) }
 			}
@@ -151,62 +140,6 @@ define page project(p : Project) {
 			par { users(p.members) }
 		}
 		projectSideBar(p)
-	}
-}
-
-define template projectMembershipRequests(p : Project) {
-	par { <h2>"Membership Requests"</h2>	}
-	for(r : User in p.memberRequests order by r.name) {
-		par { 
-			navigate(user(r.tag)){output(r.name)}
-			" - "
-			actionLink("Accept", acceptMembershipRequest(r, p))
-			" - "
-			actionLink("Decline", declineMembershipRequest(r, p))
-		}
-	}
-	action acceptMembershipRequest(u : User, p : Project) {
-		p.members.add(u);
-		p.memberRequests.remove(u);
-		tag("@"+u.tag, p);
-		return project(p);
-	}
-	action declineMembershipRequest(u : User, p : Project) {
-		p.memberRequests.remove(u);
-		return project(p);
-	}
-}
-
-define template projectSideBar(p : Project) {
-	block [class := "sidebar"] { 
-		par { 
-			<h1> output(p.name) </h1>
-		}
-		sidebarSeparator()
-		par { navigate(createIssue(p))	{"New Issue"} }
-		par { navigate(edit(p))			{"Project Settings"} }
-		par { navigate(roadmap(p)) 		{"Project Roadmap"} }
-		par { actionLink("Leave Project", leaveProject(p)) }
-		par { actionLink("Request Project Membership", requestJoinProject(p)) }
-		sidebarSeparator()
-		par { output(p.description) }
-		par { output(p.url) }
-		sidebarSeparator()
-		par {	output(newIssueNumber(p) - 1) " issues " // TODO make query count
-				output(p.members.length) " members"		}
-		
-		par { <i> "Weekly Issue Count" </i> }
-		par { image(p.getWeeklyStatsGraph()) }
-	}
-	action requestJoinProject(p : Project) {
-		p.memberRequests.add(securityContext.principal);
-		message("Project membership requested, awaiting project member approval...");
-		return project(p);
-	}
-	action leaveProject(p : Project) {
-		p.members.remove(securityContext.principal);
-		tagCleanup(tag("@"+securityContext.principal.tag, p));
-		return home(securityContext.principal);
 	}
 }
 
@@ -275,7 +208,6 @@ define page edit(p : Project) {
 	}
 	action save(){
 		p.save();
-		//message("Project saved");
 		return project(p);
 	}
 }
@@ -336,20 +268,4 @@ define page projectUnAssignedIssues(p : Project) {
 		}
 		projectSideBar(p)
 	}
-}
-
-function max(i1 : Int, i2 : Int) : Int {
-	if(i1 >= i2) {
-		return i1;
-	}
-	return i2;
-}
-
-function maxList(is : List<Int>) : Int {
-	var m : Int := is.get(0);
-	for(i : Int from 0 to is.length - 1) {
-		var current : Int := is.get(i); 
-		m := max(m, current);
-	}
-	return m;
 }

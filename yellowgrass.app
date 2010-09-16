@@ -8,6 +8,7 @@ imports issue/issue
 imports user/user
 imports project/project
 imports user/register
+imports tag/tag
 
 define page root() {
 /*	var recentProjects : List<Project> := 

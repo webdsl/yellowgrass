@@ -3,7 +3,6 @@ module issue/ac
 imports issue/issue
 imports project/project
 imports user/user
-imports issue/tag
 
 access control rules
 	
@@ -33,20 +32,6 @@ access control rules
 	
 	rule page issue(p : Project, number : Int) { 
 		true
-
-		rule action close(issue : Issue) {
-			principal in issue.project.members &&
-			issue.open
-		}
-		
-		rule action reopen(issue : Issue) {
-			principal in issue.project.members &&
-			(!issue.open)
-		}
-		
-		rule action vote(issue : Issue) {
-			loggedIn && !issue.hasTag("!"+principal.tag) && !(principal == issue.reporter)
-		}
 	}
 		
 	rule page editIssue(i : Issue) {
@@ -70,56 +55,7 @@ access control rules
 		principal in issue.project.members &&
 		issue.open
 	}
-	
-	rule template addTag(i : Issue) {
-		principal in i.project.members
-	}
-	
-	rule ajaxtemplate tagSuggestions(tagPrefix : String, i : Issue) {
-		true
-		rule action addSuggestedTag(suggestion : Tag) {
-			principal in i.project.members
-		}
-	}
-	
-	rule page tag(p : Project, tag : String) {
-		( 
-			from Tag
-			where _name=~tag and _project=~p
-			limit 1
-		).length > 0
 		
-		rule action makeRelease(tag : Tag, p : Project) {
-			principal in p.members && !tag.hasTag("release")
-		}
-		rule action color(t : Tag, p : Project, color : String) {
-			principal in p.members && !t.isColored()
-		}
-	}
-	
-	rule template tags(i : Issue, editing : Bool) {
-		true
-	}
-	
-	rule template tags(i : Issue, editing : Bool, summary : Bool) {
-		true
-		rule action deleteTag(i : Issue, t : Tag) {
-			principal in i.project.members || 
-			(loggedIn && principal == i.reporter)
-		}
-	}
-	
-	rule template tags(t : Tag, editing : Bool) {
-		true
-		rule action deleteTag(tagToRemoveFrom : Tag, tagToRemove : Tag) {
-			principal in tagToRemoveFrom.project.members
-		}
-	}
-	
-	rule template tags(ts : List<Tag>, p : Project) {
-		true
-	}
-	
 	rule page postedIssues() {
 		loggedIn
 	}
@@ -157,4 +93,26 @@ access control rules
 		rule action attachmentList_inline_action0(a : Attachment) {	// Bug in WebDSL: workaround
 			true
 		}
+	}
+	
+	rule template issueCommands(i : Issue) {
+		true
+		
+		rule action close(issue : Issue) {
+			principal in issue.project.members &&
+			issue.open
+		}
+		
+		rule action reopen(issue : Issue) {
+			principal in issue.project.members &&
+			(!issue.open)
+		}
+		
+		rule action vote(issue : Issue) {
+			loggedIn && !issue.hasTag("!"+principal.tag) && !(principal == issue.reporter)
+		}
+	}
+	
+	rule template issueSideBar(i : Issue) {
+		true
 	}

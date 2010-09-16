@@ -37,7 +37,7 @@ define page roadmap(p : Project) {
 							where t=~release
 							order by i._open desc, i._submitted desc
 						),
-						false, true, true, 60, false
+						false, true, true, 60, true
 					)
 				}
 			}

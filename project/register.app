@@ -1,4 +1,4 @@
-module user/register
+module project/register
 
 define page registerProject(){
 	var p := Project{};
