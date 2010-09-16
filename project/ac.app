@@ -1,5 +1,7 @@
 module project/ac
-  
+
+imports tag/release
+
 access control rules
 	
 	rule page project(p : Project) {	
@@ -50,6 +52,13 @@ access control rules
 			where t._project=~p and ts._name=~"release"
 			limit 1
 		).length > 0
+		
+		rule action postponeOpen(project : Project, release : Tag) {
+			principal in project.members && 
+			isRelease(release) && 
+			!releaseDone(project, release) &&
+			nextRelease(project, release) != null
+		}
 	}
 	
 	rule template projectCommands(p : Project) {

@@ -6,13 +6,7 @@ define page roadmap(p : Project) {
 	title{output(p.name) " Roadmap - on YellowGrass.org"}
 	main()
 	define body(){
-		var releases := 
-			select t
-			from Tag as t
-			left join t.tags as tt
-			where t._project=~p	and tt._name = ~"release"
-			order by t._name desc
-			limit 5000;
+		var releases := releases(p)
 		
 		block [class := "main"] { 
 			if(securityContext.loggedIn) {
@@ -29,19 +23,20 @@ define page roadmap(p : Project) {
 			par{ <h1> output(p.name) " Roadmap" </h1> }
 			for(release : Tag in releases) {
 				par { <h2> navigate(tag(p, release.name)) { output(release.name) } </h2> }
-				par {
-					issues((
-							select i 
-							from Issue as i 
-							left join i._tags as t 
-							where t=~release
-							order by i._open desc, i._submitted desc
-						),
-						false, true, true, 60, true
-					)
-				}
+				par { actionLink("Postpone Open Issues", postponeOpen(p, release)) }
+				par { issues(releaseIssues(release), false, true, true, 60, true) }
 			}
 		}
 		projectSideBar(p)
+	}
+	
+	action postponeOpen(project : Project, release : Tag) {
+		var nextRelease : Tag := nextRelease(project, release);
+		for(i : Issue in releaseIssues(release)) {
+			if(i.open) {
+				i.tags.remove(release);
+				i.tags.add(nextRelease);
+			}
+		}
 	}
 }
