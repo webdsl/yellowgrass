@@ -25,10 +25,16 @@ h2 {
 }
 
 img {
-  border-width   : 0px;
+	border-width : 0px;
 }
 
 /* Custom */
+
+.Error {
+	color: #a81a1a;
+	font-weight: bold;
+	font-style: italic;
+}
 
 #pagewrapper {
     width: 100%;

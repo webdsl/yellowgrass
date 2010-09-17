@@ -70,16 +70,32 @@ define mainheader() {
 }
 
 define ignore-access-control errorTemplateInput(messages : List<String>){
-  validatedInput
-  for(ve: String in messages){
-    row[style := "color: #FF0000;border: 1px solid #FF0000;"]{
-      column{}
-      column{ 
-        output(ve)
-      }
-    }
-  }
+	validatedInput()
+	for(ve: String in messages){
+		block[class:="Error"] {
+			output(ve)
+		}
+	}     
 }
+
+define ignore-access-control errorTemplateForm(messages : List<String>){
+	validatedInput()
+	for(ve: String in messages){
+		block[class:="Error"] {
+			output(ve)
+		}
+	}     
+}
+
+define ignore-access-control errorTemplateAction(messages : List<String>){
+	validatedInput()
+	for(ve: String in messages){
+		block[class:="Error"] {
+			output(ve)
+		}
+	}     
+}
+
 
 define template sidebarSeparator() {
 	image("/images/sidebarSeparator.png")
