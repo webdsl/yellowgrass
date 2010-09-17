@@ -43,6 +43,15 @@ access control rules
 		true
 	}
 	
+	rule page createTaggedIssue(p : Project, initialTag : Tag) {
+		principal in p.members
+	}
+	
+	rule template createIssue(p : Project, initialTag : Tag) {
+		initialTag == null || 
+		principal in p.members
+	}
+	
 	rule action updateIssueSuggestions(t : String) {
 		loggedIn
 	}

@@ -1,6 +1,14 @@
 module issue/register
 
 define page createIssue(p : Project) {
+	createIssue(p, null as Tag)
+}
+
+define page createTaggedIssue(p : Project, initialTag : Tag) {
+	createIssue(p, initialTag)
+}
+
+define template createIssue(p : Project, initialTag : Tag) {
 	title{output(p.name) " - Create new issue on YellowGrass.org"}
 	main()
 	define body(){
@@ -11,50 +19,55 @@ define page createIssue(p : Project) {
 		var title : String := "";
 		var email : Email := "";
 		
-		<h1> "Post New " output(p.name) " Issue" </h1>
-		
-		form { 
-		
-			par { label("Title") {
-				if(securityContext.loggedIn) {
-					input (title) [onkeyup := updateIssueSuggestions(title), autocomplete:="off"]
-				} else {
-					input (title) [autocomplete:="off"]
-				}
-			}}
-			par [class := "IssueSuggestions"] {
-				placeholder issueSuggestionsBox {} 
-			}
-			par {
-				label("Type") {
-					select(i.type from [improvementIssueType, errorIssueType, featureIssueType, questionIssueType])
-				}
-			}
-			par { label("Description") {input(i.description)} }
-			par [align := "center"] { navigate(url("http://en.wikipedia.org/wiki/Markdown#Syntax_examples")) [target:="_blank"] { "Syntax help" } }
-			if(!securityContext.loggedIn) {
-				par { label("Email") {
-					input(email){validate(email!="","Please enter your email address")}
+		block [class := "main"] { 
+			<h1> "Post New " output(p.name) " Issue" </h1>
+			
+			form { 
+			
+				par { label("Title") {
+					if(securityContext.loggedIn) {
+						input (title) [onkeyup := updateIssueSuggestions(title), autocomplete:="off"]
+					} else {
+						input (title) [autocomplete:="off"]
+					}
 				}}
-				par { <i> 	"Email addresses are used for notifications and questions only. "
-							"Email addresses are never presented publicly."</i> 
+				par [class := "IssueSuggestions"] {
+					placeholder issueSuggestionsBox {} 
 				}
-				par { captcha() }
-			}		
-			par{
-				navigate(project(p)) {"Cancel"}
-				" "
-				action("Post",post())
+				par {
+					label("Type") {
+						select(i.type from [improvementIssueType, errorIssueType, featureIssueType, questionIssueType])
+					}
+				}
+				par { label("Description") {input(i.description)} }
+				par [align := "center"] { navigate(url("http://en.wikipedia.org/wiki/Markdown#Syntax_examples")) [target:="_blank"] { "Syntax help" } }
+				if(!securityContext.loggedIn) {
+					par { label("Email") {
+						input(email){validate(email!="","Please enter your email address")}
+					}}
+					par { <i> 	"Email addresses are used for notifications and questions only. "
+								"Email addresses are never presented publicly."</i> 
+					}
+					par { captcha() }
+				}		
+				par{
+					navigate(project(p)) {"Cancel"}
+					" "
+					action("Post",post())
+				}
 			}
 		}
+		projectSideBar(p)
 		action post() {
-			log("---" + title);
 			i.title := title;
 			i.submitted := now();
 			i.project := p;
 			i.number := newIssueNumber(p);
 			i.open := true;
 			i.email := email;
+			if(initialTag != null) {
+				i.tags := {initialTag};
+			}
 			i.assign();
 			i.save();
 			flush();

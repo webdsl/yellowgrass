@@ -15,7 +15,6 @@ define template projectCommands(p : Project) {
 	par { navigate(createIssue(p))	{"New Issue"} }
 	par { navigate(edit(p))			{"Project Settings"} }
 	par { navigate(roadmap(p)) 		{"Project Roadmap"} }
-//	par { actionLink("Leave Project", leaveProject(p)) }
 	par { actionLink("Request Project Membership", requestJoinProject(p)) }
 	
 	action requestJoinProject(p : Project) {
@@ -23,10 +22,4 @@ define template projectCommands(p : Project) {
 		message("Project membership requested, awaiting project member approval...");
 		return project(p);
 	}
-/*	action leaveProject(p : Project) {
-		p.members.remove(securityContext.principal);
-		tagCleanup(tag("@"+securityContext.principal.tag, p));
-		return home(securityContext.principal);
-	}
-*/
 }

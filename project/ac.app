@@ -10,6 +10,13 @@ access control rules
 		
 	rule page edit(p : Project) {
 		principal in p.members
+		rule action save() {
+			principal in p.members
+		}
+		rule action leaveProject(p : Project) {
+			principal in p.members &&
+			p.members.length > 1
+		}
 	}
 	
 	rule page registerProject() {
@@ -69,9 +76,4 @@ access control rules
 			!(principal in p.members) &&
 			!(principal in p.memberRequests)
 		}
-		
-/*		rule action leaveProject(p : Project) {
-			principal in p.members &&
-			p.members.length > 1
-		}
-*/	}
+	}

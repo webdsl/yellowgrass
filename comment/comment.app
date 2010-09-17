@@ -44,6 +44,9 @@ define ajax template commentAdditionInput(i : Issue) {
 	block [class := "CommentAdd"] {
 		form {
 			par { input(newCommentText) }
+			if(!i.open) {
+				par { "This issue is closed! Are you sure you want to add a comment?" }
+			}
 			par { 
 				action("Post Comment", newComment(newCommentText, i))  [ajax]
 				" "

@@ -281,15 +281,6 @@ define page issue(p : Project, issueNumber : Int) {
 			
 			// output(/\n/.replaceAll("<br />", b1.text) as WikiText)
 			
-/*			par { <h3> "Attachments" </h3> }
-			par {
-				for( a : Attachment in i.attachments) {
-					output(a)
-				}
-			}
-			
-*/
-
 			attachmentList(i)
 			attachmentAddition(i)
 			
