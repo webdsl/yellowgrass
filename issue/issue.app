@@ -202,25 +202,28 @@ define template issues(is : List<Issue>, showProjectName : Bool, showTicks : Boo
 		table {
 			for(i : Issue in is) {
 				row {
-					if(i.open || (!showTicks)) { 
-						"" 
-					} else {
-						image("/images/tick.png") 
+					if(showTicks) {
+						if(!i.open) { 
+							image("/images/tick.png") 
+						} else { 
+							"" 
+						}
 					}
 					if(showNumbers) {
 						output(i.number)
 					}
 					if(now().format("yyyy") == i.submitted.format("yyyy")) {
-						output(i.submitted.format("MMM d"))
+						block[class := "DateMD"] { output(i.submitted.format("MMM d")) }
 					} else {
-						output(i.submitted.format("MMM d yyyy"))
+						block[class := "DateMDY"] { output(i.submitted.format("MMM d yyyy")) }
 					}
 					if(showProjectName) {
-						output(
-							abbreviate(i.project.name, 20))
+						output(abbreviate(i.project.name, 20))
 					}
-					navigate(issue(i.project, i.number)) {
-						output(abbreviate(i.title, titleLength))[style:="min-width:280px"]
+					block[class := "AbbreviatedIssueTitle"] {
+						navigate(issue(i.project, i.number)) {
+							output(abbreviate(i.title, titleLength))
+						}
 					}
 					if(showTags) { 
 						tags(i, false, true)
@@ -345,6 +348,6 @@ define page postedIssues() {
 			"Posted Issues"
 		}
 		par { <h1> "Issues Posted by You" </h1> }
-		par { issues(postedIssues.set(), true, true, true, 60, true) }
+		par { issues(postedIssues.set(), true, true, true, 50, true) }
 	}
 }

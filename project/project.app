@@ -66,7 +66,7 @@ entity Project {
 		var stats := getIssueStatsWeekly();
 		var maxStat := maxList(stats);
 	
-		var prefix := "http://chart.apis.google.com/chart?cht=bvg&chs=250x100&chco=bbcebb&chbh=a,5,10&chxt=y";
+		var prefix := "http://chart.apis.google.com/chart?cht=bvg&chs=230x100&chco=bbcebb&chbh=a,5,10&chxt=y";
 		var rangePrefix := "&chds=0," + maxStat;
 		var axisPrefix := "&chxr=0,0," + maxStat;
 		var dataPrefix := "&chd=t:";

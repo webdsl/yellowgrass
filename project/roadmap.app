@@ -24,7 +24,7 @@ define page roadmap(p : Project) {
 			for(release : Tag in releases) {
 				par { <h2> navigate(tag(p, release.name)) { output(release.name) } </h2> }
 				par { actionLink("Postpone Open Issues", postponeOpen(p, release)) }
-				par { issues(releaseIssues(release), false, true, true, 60, true) }
+				par { issues(releaseIssues(release), false, true, true, 50, true) }
 			}
 		}
 		projectSideBar(p)

@@ -6,7 +6,8 @@ function releases(p : Project) : List<Tag> {
 		select t
 		from Tag as t
 		left join t.tags as tt
-		where t._project=~p	and tt._name = ~"release"
+		where   t._project=~p	
+			and tt._name = ~"release"
 		order by t._name desc
 		limit 5000;
 }
@@ -16,8 +17,7 @@ function nextRelease(p : Project, r : Tag) : Tag {
 		select t
 		from Tag as t
 		left join t.tags as tt
-		where 
-			    t._project=~p 
+		where   t._project=~p 
 			and tt._name = ~"release"
 			and t._name > ~r.name
 		order by t._name asc

@@ -22,7 +22,7 @@ define page home(u : User){
 //			}
 //			block [class := "Block"] {
 				par { <h2>"Assigned Issues"</h2>	}
-				par { issues(assignedIssues.set(), true, false, true, 60, true) }
+				par { issues(assignedIssues.set(), true, false, true, 50, true) }
 				par { navigate(postedIssues()) {"View issues posted by you"} }
 //			}
 		}

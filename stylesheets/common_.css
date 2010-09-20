@@ -186,8 +186,20 @@ img {
 	padding: 0px 10px 0px 10px;
 }
 
+.DateMD {
+	min-width: 35px;
+}
+
+.DateMD {
+	min-width: 45px;
+}
+
+.Listing .AbbreviatedIssueTitle {
+	min-width: 300px;
+}
+
 form { 
-  display : inline;
+  display: inline;
 }
 
 hr {
