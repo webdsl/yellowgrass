@@ -374,3 +374,11 @@ label {
 	margin-left: 20px;
 	font-size: 8pt;
 }
+
+#issueDetails {
+	position: absolute;
+	max-width: 30%;
+	max-height: 30%;
+	right: 0px;
+	bottom: 0px;
+}

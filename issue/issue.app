@@ -10,6 +10,7 @@ imports issue/sidebar
 imports user/user
 imports project/project
 imports issue/attachment
+imports issue/issueBrowser
 
 entity Issue {
 	// TODO add optional user association
@@ -31,7 +32,7 @@ entity Issue {
 	reporterName :: String (searchable) := getReporterName()
 	
 	function getReporterName() : String {
-		return "";
+		return ""; // TODO Enable this
 	/*	if (true){//reporter == null) {
 			return "b";//reporter.name;
 		} else {
@@ -196,7 +197,7 @@ define template issues(is : Set<Issue>, showProjectName : Bool, showTicks : Bool
 	issues([i | i : Issue in is.list()  order by i.submitted desc], 
 		showProjectName, showTicks, showNumbers, titleLength, showTags)
 }
-
+/*
 define template issues(is : List<Issue>, showProjectName : Bool, showTicks : Bool, showNumbers : Bool, titleLength : Int, showTags : Bool) {
 	block [class := "Listing"] {
 		table {
@@ -233,11 +234,11 @@ define template issues(is : List<Issue>, showProjectName : Bool, showTicks : Boo
 		}
 	}
 }
-
+*/
 define page issue(p : Project, issueNumber : Int) {
 	var i := getIssue(p, issueNumber)
 	
-	title{output(i.project.name) " issue #" output(i.number) " - " output(i.title)}
+	title{output(i.number) " " output(i.title) " (" output(i.project.name) ")"}
 	main()
 	define body(){
 		block [class := "main"] {
