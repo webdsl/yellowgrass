@@ -203,7 +203,7 @@ define template tags(i : Issue, editing : Bool, summary : Bool) {
 
 define template tags(ts : List<Tag>, p : Project) {
 	block [class:="Tags"] {
-		for(tag : Tag in ts order by tag.name) {
+		for(tag : Tag in ts) {
 			navigate (tag(p, tag.name)){output(tag.name)} " "
 		}
 	}
