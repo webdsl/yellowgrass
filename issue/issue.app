@@ -10,7 +10,7 @@ imports issue/sidebar
 imports user/user
 imports project/project
 imports issue/attachment
-imports issue/issueBrowser
+//imports issue/issueBrowser
 
 entity Issue {
 	// TODO add optional user association
@@ -197,7 +197,7 @@ define template issues(is : Set<Issue>, showProjectName : Bool, showTicks : Bool
 	issues([i | i : Issue in is.list()  order by i.submitted desc], 
 		showProjectName, showTicks, showNumbers, titleLength, showTags)
 }
-/*
+
 define template issues(is : List<Issue>, showProjectName : Bool, showTicks : Bool, showNumbers : Bool, titleLength : Int, showTags : Bool) {
 	block [class := "Listing"] {
 		table {
@@ -234,7 +234,7 @@ define template issues(is : List<Issue>, showProjectName : Bool, showTicks : Boo
 		}
 	}
 }
-*/
+
 define page issue(p : Project, issueNumber : Int) {
 	var i := getIssue(p, issueNumber)
 	

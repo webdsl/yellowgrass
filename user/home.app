@@ -18,7 +18,7 @@ define page home(u : User){
 			par [class := "Back"] { rawoutput { "&raquo;" } " Home" }
 //			block [class := "Block"] { 
 				par { <h2>"Your Projects"</h2>	}
-				par { projects(u.projects) }
+				par { projects(u.projects.list()) }
 //			}
 //			block [class := "Block"] {
 				par { <h2>"Assigned Issues"</h2>	}

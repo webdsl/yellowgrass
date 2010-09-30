@@ -148,24 +148,26 @@ define page projectStats(p : Project) {
 	par { image(p.getWeeklyStatsGraph()) }
 }
 
-define template projects(ps : Set<Project>) {
-	var psSorted : Set<Project> := 
-		[punsorted | punsorted : Project in ps order by punsorted.name asc]	 
+define template projects(ps : List<Project>) {
 	table {
-		for(p : Project in psSorted) { 
+		for(p : Project in ps) { 
 			row {
 				navigate project(p) {output(p.name)}
 				block {
-					output([i | i : Issue in p.issues where i.open].length) 
+					output(
+						(from Issue as i
+						 where i.open=true and i.project = ~p
+						).length
+					) 
 					" open issues "
 				}
-				block { 
-					output(p.members.length) 
-					" members "
-				}
 				block {
-					tags(p.getCommonTags(8), p)
+					output(p.members.length)
+					" members"
 				}
+				/*block {
+					tags(p.getCommonTags(5), p)
+				}*/
 			}
 		}
 	}
@@ -177,9 +179,10 @@ define page projectList() {
 	define body(){
 		<h1>"Project List"</h1>
 		var projectList : List<Project> := 
-			from Project;
+			from Project
+			order by _name;
 		block [class := "Listing"] {
-			projects(projectList.set())
+			projects(projectList)
 		}
 	}
 }

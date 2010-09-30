@@ -31,7 +31,7 @@ access control rules
 		true
 	}
 	
-	rule template projects(ps : Set<Project>) {
+	rule template projects(ps : List<Project>) {
 		true
 	}
 	
