@@ -17,6 +17,9 @@ access control rules
 			principal in p.members &&
 			p.members.length > 1
 		}
+		rule action regenerateIssueTypes(p : Project) {
+			principal in p.members
+		}
 	}
 	
 	rule page registerProject() {

@@ -51,6 +51,9 @@ access control rules
 		rule action makeRelease(tag : Tag, p : Project) {
 			principal in p.members && !tag.hasTag("release")
 		}
+		rule action makeIssueType(tag : Tag, p : Project) {
+			principal in p.members && !tag.hasTag(ISSUE_TYPE_TAG()) 
+		}
 		rule action color(t : Tag, p : Project, color : String) {
 			principal in p.members && !t.isColored()
 		}

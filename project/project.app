@@ -5,9 +5,11 @@ imports project/register
 imports project/roadmap
 imports project/membership
 imports project/sidebar
+imports project/settings
 imports issue/issue
 imports tag/tag
 imports user/user
+
 
 entity Project {
 	name			:: String (id, 
@@ -187,46 +189,6 @@ define page projectList() {
 	}
 }
 
-define page edit(p : Project) {
-	title{output(p.name) " on YellowGrass.org [Editing]"}
-	main()
-	define body(){
-		<h1> "Edit Project" </h1>
-		form {
-			par {
-				label("Project name") { input(p.name) }
-			}
-			par {
-				label("Project description") { input(p.description)}
-			}
-			par {
-				label("Project web page") { input(p.url) }
-			}
-			par {
-				navigate(project(p)) {"Cancel"}
-				" "
-				action("Save",save())
-			}
-		}
-		if(p.members.length > 1) {
-			<h1> "Leave project" </h1>
-			par {
-				"Note that upon leaving, issues in this project assigned to you will no longer be assigned. "
-				"However, upon leaving a project, no issues will be lost. "
-				actionLink("Leave Project " + p.name, leaveProject(p))
-			}
-		}
-	}
-	action save(){
-		p.save();
-		return project(p);
-	}
-	action leaveProject(p : Project) {
-		p.members.remove(securityContext.principal);
-		tagCleanup(tag("@"+securityContext.principal.tag, p));
-		return home(securityContext.principal);
-	}
-}
 
 define page projectIssues(p : Project, filterOpen : Bool) {
 	title{output(p.name) " issues on YellowGrass.org"}
