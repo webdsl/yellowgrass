@@ -79,9 +79,16 @@ function getFollowers(ts : Set<Tag>) : Set<User> {
 	return followers;
 }
 
+/**
+ ** Deletes the given tag if:
+ ** - It is not used on issues
+ ** - It is not used on tags (as meta tag)
+ ** - It is not tagged (by a meta tag)
+ ** - It is not an assignment tag (@someone) of one of the project members
+ **/
 function tagCleanup(tag : Tag) {
 	flush();
-	var tagged : List<Issue> :=
+	var taggedIssues : List<Issue> :=
 		select i
 		from Issue as i
 		left join i._tags as t
@@ -94,8 +101,8 @@ function tagCleanup(tag : Tag) {
 		where t = ~tag
 		limit 1;
 		
-	// Is the tag used?
-	if(	tagged.length == 0 && taggedTags.length == 0) {
+	// Is the tag used or tagged?
+	if(	taggedIssues.length == 0 && taggedTags.length == 0 && tag.tags.length == 0) {
 		// 	Are there any project memebers using this tag
 		if(/@[a-z0-9]+/.match(tag.name)) {
 			var tagSuffixArray := tag.name.split();
@@ -106,8 +113,6 @@ function tagCleanup(tag : Tag) {
 				from Project as p
 				left join p._members as m
 				where m._tag = ~tagSuffix and p = ~tag.project;
-				
-			//log("members.length: "+members.length);
 				
 			if(members.length == 0 ) {
 				tag.delete();
