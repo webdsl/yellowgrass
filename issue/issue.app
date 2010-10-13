@@ -233,7 +233,7 @@ define page issue(p : Project, issueNumber : Int) {
 			if(securityContext.loggedIn) {
 				par [class := "Back"] {
 					rawoutput { " &raquo; " } 
-					navigate(home(securityContext.principal)) {"Home"}
+					navigate(home()) {"Home"}
 					rawoutput { " &raquo; " }
 					navigate(project(i.project)) {"Project " output(i.project.name)}
 					rawoutput { " &raquo; " }
@@ -290,6 +290,7 @@ define page issue(p : Project, issueNumber : Int) {
 	}
 }
 	
+// TODO Adapt this to the new issue types
 define page editIssue(i : Issue) {
 	title{output(i.project.name) " issue #" output(i.number) " on YellowGrass.org [editing]"}
 	main()
@@ -332,7 +333,7 @@ define page postedIssues() {
 	define body() {
 		par [class := "Back"] { 
 			rawoutput { " &raquo; " }
-			navigate(home(securityContext.principal)) {"Home"}
+			navigate(home()) {"Home"}
 			rawoutput { " &raquo; " }
 			"Posted Issues"
 		}

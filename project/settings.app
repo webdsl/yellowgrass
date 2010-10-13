@@ -47,7 +47,7 @@ define page edit(p : Project) {
 	action leaveProject(p : Project) {
 		p.members.remove(securityContext.principal);
 		tagCleanup(tag("@"+securityContext.principal.tag, p));
-		return home(securityContext.principal);
+		return home();
 	}
 	action regenerateIssueTypes(p : Project) {
 		createIssueTypes(p);

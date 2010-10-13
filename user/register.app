@@ -34,7 +34,7 @@ define page registerUser(){
 		securityContext.loggedIn := true;
 		email(registerUserEmail(u));
 		// message("Registration completed");
-		return home(u);
+		return home();
 	}
 }
 

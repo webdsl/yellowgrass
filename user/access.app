@@ -18,25 +18,35 @@ define template login(){
 		navigate(resetUserPassword()) {"Reset Pass"}
 	}
 	action login(){
+		securityContext.principal := null;
+		securityContext.loggedIn := false;
+		if(authenticate(email,pass)) {
+			return home();
+		} else {
+			message("Incorrect email address or incorrect password");
+			return root();
+		}
+		/*
+		securityContext.principal := null;
+		securityContext.loggedIn := false;
 		var users : List<User> :=
 			select u from User as u 
 			where (u._email = ~email);
-		for (us : User in users ){
-			if (us.password.check(pass)){
-				securityContext.principal := us;
-				securityContext.loggedIn := true;
-				return home(securityContext.principal);
-			}
+		if(users.length > 0 && users.get(0).password.check(pass)) {
+			securityContext.principal := users.get(0);
+			securityContext.loggedIn := true;
+			return home();
+		} else {
+			message("Incorrect email address or incorrect password");
+			return root();
 		}
-		securityContext.loggedIn := false;
-		message("Incorrect email address or incorrect password");
-		return root();
+		*/
 	}
 }
 
 define template logout(){
 	"Logged in as " 
-	navigate(home(securityContext.principal)) 
+	navigate(home()) 
 		{output(securityContext.principal.name)}
 	" "
 	form{

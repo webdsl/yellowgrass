@@ -55,7 +55,7 @@ define page user(usertag : String) {
 		if(securityContext.loggedIn) {
 			par [class := "Back"] { 
 				rawoutput { " &raquo; " } 
-				navigate(home(securityContext.principal)) {"Home"}
+				navigate(home()) {"Home"}
 			}
 		}
 		par { <h1> output(u.name) </h1> }
@@ -89,7 +89,7 @@ define page editUser(u : User) {
 				label("Home Page") { input(u.url)}
 			}
 			par {
-				navigate(home(u)) {"Cancel"}
+				navigate(home()) {"Cancel"}
 				" "	
 				submit("Save",save())
 			}
@@ -98,6 +98,6 @@ define page editUser(u : User) {
 	action save(){
 		u.save();
 		//message("Profile saved");
-		return home(u);
+		return home();
 	}
 }

@@ -77,6 +77,9 @@ define template createIssue(p : Project, initialTag : Tag) {
 			if(initialTag != null) {
 				i.tags := {initialTag};
 			}
+			if(type != null) {
+				i.tags.add(type);
+			}
 			i.assign();
 			i.save();
 			flush();

@@ -12,7 +12,7 @@ define page roadmap(p : Project) {
 			if(securityContext.loggedIn) {
 				par [class := "Back"] { 
 					rawoutput { " &raquo; " }
-					navigate(home(securityContext.principal)) {"Home"}
+					navigate(home()) {"Home"}
 					rawoutput { " &raquo; " }
 					navigate(project(p)) {"Project " output(p.name)}
 					rawoutput { "&raquo; " } " Roadmap "

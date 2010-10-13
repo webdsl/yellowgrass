@@ -125,7 +125,8 @@ access control rules
 	rule template issueSideBar(i : Issue) {
 		true
 	}
-	
+/*	
 	rule ajaxtemplate issueDetails(i : Issue){
 		true
 	}
+*/

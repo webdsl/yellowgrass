@@ -12,7 +12,7 @@ define page registerProject(){
 		form { 
 			par { label("Project name") { input(p.name) } }
 			par {
-				navigate(home(securityContext.principal)) {"Cancel"}
+				navigate(home()) {"Cancel"}
 					" "	
 				action("Create",create())
 			}

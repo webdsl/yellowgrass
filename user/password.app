@@ -22,7 +22,7 @@ define page editUserPassword(u : User){
 					input(temp){ validate(u.password == temp, "Passwords do not match") } 
 				}
 			}
-			navigate(home(u)){"Cancel"} " "
+			navigate(home()){"Cancel"} " "
 			action("change",changePassword())
 		}
 	}
@@ -30,7 +30,7 @@ define page editUserPassword(u : User){
 		var pass : String := u.password.toString();
 		u.password := u.password.digest();
 		u.save();
-		return home(u);
+		return home();
 	}
 }
 

@@ -120,7 +120,7 @@ define page project(p : Project) {
 			if(securityContext.loggedIn) {
 				par [class := "Back"] { 
 					rawoutput { " &raquo; " }
-					navigate(home(securityContext.principal)) {"Home"}
+					navigate(home()) {"Home"}
 					rawoutput { " &raquo; " }
 					"Project " output(p.name) 
 				}
@@ -200,7 +200,7 @@ define page projectIssues(p : Project, filterOpen : Bool) {
 			if(securityContext.loggedIn) {
 				par [class := "Back"] { 
 					rawoutput { " &raquo; " }
-					navigate(home(securityContext.principal)) {"Home"}
+					navigate(home()) {"Home"}
 					rawoutput { " &raquo; " }
 					navigate(project(p)) {"Project " output(p.name)}
 					rawoutput { " &raquo; " }
@@ -232,7 +232,7 @@ define page projectUnAssignedIssues(p : Project) {
 			if(securityContext.loggedIn) {
 				par [class := "Back"] { 
 					rawoutput { " &raquo; " }
-					navigate(home(securityContext.principal)) {"Home"}
+					navigate(home()) {"Home"}
 					rawoutput { " &raquo; " }
 					navigate(project(p)) {"Project " output(p.name)}
 					rawoutput { " &raquo; " }

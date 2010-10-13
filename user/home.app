@@ -2,7 +2,8 @@ module user/home
 
 imports user/password
 
-define page home(u : User){
+define page home(){
+	var u := securityContext.principal;
 	var assignedTag := "@" + u.tag;
 	var assignedIssues : List<Issue> := 
 		select i from Issue as i
