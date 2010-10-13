@@ -9,6 +9,12 @@ define page createTaggedIssue(p : Project, initialTag : Tag) {
 }
 
 define template createIssue(p : Project, initialTag : Tag) {
+	var issuetypes : List<Tag> := 
+		select t1
+		from Tag as t1 left join t1.tags as t2
+		where t2.name = ~ISSUE_TYPE_TAG()
+		group by t1.name
+		order by t1.name;
 	title{output(p.name) " - Create new issue on YellowGrass.org"}
 	main()
 	define body(){
@@ -18,6 +24,7 @@ define template createIssue(p : Project, initialTag : Tag) {
 		};
 		var title : String := "";
 		var email : Email := "";
+		var type : Tag;
 		
 		block [class := "main"] { 
 			<h1> "Post New " output(p.name) " Issue" </h1>
@@ -34,9 +41,11 @@ define template createIssue(p : Project, initialTag : Tag) {
 				par [class := "IssueSuggestions"] {
 					placeholder issueSuggestionsBox {} 
 				}
-				par {
-					label("Type") {
-						select(i.type from [improvementIssueType, errorIssueType, featureIssueType, questionIssueType])
+				if(issuetypes.length > 0) {
+					par {
+						label("Type") {
+							select(type from issuetypes)
+						}
 					}
 				}
 				par { label("Description") {input(i.description)} }

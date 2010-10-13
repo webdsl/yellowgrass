@@ -1,5 +1,7 @@
 module project/register
 
+imports issue/types
+
 define page registerProject(){
 	var p := Project{};
 
@@ -20,7 +22,7 @@ define page registerProject(){
 		p.members.add(securityContext.principal);
 		p.created := now();
 		p.save();
-		//message("New Project Created");
+		createIssueTypes(p);
 		return edit(p);
 	}
 }

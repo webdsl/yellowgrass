@@ -10,6 +10,7 @@ imports issue/sidebar
 imports user/user
 imports project/project
 imports issue/attachment
+imports issue/types
 //imports issue/issueBrowser
 
 entity Issue {
@@ -153,19 +154,6 @@ function getIssue(p : Project, issueNumber : Int) : Issue {
 		return Issue {};
 	}
 }
-
-entity IssueType {
-	name	:: String	(id)
-}
-
-var improvementIssueType : IssueType := 
-	IssueType { name := "Improvement" };
-var errorIssueType : IssueType := 
-	IssueType { name := "Error" };
-var featureIssueType : IssueType := 
-	IssueType { name := "New Feature" };
-var questionIssueType : IssueType := 
-	IssueType { name := "Question" };
 
 function newIssueNumber(p: Project) : Int {
 	var lastProjectIssues : List<Issue> := 
