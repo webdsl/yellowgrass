@@ -3,6 +3,7 @@ module templates
 imports search
 
 define main() {
+	includeCSS("tags.css")
 	<div id="pagewrapper">
 		<div id="header">
 			mainheader()

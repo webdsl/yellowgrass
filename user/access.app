@@ -19,7 +19,6 @@ define template login(){
 	}
 	action login(){
 		securityContext.principal := null;
-		securityContext.loggedIn := false;
 		if(authenticate(email,pass)) {
 			return home();
 		} else {
@@ -55,7 +54,6 @@ define template logout(){
 		}
 	}
 	action logout(){
-		securityContext.loggedIn := false;
 		securityContext.principal := null;
 		return root();
 	}

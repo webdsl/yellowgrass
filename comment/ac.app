@@ -1,5 +1,5 @@
 module comment/ac
-  
+
 access control rules
 	
 	rule page editComment(c : Comment) {

@@ -1,5 +1,6 @@
 module project/settings
 
+imports issue/types
 
 define page edit(p : Project) {
 	title{output(p.name) " on YellowGrass.org [Editing]"}
@@ -37,8 +38,7 @@ define page edit(p : Project) {
 			"A small set of default types is automatically generated on project creation. "
 			"This default set can be regenerated without loss of other issue types: "
 			actionLink("Regenerate default issue types", regenerateIssueTypes(p))
-		}
-		
+		}		
 	}
 	action save(){
 		p.save();

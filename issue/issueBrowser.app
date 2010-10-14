@@ -1,5 +1,6 @@
 module issue/issueBrowser
 
+/*
 define template issues(is : List<Issue>, showProjectName : Bool, showTicks : Bool, showNumbers : Bool, titleLength : Int, showTags : Bool) {
 	placeholder issueDetails {}
 	block [class := "Listing"] {
@@ -46,4 +47,4 @@ define ajax issueDetails(i : Issue){
 		output(i.reporter)
 		output(i.description)
 	}
-}
+}*/

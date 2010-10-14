@@ -18,8 +18,7 @@ define template createIssue(p : Project, initialTag : Tag) {
 	title{output(p.name) " - Create new issue on YellowGrass.org"}
 	main()
 	define body(){
-		var i := Issue{ 
-			type := improvementIssueType
+		var i := Issue{
 			reporter := securityContext.principal 
 		};
 		var title : String := "";

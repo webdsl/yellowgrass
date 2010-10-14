@@ -26,6 +26,8 @@ entity Tag {
 	function getStylingClass() : String{
 		  if(hasTag("release")) {
 			return "ReleaseTag Tag";
+		} if(hasTag(ISSUE_TYPE_TAG())) { 
+			return "IssuetypeTag Tag";
 		} if(hasTag("red")) {
 			return "RedTag Tag";
 		} if(hasTag("green")) {
@@ -123,6 +125,23 @@ function tagCleanup(tag : Tag) {
 	}
 }
 
+function arrangeTags(tags : Set<Tag>, summary : Bool) : List<Tag> {
+	var types :=    [t | t : Tag in tags where t.hasTag(ISSUE_TYPE_TAG()) order by t.name];
+	var releases := [t | t : Tag in tags where t.hasTag("release") order by t.name];
+	var others :=   
+		[t | t : Tag in tags where 
+			!t.hasTag("release") && 
+			!t.hasTag(ISSUE_TYPE_TAG()) && 
+			(!summary || !t.name.contains("!"))
+			order by t.name];
+	
+	var sortedTags : List<Tag> := List<Tag>();
+	sortedTags.addAll(types);
+	sortedTags.addAll(releases);
+	sortedTags.addAll(others);
+	return sortedTags;
+}
+
 define page tag(p : Project, tag : String) {
 	title{output(p.name) " / " output(tag) " - on YellowGrass.org"}
 	main()
@@ -162,8 +181,8 @@ define page tag(p : Project, tag : String) {
 
 define template tags(t : Tag, editing : Bool) {
 	block [class:="Tags"] {
-		for(tag : Tag in t.tags order by tag.name) {
-			block [class:="Tag"] {
+		for(tag : Tag in arrangeTags(t.tags, false)) {
+			block [class:=tag.getStylingClass()] {
 				output(tag.name) 
 				if(editing) {
 					block [class := "Delete"] {
@@ -186,7 +205,7 @@ define template tags(i : Issue, editing : Bool) {
 }
 define template tags(i : Issue, editing : Bool, summary : Bool) {
 	block [class:="Tags"] {
-		for(tag : Tag in i.tags where (!summary || !tag.name.contains("!")) order by tag.name) {
+		for(tag : Tag in arrangeTags(i.tags, summary)) {
 			block [class:=tag.getStylingClass()] {
 				navigate(tag(i.project, tag.name)){output(tag.name)} 
 				if(editing) {

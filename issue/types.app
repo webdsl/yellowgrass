@@ -22,13 +22,47 @@ function createIssueTypes(project : Project) {
 	var que : Tag := tag("question", project);
 	
 	var meta : Tag := tag(ISSUE_TYPE_TAG(), project);
-	imp.tags.add(meta);
-	err.tags.add(meta);
-	fea.tags.add(meta);
-	que.tags.add(meta);
+	if(!imp.hasTag(meta.name)) { imp.tags.add(meta); }
+	if(!err.hasTag(meta.name)) { err.tags.add(meta); }
+	if(!fea.hasTag(meta.name)) { fea.tags.add(meta); }
+	if(!que.hasTag(meta.name)) { que.tags.add(meta); }
 	
 	imp.save();
 	err.save();
 	fea.save();
 	que.save();
+}
+
+function migrateToIssueTypeTags(p: Project) : Int {
+	if(p.name != "YellowGrass") {return 0;}
+	
+	for(p : Project) {
+		createIssueTypes(p);
+		p.save();
+	}
+	
+	var nonmigIssues : List<Issue> := 
+		select i
+		from Issue as i
+		where i.type != null
+		limit 500;
+		
+	for(i : Issue in nonmigIssues) {
+		if(i.type == improvementIssueType && !i.hasTag("improvement")) {
+			i.tags.add(tag("improvement", i.project));
+		}
+		if(i.type == errorIssueType && !i.hasTag("error")) {
+			i.tags.add(tag("error", i.project));
+		}
+		if(i.type == featureIssueType && !i.hasTag("feature")) {
+			i.tags.add(tag("feature", i.project));
+		}
+		if(i.type == questionIssueType && !i.hasTag("question")) {
+			i.tags.add(tag("question", i.project));
+		}
+		i.type := null;
+		i.save();
+	}
+	flush();
+	return 0;
 }

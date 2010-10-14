@@ -31,7 +31,6 @@ define page registerUser(){
 		u.password := u.password.digest();
 		u.save();
 		securityContext.principal := u;
-		securityContext.loggedIn := true;
 		email(registerUserEmail(u));
 		// message("Registration completed");
 		return home();

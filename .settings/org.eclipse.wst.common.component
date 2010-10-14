@@ -5,8 +5,8 @@
 		<wb-resource deploy-path="/WEB-INF/classes" source-path="/.servletapp/src"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/.servletapp/src-template"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/.servletapp/src-generated"/>
-        <wb-resource deploy-path="/WEB-INF/classes" source-path="/.servletapp/src-native"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/nativejava"/>
+		<property name="context-root" value="yellowgrass"/>
 		<property name="java-output-path"/>
-        <property name="context-root" value="yellowgrass"/>
 	</wb-module>
 </project-modules>

@@ -3,10 +3,9 @@ module issue/emails
 define email issueNotification(i : Issue, e : Email) {
 	to(e)
 	from("YellowGrass <noreply@yellowgrass.org>")
-	subject(i.project.name+" - Issue "+i.number+" ("+i.type.name+")")
+	subject(i.project.name+" - Issue "+i.number)
 	par {	output(i.project.name)
 			" #" output(i.number)
-			" - " output(i.type.name)
 			" (" output(i.submitted.format("MMM d yyyy")) ")"
 	}
 	par {}
@@ -28,7 +27,6 @@ define email issueCloseNotification(i : Issue, e : Email) {
 	subject(i.project.name+" - Issue "+i.number+" has been closed")
 	par {	output(i.project.name)
 			" #" output(i.number)
-			" - " output(i.type.name)
 			" (" output(i.submitted.format("MMM d yyyy")) ")"
 	}
 	par {}
@@ -45,7 +43,6 @@ define email issueReopenNotification(i : Issue, e : Email) {
 	subject(i.project.name+" - Issue "+i.number+" has been reopened")
 	par {	output(i.project.name)
 			" #" output(i.number)
-			" - " output(i.type.name)
 			" (" output(i.submitted.format("MMM d yyyy")) ")"
 	}
 	par {}
@@ -62,7 +59,6 @@ define email issueCommentNotification(i : Issue, e : Email, c : Comment) {
 	subject(i.project.name+" - Issue "+i.number+" has received a comment")
 	par {	output(i.project.name)
 			" #" output(i.number)
-			" - " output(i.type.name)
 			" (" output(i.submitted.format("MMM d yyyy")) ")"
 	}
 	par {}
@@ -81,7 +77,6 @@ define email issueCommentCloseNotification(i : Issue, e : Email, c : Comment) {
 	subject(i.project.name+" - Issue "+i.number+" has been closed")
 	par {	output(i.project.name)
 			" #" output(i.number)
-			" - " output(i.type.name)
 			" (" output(i.submitted.format("MMM d yyyy")) ")"
 	}
 	par {}

@@ -23,7 +23,7 @@ define template issueCommands(i : Issue) {
 		issue.close();
 		issue.save();
 		issue.notifyClose();
-		return project(issue.project);
+		return issue(issue.project, issue.number);
 	}
 	action reopen(issue : Issue){
 		issue.reopen();

@@ -11,7 +11,7 @@ imports user/user
 imports project/project
 imports issue/attachment
 imports issue/types
-//imports issue/issueBrowser
+imports issue/issueBrowser
 
 entity Issue {
 	// TODO add optional user association
@@ -254,7 +254,6 @@ define page issue(p : Project, issueNumber : Int) {
 				block [class := "IssueTitle"] {
 					output(i.project.name) 
 					" #" output(i.number)
-					" - " output(i.type.name)
 					" ("
 					if(i.reporter != null) {
 						"by " navigate(user(i.reporter.tag)){output(i.reporter.name) " "}
@@ -299,11 +298,6 @@ define page editIssue(i : Issue) {
 		form {
 			par {
 				label("Title") {input(i.title)}
-			}
-			par {
-				label("Type") {
-					select(i.type from [improvementIssueType, errorIssueType, featureIssueType, questionIssueType])
-				}
 			}
 			par {
 				label("Description") {input(i.description)}
