@@ -226,7 +226,7 @@ define template issues(is : List<Issue>, showProjectName : Bool, showTicks : Boo
 define page issue(p : Project, issueNumber : Int) {
 	var i := getIssue(p, issueNumber)
 	
-	title{output(i.number) " " output(i.title) " (" output(i.project.name) ")"}
+	title{"#" output(i.number) " " output(i.title) " (project " output(i.project.name) " on YellowGrass.org)"}
 	main()
 	define body(){
 		block [class := "main"] {
