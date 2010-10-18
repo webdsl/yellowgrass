@@ -63,7 +63,7 @@ define ajax template commentAdditionInput(i : Issue) {
 	action commentClose(text : WikiText, issue : Issue) {
 		var comment := createComment(text);
 		issue.commentClose(comment);
-		return project(issue.project);
+		return issue(issue.project, issue.number);
 	}
 }
 

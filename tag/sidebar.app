@@ -16,6 +16,7 @@ define template tagCommands(t : Tag) {
 	par { actionLink("Color Red", color(t, t.project, "red") ) }
 	par { actionLink("Color Green", color(t, t.project, "green") ) }
 	par { actionLink("Color Grey", color(t, t.project, "grey") ) }
+	par { actionLink("Color Purple", color(t, t.project, "purple") ) }
 			
 	action makeRelease(t : Tag, p : Project) {
 		t.tags.add(tag("release", p));

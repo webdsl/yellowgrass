@@ -12,7 +12,10 @@ define template createIssue(p : Project, initialTag : Tag) {
 	var issuetypes : List<Tag> := 
 		select t1
 		from Tag as t1 left join t1.tags as t2
-		where t2.name = ~ISSUE_TYPE_TAG()
+		where 
+			t1.project = ~p and
+			t2.project = ~p and
+			t2.name = ~ISSUE_TYPE_TAG()
 		group by t1.name
 		order by t1.name;
 	title{output(p.name) " - Create new issue on YellowGrass.org"}

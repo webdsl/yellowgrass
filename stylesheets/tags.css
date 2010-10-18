@@ -55,14 +55,14 @@
 .ReleaseTag a:active 	{ color: #488fbc; }
 
 .IssuetypeTag {
-	border: 1px solid #bcb2de;
-	background: #d7d1eb;
+	border: 1px solid #c8c8c8;
+	background: #dedede;
 }
 
-.IssuetypeTag a:link 	{ color: #6348bc; }
-.IssuetypeTag a:visited	{ color: #6348bc; }
-.IssuetypeTag a:hover 	{ color: #6348bc; }
-.IssuetypeTag a:active 	{ color: #6348bc; }
+.IssuetypeTag a:link 	{ color: #828282; }
+.IssuetypeTag a:visited	{ color: #828282; }
+.IssuetypeTag a:hover 	{ color: #828282; }
+.IssuetypeTag a:active 	{ color: #828282; }
 
 .RedTag {
 	border: 1px solid #deb2b2;
@@ -94,6 +94,15 @@
 .GreyTag a:hover 	{ color: #828282; }
 .GreyTag a:active 	{ color: #828282; }
 
+.PurpleTag {
+	border: 1px solid #bcb2de;
+	background: #d7d1eb;
+}
+
+.PurpleTag a:link 		{ color: #6348bc; }
+.PurpleTag a:visited	{ color: #6348bc; }
+.PurpleTag a:hover 		{ color: #6348bc; }
+.PurpleTag a:active 	{ color: #6348bc; }
 
 /**************** Tag Controls ****************/
 

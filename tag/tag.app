@@ -26,14 +26,16 @@ entity Tag {
 	function getStylingClass() : String{
 		  if(hasTag("release")) {
 			return "ReleaseTag Tag";
-		} if(hasTag(ISSUE_TYPE_TAG())) { 
-			return "IssuetypeTag Tag";
 		} if(hasTag("red")) {
 			return "RedTag Tag";
 		} if(hasTag("green")) {
 			return "GreenTag Tag";
 		} if(hasTag("grey")) {
 			return "GreyTag Tag";
+		} if(hasTag("purple")) {
+			return "PurpleTag Tag";
+		}if(hasTag(ISSUE_TYPE_TAG())) { // Can be overridden by custom colors 
+			return "IssuetypeTag Tag";
 		} else {
 			return "Tag";
 		}
