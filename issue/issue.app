@@ -129,16 +129,6 @@ entity Issue {
 			tags.add(tag("@"+project.members.list().get(0).tag, project));
 		}
 	}
-	
-	function hasTag(tagName : String) : Bool {
-		// TODO Optimize to query?
-		for( t : Tag in tags) {
-			if(t.name == tagName) {
-				return true;
-			}
-		}
-		return false;
-	}
 }
 
 function getIssue(p : Project, issueNumber : Int) : Issue {

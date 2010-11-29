@@ -33,7 +33,7 @@ define template issueCommands(i : Issue) {
 	}
 	action vote(issue : Issue){
 		var tag := tag("!" + securityContext.principal.tag, issue.project);
-		issue.tags.add(tag);
+		issue.addTag(tag);
 		return issue(issue.project, issue.number);
 	}
 	action showIssueMoveTargets(issue : Issue){

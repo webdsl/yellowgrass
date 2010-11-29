@@ -1,5 +1,7 @@
 module comment/ac
 
+imports comment/tagControl
+
 access control rules
 	
 	rule page editComment(c : Comment) {
@@ -37,5 +39,13 @@ access control rules
 	}
 	
 	rule template issueReopen(ic : IssueReopen) {
+		true
+	}
+	
+	rule template tagAddition(ic : TagAddition) {
+		true
+	}
+	
+	rule template tagRemoval(ic : TagRemoval) {
 		true
 	}

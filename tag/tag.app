@@ -5,6 +5,7 @@ imports tag/sidebar
 imports user/user
 imports issue/issue
 imports project/roadmap
+imports comment/tagControl
 
 entity Tag {
 	name 		:: String	(validate(name.length() > 1, "Tags need to have at least 2 characters"),
@@ -45,6 +46,38 @@ entity Tag {
 		return 	hasTag("red") 	|| 
 				hasTag("green") ||
 				hasTag("grey");
+	}
+}
+
+extend entity Issue {
+	function addTag(t : Tag) {
+		tags.add(t);
+		log.add(
+			TagAddition{ 
+				moment := now()
+				actor := securityContext.principal
+				tag := t
+			}
+		);
+	}
+	function deleteTag(t : Tag) {
+		tags.remove(t);
+		log.add(
+			TagRemoval{ 
+				moment := now()
+				actor := securityContext.principal
+				tag := t
+			}
+		);
+	}
+	function hasTag(tagName : String) : Bool {
+		// TODO Optimize to query?
+		for( t : Tag in tags) {
+			if(t.name == tagName) {
+				return true;
+			}
+		}
+		return false;
 	}
 }
 
@@ -220,7 +253,7 @@ define template tags(i : Issue, editing : Bool, summary : Bool) {
 		}
 	}
 	action deleteTag(i : Issue, t : Tag) {
-		i.tags.remove(t);
+		i.deleteTag(t);
 		i.save();
 		tagCleanup(t);
 		return issue(i.project, i.number);
@@ -249,7 +282,7 @@ define template addTag(i : Issue) {
 		}
 	}
 	action addTag(t : String, i : Issue) {
-		i.tags.add(tag(t, i.project));
+		i.addTag(tag(t, i.project));
 		i.save();
 		return issue(i.project, i.number);
 	}
@@ -287,7 +320,7 @@ define ajax tagSuggestions(tagPrefix : String, i : Issue) {
 	}
 	
 	action addSuggestedTag(suggestion : Tag) {
-		i.tags.add(suggestion);
+		i.addTag(suggestion);
 		i.save();
 		refresh();
 	}

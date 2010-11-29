@@ -34,8 +34,8 @@ define page roadmap(p : Project) {
 		var nextRelease : Tag := nextRelease(project, release);
 		for(i : Issue in releaseIssues(release)) {
 			if(i.open) {
-				i.tags.remove(release);
-				i.tags.add(nextRelease);
+				i.deleteTag(release);
+				i.addTag(nextRelease);
 			}
 		}
 	}
