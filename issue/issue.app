@@ -33,13 +33,12 @@ entity Issue {
 	reporterName :: String (searchable) := getReporterName()
 	
 	function getReporterName() : String {
-		return ""; // TODO Enable this
-	/*	if (true){//reporter == null) {
-			return "b";//reporter.name;
+		if (reporter != null && reporter.name != null) {
+			return reporter.name;
 		} else {
-			return "a";
+			return "";
 		}
-	*/}
+	}
 	
 	function close() {
 		open := false;
