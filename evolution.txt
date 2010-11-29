@@ -165,6 +165,23 @@ No problems, migration ok local and on server
 
 ----------
 
+WebDSL started to provide support for queuing emails,
+
+create
+   QueuedEmail {
+      body :: String
+      to :: String
+      cc :: String
+      bcc :: String
+      replyTo :: String
+      from :: String
+      subject :: String }
+;
+
+New Acoda version with new language, works like a charm
+
+----------
+
 Introduced a taggable type. An issue now becomes an extension of taggable (extract taggable from issue)
 
 
