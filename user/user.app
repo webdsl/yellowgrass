@@ -45,9 +45,13 @@ define page user(usertag : String) {
 	var u : User := findUserByTag(usertag).get(0)
 	var reportedIssues : List<Issue> := 
 		from Issue
-		where _reporter = ~u
+		where _reporter = ~u and not(project.private)
 		order by _submitted desc
 		limit 15;
+	var projects : List<Project> := 
+		from Project
+		where not(project.private)
+		limit 30;
 	
 	title{output(u.name) " on YellowGrass.org" }
 	main()
@@ -60,8 +64,8 @@ define page user(usertag : String) {
 		}
 		par { <h1> output(u.name) </h1> }
 		par { label("Home Page") { output(u.url) } }
-		par { label("Projects") { projects(u.projects.list()) } }
-		par { <h2> "Recently reported issues" </h2> }
+		par { label("Public Projects") { projects(projects) } }
+		par { <h2> "Recently Reported Issues" </h2> }
 		par { issues(reportedIssues.set(), true, true, true, 50, true) }
 	}
 }

@@ -18,6 +18,9 @@ define page edit(p : Project) {
 				label("Project web page") { input(p.url) }
 			}
 			par {
+				label("Project is private") { input(p.private) }
+			}
+			par {
 				navigate(project(p)) {"Cancel"}
 				" "
 				action("Save",save())

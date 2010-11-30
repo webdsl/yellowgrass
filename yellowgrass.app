@@ -11,12 +11,6 @@ imports user/register
 imports tag/tag
 
 define page root() {
-/*	var recentProjects : List<Project> := 
-		from Project as p
-		order by _created desc
-		limit 15;
-*/	
-	
 	title{"YellowGrass.org - The Tag-Based Issue Tracker"}
 	main()
 	define body() {
@@ -24,12 +18,14 @@ define page root() {
 			select p
 			from Project as p
 			join p.issues as i
+			where _private=false
 			group by p
 			order by max(i._submitted) desc
 			limit 15;
 
 		var recentIssues : List<Issue> := 
 			from Issue as i
+			where i._project._private=false
 			order by _submitted desc
 			limit 18;
 		

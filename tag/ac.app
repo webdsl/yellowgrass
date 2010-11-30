@@ -9,13 +9,14 @@ access control rules
 	}
 	
 	rule ajaxtemplate tagSuggestions(tagPrefix : String, i : Issue) {
-		true
+		mayAccess(i.project)
 		rule action addSuggestedTag(suggestion : Tag) {
 			principal in i.project.members
 		}
 	}
 	
 	rule page tag(p : Project, tag : String) {
+		mayAccess(p) && 
 		( 
 			from Tag
 			where _name=~tag and _project=~p
@@ -24,11 +25,11 @@ access control rules
 	}
 	
 	rule template tags(i : Issue, editing : Bool) {
-		true
+		mayAccess(i.project)
 	}
 	
 	rule template tags(i : Issue, editing : Bool, summary : Bool) {
-		true
+		mayAccess(i.project)
 		rule action deleteTag(i : Issue, t : Tag) {
 			principal in i.project.members || 
 			(loggedIn && principal == i.reporter)
@@ -36,18 +37,18 @@ access control rules
 	}
 	
 	rule template tags(t : Tag, editing : Bool) {
-		true
+		mayAccess(t.project)
 		rule action deleteTag(tagToRemoveFrom : Tag, tagToRemove : Tag) {
 			principal in tagToRemoveFrom.project.members
 		}
 	}
 	
 	rule template tags(ts : List<Tag>, p : Project) {
-		true
+		mayAccess(p)
 	}
 	
 	rule template tagCommands(t : Tag) {
-		true
+		mayAccess(t.project)
 		rule action makeRelease(tag : Tag, p : Project) {
 			principal in p.members && !tag.hasTag("release")
 		}
@@ -60,5 +61,5 @@ access control rules
 	}
 	
 	rule template tagSideBar(t : Tag) {
-		true
+		mayAccess(t.project)
 	}

@@ -197,6 +197,12 @@ create
 
 ----------
 
+Added support for private projects
+
+create attribute Project.private :: Bool;
+
+----------
+
 Introduced a taggable type. An issue now becomes an extension of taggable (extract taggable from issue)
 
 

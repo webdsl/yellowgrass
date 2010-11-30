@@ -22,6 +22,7 @@ entity Project {
 	members			-> Set<User>
 	memberRequests	-> Set<User>
 	created			:: DateTime
+	private			:: Bool
 	
 	function getCommonTags(nr : Int) : List<Tag>{
 /*		return
@@ -176,12 +177,13 @@ define template projects(ps : List<Project>) {
 }
 
 define page projectList() {
-	title{"YellowGrass.org - Project List"}
+	title{"YellowGrass.org - Public Projects List"}
 	main()
 	define body(){
 		<h1>"Project List"</h1>
 		var projectList : List<Project> := 
 			from Project
+			where _private=false
 			order by _name;
 		block [class := "Listing"] {
 			projects(projectList)
@@ -246,4 +248,8 @@ define page projectUnAssignedIssues(p : Project) {
 		}
 		projectSideBar(p)
 	}
+}
+
+function mayAccess(ps : List<Project>) : Bool {
+	return [p | p : Project in ps where !mayAccess(p)].length == 0;
 }

@@ -35,7 +35,7 @@ define template createIssue(p : Project, initialTag : Tag) {
 			
 				par { label("Title") {
 					if(securityContext.loggedIn) {
-						input (title) [onkeyup := updateIssueSuggestions(title), autocomplete:="off"]
+						input (title) [onkeyup := updateIssueSuggestions(title, p), autocomplete:="off"]
 					} else {
 						input (title) [autocomplete:="off"]
 					}
@@ -88,7 +88,7 @@ define template createIssue(p : Project, initialTag : Tag) {
 			i.notifyRegister();
 			return issue(p, i.number);
 		}
-		action updateIssueSuggestions(t : String) {
+		action updateIssueSuggestions(t : String, p : Project) {
 			replace(issueSuggestionsBox, issueSuggestions(t, p));
 		}
 	}

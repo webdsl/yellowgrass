@@ -16,6 +16,7 @@ define page features() {
 			listitem { "Create any number of projects" }
 			listitem { "Join projects by issuing a project membership request" }
 			listitem { "Move issues back and forth between projects" }
+			listitem { "Choose your project to be private (closed) or public (open)" }
 			listitem { "Vote for issues to increase their priority" }
 		}
 		

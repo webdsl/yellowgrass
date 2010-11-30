@@ -4,8 +4,13 @@ imports tag/release
 
 access control rules
 	
+	predicate mayAccess(p : Project){
+		( !p.private ) || 
+		securityContext.principal in p.members
+	}
+	
 	rule page project(p : Project) {	
-		true
+		mayAccess(p)
 	}
 		
 	rule page edit(p : Project) {
@@ -27,15 +32,15 @@ access control rules
 	}
 	
 	rule page projectIssues(p : Project, filterOpen : Bool) {
-		true
+		mayAccess(p)
 	}
 	
 	rule page projectUnAssignedIssues(p : Project) {
-		true
+		mayAccess(p)
 	}
 	
 	rule template projects(ps : List<Project>) {
-		true
+		mayAccess(ps)
 	}
 	
 	rule page projectList() {
@@ -48,16 +53,16 @@ access control rules
 	}
 	
 	rule template projectSideBar(p : Project) {
-		true
+		mayAccess(p)
 	}
 	
 	rule page projectStats(p : Project) {
-		true
+		mayAccess(p)
 	}
 	
 	rule page roadmap(p : Project) {
-		(
-			from Tag as t
+		mayAccess(p) &&
+		(	from Tag as t
 			left join t.tags as ts
 			where t._project=~p and ts._name=~"release"
 			limit 1
@@ -72,7 +77,7 @@ access control rules
 	}
 	
 	rule template projectCommands(p : Project) {
-		true
+		mayAccess(p)
 		
 		rule action requestJoinProject(p : Project) {
 			loggedIn && 

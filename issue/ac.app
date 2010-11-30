@@ -6,6 +6,7 @@ imports user/user
 
 access control rules
 	
+	// TODO Check whether user may access each of the issue projects in the templates below (or is this to computattion intensive?)
 	rule template issues(is : Set<Issue>, showProjectName : Bool) {	
 		true
 	}
@@ -40,7 +41,7 @@ access control rules
 	}
 	
 	rule page createIssue(p : Project) {
-		true
+		mayAccess(p)
 	}
 	
 	rule page createTaggedIssue(p : Project, initialTag : Tag) {
@@ -52,12 +53,12 @@ access control rules
 		principal in p.members
 	}
 	
-	rule action updateIssueSuggestions(t : String) {
-		loggedIn
+	rule action updateIssueSuggestions(t : String, p : Project) {
+		loggedIn && mayAccess(p)
 	}
 		
 	rule action newComment(text : WikiText, issue : Issue) {
-		loggedIn
+		loggedIn && mayAccess(issue.project)
 	}
 	
 	rule action commentClose(text : WikiText, issue : Issue) {
@@ -70,7 +71,7 @@ access control rules
 	}
 	
 	rule ajaxtemplate issueSuggestions(t : String, p : Project) {
-		loggedIn
+		loggedIn && mayAccess(p)
 	}
 	
 	rule action showIssueMoveTargets(issue : Issue){
@@ -94,7 +95,7 @@ access control rules
 	}
 	
 	rule ajaxtemplate attachmentList(i : Issue) {
-		true		
+		mayAccess(i.project)		
 		rule action deleteAttachment(a : Attachment) {
 			principal in i.project.members || 
 			principal == i.reporter
@@ -105,7 +106,7 @@ access control rules
 	}
 	
 	rule template issueCommands(i : Issue) {
-		true
+		mayAccess(i.project)
 		
 		rule action close(issue : Issue) {
 			principal in issue.project.members &&
@@ -118,12 +119,15 @@ access control rules
 		}
 		
 		rule action vote(issue : Issue) {
-			loggedIn && !issue.hasTag("!"+principal.tag) && !(principal == issue.reporter)
+			loggedIn &&
+			mayAccess(issue.project) && 
+			!issue.hasTag("!"+principal.tag) && 
+			!(principal == issue.reporter)
 		}
 	}
 	
 	rule template issueSideBar(i : Issue) {
-		true
+		mayAccess(i.project)
 	}
 /*	
 	rule ajaxtemplate issueDetails(i : Issue){

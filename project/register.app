@@ -21,6 +21,7 @@ define page registerProject(){
 	action create(){
 		p.members.add(securityContext.principal);
 		p.created := now();
+		p.private := false;
 		p.save();
 		createIssueTypes(p);
 		return edit(p);
