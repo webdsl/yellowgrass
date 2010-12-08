@@ -1,5 +1,7 @@
 module user/password
 
+imports emails
+
 define page editUserPassword(u : User){
 	var temp : Secret;
 	
@@ -75,7 +77,7 @@ define page resetUserPasswordComplete(){
 
 define email notifyNewPassword(u:User, p: String){
 	to(u.email)
-	from("YellowGrass <noreply@yellowgrass.org>")
+	from(EMAIL_FROM())
 	subject("Password reset")
     
 	par{ "Dear " output(u.name) ", " }
