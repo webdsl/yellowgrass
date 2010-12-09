@@ -24,6 +24,10 @@ access control rules
 		).length > 0
 	}
 	
+	rule page editTag(p : Project, t : Tag) {
+		principal in t.project.members
+	}
+	
 	rule template tags(i : Issue, editing : Bool) {
 		mayAccess(i.project)
 	}

@@ -214,6 +214,28 @@ define page tag(p : Project, tag : String) {
 	}
 }
 
+define page editTag(p : Project, t : Tag) {
+	title{output(t.project.name) "." output(t.name) " on YellowGrass.org [Editing]"}
+	main()
+	define body(){
+		<h1> "Edit Tag" </h1>
+		form {
+			par {
+				label("Name") { input(t.name) }
+			}
+			par {
+				navigate(tag(t.project, t.name)) {"Cancel"}
+				" "	
+				submit("Save",save())
+			}
+		}
+	}
+	action save(){
+		t.save();
+		return tag(t.project, t.name);
+	}
+}
+
 define template tags(t : Tag, editing : Bool) {
 	block [class:="Tags"] {
 		for(tag : Tag in arrangeTags(t.tags, false)) {
