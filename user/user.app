@@ -45,12 +45,12 @@ define page user(usertag : String) {
 	var u : User := findUserByTag(usertag).get(0)
 	var reportedIssues : List<Issue> := 
 		from Issue
-		where _reporter = ~u and not(project.private)
+		where _reporter = ~u and _project._private=false//not( project.private)
 		order by _submitted desc
 		limit 15;
 	var projects : List<Project> := 
 		from Project
-		where not(project.private)
+		where _private=false
 		limit 30;
 	
 	title{output(u.name) " on YellowGrass.org" }
