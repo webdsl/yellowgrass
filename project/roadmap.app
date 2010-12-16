@@ -22,7 +22,14 @@ define page roadmap(p : Project) {
 			}
 			par{ <h1> output(p.name) " Roadmap" </h1> }
 			for(release : Tag in releases) {
-				par { <h2> navigate(tag(p, release.name)) { output(release.name) } </h2> }
+				par { 
+					<h2> 
+						navigate(tag(p, release.name)) { output(release.name) }
+						if(release.description != null && release.description != "") {
+							output(" -- ") <i> output(release.description) </i>
+						}
+					</h2>
+				}
 				par { actionLink("Postpone Open Issues", postponeOpen(p, release)) }
 				par { issues(releaseIssues(release), false, true, true, 50, true) }
 			}

@@ -213,6 +213,12 @@ create
 
 ----------
 
+Added tag descriptions
+
+create attribute Tag.description :: String ( )
+   before project;
+
+----------
 
 Introduced a taggable type. An issue now becomes an extension of taggable (extract taggable from issue)
 

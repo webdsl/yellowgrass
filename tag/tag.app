@@ -10,9 +10,9 @@ imports comment/tagControl
 entity Tag {
 	name 		:: String	(validate(name.length() > 1, "Tags need to have at least 2 characters"),
 							 validate(/[a-z0-9\._@!]*/.match(name),"Tags may consist of: a-z 0-9 . _ @ !"))
+	description :: String
 	project 	-> Project
 	tags		-> Set<Tag>
-//	issues		-> Set<Issue> (inverse=Issue.tags)
 	
 	function hasTag(tagName : String) : Bool {
 		// TODO Optimize to query?
@@ -207,6 +207,9 @@ define page tag(p : Project, tag : String) {
 			}
 			par{ 
 				<h1> "Tagged " output(t.name) tags(t, true) </h1>
+				if(t.description != null && t.description != "") {
+					<i> output(t.description) </i>
+				}
 			}
 			issues(taggedIssues.set(), false, true, true, 50, true)
 		}
@@ -222,6 +225,9 @@ define page editTag(p : Project, t : Tag) {
 		form {
 			par {
 				label("Name") { input(t.name) }
+			}
+			par {
+				label("Description") { input(t.description) }
 			}
 			par {
 				navigate(tag(t.project, t.name)) {"Cancel"}

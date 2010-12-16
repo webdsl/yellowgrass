@@ -11,7 +11,7 @@ define template tagSideBar(t : Tag) {
 define template tagCommands(t : Tag) {
 	par { <h1> output(t) </h1> }
 	par { navigate(createTaggedIssue(t.project, t))	{"New " output(t.name) " Issue"} }
-	par { navigate(editTag(t.project, t)) {"Edit tag name"} }
+	par { navigate(editTag(t.project, t)) {"Edit tag"} }
 	par { actionLink("Make Release", makeRelease(t, t.project) ) }
 	par { actionLink("Make Issue Type", makeIssueType(t, t.project) ) }
 	par { actionLink("Color Red", color(t, t.project, "red") ) }
