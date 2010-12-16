@@ -62,13 +62,13 @@ define ajax issueMoveTargets (i : Issue){
 		new.assign();
 		new.save();
 		
-		var moveComment := Comment {
-			moment := now()
-			text := "Issue has been moved to [" + p.name + "](/project/" + p.name + ") / " +
-					"[Issue " + new.number + "](/issue/" + p.name + "/" + new.number + ")" 
-			author := yellowGrass
-		};
-		old.log.add(moveComment);
+		old.log.add(
+			IssueMoved {
+				moment := now()
+				actor := securityContext.principal
+				target := new
+			}
+		);
 		old.close();
 		old.save();
 		flush();

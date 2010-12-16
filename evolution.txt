@@ -203,6 +203,17 @@ create attribute Project.private :: Bool;
 
 ----------
 
+Added registration of issue moves
+
+create
+   IssueMoved : Event {
+      actor -> User ( )
+      target -> Issue ( ) }
+   before Project;
+
+----------
+
+
 Introduced a taggable type. An issue now becomes an extension of taggable (extract taggable from issue)
 
 

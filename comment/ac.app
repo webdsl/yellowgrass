@@ -49,3 +49,8 @@ access control rules
 	rule template tagRemoval(ic : TagRemoval) {
 		true
 	}
+	
+	rule template issueMoved(im : IssueMoved) {
+		!im.target.project.private || 
+		principal in im.target.project.members
+	}

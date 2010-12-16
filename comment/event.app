@@ -21,4 +21,5 @@ define template eventDescription(e : Event) {
 	if(e is a IssueClose) 	{ issueClose(e as IssueClose) }
 	if(e is a TagAddition) 	{ tagAddition(e as TagAddition) }
 	if(e is a TagRemoval) 	{ tagRemoval(e as TagRemoval) }
+	if(e is a IssueMoved)	{ issueMoved(e as IssueMoved) }
 }
