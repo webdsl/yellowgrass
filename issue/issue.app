@@ -181,30 +181,36 @@ define template issues(is : List<Issue>, showProjectName : Bool, showTicks : Boo
 			for(i : Issue in is) {
 				row {
 					if(showTicks) {
-						if(!i.open) { 
-							image("/images/tick.png") 
-						} else { 
-							"" 
+						column {
+							if(!i.open) { 
+								image("/images/tick.png") 
+							} else { 
+								"" 
+							}
 						}
 					}
 					if(showNumbers) {
-						output(i.number)
+						column { output(i.number) }
 					}
-					if(now().format("yyyy") == i.submitted.format("yyyy")) {
-						block[class := "DateMD"] { output(i.submitted.format("MMM d")) }
-					} else {
-						block[class := "DateMDY"] { output(i.submitted.format("MMM d yyyy")) }
+					column {
+						if(now().format("yyyy") == i.submitted.format("yyyy")) {
+							block[class := "DateMD"] { output(i.submitted.format("MMM d")) }
+						} else {
+							block[class := "DateMDY"] { output(i.submitted.format("MMM d yyyy")) }
+						}
 					}
 					if(showProjectName) {
-						output(abbreviate(i.project.name, 20))
+						column { output(abbreviate(i.project.name, 20)) }
 					}
-					block[class := "AbbreviatedIssueTitle"] {
-						navigate(issue(i.project, i.number)) {
-							output(abbreviate(i.title, titleLength))
+					column { 
+						block[class := "AbbreviatedIssueTitle"] {
+							navigate(issue(i.project, i.number)) {
+								output(abbreviate(i.title, titleLength))
+							}
 						}
 					}
 					if(showTags) { 
-						tags(i, false, true)
+						column { tags(i, false, true) }
 					}
 				}
 			}

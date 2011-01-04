@@ -152,25 +152,20 @@ define page projectStats(p : Project) {
 }
 
 define template projects(ps : List<Project>) {
-	table {
-		for(p : Project in ps) { 
-			row {
-				navigate project(p) {output(p.name)}
-				block {
-					output(
-						(from Issue as i
-						 where i.open=true and i.project = ~p
-						).length
-					) 
-					" open issues "
+	block [class := "Listing"] {
+		table {
+			for(p : Project in ps) { 
+				row {
+					column { navigate project(p) {output(p.name)} }
+					column {
+						output(
+							(from Issue as i
+							 where i.open=true and i.project = ~p
+							).length
+						) 
+						" open issues "
+					}
 				}
-				block {
-					output(p.members.length)
-					" members"
-				}
-				/*block {
-					tags(p.getCommonTags(5), p)
-				}*/
 			}
 		}
 	}

@@ -100,7 +100,7 @@ access control rules
 			principal in i.project.members || 
 			principal == i.reporter
 		}
-		rule action attachmentList_inline_action0(a : Attachment) {	// Bug in WebDSL: workaround
+		rule action attachmentList_templateargument0_inline_action0(a : Attachment) {	// Bug in WebDSL: workaround
 			true
 		}
 	}
