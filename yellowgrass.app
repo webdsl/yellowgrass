@@ -42,9 +42,9 @@ define page root() {
 			par {
 				table {
 					for(p : Project in activeProjects) {
-						row {
-							navigate(project(p)) {output(p.name)}
-							output(p.url)
+						row { 
+							column { navigate(project(p)) {output(p.name)} }
+							column { output(p.url) }
 						}
 					}
 				}
