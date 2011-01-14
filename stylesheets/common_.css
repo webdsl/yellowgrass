@@ -14,6 +14,7 @@ h1 {
 	padding-top: 10px;
 	font-weight: normal;
 	font-style: normal;
+	text-decoration: none;
 }
 
 h2 {
@@ -22,6 +23,7 @@ h2 {
 	font-style: italic;
 	color: #354b35;
 	padding-top: 10px;
+	text-decoration: none;
 }
 
 img {

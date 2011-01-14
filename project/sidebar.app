@@ -11,7 +11,7 @@ define template projectSideBar(p : Project) {
 }
 
 define template projectCommands(p : Project) {
-	par { <h1> output(p.name) </h1> } 
+	par { navigate(project(p))  {<h1> output(p.name) </h1>} } 
 	par { navigate(createIssue(p))	{"New Issue"} }
 	par { navigate(edit(p))			{"Project Settings"} }
 	par { navigate(roadmap(p)) 		{"Project Roadmap"} }
