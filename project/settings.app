@@ -18,6 +18,9 @@ define page edit(p : Project) {
 				label("Project web page") { input(p.url) }
 			}
 			par {
+				label("Project mailing list") { input(p.email) }
+			}
+			par {
 				label("Project is private") { input(p.private) }
 			}
 			par {

@@ -49,6 +49,7 @@ entity Issue {
 			}
 		);
 	}
+	
 	function reopen() { 
 		open := true;
 		log.add(
@@ -61,7 +62,14 @@ entity Issue {
 	}
 	
 	function mailinglist() : Set<Email> {
-		var mailinglist := [u.email | u : User in this.project.members];
+		var mailinglist := Set<Email>();
+		if(project.email != null && project.email != "") {
+			mailinglist.add(project.email);
+		} else {
+			for(u : User in this.project.members) {
+				mailinglist.add(u.email);
+			}
+		}
 		
 		if(reporter != null && !(reporter in project.members)) {
 			mailinglist.add(reporter.email);
