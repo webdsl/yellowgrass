@@ -23,6 +23,7 @@ entity Project {
 	memberRequests	-> Set<User>
 	created			:: DateTime
 	private			:: Bool
+	email			:: Email
 	
 	function getCommonTags(nr : Int) : List<Tag>{
 /*		return
