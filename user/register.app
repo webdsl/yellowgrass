@@ -29,6 +29,7 @@ define page registerUser(){
 	}
 	action register(){
 		u.password := u.password.digest();
+		u.notifications := true;
 		u.save();
 		securityContext.principal := u;
 		email(registerUserEmail(u));

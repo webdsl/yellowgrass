@@ -8,6 +8,7 @@ imports user/access
 entity User {
 	name			:: String		(validate(name.length() >= 3,	"Names need to be at least 3 characters"))
 	email			:: Email		(validate(userEmailTaken(), "Another user already registered using this email address"))
+	notifications   :: Bool
 	password		:: Secret		(validate(password.length() >= 8, "Password needs to be at least 8 characters"))
 	projects		-> Set<Project> (inverse = Project.members)
 	url				:: URL
@@ -88,6 +89,9 @@ define page editUser(u : User) {
 			}
 			par {
 				label("Email") { input(u.email)}
+			}
+			par {
+				label("Receive notifications on issue changes via email?") { input(u.notifications) }
 			}
 			par {
 				label("Home Page") { input(u.url)}

@@ -67,7 +67,9 @@ entity Issue {
 			mailinglist.add(project.email);
 		} else {
 			for(u : User in this.project.members) {
-				mailinglist.add(u.email);
+				if(u.notifications) {
+					mailinglist.add(u.email);
+				}
 			}
 		}
 		
