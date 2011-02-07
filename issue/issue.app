@@ -40,6 +40,14 @@ entity Issue {
 		}
 	}
 	
+	function getTitle() : String {
+		if( title == null || title =="" || title == " ") { // TODO Improve this test by using a regexp
+			return "<< no title >>";
+		} else {
+			return title;
+		}
+	}
+	
 	function close() {
 		open := false;
 		log.add(
@@ -215,7 +223,7 @@ define template issues(is : List<Issue>, showProjectName : Bool, showTicks : Boo
 					column { 
 						block[class := "AbbreviatedIssueTitle"] {
 							navigate(issue(i.project, i.number)) {
-								output(abbreviate(i.title, titleLength))
+								output(abbreviate(i.getTitle(), titleLength))
 							}
 						}
 					}
@@ -231,7 +239,7 @@ define template issues(is : List<Issue>, showProjectName : Bool, showTicks : Boo
 define page issue(p : Project, issueNumber : Int) {
 	var i := getIssue(p, issueNumber)
 	
-	title{"#" output(i.number) " " output(i.title) " (project " output(i.project.name) " on YellowGrass.org)"}
+	title{"#" output(i.number) " " output(i.getTitle()) " (project " output(i.project.name) " on YellowGrass.org)"}
 	main()
 	define body(){
 		block [class := "main"] {
@@ -249,7 +257,7 @@ define page issue(p : Project, issueNumber : Int) {
 			}
 			
 			par{ <h2> 
-				output(i.title) 
+				output(i.getTitle()) 
 				if(!i.open) {
 					image("/images/tick.png")
 				}

@@ -100,7 +100,7 @@ define ajax issueSuggestions(t : String, p : Project) {
 	var projectSuggestions := [ i | i : Issue in suggestions where i.project == p limit 5];
 	for(i : Issue in projectSuggestions) {
 		par {
-			navigate(issue(p, i.number)) [target:="_blank"] {output(i.title)}
+			navigate(issue(p, i.number)) [target:="_blank"] {output(i.getTitle())}
 		}
 	}
 }

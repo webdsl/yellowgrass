@@ -27,7 +27,7 @@ define template issues(is : List<Issue>, showProjectName : Bool, showTicks : Boo
 					}
 					block[class := "AbbreviatedIssueTitle"] {
 						navigate(issue(i.project, i.number)) {
-							output(abbreviate(i.title, titleLength))
+							output(abbreviate(i.getTitle(), titleLength))
 						}
 					}
 					if(showTags) { 

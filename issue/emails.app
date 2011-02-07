@@ -15,7 +15,7 @@ define email issueNotification(i : Issue, e : Email) {
 		par { "By " output(i.reporter.name) }
 		par {}
 	}
-	par { output(i.title) }
+	par { output(i.getTitle()) }
 	par {}
 	par { output(i.description) }
 	par {}
@@ -32,7 +32,7 @@ define email issueCloseNotification(i : Issue, e : Email) {
 			" (" output(i.submitted.format("MMM d yyyy")) ")"
 	}
 	par {}
-	par { output(i.title) }
+	par { output(i.getTitle()) }
 	par {}
 	par { "Issue has been closed by " output(securityContext.principal.name) "." }
 	par {}
@@ -48,7 +48,7 @@ define email issueReopenNotification(i : Issue, e : Email) {
 			" (" output(i.submitted.format("MMM d yyyy")) ")"
 	}
 	par {}
-	par { output(i.title) }
+	par { output(i.getTitle()) }
 	par {}
 	par { "Issue has been reopened by " output(securityContext.principal.name) "." }
 	par {}
@@ -64,7 +64,7 @@ define email issueCommentNotification(i : Issue, e : Email, c : Comment) {
 			" (" output(i.submitted.format("MMM d yyyy")) ")"
 	}
 	par {}
-	par { output(i.title) }
+	par { output(i.getTitle()) }
 	par {}
 	par { output(c.author.name) " commented:" }
 	par {}
@@ -82,7 +82,7 @@ define email issueCommentCloseNotification(i : Issue, e : Email, c : Comment) {
 			" (" output(i.submitted.format("MMM d yyyy")) ")"
 	}
 	par {}
-	par { output(i.title) }
+	par { output(i.getTitle()) }
 	par {}
 	par { "Issue has been closed by " output(securityContext.principal.name)", saying:" }
 	par {}

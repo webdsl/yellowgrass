@@ -17,7 +17,7 @@ define page search(q : String) {
 						output(i.submitted.format("MMM d")) // TODO Add year if needed
 						output(	abbreviate(i.project.name, 20))
 						navigate(issue(i.project, i.number)) {
-							output(abbreviate(i.title, 80))
+							output(abbreviate(i.getTitle(), 80))
 						}
 					}
 				}
