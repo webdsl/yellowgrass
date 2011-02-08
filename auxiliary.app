@@ -42,3 +42,9 @@ function prefix(s : List<Issue>, length : Int) : List<Issue> {
 		return prefix(s, length);
 	}
 }
+
+define ajax validationFeedback(vem : ValidationExceptionMultiple){
+    for(ve : ValidationException in vem.exceptions){
+      output(ve.message)
+    } separated-by { "; " }
+  }

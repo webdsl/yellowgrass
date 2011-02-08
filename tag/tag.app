@@ -9,7 +9,7 @@ imports comment/tagControl
 
 entity Tag {
 	name 		:: String	(validate(name.length() > 1, "Tags need to have at least 2 characters"),
-							 validate(/[a-z0-9\._@!]*/.match(name),"Tags may consist of: a-z 0-9 . _ @ !"))
+							 validate(/[a-z0-9\.-_@!]*/.match(name),"Tags may consist of: a-z 0-9 . _ @ ! -"))
 	description :: String
 	project 	-> Project
 	tags		-> Set<Tag>
@@ -303,16 +303,25 @@ define template addTag(i : Issue) {
 			label("Tag") {
 				input(t) [onkeyup := updateTagSuggestions(t), autocomplete:="off"]
 			}
-			action("+", addTag(t, i))
+			action("+", addTag(t, i))[ajax]
+			placeholder tagValidityFeedback {""}
 		}
 		placeholder tagSuggestionsBox {
 			tagSuggestions(t, i)
 		}
 	}
 	action addTag(t : String, i : Issue) {
-		i.addTag(tag(t, i.project));
-		i.save();
-		return issue(i.project, i.number);
+		var f := Tag{ name := t };
+		var feedback := f.validateName();
+		if(feedback.exceptions.length > 0) {
+			log("Validation failed!!");
+			replace(tagValidityFeedback, validationFeedback(feedback));
+		} else {
+			log("Validation succeeded!!");
+			i.addTag(tag(t, i.project));
+			i.save();
+			return issue(i.project, i.number);
+		}
 	}
 	action updateTagSuggestions(t : String) {
 		replace(tagSuggestionsBox, tagSuggestions(t, i));

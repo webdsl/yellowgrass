@@ -29,3 +29,7 @@ module ac
 	 rule page features() {
 	 	true
 	 }
+	 
+	 rule ajaxtemplate validationFeedback(vem : ValidationExceptionMultiple){
+	 	true
+	 }
