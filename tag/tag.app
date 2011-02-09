@@ -124,7 +124,13 @@ function getFollowers(ts : Set<Tag>) : Set<User> {
  ** - It is not an assignment tag (@someone) of one of the project members
  **/
 function tagCleanup(tag : Tag) {
-	flush();
+	
+// Tagging temporarily disabled, as they cannot be deleted anyway: 
+// tag usage is recorded, so tags can never be deleted again
+
+// I am integrating permanently existing tags into the rest of the code, so at
+// some point the code below should become obsolete and I will delete it.
+/*	flush();
 	var taggedIssues : List<Issue> :=
 		select i
 		from Issue as i
@@ -158,6 +164,7 @@ function tagCleanup(tag : Tag) {
 			tag.delete();
 		}
 	}
+*/
 }
 
 function arrangeTags(tags : Set<Tag>, summary : Bool) : List<Tag> {
@@ -336,19 +343,22 @@ function tagSuggestionFilter(tagPrefix : String) : String{
 }
 
 // NOTE: Do not make this publicly available, the AJAX causes a lot of bad links
-define ajax tagSuggestions(tagPrefix : String, i : Issue) {
+define ajax tagSuggestions(tagPrefix : String, issue : Issue) {
 /*	var tagFilterString := "@%";
 	init { if(tagPrefix != "") {
 		tagFilterString := "";
 	}}
 */	var tagSearchString := tagPrefix.toLowerCase() + "%"
-	var suggestions : List<Tag> :=
-		from	Tag as t
-		where	t._project = ~i.project and 
+	var suggestions : List<Tag> := (
+		select	t
+		from	Issue as i left join i.tags as t	// Joint to only select used tags (subqueries not supported)
+		where	t._project = ~issue.project and
 				t._name like ~tagSearchString and
 				t._name not like ~tagSuggestionFilter(tagPrefix)
+		group by t._name
 		order by t._name	// TODO Improve ordering based on usage
-		limit 5;
+		limit 5
+		) as List<Tag>;
 	
 	for(suggestion : Tag in suggestions) {
 		form { block [class := "Suggestion"] {
@@ -357,8 +367,8 @@ define ajax tagSuggestions(tagPrefix : String, i : Issue) {
 	}
 	
 	action addSuggestedTag(suggestion : Tag) {
-		i.addTag(suggestion);
-		i.save();
+		issue.addTag(suggestion);
+		issue.save();
 		refresh();
 	}
 } 

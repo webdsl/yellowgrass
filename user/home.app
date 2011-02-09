@@ -3,14 +3,18 @@ module user/home
 imports user/password
 
 define page home(){
-	var u := securityContext.principal;
-	var assignedTag := "@" + u.tag;
-	var assignedIssues : List<Issue> := 
-		select i from Issue as i
-		left join i._tags as t
-		where t._name = ~assignedTag and i._open=true
-		order by i._submitted desc
-		limit 20;
+	// Workaround for bug that access control is enforced after variable initialization (init block is executed after access control)
+	var u : User; var assignedTag : String; var assignedIssues : List<Issue>;
+	init {
+		u := securityContext.principal;
+		assignedTag := "@" + u.tag;
+		assignedIssues := 
+			select i from Issue as i
+			left join i._tags as t
+			where t._name = ~assignedTag and i._open=true
+			order by i._submitted desc
+			limit 20;
+	}
 	
 	title{"YellowGrass.org - " output(u.name)}
 	main()
