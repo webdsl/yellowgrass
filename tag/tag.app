@@ -344,11 +344,7 @@ function tagSuggestionFilter(tagPrefix : String) : String{
 
 // NOTE: Do not make this publicly available, the AJAX causes a lot of bad links
 define ajax tagSuggestions(tagPrefix : String, issue : Issue) {
-/*	var tagFilterString := "@%";
-	init { if(tagPrefix != "") {
-		tagFilterString := "";
-	}}
-*/	var tagSearchString := tagPrefix.toLowerCase() + "%"
+	var tagSearchString := tagPrefix.toLowerCase() + "%"
 	var suggestions : List<Tag> := (
 		select	t
 		from	Issue as i left join i.tags as t	// Joint to only select used tags (subqueries not supported)
@@ -356,7 +352,7 @@ define ajax tagSuggestions(tagPrefix : String, issue : Issue) {
 				t._name like ~tagSearchString and
 				t._name not like ~tagSuggestionFilter(tagPrefix)
 		group by t._name
-		order by t._name	// TODO Improve ordering based on usage
+		order by count(i) desc
 		limit 5
 		) as List<Tag>;
 	
