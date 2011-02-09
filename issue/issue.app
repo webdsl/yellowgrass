@@ -69,41 +69,13 @@ entity Issue {
 
 	}
 	
-	function mailinglist() : Set<Email> {
-		var mailinglist := Set<Email>();
-		if(project.email != null && project.email != "") {
-			mailinglist.add(project.email);
-		} else {
-			for(u : User in this.project.members) {
-				if(u.notifications) {
-					mailinglist.add(u.email);
-				}
-			}
-		}
-		
-		if(reporter != null && !(reporter in project.members)) {
-			mailinglist.add(reporter.email);
-		}
-		if(reporter == null && email != "") {
-			mailinglist.add(email);
-		}
-		
-		var commenters := [(e as Comment).author.email | e : Event in log where e is a Comment];
-		mailinglist.addAll(commenters);
-		
-		var followers : Set<User> := getFollowers(tags);
-		mailinglist.addAll([u.email | u : User in followers]);
-		
-		if(securityContext.principal != null) {
-			mailinglist.remove(securityContext.principal.email);
-		}
-		
-		return mailinglist;
-	}
-	
 	function notifyRegister() {
-		for(e : Email in mailinglist()){
+		var list : Set<Email> := mailinglist();
+		for(e : Email in list){
 			email(issueNotification(this, e));
+		}
+		if(securityContext.principal != null && !(securityContext.principal.email in list)) {
+			email(issueNotification(this, securityContext.principal.email));
 		}
 	}
 	
