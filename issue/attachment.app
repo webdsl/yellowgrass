@@ -6,14 +6,14 @@ entity Attachment {
 }
 
 define template attachmentAddition(i : Issue) {
-	block [id:=attOpener] {
+	block [id="attOpener"] {
 		par { 
 			<a href="javascript:void(0)" onCLick="javascript:document.getElementById('attachmentAdditionBox').style.display='block';document.getElementById('attOpener').style.display='none'">
 				"Add Attachment"
 			</a> 
 		}
 	}
-	block [id:=attachmentAdditionBox,style:="display:none;"] {
+	block [id="attachmentAdditionBox",style:="display:none;"] {
 		attachmentAdditionInput(i)
 	}
 	

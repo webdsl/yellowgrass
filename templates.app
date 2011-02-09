@@ -71,7 +71,7 @@ define mainheader() {
 }
 
 define ignore-access-control errorTemplateInput(messages : List<String>){
-	validatedInput()
+	elements()
 	for(ve: String in messages){
 		block[class:="Error"] {
 			output(ve)
@@ -80,7 +80,7 @@ define ignore-access-control errorTemplateInput(messages : List<String>){
 }
 
 define ignore-access-control errorTemplateForm(messages : List<String>){
-	validatedInput()
+	elements()
 	for(ve: String in messages){
 		block[class:="Error"] {
 			output(ve)
@@ -89,7 +89,7 @@ define ignore-access-control errorTemplateForm(messages : List<String>){
 }
 
 define ignore-access-control errorTemplateAction(messages : List<String>){
-	validatedInput()
+	elements()
 	for(ve: String in messages){
 		block[class:="Error"] {
 			output(ve)
