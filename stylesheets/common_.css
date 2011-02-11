@@ -32,6 +32,10 @@ img {
 
 /* Custom */
 
+.Ghost {
+	display: none;
+}
+
 .Error {
 	color: #a81a1a;
 	font-weight: bold;

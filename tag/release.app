@@ -1,5 +1,10 @@
 module tag/release
 
+extend entity Tag {
+	function isRelease() : Bool {
+		return hasTag("release");
+	}
+}
 
 function releases(p : Project) : List<Tag> {
 	return 
@@ -12,12 +17,12 @@ function releases(p : Project) : List<Tag> {
 		limit 5000;
 }
 
-function nextRelease(p : Project, r : Tag) : Tag {
+function nextRelease(r : Tag) : Tag {
 	var next : List<Tag> := 
 		select t
 		from Tag as t
 		left join t.tags as tt
-		where   t._project=~p 
+		where   t._project=~r.project 
 			and tt._name = ~"release"
 			and t._name > ~r.name
 		order by t._name asc
@@ -25,6 +30,23 @@ function nextRelease(p : Project, r : Tag) : Tag {
 	
 	if(next.length != 0) {
 		return next.get(0);
+	}
+	return null;
+}
+
+function previousRelease(r : Tag) : Tag {
+	var previous : List<Tag> := 
+		select t
+		from Tag as t
+		left join t.tags as tt
+		where   t._project=~r.project 
+			and tt._name = ~"release"
+			and t._name < ~r.name
+		order by t._name desc
+		limit 1;
+	
+	if(previous.length != 0) {
+		return previous.get(0);
 	}
 	return null;
 }
@@ -38,12 +60,8 @@ function releaseIssues(r : Tag) : List<Issue> {
 		order by i._open desc, i._submitted desc;
 }
 
-function isRelease(r : Tag) : Bool {
-	return r.hasTag("release");
-}
-
 // Ugly and inefficient implementation, but queries kept failing on HQL syntax errors 
-function releaseDone(p : Project, r : Tag) : Bool {
+function releaseDone(r : Tag) : Bool {
 	var issues := releaseIssues(r);
 	return 
 		issues.length == 0 ||

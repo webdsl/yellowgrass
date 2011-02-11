@@ -33,3 +33,7 @@ module ac
 	 rule ajaxtemplate validationFeedback(vem : ValidationExceptionMultiple){
 	 	true
 	 }
+	 
+	 rule ajaxtemplate empty() {
+	 	true
+	 }

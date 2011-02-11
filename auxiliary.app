@@ -56,4 +56,6 @@ function format(date : DateTime) : String {
 		return date.format("d MMM ''yy");
 	}
 }
+
+define ajax template empty() {}
   

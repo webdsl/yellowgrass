@@ -67,12 +67,25 @@ access control rules
 			where t._project=~p and ts._name=~"release"
 			limit 1
 		).length > 0
-		
-		rule action postponeOpen(project : Project, release : Tag) {
-			principal in project.members && 
-			isRelease(release) && 
-			!releaseDone(project, release) &&
-			nextRelease(project, release) != null
+	}
+	
+/*	rule template roadmapReleaseLink(release : Tag) {
+		true
+		rule action unFoldRelease(release : Tag) {
+			true
+		}
+	}
+*/	
+	rule ajaxtemplate roadmapRelease(r : Tag) {
+		mayAccess(r.project) && r.isRelease()
+		rule action postponeOpen(release : Tag) {
+			principal in release.project.members && 
+			release.isRelease() && 
+			!releaseDone(release) &&
+			nextRelease(release) != null
+		}
+		rule action showPreviousRelease(release : Tag) {
+			mayAccess(r.project) && r.isRelease()
 		}
 	}
 	
