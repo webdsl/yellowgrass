@@ -26,21 +26,15 @@ entity Project {
 	email			:: Email
 	
 	function getCommonTags(nr : Int) : List<Tag>{
-/*		return
-			from Tag as t
-			where (t._project = ~this) and (t._name not like ~"@%") and (t._name not like ~"!%")
-			limit ~nr;
-*/			
-			// TODO Fixme Order by clause does not seem to function properly
-			var result :List<Tag> := 
-				(	select t
-					from Issue as i inner join i.tags as t
-					where (i._project = ~this) and (t._name not like ~"@%") and (t._name not like ~"!%")
-					group by t._name
-					order by count(i) desc
-					limit ~nr
-				) as List<Tag>;
-			return result;
+		var result :List<Tag> := 
+			(	select t
+				from Issue as i inner join i.tags as t
+				where (i._project = ~this) and (t._name not like ~"@%") and (t._name not like ~"!%")
+				group by t._name
+				order by count(i) desc
+				limit ~nr
+			) as List<Tag>;
+		return result;
 	}
 	
 	function getIssueStatsWeekly() : List<Int> {
@@ -108,13 +102,6 @@ define page project(p : Project) {
 		order by count(t._name) desc //order by aggregation is not supported in MySQL :(
 		limit 10;
 	
-	// TODO Make following more efficient by integration and querying
-	var openIssues : List<Issue> := 
-		from Issue
-		where _open = true and _project = ~p
-		order by _submitted desc
-		limit 2000;
-
 	title{output(p.name) " on YellowGrass.org" }
 	main()
 	define body() {

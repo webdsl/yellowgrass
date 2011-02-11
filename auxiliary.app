@@ -44,7 +44,16 @@ function prefix(s : List<Issue>, length : Int) : List<Issue> {
 }
 
 define ajax validationFeedback(vem : ValidationExceptionMultiple){
-    for(ve : ValidationException in vem.exceptions){
-      output(ve.message)
-    } separated-by { "; " }
-  }
+	for(ve : ValidationException in vem.exceptions){
+		output(ve.message)
+	} separated-by { "; " }
+}
+  
+function format(date : DateTime) : String {
+	if(now().format("yyyy") == date.format("yyyy")) {
+		return date.format("d MMM");
+	} else {
+		return date.format("d MMM ''yy");
+	}
+}
+  

@@ -61,19 +61,28 @@ img {
 	padding: 5px;
 }
 
+#content .columns {
+	width : 100%;
+	padding: 0px;
+	border-style: none;
+	border-spacing: 0px;
+}
 #content .column1 {
-	float: left;
-	width: 38%;
+	vertical-align: top;
 }
 
 #content .column2 {
-	float: right;
-	width: 58%;
+	vertical-align: top;
+}
+
+#content .Screenshot {
+	width: 220px;
+	border-style: none;
 }
 
 #header {
     background-color: white;
-    background-image: url('/yellowgrass/images/headerbg.png');
+    background-image: url('/images/headerbg.png');
     height: 88px;
     margin: 0;
     padding: 12px 20px;
@@ -97,7 +106,7 @@ img {
 }
 
 #header .LoginButton input {
-	width: 50px;
+	width: 55px;
 	border: 1px solid #BBBBBB;
 	background-color: transparent;
 	color: #444444;
@@ -136,7 +145,6 @@ img {
 
 .Listing table {
 	border-spacing : 0;
-	min-width: 500px;
 }
 
 .Listing td {
@@ -190,16 +198,12 @@ img {
 	padding: 0px 10px 0px 10px;
 }
 
-.DateMD {
-	min-width: 35px;
-}
-
-.DateMD {
-	min-width: 45px;
+.Date {
+	white-space: nowrap;
 }
 
 .Listing .AbbreviatedIssueTitle {
-	min-width: 300px;
+	white-space: nowrap;
 }
 
 form { 

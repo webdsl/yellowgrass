@@ -183,11 +183,7 @@ define template issues(is : List<Issue>, showProjectName : Bool, showTicks : Boo
 						column { output(i.number) }
 					}
 					column {
-						if(now().format("yyyy") == i.submitted.format("yyyy")) {
-							block[class := "DateMD"] { output(i.submitted.format("MMM d")) }
-						} else {
-							block[class := "DateMDY"] { output(i.submitted.format("MMM d yyyy")) }
-						}
+						block[class := "Date"] { output(format(i.submitted)) }
 					}
 					if(showProjectName) {
 						column { output(abbreviate(i.project.name, 20)) }

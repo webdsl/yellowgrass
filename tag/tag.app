@@ -170,16 +170,26 @@ function tagCleanup(tag : Tag) {
 function arrangeTags(tags : Set<Tag>, summary : Bool) : List<Tag> {
 	var types :=    [t | t : Tag in tags where t.hasTag(ISSUE_TYPE_TAG()) order by t.name];
 	var releases := [t | t : Tag in tags where t.hasTag("release") order by t.name];
-	var others :=   
-		[t | t : Tag in tags where 
-			!t.hasTag("release") && 
-			!t.hasTag(ISSUE_TYPE_TAG()) && 
-			(!summary || !t.name.contains("!"))
-			order by t.name];
+	var votes := 	[t | t : Tag in tags where t.name.contains("!")];
+	var assigns := 	[t | t : Tag in tags where t.name.contains("@")];
+	var others :=   [t | t : Tag in tags where 
+						!t.hasTag("release") && 
+						!t.hasTag(ISSUE_TYPE_TAG()) && 
+						!t.name.contains("!") &&
+						!t.name.contains("@")
+						order by t.name];
 	
 	var sortedTags : List<Tag> := List<Tag>();
 	sortedTags.addAll(types);
 	sortedTags.addAll(releases);
+	if(!summary) {
+		sortedTags.addAll(assigns);
+		sortedTags.addAll(votes);
+	} else {
+		if(sortedTags.length + assigns.length <= 3) {
+			sortedTags.addAll(assigns);
+		}
+	}
 	sortedTags.addAll(others);
 	return sortedTags;
 }
@@ -270,11 +280,19 @@ define template tags(t : Tag, editing : Bool) {
 	}
 }
 
+function getTagsStylingClass(summary : Bool) : String {
+	if(summary) {
+		return "Tags TagsSummary";
+	} else {
+		return "Tags";
+	}
+}
+
 define template tags(i : Issue, editing : Bool) {
 	tags(i, editing, false)
 }
 define template tags(i : Issue, editing : Bool, summary : Bool) {
-	block [class:="Tags"] {
+	block [class = getTagsStylingClass(summary)] {
 		for(tag : Tag in arrangeTags(i.tags, summary)) {
 			block [class:=tag.getStylingClass()] {
 				navigate(tag(i.project, tag.name)){output(tag.name)} 
@@ -284,7 +302,7 @@ define template tags(i : Issue, editing : Bool, summary : Bool) {
 					}
 				}
 			}
-			output(" ")
+			" "
 		}
 	}
 	action deleteTag(i : Issue, t : Tag) {

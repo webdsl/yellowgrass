@@ -42,7 +42,7 @@ define email issueNotification(i : Issue, e : Email) {
 	subject(i.project.name+" - Issue "+i.number)
 	par {	output(i.project.name)
 			" #" output(i.number)
-			" (" output(i.submitted.format("MMM d yyyy")) ")"
+			" (" output(format(i.submitted)) ")"
 	}
 	par {}
 	if(i.reporter != null) {
@@ -63,7 +63,7 @@ define email issueCloseNotification(i : Issue, e : Email) {
 	subject(i.project.name+" - Issue "+i.number+" has been closed")
 	par {	output(i.project.name)
 			" #" output(i.number)
-			" (" output(i.submitted.format("MMM d yyyy")) ")"
+			" (" output(format(i.submitted)) ")"
 	}
 	par {}
 	par { output(i.getTitle()) }
@@ -79,7 +79,7 @@ define email issueReopenNotification(i : Issue, e : Email) {
 	subject(i.project.name+" - Issue "+i.number+" has been reopened")
 	par {	output(i.project.name)
 			" #" output(i.number)
-			" (" output(i.submitted.format("MMM d yyyy")) ")"
+			" (" output(format(i.submitted)) ")"
 	}
 	par {}
 	par { output(i.getTitle()) }
@@ -95,7 +95,7 @@ define email issueCommentNotification(i : Issue, e : Email, c : Comment) {
 	subject(i.project.name+" - Issue "+i.number+" has received a comment")
 	par {	output(i.project.name)
 			" #" output(i.number)
-			" (" output(i.submitted.format("MMM d yyyy")) ")"
+			" (" output(format(i.submitted)) ")"
 	}
 	par {}
 	par { output(i.getTitle()) }
@@ -113,7 +113,7 @@ define email issueCommentCloseNotification(i : Issue, e : Email, c : Comment) {
 	subject(i.project.name+" - Issue "+i.number+" has been closed")
 	par {	output(i.project.name)
 			" #" output(i.number)
-			" (" output(i.submitted.format("MMM d yyyy")) ")"
+			" (" output(format(i.submitted)) ")"
 	}
 	par {}
 	par { output(i.getTitle()) }

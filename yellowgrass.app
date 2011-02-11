@@ -21,48 +21,44 @@ define page root() {
 			where _private=false
 			group by p
 			order by max(i._submitted) desc
-			limit 15;
+			limit 10;
 
 		var recentIssues : List<Issue> := 
 			from Issue as i
 			where i._project._private=false
 			order by _submitted desc
-			limit 18;
+			limit 27;
 		
-		block [class := "column1"] {
-			par { <h2>"About YellowGrass"</h2> }
-			par {
-				"YellowGrass is a tag-based issue tracker. "
-				"It provides a complete issue and bug tracking solution, geared towards software development projects. "
-				"YellowGrass is fully web-based and free of charge. Registering your project is just a few clicks away... "
-			} par {
-				"Take a look at YellowGrass's " navigate(features()){"Feature List"} " or " navigate(registerUser()){"Register"} " right away."
-			}
-			par { <h2>"Some Active Projects"</h2> }
-			par {
-				table {
-					for(p : Project in activeProjects) {
-						row { 
-							column { navigate(project(p)) {output(p.name)} }
-							column { output(p.url) }
+		table [class = "columns"] { row { 
+			column [class = "column1"] {
+				par { <h2>"About YellowGrass"</h2> }
+				par {
+					"YellowGrass is a user-friendly, tag-based issue tracker."<br/>
+					"It supports issue voting, issue tagging, roadmaps, assigning and following issues, private and public projects, full text search, email updates, action logging and much more. "
+					"YellowGrass is fully web-based and free of charge. Registering your project is just a few clicks away. "
+					"Take a look at YellowGrass's " navigate(features()){"Feature List"} " or " navigate(registerUser()){"Register"} " right away."
+				}
+				par { <h2>"Some Screenshots"</h2> }
+				<a href="images/screenshotRoadmap.png"> image("/images/screenshotRoadmap.png")[class="Screenshot"] </a>
+				<a href="images/screenshotIssue.png"> image("/images/screenshotIssue.png")[class="Screenshot"] </a>
+				par { <h2>"Some Active Projects"</h2> }
+				par {
+					table {
+						for(p : Project in activeProjects) {
+							row { 
+								column { navigate(project(p)) {output(p.name)} }
+								column { output(p.url) }
+							}
 						}
 					}
 				}
+				par { navigate(projectList()) {"View all Projects"} }				
 			}
-			par { navigate(projectList()) {"View all Projects"} }
-		}
-		block [class:= "column2"] {
-			par { <h2>"Recent Issues"</h2> }
-			par { issues(recentIssues.set(), true, false, false, 40) }
-		}
+			column [class = "column2"] {
+				par { <h2>"Recent Issues"</h2> }
+				par { issues(recentIssues.set(), true, false, false, 40) }
+			}
+		}}
 	}
 }
-
-function debug(msg : String) {
-	log(msg);
-}
-
-/*test colorsInitialized {
-  assert((from Color).length == 4);
-}*/
 
