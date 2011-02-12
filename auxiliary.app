@@ -58,4 +58,45 @@ function format(date : DateTime) : String {
 }
 
 define ajax template empty() {}
-  
+
+/* Provides continously loading pages: whenever the user scrolls down, more page is loaded
+ * While higher-order templates are not yet supported:
+ * Define an ajax template with a button of class continuousLoader, which triggers loading
+ * of additional page content.
+ */
+define template continuousLoading() {
+	includeJS("https://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js")
+	<script>
+		var earlyLoadOffset = 400;
+		var lastLoader = null;
+		var allLoaded = false;
+	
+		function loadMore(){
+			var newLoader = $(".continuousLoader:last");
+			if(newLoader == lastLoader) {
+				allLoaded = true;
+			} else {
+				newLoader.click();
+				lastLoader = newLoader;
+			}
+		}
+		
+		function fillPage() {
+			if(!allLoaded && $(document).height() <= $(window).height() + earlyLoadOffset){
+				loadMore();
+				setTimeout('fillPage()',500);
+			}
+		}
+		
+		$(document).ready(function() {
+			fillPage()
+			// Add additional items when needed
+			$(window).scroll( function(){
+				//if ($(window).scrollTop() == $(document).height() - $(window).height()){
+				if ($(window).scrollTop() > $(document).height() - $(window).height() - earlyLoadOffset){
+					loadMore();
+				}
+			});
+		});
+	</script>
+}

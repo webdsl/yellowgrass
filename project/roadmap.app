@@ -3,41 +3,7 @@ module project/roadmap
 imports issue/issue
 
 define page roadmap(p : Project) {
-	includeJS("https://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js")
-	<script>
-		var earlyLoadOffset = 100;
-		var lastLoader = null;
-		var allLoaded = false;
-	
-		function loadMore(){
-			var newLoader = $(".loadMore:last");
-			if(newLoader == lastLoader) {
-				allLoaded = true;
-			} else {
-				newLoader.click();
-				lastLoader = newLoader;
-			}
-		}
-		
-		function fillPage() {
-			if(!allLoaded && $(document).height() <= $(window).height()){
-				loadMore();
-				setTimeout('fillPage()',1000);
-			}
-		}
-		
-		$(document).ready(function() {
-			fillPage()
-			// Add additional items when needed
-			$(window).scroll( function(){
-				//if ($(window).scrollTop() == $(document).height() - $(window).height()){
-				if ($(window).scrollTop() > $(document).height() - $(window).height() - earlyLoadOffset){
-					loadMore();
-				}
-			});
-		});
-	</script>
-		
+	continuousLoading()
 	title{output(p.name) " Roadmap - on YellowGrass.org"}
 	main()
 	define body(){
@@ -74,7 +40,7 @@ define ajaxtemplate roadmapRelease(r : Tag) {
 	par { actionLink("Postpone Open Issues", postponeOpen(r)) }
 	issues(releaseIssues(r), false, true, true, 50, true)
 	block[class="Ghost"] {
-		actionLink("Show More", showPreviousRelease(previousRelease(r)))[class="loadMore" ]
+		actionLink("Show More", showPreviousRelease(previousRelease(r)))[class="continuousLoader" ]
 	}
 	
 	action postponeOpen(release : Tag) {
