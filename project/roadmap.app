@@ -5,6 +5,7 @@ imports issue/issue
 define page roadmap(p : Project) {
 	includeJS("https://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js")
 	<script>
+		var earlyLoadOffset = 100;
 		var lastLoader = null;
 		var allLoaded = false;
 	
@@ -21,7 +22,7 @@ define page roadmap(p : Project) {
 		function fillPage() {
 			if(!allLoaded && $(document).height() <= $(window).height()){
 				loadMore();
-				setTimeout('fillPage()',2000);
+				setTimeout('fillPage()',1000);
 			}
 		}
 		
@@ -29,7 +30,8 @@ define page roadmap(p : Project) {
 			fillPage()
 			// Add additional items when needed
 			$(window).scroll( function(){
-				if ($(window).scrollTop() == $(document).height() - $(window).height()){
+				//if ($(window).scrollTop() == $(document).height() - $(window).height()){
+				if ($(window).scrollTop() > $(document).height() - $(window).height() - earlyLoadOffset){
 					loadMore();
 				}
 			});
