@@ -31,6 +31,7 @@ define page roadmap(p : Project) {
 }
 
 define ajaxtemplate roadmapRelease(r : Tag) {
+	var previousRelease := previousRelease(r);
 	<h2> 
 		navigate(tag(r.project, r.name)) { output(r.name) }
 		if(r.description != null && r.description != "") {
@@ -39,8 +40,11 @@ define ajaxtemplate roadmapRelease(r : Tag) {
 	</h2>
 	par { actionLink("Postpone Open Issues", postponeOpen(r)) }
 	issues(releaseIssues(r), false, true, true, 50, true)
-	block[class="Ghost"] {
-		actionLink("Show More", showPreviousRelease(previousRelease(r)))[class="continuousLoader" ]
+	if(previousRelease != null) {
+		block[class="Ghost"] {
+			actionLink("Show More", showPreviousRelease(previousRelease))
+				[id="continuousLoader"+r.name+r.id,class="continuousLoader" ]
+		}
 	}
 	
 	action postponeOpen(release : Tag) {

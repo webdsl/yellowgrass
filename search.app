@@ -13,11 +13,13 @@ define page search(q : String) {
 			table {
 				for(i : Issue in publicIssues) {
 					row {
-						output(i.number)
-						output(i.submitted.format("MMM d")) // TODO Add year if needed
-						output(	abbreviate(i.project.name, 20))
-						navigate(issue(i.project, i.number)) {
-							output(abbreviate(i.getTitle(), 80))
+						column { output(i.number) }
+						column { output(format(i.submitted)) } // TODO Add year if needed
+						column { output(abbreviate(i.project.name, 20)) }
+						column { 
+							navigate(issue(i.project, i.number)) {
+								output(abbreviate(i.getTitle(), 80))
+							}
 						}
 					}
 				}

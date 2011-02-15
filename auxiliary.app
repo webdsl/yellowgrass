@@ -73,11 +73,13 @@ define template continuousLoading() {
 	
 		function loadMore(){
 			var newLoader = $(".continuousLoader:last");
-			if(newLoader == lastLoader) {
-				allLoaded = true;
-			} else {
-				newLoader.click();
-				lastLoader = newLoader;
+			if(newLoader != null) {
+				if(lastLoader != null && newLoader[0].id == lastLoader[0].id) {
+					allLoaded = true;
+				} else {
+					newLoader.click();
+					lastLoader = newLoader;
+				}
 			}
 		}
 		
