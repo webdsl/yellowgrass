@@ -5,7 +5,7 @@ body {
     font-family: sans-serif, Arial, Helvetica;
     color: #444444;
     line-height: 125%;
-    min-width: 900px;
+    min-width: 970px;
 }
 
 h1 {
@@ -152,7 +152,7 @@ img {
 }
 
 .Listing td {
-	padding: 3px 12px;
+	padding: 3px 10px;
 }
 
 .Listing tr:nth-child(even) {

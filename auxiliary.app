@@ -67,7 +67,7 @@ define ajax template empty() {}
 define template continuousLoading() {
 	includeJS("https://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js")
 	<script>
-		var earlyLoadOffset = 400;
+		var earlyLoadOffset = 600;
 		var lastLoader = null;
 		var allLoaded = false;
 	
