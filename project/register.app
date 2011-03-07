@@ -22,6 +22,7 @@ define page registerProject(){
 		p.members.add(securityContext.principal);
 		p.created := now();
 		p.private := false;
+		p.email := "";
 		p.save();
 		createIssueTypes(p);
 		return edit(p);
