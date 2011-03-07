@@ -28,10 +28,6 @@ extend entity Issue {
 		var followers : Set<User> := getFollowers(tags);
 		mailinglist.addAll([u.email | u : User in followers]);
 		
-		if(securityContext.principal != null) {
-			mailinglist.remove(securityContext.principal.email);
-		}
-		
 		return mailinglist;
 	}
 }

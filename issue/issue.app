@@ -70,12 +70,8 @@ entity Issue {
 	}
 	
 	function notifyRegister() {
-		var list : Set<Email> := mailinglist();
-		for(e : Email in list){
+		for(e : Email in mailinglist()){
 			email(issueNotification(this, e));
-		}
-		if(securityContext.principal != null && !(securityContext.principal.email in list)) {
-			email(issueNotification(this, securityContext.principal.email));
 		}
 	}
 	
