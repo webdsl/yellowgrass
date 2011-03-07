@@ -49,9 +49,11 @@ define page user(usertag : String) {
 		where _reporter = ~u and _project._private=false//not( project.private)
 		order by _submitted desc
 		limit 15;
-	var projects : List<Project> := 
-		from Project
-		where _private=false
+	var projects : List<Project> :=
+		select p 
+		from Project as p
+		left join p.members as m 
+		where _private=false and m = ~u
 		limit 30;
 	
 	title{output(u.name) " on YellowGrass.org" }
@@ -64,8 +66,12 @@ define page user(usertag : String) {
 			}
 		}
 		par { <h1> output(u.name) </h1> }
-		par { label("Home Page") { output(u.url) } }
-		par { label("Public Projects") { projects(projects) } }
+		if(u.url != null && u.url != "") {
+			par { label("Home Page") { output(u.url) } }
+		}
+		if(projects.length > 0) {
+			par { label("Projects") { projects(projects) } }
+		}
 		par { <h2> "Recently Reported Issues" </h2> }
 		par { issues(reportedIssues.set(), true, true, true, 50, true) }
 	}
