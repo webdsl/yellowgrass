@@ -159,6 +159,17 @@ define template projects(ps : List<Project>) {
 	}
 }
 
+define template projectsAbbreviated(ps : List<Project>) {
+	table {
+		for(p : Project in ps) { 
+			row {
+				column { navigate project(p) {output(p.name)} }
+			}
+		}
+	}
+}
+
+
 define page projectList() {
 	title{"YellowGrass.org - Public Projects List"}
 	main()

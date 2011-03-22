@@ -43,6 +43,10 @@ access control rules
 		mayAccess(ps)
 	}
 	
+	rule template projectsAbbreviated(ps : List<Project>) {
+		mayAccess(ps)
+	}
+	
 	rule page projectList() {
 		true
 	}
