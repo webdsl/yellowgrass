@@ -102,3 +102,7 @@ access control rules
 			!(principal in p.memberRequests)
 		}
 	}
+	
+	rule page statistics() {
+		true
+	}

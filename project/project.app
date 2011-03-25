@@ -6,6 +6,7 @@ imports project/roadmap
 imports project/membership
 imports project/sidebar
 imports project/settings
+imports project/statistics
 imports issue/issue
 imports tag/tag
 imports user/user
@@ -38,7 +39,7 @@ entity Project {
 	}
 	
 	function getIssueStatsWeekly() : List<Int> {
-		var year : Int := 2010;
+		var year : Int := 2011;
 		var weekDel : List<DateTime>; 
 		for(week : Int from 1 to 51) {
 			weekDel.add(
