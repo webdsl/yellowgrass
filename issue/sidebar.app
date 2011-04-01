@@ -51,7 +51,6 @@ define ajax issueMoveTargets (i : Issue){
 		var new := Issue {
 			title := old.title
 			description := old.description
-			type := old.type
 			submitted := now()
 			project := p
 			number := newIssueNumber(p)

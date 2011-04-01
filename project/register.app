@@ -1,7 +1,5 @@
 module project/register
 
-imports issue/types
-
 define page registerProject(){
 	var p := Project{};
 

@@ -7,10 +7,10 @@ imports comment/issueControl
 imports issue/emails
 imports issue/register
 imports issue/sidebar
+imports issue/types
 imports user/user
 imports project/project
 imports issue/attachment
-imports issue/types
 imports issue/issueBrowser
 
 entity Issue {
@@ -21,7 +21,6 @@ entity Issue {
 	submitted 	:: DateTime
 	project		-> Project	(inverse = Project.issues)
 	reporter	-> User
-	type		-> IssueType
 	open		:: Bool
 	log			-> Set<Event>
 	tags		-> Set<Tag>
