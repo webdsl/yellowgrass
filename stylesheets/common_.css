@@ -193,9 +193,9 @@ img {
 	-moz-border-radius: 6px;
 	-webkit-border-radius: 6px;
 	
-	-moz-box-shadow: 2px 2px 4px #EEEEEE;
+/*	-moz-box-shadow: 2px 2px 4px #EEEEEE;
 	-webkit-box-shadow: 2px 2px 4px #EEEEEE;
-	
+*/	
 	border: 1px solid #EEEEEE;
 	background: #FAFAFA;
 	margin: 20px 30px 20px 0px;

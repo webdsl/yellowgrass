@@ -74,6 +74,10 @@ access control rules
 		loggedIn && mayAccess(p)
 	}
 	
+	rule ajaxtemplate issuePreview(d : WikiText) {
+		loggedIn
+	}
+	
 	rule action showIssueMoveTargets(issue : Issue){
 		principal in issue.project.members && 
 		principal.projects.length > 1

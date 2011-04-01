@@ -11,18 +11,7 @@ define page search(q : String) {
 		par { <h1> "Results for " output(q) </h1> }
 		block [class := "Listing"] {
 			table {
-				for(i : Issue in publicIssues) {
-					row {
-						column { output(i.number) }
-						column { output(format(i.submitted)) } // TODO Add year if needed
-						column { output(abbreviate(i.project.name, 20)) }
-						column { 
-							navigate(issue(i.project, i.number)) {
-								output(abbreviate(i.getTitle(), 80))
-							}
-						}
-					}
-				}
+				issues(publicIssues, true, false, false, 80, true)
 			}
 		}
 	}

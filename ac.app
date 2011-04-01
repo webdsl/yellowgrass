@@ -37,3 +37,7 @@ module ac
 	 rule ajaxtemplate empty() {
 	 	true
 	 }
+	 
+	 rule logsql {
+	 	loggedIn && principal.email=="sandervermolen@gmail.com"
+	 }

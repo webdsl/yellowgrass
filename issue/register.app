@@ -50,7 +50,12 @@ define template createIssue(p : Project, initialTag : Tag) {
 						}
 					}
 				}
-				par { label("Description") {input(i.description)} }
+				par { 
+					label("Description") {
+						input(i.description) 
+						[onkeyup := updateIssuePreview(i.description)]
+					} 
+				}
 				par [align := "center"] { navigate(url("http://en.wikipedia.org/wiki/Markdown#Syntax_examples")) [target:="_blank"] { "Syntax help" } }
 				if(!securityContext.loggedIn) {
 					par { label("Email") {
@@ -61,11 +66,12 @@ define template createIssue(p : Project, initialTag : Tag) {
 					}
 					par { captcha() }
 				}		
-				par{
+				par {
 					navigate(project(p)) {"Cancel"}
 					" "
 					action("Post",post())
 				}
+				placeholder issuePreview {}
 			}
 		}
 		projectSideBar(p)
@@ -91,6 +97,9 @@ define template createIssue(p : Project, initialTag : Tag) {
 		action updateIssueSuggestions(t : String, p : Project) {
 			replace(issueSuggestionsBox, issueSuggestions(t, p));
 		}
+		action updateIssuePreview(d : WikiText) {
+			replace(issuePreview, issuePreview(d));
+		}
 	}
 }
 
@@ -101,6 +110,14 @@ define ajax issueSuggestions(t : String, p : Project) {
 	for(i : Issue in projectSuggestions) {
 		par {
 			navigate(issue(p, i.number)) [target:="_blank"] {output(i.getTitle())}
+		}
+	}
+}
+
+define ajax issuePreview(d : WikiText) {
+	par [class := "Block"] {
+		label("Description Preview") {
+			output(d)
 		}
 	}
 }
