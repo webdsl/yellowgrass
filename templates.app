@@ -70,7 +70,7 @@ define mainheader() {
 	}
 }
 
-define ignore-access-control errorTemplateInput(messages : List<String>){
+define override ignore-access-control errorTemplateInput(messages : List<String>){
 	elements()
 	for(ve: String in messages){
 		block[class:="Error"] {
@@ -79,7 +79,7 @@ define ignore-access-control errorTemplateInput(messages : List<String>){
 	}     
 }
 
-define ignore-access-control errorTemplateForm(messages : List<String>){
+define override ignore-access-control errorTemplateForm(messages : List<String>){
 	elements()
 	for(ve: String in messages){
 		block[class:="Error"] {
@@ -88,7 +88,7 @@ define ignore-access-control errorTemplateForm(messages : List<String>){
 	}     
 }
 
-define ignore-access-control errorTemplateAction(messages : List<String>){
+define override ignore-access-control errorTemplateAction(messages : List<String>){
 	elements()
 	for(ve: String in messages){
 		block[class:="Error"] {

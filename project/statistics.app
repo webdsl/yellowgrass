@@ -2,13 +2,16 @@ module project/statistics
 
 function obtainPageViewStatisticsGraph(projects : List<Project>) : String {
 	var stats : List<ProjectIntTuple>;
+	var bound : DateTime := now().addMonths(-1);
+	var r : RequestLogEntry;
+	
 	for(p : Project in projects where p.name != "YellowGrass") {
 		stats.add(
 			ProjectIntTuple(
 				p,
 				select count(*)
 				from RequestLogEntry
-				where _requestedURL like ~("%"+p.name+"%")
+				where _start < ~bound and _requestedURL like ~("%"+p.name+"%")
 			)
 		);
 	}
@@ -44,10 +47,11 @@ native class org.yellowgrass.utils.ProjectIntTuple as ProjectIntTuple {
 define page statistics() {
 	var projects : List<Project> := 
 		from Project;
+	var url := obtainPageViewStatisticsGraph(projects);
 	title{"YellowGrass.org - Statistics"}
 	main()
 	define body(){
 		<h1> "Last Month's Page Views" </h1>
-		<img src=obtainPageViewStatisticsGraph(projects)/>
+		<img src=url/>
 	}
 }

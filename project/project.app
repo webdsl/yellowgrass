@@ -39,6 +39,7 @@ entity Project {
 	}
 	
 	function getIssueStatsWeekly() : List<Int> {
+		// This is ugly, but webdsl does not support any better right now
 		var year : Int := 2011;
 		var weekDel : List<DateTime>; 
 		for(week : Int from 1 to 51) {

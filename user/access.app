@@ -1,6 +1,6 @@
 module user/access
 
-define template login(){
+define override template login(){
 	var email : Email;
 	var pass : Secret;
 	form{
@@ -43,7 +43,7 @@ define template login(){
 	}
 }
 
-define template logout(){
+define override template logout(){
 	"Logged in as " 
 	navigate(home()) 
 		{output(securityContext.principal.name)}
