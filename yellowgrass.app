@@ -62,3 +62,20 @@ define page root() {
 	}
 }
 
+define page sources() {
+	title{"YellowGrass.org - Source Code"}
+	main()
+	define body() {
+		par { <h1>"YellowGrass Source Code"</h1> }
+		par {
+			" YellowGrass is open and freely available for personal usage."
+			" Its source code is distributed under under the " <a href="http://www.affero.org/agpl2.html">"Affero General Public License"</a> "."
+			" More flexible licenses are negotiable, feel free to contact us."
+			" Contact information can be found at " <a href="http://www.sandervermolen.nl"> "http://www.sandervermolen.nl" </a> "."
+		}
+		par {
+			"The source code repository can be found at: " <a href="https://svn.strategoxt.org/repos/issolar">"https://svn.strategoxt.org/repos/issolar"</a>
+		}
+	}
+}
+

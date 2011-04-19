@@ -15,7 +15,7 @@ define main() {
 		<div id="footer">
 			block [class := "Item"] { "YellowGrass.org  The Tag-Based Issue Tracker" }
 			block [class := "Item"] { " - " }
-			block [class := "Item"] { rawoutput {"&copy; "} " 2010 " <a href="http://www.sandervermolen.nl"> "Sander Vermolen" </a> " Distributed under Affero General Public License" }
+			block [class := "Item"] { rawoutput {"&copy; "} " 2010 " <a href="http://www.sandervermolen.nl"> "Sander Vermolen" </a> ", " navigate(sources()){"Distributed under Affero General Public License"}}
 			block [class := "Item"] { " - " }
 			block [class := "Item"] { "Provide " <a href="http://yellowgrass.org/project/YellowGrass"> "Feedback" </a> } 
 			block [class := "Item"] { " - " }

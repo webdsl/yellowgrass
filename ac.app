@@ -6,6 +6,10 @@ module ac
 		true
 	}
 	
+	rule page sources() {
+		true
+	}
+	
 	rule template main() {
 		true
 	}
