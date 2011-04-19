@@ -11,7 +11,7 @@ define page search(q : String) {
 		par { <h1> "Results for " output(q) </h1> }
 		block [class := "Listing"] {
 			table {
-				issues(publicIssues, true, false, false, 80, true)
+				issues(publicIssues, true, false, false, 80, true, true)
 			}
 		}
 	}

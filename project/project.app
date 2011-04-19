@@ -121,10 +121,10 @@ define page project(p : Project) {
 			
 			if(popularIssues.length > 0) {
 				par { <h2>"Popular Open Issues"</h2> }
-				par { issues(popularIssues, false, false, true, 50, true) }
+				par { issues(popularIssues, false, false, true, 50, true, true) }
 			}
 			par { <h2>"Recent Open Issues"</h2> }
-			par { issues(recentIssues, false, false, true, 50, true) }
+			par { issues(recentIssues, false, false, true, 50, true, true) }
 
 			par { navigate(projectIssues(p, true)) {"View all open issues"} " --- " navigate(projectIssues(p, false)) {"View all issues"} }
 			
@@ -207,39 +207,7 @@ define page projectIssues(p : Project, filterOpen : Bool) {
 				par [class := "Back"] { navigate(project(p)) {rawoutput { " &raquo; " } " Back to Project"} }
 			}
 			 
-			par { issues(issues, false, true, true, 50, true) }
-		}
-		projectSideBar(p)
-	}
-}
-
-define page projectUnAssignedIssues(p : Project) {
-	// TODO Make next two queries more efficient by integration
-	var openIssues : List<Issue> := 
-		from Issue
-		where _open = true and _project = ~p
-		order by _submitted desc
-		limit 2000;
-	var unassignedIssues : List<Issue> := [ i | i : Issue in openIssues where !(i.isAssigned()) ];
-	
-	title{output(p.name) " unassigned issues on YellowGrass.org" }
-	main()
-	define body() {
-		block [class := "main"] {
-			if(securityContext.loggedIn) {
-				par [class := "Back"] { 
-					rawoutput { " &raquo; " }
-					navigate(home()) {"Home"}
-					rawoutput { " &raquo; " }
-					navigate(project(p)) {"Project " output(p.name)}
-					rawoutput { " &raquo; " }
-					"Unassigned Issues"
-				}
-			} else { 
-				par [class := "Back"] { navigate(project(p)) {rawoutput { " &raquo; " } " Back to Project"} }
-			}
-			
-			par { issues(unassignedIssues.set(), false, true, true, 50, true) }
+			par { issues(issues, false, true, true, 50, true, true) }
 		}
 		projectSideBar(p)
 	}

@@ -53,7 +53,7 @@ define page home(){
 			
 //			block [class := "Block"] {
 				par { <h2>"Recent Issues"</h2>	}
-				par { issues(recentIssues.set(), true, false, true, 50, true) }
+				par { issues(recentIssues.set(), true, false, true, 50, true, false) }
 				par { navigate(postedIssues()) {"View issues posted by you"} }
 //			}
 		}

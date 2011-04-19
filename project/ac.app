@@ -35,10 +35,6 @@ access control rules
 		mayAccess(p)
 	}
 	
-	rule page projectUnAssignedIssues(p : Project) {
-		mayAccess(p)
-	}
-	
 	rule template projects(ps : List<Project>) {
 		mayAccess(ps)
 	}

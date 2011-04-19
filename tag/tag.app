@@ -228,7 +228,7 @@ define page tag(p : Project, tag : String) {
 					<i> output(t.description) </i>
 				}
 			}
-			issues(taggedIssues.set(), false, true, true, 50, true)
+			issues(taggedIssues.set(), false, true, true, 50, true, false)
 		}
 		tagSideBar(t)
 	}

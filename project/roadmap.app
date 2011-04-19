@@ -39,7 +39,7 @@ define ajaxtemplate roadmapRelease(r : Tag) {
 		}
 	</h2>
 	par { actionLink("Postpone Open Issues", postponeOpen(r)) }
-	issues(releaseIssues(r), false, true, true, 50, true)
+	issues(releaseIssues(r), false, true, true, 50, true, true)
 	if(previousRelease != null) {
 		block[class="Ghost"] {
 			actionLink("Show More", showPreviousRelease(previousRelease))

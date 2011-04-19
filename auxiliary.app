@@ -1,21 +1,19 @@
 module auxiliary
 
+type String{
+	substring(Int,Int):String
+}
+
 function abbreviate(s : String, length : Int) : String {
 	if(s.length() <= length) {
 		return s;
 	} else {
-		return prefix(s, length - 4) + " ...";
+		return s.substring(0,length - 4) + " ...";
 	}
 }
 
 function prefix(s : String, length : Int) : String {
-	if(s.length() <= length) {
-		return s;
-	} else {
-		var sChar := s.split();
-		sChar.removeAt(length);
-		return prefix(sChar.concat(), length);
-	}
+	return s.substring(0,length);
 }
 
 function max(i1 : Int, i2 : Int) : Int {

@@ -152,15 +152,15 @@ define template issues(is : Set<Issue>, showProjectName : Bool, showTicks : Bool
 	issues(is, showProjectName, showTicks, showNumbers, 33)
 }
 define template issues(is : Set<Issue>, showProjectName : Bool, showTicks : Bool, showNumbers : Bool, titleLength : Int) {
-	issues(is, showProjectName, showTicks, showNumbers, titleLength, false)
+	issues(is, showProjectName, showTicks, showNumbers, titleLength, false, false)
 }
 
-define template issues(is : Set<Issue>, showProjectName : Bool, showTicks : Bool, showNumbers : Bool, titleLength : Int, showTags : Bool) {
+define template issues(is : Set<Issue>, showProjectName : Bool, showTicks : Bool, showNumbers : Bool, titleLength : Int, showTags : Bool, showNrVotes : Bool) {
 	issues([i | i : Issue in is.list()  order by i.submitted desc], 
-		showProjectName, showTicks, showNumbers, titleLength, showTags)
+		showProjectName, showTicks, showNumbers, titleLength, showTags, showNrVotes)
 }
 
-define template issues(is : List<Issue>, showProjectName : Bool, showTicks : Bool, showNumbers : Bool, titleLength : Int, showTags : Bool) {
+define template issues(is : List<Issue>, showProjectName : Bool, showTicks : Bool, showNumbers : Bool, titleLength : Int, showTags : Bool, showNrVotes : Bool) {
 	block [class := "Listing"] {
 		table {
 			for(i : Issue in is) {
@@ -188,6 +188,9 @@ define template issues(is : List<Issue>, showProjectName : Bool, showTicks : Boo
 							navigate(issue(i.project, i.number)) {
 								output(abbreviate(i.getTitle(), titleLength))
 							}
+							if(showNrVotes && i.nrVotes > 0) {
+								" (" output(i.nrVotes) ")"
+							}
 						}
 					}
 					if(showTags) { 
@@ -201,6 +204,7 @@ define template issues(is : List<Issue>, showProjectName : Bool, showTicks : Boo
 
 define page issue(p : Project, issueNumber : Int) {
 	var i := getIssue(p, issueNumber)
+	var nrVotes := i.nrVotes; // Derived props are not cached and executed on demand
 	
 	title{"#" output(i.number) " " output(i.getTitle()) " (project " output(i.project.name) " on YellowGrass.org)"}
 	main()
@@ -220,7 +224,8 @@ define page issue(p : Project, issueNumber : Int) {
 			}
 			
 			par{ <h2> 
-				output(i.getTitle()) 
+				output(i.getTitle())
+				if(nrVotes > 0) { " (" output(nrVotes) ") " } 
 				if(!i.open) {
 					image("/images/tick.png")
 				}
@@ -308,6 +313,6 @@ define page postedIssues() {
 			"Posted Issues"
 		}
 		par { <h1> "Issues Posted by You" </h1> }
-		par { issues(postedIssues.set(), true, true, true, 50, true) }
+		par { issues(postedIssues.set(), true, true, true, 50, true, true) }
 	}
 }
