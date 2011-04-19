@@ -11,7 +11,7 @@ function obtainPageViewStatisticsGraph(projects : List<Project>) : String {
 				p,
 				select count(*)
 				from RequestLogEntry
-				where _start < ~bound and _requestedURL like ~("%"+p.name+"%")
+				where _start > ~bound and _requestedURL like ~("%"+p.name+"%")
 			)
 		);
 	}
