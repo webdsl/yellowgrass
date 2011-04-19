@@ -25,7 +25,9 @@ define page home(){
 		recentIssues := 
 			select i from Issue as i
 			left join i._project as p
-			where ~u in elements(i._project._members)
+			where	(~u in elements(i._project._members)) or 
+					((i._reporter != null) and (i._reporter._name = ~u.name)) or
+					(i._email = ~u.email)
 			order by i._submitted desc
 			limit 15;
 	}
