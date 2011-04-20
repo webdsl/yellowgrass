@@ -25,7 +25,8 @@ access control rules
 	}
 	
 	rule page user(tag : String) {
-		findUserByTag(tag).length == 1
+		true
+		// Not checking whether user exists anymore, due to performance issues in generating navigates
 	}
 	
 	rule page editUser(u : User) {

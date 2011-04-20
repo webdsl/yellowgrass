@@ -32,6 +32,19 @@ entity User {
 			users.get(0) == this;
 	}
 }
+
+function getUser(u : String) : User {
+	var users : List<User> := 
+		from User
+		where _tag = ~u;
+	if(users.length == 0) {
+		return User {}; 
+	} else {
+		return users.get(0);
+	}
+}
+
+
 /*
 var yellowGrass := 
 	User {
@@ -43,7 +56,7 @@ var yellowGrass :=
 	};
 */
 define page user(usertag : String) {
-	var u : User := findUserByTag(usertag).get(0)
+	var u : User := getUser(usertag)
 	var reportedIssues : List<Issue> := 
 		from Issue
 		where _reporter = ~u and _project._private=false//not( project.private)
