@@ -32,7 +32,8 @@ access control rules
 	}
 	
 	rule page issue(p : Project, number : Int) { 
-		true
+		mayAccess(p)
+		// Not checking whether issue exists anymore, due to performance issues in generating navigates
 	}
 		
 	rule page editIssue(i : Issue) {

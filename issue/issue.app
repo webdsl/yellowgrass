@@ -203,7 +203,7 @@ define template issues(is : List<Issue>, showProjectName : Bool, showTicks : Boo
 }
 
 define page issue(p : Project, issueNumber : Int) {
-	var i := getIssue(p, issueNumber)
+	var i := getIssue(p, issueNumber);
 	var nrVotes := i.nrVotes; // Derived props are not cached and executed on demand
 	
 	title{"#" output(i.number) " " output(i.getTitle()) " (project " output(i.project.name) " on YellowGrass.org)"}

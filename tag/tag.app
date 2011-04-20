@@ -97,6 +97,17 @@ function tag(t : String, p : Project) : Tag {
 	}
 }
 
+function getTag(t : String, p : Project) : Tag {
+	var tags : List<Tag> := 
+		from Tag
+		where _name = ~t.toLowerCase() and _project = ~p;
+	if(tags.length == 0) {
+		return Tag {}; 
+	} else {
+		return tags.get(0);
+	}
+}
+
 function getFollowers(ts : Set<Tag>) : Set<User> {
 	var followers : Set<User> := {User{}};
 	followers.clear();
@@ -198,13 +209,9 @@ define page tag(p : Project, tag : String) {
 	title{output(p.name) " / " output(tag) " - on YellowGrass.org"}
 	main()
 	define body(){
-		var tagMatches : List<Tag> := 
-			from Tag
-			where _name=~tag and _project=~p
-			limit 1
-		var t := tagMatches.get(0);
+		var t := getTag(tag, p);
 		var taggedIssues : List<Issue> :=
-			select i 
+			select i
 			from Issue as i
 			left join i._tags as t
 			where t._name = ~tag and t._project = ~p

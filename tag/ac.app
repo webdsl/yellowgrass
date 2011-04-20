@@ -16,12 +16,8 @@ access control rules
 	}
 	
 	rule page tag(p : Project, tag : String) {
-		mayAccess(p) && 
-		( 
-			from Tag
-			where _name=~tag and _project=~p
-			limit 1
-		).length > 0
+		mayAccess(p) 
+		// Not checking whether tag exists anymore, due to performance issues in generating navigates
 	}
 	
 	rule page editTag(p : Project, t : Tag) {

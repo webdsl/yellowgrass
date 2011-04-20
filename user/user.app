@@ -32,7 +32,7 @@ entity User {
 			users.get(0) == this;
 	}
 }
-
+/*
 var yellowGrass := 
 	User {
 		name := "YellowGrass"
@@ -41,7 +41,7 @@ var yellowGrass :=
 		url := "http://yellowgrass.org"
 		tag := "yellowgrass"
 	};
-
+*/
 define page user(usertag : String) {
 	var u : User := findUserByTag(usertag).get(0)
 	var reportedIssues : List<Issue> := 
