@@ -71,7 +71,9 @@ define template createIssue(p : Project, initialTag : Tag) {
 					" "
 					action("Post",post())
 				}
-				placeholder issuePreview {}
+				block [class := "Block"] {
+					placeholder issuePreview {} 
+				}
 			}
 		}
 		projectSideBar(p)
@@ -115,9 +117,11 @@ define ajax issueSuggestions(t : String, p : Project) {
 }
 
 define ajax issuePreview(d : WikiText) {
-	par [class := "Block"] {
+	
 		label("Description Preview") {
-			output(d)
-		}
+			block {	// Neded to work around placeholder content displacement
+				output(d)
+			}
+	
 	}
 }

@@ -30,7 +30,10 @@ entity Project {
 		var result :List<Tag> := 
 			(	select t
 				from Issue as i inner join i.tags as t
-				where (i._project = ~this) and (t._name not like ~"@%") and (t._name not like ~"!%")
+				where 	(i._project = ~this) and 
+						(t._project = ~this) and // Not needed, but used for performance
+						(t._name not like ~"@%") and 
+						(t._name not like ~"!%")
 				group by t._name
 				order by count(i) desc
 				limit ~nr
