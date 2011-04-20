@@ -39,24 +39,27 @@ entity Project {
 	}
 	
 	function getIssueStatsWeekly() : List<Int> {
+		// TODO Use version below when supported in WebDSL
+/*		var start : DateTime := now().addYears(-1);
+		return
+			select count(i)
+			from Issue as i
+			where (i._project = ~this and i._submitted > ~start)
+			group by month(i._submitted)
+			order by i._submitted;
+*/		
 		// This is ugly, but webdsl does not support any better right now
-		var year : Int := 2011;
-		var weekDel : List<DateTime>; 
-		for(week : Int from 1 to 51) {
-			weekDel.add(
-				DateTime(year +  "." + week, "yyyy.w")
-			);
-		}
+		var yearStart : DateTime := now().addYears(-1);
 		var stats : List<Int>;
-		for(nr : Int from 0 to weekDel.length - 2) {
-			var start : DateTime := weekDel.get(nr);
-			var end : DateTime := weekDel.get(nr + 1);
+		for(week : Int from 1 to 51) {
+			var start := yearStart.addDays(week * 7);
+			var end := yearStart.addDays((week+1) * 7);
 			stats.add(
 				select count(*)
 				from Issue
-				where _submitted > ~start 
+				where _project = ~this
+				and _submitted > ~start 
 				and _submitted < ~end
-				and _project = ~this
 			);
 		}
 		return stats;
