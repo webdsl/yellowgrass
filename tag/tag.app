@@ -373,14 +373,26 @@ define ajax tagSuggestions(tagPrefix : String, issue : Issue) {
 	var suggestions : List<Tag> := (
 		select	t
 		from	Issue as i left join i.tags as t	// Joint to only select used tags (subqueries not supported)
-		where	t._project = ~issue.project and
+		where	i._project = ~issue.project and
+				t._project = ~issue.project and		// Not really needed, but improves performance
 				t._name like ~tagSearchString and
 				t._name not like ~tagSuggestionFilter(tagPrefix)
 		group by t._name
 		order by count(i) desc
 		limit 5
 		) as List<Tag>;
-	
+		
+/*	var suggestions : List<Tag> := (
+		select	t
+		from	Tag as t
+		where	i._project = ~issue.project and
+				t._project = ~issue.project and
+				t._name like ~tagSearchString and
+				t._name not like ~tagSuggestionFilter(tagPrefix)
+		order by (select count(i) from Issue as i where t in i._tags) desc
+		limit 5
+		) as List<Tag>;
+*/	
 	for(suggestion : Tag in suggestions) {
 		form { block [class := "Suggestion"] {
 			actionLink(suggestion.name, addSuggestedTag(suggestion))[ajax]
