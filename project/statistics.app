@@ -11,9 +11,14 @@ function obtainPageViewStatisticsGraph(projects : List<Project>) : String {
 				p,
 				select count(*)
 				from RequestLogEntry
-				where _start > ~bound and _requestedURL like ~("%"+p.name+"%")
+				where	_start > ~bound and 
+						(
+							_requestedURL like ~("http://yellowgrass.org/issue/"+p.name.toLowerCase()+"/%") or 
+							_requestedURL = ~("http://yellowgrass.org/project/"+p.name.toLowerCase())
+						)
 			)
 		);
+		log("count: "+p.name + " " + stats.get(stats.length-1).i);
 	}
 	var oStats := [pi | pi : ProjectIntTuple in stats order by pi.i desc limit 8];
 

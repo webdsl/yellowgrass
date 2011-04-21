@@ -43,6 +43,13 @@ access control rules
 	
 	rule page createIssue(p : Project) {
 		mayAccess(p)
+		rule action updateIssueSuggestions(t : String, p : Project) {
+			mayAccess(p)
+		}
+		
+		rule action updateIssuePreview(d : WikiText) {
+			true
+		}
 	}
 	
 	rule page createTaggedIssue(p : Project, initialTag : Tag) {
@@ -54,10 +61,6 @@ access control rules
 		principal in p.members
 	}
 	
-	rule action updateIssueSuggestions(t : String, p : Project) {
-		loggedIn && mayAccess(p)
-	}
-		
 	rule action newComment(text : WikiText, issue : Issue) {
 		loggedIn && mayAccess(issue.project)
 	}
@@ -72,11 +75,11 @@ access control rules
 	}
 	
 	rule ajaxtemplate issueSuggestions(t : String, p : Project) {
-		loggedIn && mayAccess(p)
+		mayAccess(p)
 	}
 	
 	rule ajaxtemplate issuePreview(d : WikiText) {
-		loggedIn
+		true
 	}
 	
 	rule action showIssueMoveTargets(issue : Issue){

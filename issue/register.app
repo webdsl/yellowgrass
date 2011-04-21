@@ -24,8 +24,6 @@ define template createIssue(p : Project, initialTag : Tag) {
 		var i := Issue{
 			reporter := securityContext.principal 
 		};
-		var title : String := "";
-		var email : Email := "";
 		var type : Tag;
 		
 		block [class := "main"] { 
@@ -34,11 +32,7 @@ define template createIssue(p : Project, initialTag : Tag) {
 			form { 
 			
 				par { label("Title") {
-					if(securityContext.loggedIn) {
-						input (title) [onkeyup := updateIssueSuggestions(title, p), autocomplete:="off"]
-					} else {
-						input (title) [autocomplete:="off"]
-					}
+					input (i.title) [onkeyup := updateIssueSuggestions(i.title, p), autocomplete:="off"]
 				}}
 				par [class := "IssueSuggestions"] {
 					placeholder issueSuggestionsBox {} 
@@ -56,34 +50,31 @@ define template createIssue(p : Project, initialTag : Tag) {
 						[onkeyup := updateIssuePreview(i.description)]
 					} 
 				}
+				block [class := "Block"] {
+					placeholder issuePreview {} 
+				}
 				par [align := "center"] { navigate(url("http://en.wikipedia.org/wiki/Markdown#Syntax_examples")) [target:="_blank"] { "Syntax help" } }
 				if(!securityContext.loggedIn) {
 					par { label("Email") {
-						input(email){validate(email!="","Please enter your email address")}
+						input(i.email){validate(i.email!="","Please enter your email address")}
 					}}
 					par { <i> 	"Email addresses are used for notifications and questions only. "
 								"Email addresses are never presented publicly."</i> 
 					}
-					par { captcha() }
 				}		
 				par {
 					navigate(project(p)) {"Cancel"}
 					" "
 					action("Post",post())
 				}
-				block [class := "Block"] {
-					placeholder issuePreview {} 
-				}
 			}
 		}
 		projectSideBar(p)
 		action post() {
-			i.title := title;
 			i.submitted := now();
 			i.project := p;
 			i.number := newIssueNumber(p);
 			i.open := true;
-			i.email := email;
 			if(initialTag != null) {
 				i.tags := {initialTag};
 			}
@@ -96,10 +87,10 @@ define template createIssue(p : Project, initialTag : Tag) {
 			i.notifyRegister();
 			return issue(p, i.number);
 		}
-		action updateIssueSuggestions(t : String, p : Project) {
+		action ignore-validation updateIssueSuggestions(t : String, p : Project) {
 			replace(issueSuggestionsBox, issueSuggestions(t, p));
 		}
-		action updateIssuePreview(d : WikiText) {
+		action ignore-validation updateIssuePreview(d : WikiText) {
 			replace(issuePreview, issuePreview(d));
 		}
 	}
@@ -117,11 +108,9 @@ define ajax issueSuggestions(t : String, p : Project) {
 }
 
 define ajax issuePreview(d : WikiText) {
-	
-		label("Description Preview") {
-			block {	// Neded to work around placeholder content displacement
-				output(d)
-			}
-	
+	label("Description Preview") {
+		block {	// Neded to work around placeholder content displacement
+			output(d)
+		}
 	}
 }
