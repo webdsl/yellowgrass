@@ -20,16 +20,12 @@ entity User {
 	
 	function userEmailTaken() : Bool {
 		var users := findUserByEmail(email);
-		return 
-			users.length == 0 ||
-			users.get(0) == this;
+		return users.length > 1;	// Database view may be inconsistent, as queries in transaction are take into account
 	}
 	
 	function userTagTaken() : Bool {
 		var users := findUserByTag(tag);
-		return
-			users.length == 0 ||
-			users.get(0) == this;
+		return users.length > 1;	// Database view may be inconsistent, as queries in transaction are take into account
 	}
 }
 
