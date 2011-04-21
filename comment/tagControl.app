@@ -10,7 +10,7 @@ entity TagAddition : Event {
 
 define template tagAddition(ta : TagAddition) {
 	block [class := "CommentHeader"] {
-		"On " output(ta.moment.format("MMM d")) " " output(ta.actor.name) " tagged " output(ta.tag.name)
+		"On " output(format(ta.moment)) " " output(ta.actor.name) " tagged " output(ta.tag.name)
 	}
 }
 
@@ -21,6 +21,6 @@ entity TagRemoval : Event {
 
 define template tagRemoval(tr : TagRemoval) {
 	block [class := "CommentHeader"] {
-		"On " output(tr.moment.format("MMM d")) " " output(tr.actor.name) " removed tag " output(tr.tag.name)
+		"On " output(format(tr.moment)) " " output(tr.actor.name) " removed tag " output(tr.tag.name)
 	}
 }

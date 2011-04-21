@@ -21,7 +21,7 @@ function createComment(t : WikiText) : Comment {
 
 define template comment(c : Comment) {
 	block [class := "CommentHeader"] {
-		"On " output(c.moment.format("MMM d")) " " output(c.author.name) " wrote: "
+		"On " output(format(c.moment)) " " output(c.author.name) " wrote: "
 		navigate(editComment(c)){"edit"}
 	}
 	block [class := "CommentText"] {
