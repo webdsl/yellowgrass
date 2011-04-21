@@ -195,11 +195,15 @@ define page projectList() {
 
 
 define page projectIssues(p : Project, filterOpen : Bool) {
+	var issues := 
+		from Issue
+		where ~!filterOpen or _open
+		order by _number desc
+		limit 2000
+	
 	title{output(p.name) " issues on YellowGrass.org"}
 	main()
 	define body() {
-		var issues := [i | i : Issue in p.issues where (!filterOpen) || i.open];
-		
 		block [class := "main"] {
 			if(securityContext.loggedIn) {
 				par [class := "Back"] { 
@@ -213,7 +217,7 @@ define page projectIssues(p : Project, filterOpen : Bool) {
 			} else { 
 				par [class := "Back"] { navigate(project(p)) {rawoutput { " &raquo; " } " Back to Project"} }
 			}
-			 
+			
 			par { issues(issues, false, true, true, 50, true, true) }
 		}
 		projectSideBar(p)
