@@ -41,6 +41,22 @@ entity Project {
 		return result;
 	}
 	
+	function getOrderedIssues(filterOpen : Bool) : List<Issue> {
+		if(filterOpen) {
+			return
+				from Issue
+				where _project = ~this and _open = true
+				order by _number desc
+				limit 2000;
+		} else {
+			return
+				from Issue
+				where _project = ~this
+				order by _number desc
+				limit 2000;
+		}
+	}
+	
 	function getIssueStatsWeekly() : List<Int> {
 		// TODO Use version below when supported in WebDSL
 /*		var start : DateTime := now().addYears(-1);
@@ -195,12 +211,6 @@ define page projectList() {
 
 
 define page projectIssues(p : Project, filterOpen : Bool) {
-	var issues := 
-		from Issue
-		where ~!filterOpen or _open
-		order by _number desc
-		limit 2000
-	
 	title{output(p.name) " issues on YellowGrass.org"}
 	main()
 	define body() {
@@ -218,7 +228,7 @@ define page projectIssues(p : Project, filterOpen : Bool) {
 				par [class := "Back"] { navigate(project(p)) {rawoutput { " &raquo; " } " Back to Project"} }
 			}
 			
-			par { issues(issues, false, true, true, 50, true, true) }
+			par { issues(p.getOrderedIssues(filterOpen), false, true, true, 50, true, true) }
 		}
 		projectSideBar(p)
 	}
