@@ -7,7 +7,7 @@ imports user/access
 
 entity User {
 	name			:: String		(validate(name.length() >= 3,	"Names need to be at least 3 characters"))
-	email			:: Email		(validate(userEmailTaken(), "Another user already registered using this email address"), validate(email != "", "Enter a valid email address"))
+	email			:: Email		(validate(!userEmailTaken(), "Another user already registered using this email address"), validate(email != "", "Enter a valid email address"))
 	notifications   :: Bool
 	password		:: Secret		(validate(password.length() >= 8, "Password needs to be at least 8 characters"))
 	projects		-> Set<Project> (inverse = Project.members)
@@ -16,7 +16,7 @@ entity User {
 										tag.length() >= 3 && 
 										/[a-z0-9]*/.match(tag),	
 										"User names consist of lowercase characters and numbers. Their minimum length is 3 characters."),
-									 validate(userTagTaken(), "Another user already registered this user name"))
+									 validate(!userTagTaken(), "Another user already registered this user name"))
 	
 	function userEmailTaken() : Bool {
 		var users := findUserByEmail(email);

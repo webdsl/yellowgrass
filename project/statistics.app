@@ -13,8 +13,8 @@ function obtainPageViewStatisticsGraph(projects : List<Project>) : String {
 				from RequestLogEntry
 				where	_start > ~bound and 
 						(
-							_requestedURL like ~("http://yellowgrass.org/issue/"+p.name.toLowerCase()+"/%") or 
-							_requestedURL = ~("http://yellowgrass.org/project/"+p.name.toLowerCase())
+							_requestedURL like ~("http://yellowgrass.org/issue/"+p.name+"/%") or 
+							_requestedURL = ~("http://yellowgrass.org/project/"+p.name)
 						)
 			)
 		);

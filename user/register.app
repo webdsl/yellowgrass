@@ -18,8 +18,7 @@ define page registerUser(){
 			par{ label("Password") { input(u.password) } }
 			par{ label("Repeat Password") { 
 				input(temp){ validate(u.password == temp, "Passwords do not match") } } }
-			par{ block [class:="Error"]{ captcha() }}
-					
+			par{ block [class:="Error"]{ captcha() }}			
 			par {
 				navigate(root()) {"Cancel"}
 				" "
