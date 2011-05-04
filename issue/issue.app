@@ -12,6 +12,7 @@ imports user/user
 imports project/project
 imports issue/attachment
 imports issue/issueBrowser
+imports issue/ghost
 
 entity Issue {
 	// TODO add optional user association

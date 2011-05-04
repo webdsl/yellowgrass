@@ -21,18 +21,16 @@ define template createIssue(p : Project, initialTag : Tag) {
 	title{output(p.name) " - Create new issue on YellowGrass.org"}
 	main()
 	define body(){
-		var i := Issue{
-			reporter := securityContext.principal 
-		};
+		var ig := IssueGhost{ alive := false };
 		var type : Tag;
 		
-		block [class := "main"] { 
+		block [class := "main"] {
 			<h1> "Post New " output(p.name) " Issue" </h1>
 			
 			form { 
 			
 				par { label("Title") {
-					input (i.title) [onkeyup := updateIssueSuggestions(i.title, p), autocomplete:="off"]
+					input (ig.title) [onkeyup := updateIssueSuggestions(ig.title, p), autocomplete:="off"]
 				}}
 				par [class := "IssueSuggestions"] {
 					placeholder issueSuggestionsBox {} 
@@ -46,8 +44,8 @@ define template createIssue(p : Project, initialTag : Tag) {
 				}
 				par { 
 					label("Description") {
-						input(i.description) 
-						[onkeyup := updateIssuePreview(i.description)]
+						input(ig.description) 
+						[onkeyup := updateIssuePreview(ig.description)]
 					} 
 				}
 				block [class := "Block"] {
@@ -56,7 +54,7 @@ define template createIssue(p : Project, initialTag : Tag) {
 				par [align := "center"] { navigate(url("http://en.wikipedia.org/wiki/Markdown#Syntax_examples")) [target:="_blank"] { "Syntax help" } }
 				if(!securityContext.loggedIn) {
 					par { label("Email") {
-						input(i.email){validate(i.email!="","Please enter your email address")}
+						input(ig.email){validate(ig.email!="","Please enter your email address")}
 					}}
 					par { <i> 	"Email addresses are used for notifications and questions only. "
 								"Email addresses are never presented publicly."</i> 
@@ -71,21 +69,24 @@ define template createIssue(p : Project, initialTag : Tag) {
 		}
 		projectSideBar(p)
 		action post() {
-			i.submitted := now();
-			i.project := p;
-			i.number := newIssueNumber(p);
-			i.open := true;
+			ig.project := p;
 			if(initialTag != null) {
-				i.tags := {initialTag};
+				ig.tags := {initialTag};
 			}
 			if(type != null) {
-				i.tags.add(type);
+				ig.tags.add(type);
 			}
-			i.assign();
-			i.save();
-			flush();
-			i.notifyRegister();
-			return issue(p, i.number);
+			ig.save();
+			
+			if(securityContext.loggedIn) {
+				var i : Issue := ig.realize();
+				return issue(i.project, i.number);
+			} else {
+				email(issueConfirmationEmail(ig));
+				return issueConfirmation();
+			}
+			
+			
 		}
 		action ignore-validation updateIssueSuggestions(t : String, p : Project) {
 			replace(issueSuggestionsBox, issueSuggestions(t, p));

@@ -139,3 +139,10 @@ access control rules
 		true
 	}
 */
+
+	rule page issueConfirmation() {
+		true
+	}
+	rule page confirmGhost(g :IssueGhost) {
+		true
+	}
