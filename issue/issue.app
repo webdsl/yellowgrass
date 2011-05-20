@@ -15,7 +15,6 @@ imports issue/issueBrowser
 imports issue/ghost
 
 entity Issue {
-	// TODO add optional user association
 	number		:: Int		(searchable)
 	title		:: String	(searchable, validate(title.length() >= 5, "Use a longer and more descriptive title"))
 	description	:: WikiText (searchable)
@@ -243,7 +242,7 @@ define page issue(p : Project, issueNumber : Int) {
 					if(i.reporter == null && i.email != "" && securityContext.principal in p.members) {
 						"by " output(i.email) " "
 					}
-					"on " output(i.submitted.format("MMM d")) // TODO Add year if needed 
+					"on " output(format(i.submitted)) 
 					") " 
 				}
 				" "
@@ -271,7 +270,6 @@ define page issue(p : Project, issueNumber : Int) {
 	}
 }
 	
-// TODO Adapt this to the new issue types
 define page editIssue(i : Issue) {
 	title{output(i.project.name) " issue #" output(i.number) " on YellowGrass.org [editing]"}
 	main()

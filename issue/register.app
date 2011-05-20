@@ -56,8 +56,9 @@ define template createIssue(p : Project, initialTag : Tag) {
 					par { label("Email") {
 						input(ig.email){validate(ig.email!="","Please enter your email address")}
 					}}
-					par { <i> 	"Email addresses are used for notifications and questions only. "
-								"Email addresses are never presented publicly."</i> 
+					par { <i> 	"Email addresses are used for issue confirmation, notifications and questions only. "
+								"Email addresses are never presented publicly."
+						  </i> 
 					}
 				}		
 				par {
@@ -98,8 +99,8 @@ define template createIssue(p : Project, initialTag : Tag) {
 }
 
 define ajax issueSuggestions(t : String, p : Project) {
-	// TODO Cannot search on project names, so doing big search and project limit. Fix this when search for project name is enabled.
-	var suggestions := searchIssue(t, 100);
+	// Cannot search on project names (yet), so doing bigger search and project limit
+	var suggestions := searchIssue(t+" "+p.name, 20);
 	var projectSuggestions := [ i | i : Issue in suggestions where i.project == p limit 5];
 	for(i : Issue in projectSuggestions) {
 		par {

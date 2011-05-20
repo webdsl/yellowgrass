@@ -15,7 +15,6 @@ entity Tag {
 	tags		-> Set<Tag>
 	
 	function hasTag(tagName : String) : Bool {
-		// TODO Optimize to query?
 		for( t : Tag in tags) {
 			if(t.name == tagName) {
 				return true;
@@ -71,7 +70,6 @@ extend entity Issue {
 		);
 	}
 	function hasTag(tagName : String) : Bool {
-		// TODO Optimize to query?
 		for( t : Tag in tags) {
 			if(t.name == tagName) {
 				return true;

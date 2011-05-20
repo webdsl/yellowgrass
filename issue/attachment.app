@@ -16,26 +16,16 @@ define template attachmentAddition(i : Issue) {
 	block [id="attachmentAdditionBox",style:="display:none;"] {
 		attachmentAdditionInput(i)
 	}
-	
-/*	actionLink("Attach a file", openAttachmentAdditionBox(i))
-	placeholder [style:="display:none;"] attachmentAdditionBox {
-		attachmentAdditionInput(i)
-	}
-	action openAttachmentAdditionBox(i : Issue) {
-		visibility(attachmentAdditionBox, show);
-	}
-*/}
+}
 
 define template attachmentAdditionInput(i : Issue) {
 	var newFile : File;
-//	block [class := "AttachmentAdd"] {
-		form {
-			par { 
-				input(newFile) {validate(newFile != null && newFile.fileName() != "", "")}
-				action("Add", addAttachment(newFile, i)) 
-			}
+	form {
+		par { 
+			input(newFile) {validate(newFile != null && newFile.fileName() != "", "")}
+			action("Add", addAttachment(newFile, i)) 
 		}
-//	}
+	}
 	
 	action addAttachment(newFile : File, issue : Issue) {
 		var newAttachment := Attachment {
@@ -44,7 +34,6 @@ define template attachmentAdditionInput(i : Issue) {
 		};
 		newAttachment.save();
 		issue.attachments.add(newAttachment);
-//		return issue(issue.project, issue.number);
 	}
 }
 
