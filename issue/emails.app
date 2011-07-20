@@ -15,18 +15,19 @@ extend entity Issue {
 			}
 		}
 		
-		if(reporter != null) {
+		if(reporter != null && reporter.notifications) {
 			mailinglist.add(reporter.email);
 		}
 		if(reporter == null && email != "") {
 			mailinglist.add(email);
 		}
 		
-		var commenters := [(e as Comment).author.email | e : Event in log where e is a Comment];
-		mailinglist.addAll(commenters);
+		var commenters := [(e as Comment).author | e : Event in log where e is a Comment];
+		var commenterEmails := [u.email | u : User in commenters where u.notifications];
+		mailinglist.addAll(commenterEmails);
 		
 		var followers : Set<User> := getFollowers(tags);
-		mailinglist.addAll([u.email | u : User in followers]);
+		mailinglist.addAll([u.email | u : User in followers where u.notifications]);
 		
 		return mailinglist;
 	}
