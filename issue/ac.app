@@ -43,13 +43,6 @@ access control rules
 	
 	rule page createIssue(p : Project) {
 		mayAccess(p)
-		rule action updateIssueSuggestions(t : String, p : Project) {
-			mayAccess(p)
-		}
-		
-		rule action updateIssuePreview(d : WikiText) {
-			true
-		}
 	}
 	
 	rule page createTaggedIssue(p : Project, initialTag : Tag) {

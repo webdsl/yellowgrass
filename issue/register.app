@@ -27,7 +27,7 @@ define template createIssue(p : Project, initialTag : Tag) {
 		block [class := "main"] {
 			<h1> "Post New " output(p.name) " Issue" </h1>
 			
-			form { 
+			form {
 			
 				par { label("Title") {
 					input (ig.title) [onkeyup := updateIssueSuggestions(ig.title, p), autocomplete:="off"]
@@ -90,7 +90,9 @@ define template createIssue(p : Project, initialTag : Tag) {
 			
 		}
 		action ignore-validation updateIssueSuggestions(t : String, p : Project) {
-			replace(issueSuggestionsBox, issueSuggestions(t, p));
+			if(mayAccess(p)) {
+				replace(issueSuggestionsBox, issueSuggestions(t, p));
+			}
 		}
 		action ignore-validation updateIssuePreview(d : WikiText) {
 			replace(issuePreview, issuePreview(d));
