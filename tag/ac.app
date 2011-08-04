@@ -63,3 +63,7 @@ access control rules
 	rule template tagSideBar(t : Tag) {
 		mayAccess(t.project)
 	}
+	
+	rule page tagManual() {
+		true
+	}

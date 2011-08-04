@@ -16,7 +16,7 @@ define page editUserPassword(u : User){
 					input(current){ validate(u.password.check(current), "Incorrect password") }
 				}
 			} */ // TODO This does not seem to work. Fix it and add it for security reasons
-			par { 
+			par {
 				label("New Password"){input(u.password)}
 			}
 			par { 

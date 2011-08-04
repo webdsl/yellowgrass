@@ -50,6 +50,7 @@ define page features() {
 			listitem { "Assign issues to project members using '@fred' tags" }
 			listitem { "Follow reported issues using '!wilma' tags" }
 			listitem { "Tag tags (meta tagging), to call on dedicated behavior of YellowGrass, such as tag coloring, ordering and road maps" }
+			listitem { "Want to know more about tags? Visit the " navigate(tagManual()){"tag manual"}}
 		}	
 	}
 }

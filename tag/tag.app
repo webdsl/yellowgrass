@@ -2,6 +2,7 @@ module tag/tag
 
 imports tag/ac
 imports tag/sidebar
+imports tag/manual
 imports user/user
 imports issue/issue
 imports project/roadmap
@@ -277,6 +278,7 @@ define template tags(t : Tag, editing : Bool) {
 			}
 			output(" ")
 		}
+		tagHelp()
 	}
 	action deleteTag(tagToRemoveFrom : Tag, tagToRemove : Tag) {
 		tagToRemoveFrom.tags.remove(tagToRemove);
@@ -334,6 +336,7 @@ define template addTag(i : Issue) {
 				input(t) [onkeyup := updateTagSuggestions(t), autocomplete:="off"]
 			}
 			action("+", addTag(t, i))[ajax]
+			tagHelp()
 			placeholder tagValidityFeedback {""}
 		}
 		placeholder tagSuggestionsBox {
