@@ -206,7 +206,7 @@ function arrangeTags(tags : Set<Tag>, summary : Bool) : List<Tag> {
 
 define page tag(p : Project, tag : String) {
 	title{output(p.name) " / " output(tag) " - on YellowGrass.org"}
-	main()
+	main(p)
 	define body(){
 		var t := getTag(tag, p);
 		var taggedIssues : List<Issue> :=
@@ -242,7 +242,7 @@ define page tag(p : Project, tag : String) {
 
 define page editTag(p : Project, t : Tag) {
 	title{output(t.project.name) "." output(t.name) " on YellowGrass.org [Editing]"}
-	main()
+	main(p)
 	define body(){
 		<h1> "Edit Tag" </h1>
 		form {

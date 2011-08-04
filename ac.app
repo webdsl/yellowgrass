@@ -18,16 +18,16 @@ module ac
 		true
 	}
 	
-	rule template mainheader() {
-		true
+	rule template mainheader(p : Project) {
+		mayAccess(p)
 	}
 	
 	rule template sidebarSeparator() {
 		true
 	}
 	
-	rule page search(q : String) {
-		true
+	rule page search(p: Project, q : String) {
+		mayAccess(p)
 	}
 	
 	 rule page features() {

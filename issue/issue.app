@@ -207,7 +207,7 @@ define page issue(p : Project, issueNumber : Int) {
 	var nrVotes := i.nrVotes; // Derived props are not cached and executed on demand
 	
 	title{"#" output(i.number) " " output(i.getTitle()) " (project " output(i.project.name) " on YellowGrass.org)"}
-	main()
+	main(p)
 	define body(){
 		block [class := "main"] {
 			if(securityContext.loggedIn) {
@@ -272,7 +272,7 @@ define page issue(p : Project, issueNumber : Int) {
 	
 define page editIssue(i : Issue) {
 	title{output(i.project.name) " issue #" output(i.number) " on YellowGrass.org [editing]"}
-	main()
+	main(i.project)
 	define body(){
 		<h1> "Edit Issue " output(i.number) </h1>
 		form {

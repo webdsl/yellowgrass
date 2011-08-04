@@ -72,17 +72,16 @@ define template noCommentAddition() {
 }
 
 define page editComment(c : Comment) {
-	title{"YellowGrass.org - Edit Comment"}
-	main()
-	define body(){
-		var is := 
+	var is := 
 			select i
 			from Issue as i
 			left join i.log as l
 			where ~c = l
 			limit 1
 		var i := is.get(0);
-		
+	title{"YellowGrass.org - Edit Comment"}
+	main(i.project)
+	define body(){
 		<h1> "Edit Comment" </h1>
 		form {
 			par {

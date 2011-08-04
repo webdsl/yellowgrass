@@ -5,7 +5,7 @@ imports issue/issue
 define page roadmap(p : Project) {
 	continuousLoading()
 	title{output(p.name) " Roadmap - on YellowGrass.org"}
-	main()
+	main(p)
 	define body(){
 		var releases := releases(p)
 		

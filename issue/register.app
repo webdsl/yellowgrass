@@ -19,7 +19,7 @@ define template createIssue(p : Project, initialTag : Tag) {
 		group by t1.name
 		order by t1.name;
 	title{output(p.name) " - Create new issue on YellowGrass.org"}
-	main()
+	main(p)
 	define body(){
 		var ig := IssueGhost{ alive := false };
 		var type : Tag;

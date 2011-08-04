@@ -4,7 +4,7 @@ imports issue/types
 
 define page edit(p : Project) {
 	title{output(p.name) " on YellowGrass.org [Editing]"}
-	main()
+	main(p)
 	define body(){
 		<h1> "Edit Project" </h1>
 		form {

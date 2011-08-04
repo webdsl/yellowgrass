@@ -59,7 +59,7 @@ define page confirmGhost(g : IssueGhost) {
 	var i : Issue := g.tryRealize();
 	
 	title{output(g.project.name) " - Issue Confirmed"}
-	main()
+	main(g.project)
 	define body(){
 		<h1>"Issue Confirmed"</h1>
 		par{

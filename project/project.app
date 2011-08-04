@@ -127,7 +127,7 @@ define page project(p : Project) {
 		limit 10;
 	
 	title{output(p.name) " on YellowGrass.org" }
-	main()
+	main(p)
 	define body() {
 		block [class := "main"] { 
 			if(securityContext.loggedIn) {
@@ -212,7 +212,7 @@ define page projectList() {
 
 define page projectIssues(p : Project, filterOpen : Bool) {
 	title{output(p.name) " issues on YellowGrass.org"}
-	main()
+	main(p)
 	define body() {
 		block [class := "main"] {
 			if(securityContext.loggedIn) {

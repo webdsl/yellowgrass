@@ -3,10 +3,15 @@ module templates
 imports search
 
 define main() {
+	var p : Project := null
+	main(p)
+}
+
+define main(project : Project) {
 	includeCSS("tags.css")
 	<div id="pagewrapper">
 		<div id="header">
-			mainheader()
+			mainheader(project)
 		</div>
 		<div id="content">
 			messages()
@@ -37,8 +42,8 @@ define main() {
 define body(){
   "default body"
 }
-
-define mainheader() {
+	
+define mainheader(project : Project) {
 	if(securityContext.loggedIn) {
 		block [class:="logo"] {
 			navigate(root()){
@@ -64,9 +69,19 @@ define mainheader() {
 				submit("Search", doSearch())
 			}
 		}
+		<br/><br/>
+		if(securityContext.loggedIn) {
+			for(p : Project in securityContext.principal.projects) {
+				if(p != project) {
+					navigate(project(p)) {output(p.name)} rawoutput { "&nbsp;&nbsp;&nbsp;" } 
+				} else {
+					output(p.name) rawoutput { "&nbsp;&nbsp;&nbsp;" } 
+				}
+			}
+		}
 	}
 	action doSearch() {
-		return search(query);
+		return search(project, query);
 	}
 }
 
