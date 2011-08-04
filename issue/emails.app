@@ -35,12 +35,16 @@ extend entity Issue {
 		
 		return mailinglist;
 	}
+	
+	function mailSubject() : String {
+		return project.name+" - Issue "+number;
+	}
 }
 
 define email issueNotification(i : Issue, e : Email) {
 	to(e)
 	from(EMAIL_FROM())
-	subject(i.project.name+" - Issue "+i.number)
+	subject(i.mailSubject())
 	par {	output(i.project.name)
 			" #" output(i.number)
 			" (" output(format(i.submitted)) ")"
@@ -61,7 +65,7 @@ define email issueNotification(i : Issue, e : Email) {
 define email issueCloseNotification(i : Issue, e : Email) {
 	to(e)
 	from(EMAIL_FROM())
-	subject(i.project.name+" - Issue "+i.number+" has been closed")
+	subject(i.mailSubject())
 	par {	output(i.project.name)
 			" #" output(i.number)
 			" (" output(format(i.submitted)) ")"
@@ -77,7 +81,7 @@ define email issueCloseNotification(i : Issue, e : Email) {
 define email issueReopenNotification(i : Issue, e : Email) {
 	to(e)
 	from(EMAIL_FROM())
-	subject(i.project.name+" - Issue "+i.number+" has been reopened")
+	subject(i.mailSubject())
 	par {	output(i.project.name)
 			" #" output(i.number)
 			" (" output(format(i.submitted)) ")"
@@ -93,7 +97,7 @@ define email issueReopenNotification(i : Issue, e : Email) {
 define email issueCommentNotification(i : Issue, e : Email, c : Comment) {
 	to(e)
 	from(EMAIL_FROM())
-	subject(i.project.name+" - Issue "+i.number+" has received a comment")
+	subject(i.mailSubject())
 	par {	output(i.project.name)
 			" #" output(i.number)
 			" (" output(format(i.submitted)) ")"
@@ -111,7 +115,7 @@ define email issueCommentNotification(i : Issue, e : Email, c : Comment) {
 define email issueCommentCloseNotification(i : Issue, e : Email, c : Comment) {
 	to(e)
 	from(EMAIL_FROM())
-	subject(i.project.name+" - Issue "+i.number+" has been closed")
+	subject(i.mailSubject())
 	par {	output(i.project.name)
 			" #" output(i.number)
 			" (" output(format(i.submitted)) ")"
