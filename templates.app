@@ -112,8 +112,20 @@ define override ignore-access-control errorTemplateAction(messages : List<String
 	}     
 }
 
-
 define template sidebarSeparator() {
 	image("/images/sidebarSeparator.png")
 }
 
+define override page pagenotfound() {
+	title{ "YellowGrass.org - Page not found (404)" }
+	main()
+	define body() {
+		<h1>"Page not found"</h1>
+		<p>
+		"Oops, that page does not exist." <br/>
+		"If I messed something up, please post an issue on " <a href="http://yellowgrass.org/project/YellowGrass">"my issue tracker"</a>"."
+		</p><p>
+		"Thanks, YellowGrass"
+		</p> 
+	}
+}
