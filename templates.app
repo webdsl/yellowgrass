@@ -129,3 +129,20 @@ define override page pagenotfound() {
 		</p> 
 	}
 }
+
+define override page accessDenied() {
+	title{ "YellowGrass.org - Access Denied" }
+	main()
+	define body() {
+		<h1>"You are not allowed to visit this page"</h1>
+		<p>
+		"Perhaps you arrived here by accident." <br/>
+		"Perhaps I made an error." <br/>
+		"Perhaps you just need to log in to view this page." <br/>
+		"Perhaps this item was removed." <br/>
+		"If not, stop harrassing me, or I will call the police!"
+		</p><p>
+		" - YellowGrass - "
+		</p> 
+	}
+}
