@@ -3,7 +3,7 @@ module project/project
 imports project/ac
 imports project/register
 imports project/roadmap
-imports project/membership
+imports project/members
 imports project/sidebar
 imports project/settings
 imports project/statistics
@@ -13,18 +13,19 @@ imports user/user
 
 
 entity Project {
-	name			:: String (id, 
+	name				:: String (id, 
 		validate(isUniqueProject(this), "Another project with this name already exists"), 
 		validate(name.length() >= 3, "Project names should be three characters or longer"),
 		validate(/[a-z0-9A-Z._]*/.match(name), "Project names may contain characters, numbers, dots and underscores."))
-	description		:: WikiText
-	url				:: URL
-	issues			-> Set<Issue>
-	members			-> Set<User>
-	memberRequests	-> Set<User>
-	created			:: DateTime
-	private			:: Bool
-	email			:: Email
+	description			:: WikiText
+	url					:: URL
+	issues				-> Set<Issue>
+	members				-> Set<User>
+	memberRequests		-> Set<User>
+	followers			-> Set<User>
+	created				:: DateTime
+	private				:: Bool
+	email				:: Email
 	
 	function getCommonTags(nr : Int) : List<Tag>{
 		var result :List<Tag> := 
@@ -153,6 +154,11 @@ define page project(p : Project) {
 			
 			par { <h2>"Project Members"</h2> }
 			par { users(p.members) }
+			
+			if(p.followers.length > 0) {
+				par { <h2>"Project Followers"</h2> }
+				par { users(p.followers) }
+			}
 		}
 		projectSideBar(p)
 	}

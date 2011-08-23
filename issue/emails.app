@@ -26,8 +26,11 @@ extend entity Issue {
 		var commenterEmails := [u.email | u : User in commenters where u.notifications];
 		mailinglist.addAll(commenterEmails);
 		
-		var followers : Set<User> := getFollowers(tags);
-		mailinglist.addAll([u.email | u : User in followers where u.notifications]);
+		var issueFollowers : Set<User> := getFollowers(tags);
+		mailinglist.addAll([u.email | u : User in issueFollowers where u.notifications]);
+		
+		var projectFollowers : Set<User> := project.followers;
+		mailinglist.addAll([u.email | u : User in projectFollowers where u.notifications]); 
 		
 		if(securityContext.principal != null) {
 			mailinglist.remove(securityContext.principal.email);

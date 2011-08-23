@@ -15,7 +15,21 @@ define template projectCommands(p : Project) {
 	par { navigate(createIssue(p))	{"New Issue"} }
 	par { navigate(edit(p))			{"Project Settings"} }
 	par { navigate(roadmap(p)) 		{"Project Roadmap"} }
+	par { actionLink("Follow Project", followProject(p)) }
+	par { actionLink("Stop Following Project", unfollowProject(p)) }
 	par { actionLink("Request Project Membership", requestJoinProject(p)) }
+	
+	action followProject(p : Project) {
+		p.followers.add(securityContext.principal);
+		message("You will now receive email updates upon events in this project");
+		return project(p);
+	}
+	
+	action unfollowProject(p : Project) {
+		p.followers.remove(securityContext.principal);
+		message("You will no longer receive email updates upon events in this project");
+		return project(p);
+	}
 	
 	action requestJoinProject(p : Project) {
 		p.memberRequests.add(securityContext.principal);
