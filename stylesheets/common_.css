@@ -118,9 +118,13 @@ img {
 
 #header .SearchBox {
 	float: bottom;
-	margin-top: 25px;
+	margin-top: 15px;
 }
 
+#header .ProjectList {
+	float: bottom;
+	margin-top: 15px;
+}
 
 #header label {
 	display:inline;

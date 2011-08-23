@@ -69,7 +69,8 @@ define mainheader(project : Project) {
 				submit("Search", doSearch())
 			}
 		}
-		<br/><br/>
+	}
+	block [class := "ProjectList"] {
 		if(securityContext.loggedIn) {
 			for(p : Project in securityContext.principal.projects) {
 				if(p != project) {
