@@ -13,7 +13,7 @@ imports user/user
 
 
 entity Project {
-	name				:: String (id, 
+	name				:: String (id, searchable,  
 		validate(isUniqueProject(this), "Another project with this name already exists"), 
 		validate(name.length() >= 3, "Project names should be three characters or longer"),
 		validate(/[a-z0-9A-Z._]*/.match(name), "Project names may contain characters, numbers, dots and underscores."))
@@ -24,7 +24,7 @@ entity Project {
 	memberRequests		-> Set<User>
 	followers			-> Set<User>
 	created				:: DateTime
-	private				:: Bool
+	private				:: Bool		(searchable)
 	email				:: Email
 	
 	function getCommonTags(nr : Int) : List<Tag>{

@@ -19,7 +19,7 @@ entity Issue {
 	title		:: String	(searchable, validate(title.length() >= 5, "Use a longer and more descriptive title"))
 	description	:: WikiText (searchable)
 	submitted 	:: DateTime
-	project		-> Project	(inverse = Project.issues)
+	project		-> Project	(searchable, inverse = Project.issues)
 	reporter	-> User
 	open		:: Bool
 	log			-> Set<Event>
@@ -29,7 +29,12 @@ entity Issue {
 	attachments -> Set<Attachment>
 	
 	projectName  :: String (searchable) := project.name
-	reporterName :: String (searchable) := getReporterName()
+	reporterName :: String (searchable) := 
+		if (reporter != null && reporter.name != null)
+			reporter.name
+		else
+			""
+		
 	
 	function getReporterName() : String {
 		if (reporter != null && reporter.name != null) {
