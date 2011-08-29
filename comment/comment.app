@@ -5,7 +5,7 @@ imports comment/event
 
 entity Comment : Event {
 	submitted		:: DateTime
-	text			:: WikiText
+	text			:: WikiText		(searchable)
 	author			-> User 
 }
 

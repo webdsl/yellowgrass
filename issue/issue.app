@@ -22,7 +22,7 @@ entity Issue {
 	project		-> Project	(searchable, inverse = Project.issues)
 	reporter	-> User
 	open		:: Bool
-	log			-> Set<Event>
+	log			-> Set<Event> (searchable(name=comments, subclass=Comment))
 	tags		-> Set<Tag>
 	email		:: Email // Only when reporter == null
 	nrVotes		:: Int := [ t | t : Tag in tags where /!.*/.match(t.name)].length
