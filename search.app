@@ -3,7 +3,6 @@ module search
 define page search(p: Project, q : String) {
 	var issueSearcher := 
 		IssueSearcher()
-		.fields(["comments","title","description","projectName","reporterName"])
 		.filterByField("project.name",p.name)
 		.filterByField("project.private", "false")
 	var issues := issueSearcher.query(q).maxResults(50).list()
