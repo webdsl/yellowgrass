@@ -13,7 +13,7 @@ define page search(p: Project, q : String) {
 		par { <h1> "Results for " output(q) </h1> }
 		block [class := "Listing"] {
 			table {
-				issues(issues, true, false, false, 80, true, true)
+				issues(issues, true, true, false, 80, true, true)
 			}
 		}
 	}
