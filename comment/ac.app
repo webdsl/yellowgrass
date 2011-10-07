@@ -5,8 +5,7 @@ imports comment/tagControl
 access control rules
 	
 	rule page editComment(c : Comment) {
-		(c.author != null) 
-		&&
+		(c.author != null) &&
 		(c.author == securityContext.principal)
 	}
 	
@@ -16,38 +15,21 @@ access control rules
 	
 	rule ajaxtemplate commentAdditionInput(i : Issue) {
 		loggedIn
+		
+		rule action comment(text : WikiText, issue : Issue) {
+			loggedIn && 
+			mayAccess(issue.project)
+		}
+	
+		rule action commentClose(text : WikiText, issue : Issue) {
+			loggedIn && 
+			principal in issue.project.members && 
+			issue.open
+		}
 	}
 	
 	rule template noCommentAddition() {
 		!loggedIn
-	}
-	
-	rule template events(es : Set<Event>) {
-		true
-	}
-
-	rule template eventDescription(e : Event) {
-		true
-	}
-	
-	rule template comment(c : Comment) {
-		true
-	}
-	
-	rule template issueClose(ic : IssueClose) {
-		true
-	}
-	
-	rule template issueReopen(ic : IssueReopen) {
-		true
-	}
-	
-	rule template tagAddition(ic : TagAddition) {
-		true
-	}
-	
-	rule template tagRemoval(ic : TagRemoval) {
-		true
 	}
 	
 	rule template issueMoved(im : IssueMoved) {

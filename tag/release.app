@@ -65,5 +65,8 @@ function releaseDone(r : Tag) : Bool {
 	var issues := releaseIssues(r);
 	return 
 		issues.length == 0 ||
-		!issues.get(0).open;
+		!issues.get(0).open; 
+		// No need to check more, cause the result is sorted. 
+		// Querying is faster than checking each individually 
+		// through hibernate anyway.
 }

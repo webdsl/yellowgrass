@@ -12,18 +12,6 @@ access control rules
 		securityContext.principal != null
 	}
 	
-	rule template login() {
-		true
-	}
-	
-	rule template logout() {
-		true
-	}
-	
-	rule template users(us : Set<User>) {	
-		true
-	}
-	
 	rule page user(tag : String) {
 		true
 		// Not checking whether user exists anymore, due to performance issues in generating navigates

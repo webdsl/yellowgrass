@@ -15,10 +15,10 @@ function obtainPageViewStatisticsGraph(projects : List<Project>) : String {
 						(
 							_requestedURL like ~("http://yellowgrass.org/issue/"+p.name+"/%") or 
 							_requestedURL = ~("http://yellowgrass.org/project/"+p.name)
-						)
+						) and
+						_userAgent not like ~"%bot%"
 			)
 		);
-		log("count: "+p.name + " " + stats.get(stats.length-1).i);
 	}
 	var oStats := [pi | pi : ProjectIntTuple in stats order by pi.i desc limit 8];
 
@@ -33,7 +33,7 @@ function obtainPageViewStatisticsGraph(projects : List<Project>) : String {
 	url.add(	"&chbh=a"	);
 	url.add(	"&chs=400x300"	);
 	url.add(	"&cht=bhs"	);
-	url.add(	"&chco=4D89F9,C6D9FD"	);
+	url.add(	"&chco=bbcebb"	);
 	url.add(	"&chds=0,"+oStats[0].i	);
 	url.add(	"&chd=t:");
 	for(nr : Int from 0 to oStats.length - 2) {

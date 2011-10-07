@@ -48,14 +48,14 @@ define ajax template commentAdditionInput(i : Issue) {
 				par { "This issue is closed! Are you sure you want to add a comment?" }
 			}
 			par { 
-				action("Post Comment", newComment(newCommentText, i))  [ajax]
+				action("Post Comment", comment(newCommentText, i))  [ajax]
 				" "
 				action("Post Comment & Close", commentClose(newCommentText, i)) [ajax]
 			}
 		}
 	}
 	
-	action newComment(text : WikiText, issue : Issue) {
+	action comment(text : WikiText, issue : Issue) {
 		var comment := createComment(text);
 		issue.addComment(comment);
 		return issue(issue.project, issue.number);
@@ -94,9 +94,8 @@ define page editComment(c : Comment) {
 			}
 		}
 		action save(){
-		c.save();
-		return issue(i.project, i.number);
+			c.save();
+			return issue(i.project, i.number);
+		}
 	}
-}
-	
 }

@@ -5,32 +5,6 @@ imports project/project
 imports user/user
 
 access control rules
-	
-	// TODO Check whether user may access each of the issue projects in the templates below (or is this to computattion intensive?)
-	rule template issues(is : Set<Issue>, showProjectName : Bool) {	
-		true
-	}
-	
-	rule template issues(is : Set<Issue>, showProjectName : Bool, showTicks : Bool) {
-		true
-	}
-	
-	rule template issues(is : Set<Issue>, showProjectName : Bool, showTicks : Bool, showNumbers : Bool) {
-		true
-	}
-	
-	rule template issues(is : Set<Issue>, showProjectName : Bool, showTicks : Bool, showNumbers : Bool, titleLength : Int) {
-		true
-	}
-	
-	rule template issues(is : Set<Issue>, showProjectName : Bool, showTicks : Bool, showNumbers : Bool, titleLength : Int, showTags : Bool, showNrVotes : Bool) {
-		true
-	}
-	
-	rule template issues(is : List<Issue>, showProjectName : Bool, showTicks : Bool, showNumbers : Bool, titleLength : Int, showTags : Bool, showNrVotes : Bool) {
-		true
-	}
-	
 	rule page issue(p : Project, number : Int) { 
 		mayAccess(p)
 		// Not checking whether issue exists anymore, due to performance issues in generating navigates
@@ -52,15 +26,6 @@ access control rules
 	rule template createIssue(p : Project, initialTag : Tag) {
 		initialTag == null || 
 		principal in p.members
-	}
-	
-	rule action newComment(text : WikiText, issue : Issue) {
-		loggedIn && mayAccess(issue.project)
-	}
-	
-	rule action commentClose(text : WikiText, issue : Issue) {
-		principal in issue.project.members &&
-		issue.open
 	}
 		
 	rule page postedIssues() {
@@ -127,11 +92,6 @@ access control rules
 	rule template issueSideBar(i : Issue) {
 		mayAccess(i.project)
 	}
-/*	
-	rule ajaxtemplate issueDetails(i : Issue){
-		true
-	}
-*/
 
 	rule page issueConfirmation() {
 		true

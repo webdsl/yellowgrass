@@ -135,7 +135,7 @@ function getFollowers(ts : Set<Tag>) : Set<User> {
  **/
 function tagCleanup(tag : Tag) {
 	
-// Tagging temporarily disabled, as they cannot be deleted anyway: 
+// Tag cleanup temporarily disabled, as they cannot be deleted anyway: 
 // tag usage is recorded, so tags can never be deleted again
 
 // I am integrating permanently existing tags into the rest of the code, so at
@@ -178,6 +178,7 @@ function tagCleanup(tag : Tag) {
 }
 
 function arrangeTags(tags : Set<Tag>, summary : Bool) : List<Tag> {
+	// TODO Maybe optimize this by little loops that add them on the fly, saves some list building
 	var types :=    [t | t : Tag in tags where t.hasTag(ISSUE_TYPE_TAG()) order by t.name];
 	var releases := [t | t : Tag in tags where t.hasTag("release") order by t.name];
 	var votes := 	[t | t : Tag in tags where t.name.contains("!")];

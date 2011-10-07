@@ -10,20 +10,8 @@ module ac
 		true
 	}
 	
-	rule template main() {
-		true
-	}
-	
-	rule template body() {
-		true
-	}
-	
 	rule template mainheader(p : Project) {
 		mayAccess(p)
-	}
-	
-	rule template sidebarSeparator() {
-		true
 	}
 	
 	rule page search(p: Project, q : String) {
