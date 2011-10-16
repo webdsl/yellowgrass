@@ -1,0 +1,237 @@
+module webservices
+import mobl::ui::generic
+import servicemodel
+
+
+service Service {
+	resource  getProjects() : [Project] {
+		uri = "getProjects?"
+		method = "PUT"
+		data = JSON.stringify(Dynamic())
+		mapper = projectsMapper
+		//fields : uid , registerd and errors(array of error having a mesasge)	 
+	} 
+	
+	resource  getPopularProjects(number:Num) : [Project] {
+		uri = "getPopularProjects?"  
+		method = "PUT"
+		data = JSON.stringify(Dynamic(number=number))
+		mapper = projectsMapper 
+		//fields : uid , registerd and errors(array of error having a mesasge)	
+	} 
+	
+}
+// 	resource LoginUser(email: String, password: String) : JSON {
+// 		uri = "LoginUser?"
+// 		method = "PUT"
+// 		data = JSON.stringify(Dynamic(email=email, password=password))
+// 		mapper = loginMapper 
+// 		// field loggedin, uid 
+// 	} 
+// 	resource IsLoggedIn() : JSON {
+// 		uri = "IsLoggedIn?"
+// 		method = "PUT"
+// 		data = JSON.stringify(Dynamic()) 
+// 		mapper = loginMapper
+// 		// fields loggedin, email
+// 		
+// 	}
+// 	resource LogoutUser() : JSON {
+// 		uri = "LogoutUser?"
+// 		method = "PUT"
+// 		data = JSON.stringify(Dynamic())
+// 		mapper = logoutMapper
+// 		// loggedout
+// 	}
+// 	
+// 	resource SearchUser(query: String, max : String) : JSON {
+// 		uri = "SearchUser?"
+// 		method = "PUT"
+// 		data = JSON.stringify(Dynamic(query=query, max=max))
+// 		// users has name and uid	
+// 	}
+// 	
+// 	resource UserInformation(UserId : String) : JSON {
+// 		uri = "UserInformation?"
+// 		method = "PUT"
+// 		data = JSON.stringify(Dynamic(uid=UserId))
+// 		// has name, email, text, nrOfFriends and nrOfStatusUpdates
+// 	}
+// 	resource GetImage(uid : String) : String {
+// 		uri = "image2/" + uid
+// 		encoding = "text"
+// 		mapper = imageMapper
+// 	}
+// 	
+// 	resource GetFriends(UserId : String) : JSON {
+// 		uri = "GetFriends?"
+// 		method = "PUT"
+// 		data = JSON.stringify(Dynamic(uid=UserId))
+// 		// friends (array of friends having name and uid )
+// 	}
+// 
+// 
+// 	resource GetStatusUpdates(UserId : String) : JSON {
+// 		uri = "GetStatusUpdates?"
+// 		method = "PUT"
+// 		data = JSON.stringify(Dynamic(uid=UserId))
+// 		// statusUpdates (array of statusupdates having author, message,dateTime,sid and replies )
+// 		// those replies is array containing reply with also author, message,rid and dateTime
+// 		// autheur containing name and uid
+// 	}
+// 	
+// 	resource GetStatusUpdate(StatusUpdateId : String) : JSON {
+// 		uri = "GetStatusUpdate?"
+// 		method = "PUT"
+// 		data = JSON.stringify(Dynamic(sid=StatusUpdateId))
+// 		// statusUpdates (array of statusupdates having author, message,dateTime,sid and replies )
+// 		// those replies is array containing reply with also author, message,rid and dateTime
+// 		// autheur containing name and uid
+// 	}
+// 	
+// 	resource AddFriend(UserId : String) : JSON {
+// 		uri = "AddFriend?"
+// 		method = "PUT"
+// 		data = JSON.stringify(Dynamic(uid=UserId))
+// 		// fields Added(bool), and error(string) 
+// 	}
+// 	
+// 	resource DeFriend(UserId : String) : JSON {
+// 		uri = "DeFriend?"
+// 		method = "PUT"
+// 		data = JSON.stringify(Dynamic(uid=UserId))
+// 		// fields Deleted(bool), and error(string) 
+// 	}
+// 	
+// 	resource GetRequests() : JSON {
+// 		uri = "GetRequests?"
+// 		method = "PUT"
+// 		data = JSON.stringify(Dynamic())
+// 		// Requests (array of Requests having name and uid )
+// 	}
+// 	
+// 	resource AcceptFriend(UserId : String) : JSON {
+// 		uri = "AcceptFriend?"
+// 		method = "PUT"
+// 		data = JSON.stringify(Dynamic(uid=UserId))
+// 		// fields Accepted(bool), and error(string) 
+// 	}
+// 	
+// 	resource DeclineFriend(UserId : String) : JSON {
+// 		uri = "DeclineFriend?"
+// 		method = "PUT"
+// 		data = JSON.stringify(Dynamic(uid=UserId))
+// 		// fields Declined(bool), and error(string) 
+// 	}
+// 	
+// 	resource AddStatusUpdate(UserId : String, message : String) : JSON {
+// 		uri = "AddStatusUpdate?"
+// 		method = "PUT"
+// 		data = JSON.stringify(Dynamic(uid=UserId,message=message))
+// 		// fields Posted(bool), and error(string) 
+// 	}
+// 	
+// 	resource AddReply(StatusUpdateId : String, message : String) : JSON {
+// 		uri = "AddReply?"
+// 		method = "PUT"
+// 		data = JSON.stringify(Dynamic(sid=StatusUpdateId,message=message))
+// 		// fields Posted(bool), and error(string) 
+// 	}
+// 	
+// 	resource DeleteStatusUpdate(StatusUpdateID : String, UserID : String) : JSON {//users on wich profile you are
+// 		uri = "DeleteStatusUpdate?"
+// 		method = "PUT"
+// 		data = JSON.stringify(Dynamic(sid=StatusUpdateID,uid=UserID))
+// 		// fields Deleted(bool), and error(string) 
+// 	}
+// 	
+// 	resource DeleteReply(ReplyID : String, StatusUpdateID : String, UserID : String) : JSON {//users on wich profile you are
+// 		uri = "DeleteReply?"
+// 		method = "PUT"
+// 		data = JSON.stringify(Dynamic(rid=ReplyID,sid=StatusUpdateID,uid=UserID))
+// 		// fields Deleted(bool), and error(string) 
+// 	}
+// 	
+// 	resource LikeStatusUpdate(StatusUpdateID : String) : JSON {
+// 		uri = "LikeStatusUpdate?"
+// 		method = "PUT"
+// 		data = JSON.stringify(Dynamic(sid=StatusUpdateID))
+// 		// fields Liked(bool), and error(string) 
+// 	}	
+// 	
+// 	resource DislikeStatusUpdate(StatusUpdateID : String) : JSON {
+// 		uri = "DislikeStatusUpdate?"
+// 		method = "PUT"
+// 		data = JSON.stringify(Dynamic(sid=StatusUpdateID))
+// 		// fields Disliked(bool), and error(string) 
+// 	}	
+// 	resource LikeReply(ReplyID : String) : JSON {
+// 		uri = "LikeReply?"
+// 		method = "PUT"
+// 		data = JSON.stringify(Dynamic(rid=ReplyID))
+// 		// fields Liked(bool), and error(string) 
+// 	}	
+// 	
+// 	resource DislikeReply(ReplyID : String) : JSON {
+// 		uri = "DislikeReply?"
+// 		method = "PUT"
+// 		data = JSON.stringify(Dynamic(rid=ReplyID))
+// 		// fields Disliked(bool), and error(string) 
+// 	}	
+// 
+// 	resource DeLikeStatusUpdate(StatusUpdateID : String) : JSON {
+// 		uri = "DeLikeStatusUpdate?"
+// 		method = "PUT"
+// 		data = JSON.stringify(Dynamic(sid=StatusUpdateID))
+// 		// fields DeLiked(bool), and error(string) 
+// 	}	
+// 	
+// 	resource DeDislikeStatusUpdate(StatusUpdateID : String) : JSON {
+// 		uri = "DeDislikeStatusUpdate?"
+// 		method = "PUT"
+// 		data = JSON.stringify(Dynamic(sid=StatusUpdateID))
+// 		// fields DeDisliked(bool), and error(string) 
+// 	}	
+// 	resource DeLikeReply(ReplyID : String) : JSON {
+// 		uri = "DeLikeReply?"
+// 		method = "PUT"
+// 		data = JSON.stringify(Dynamic(rid=ReplyID))
+// 		// fields DeLiked(bool), and error(string) 
+// 	}	
+// 	
+// 	resource DeDislikeReply(ReplyID : String) : JSON {
+// 		uri = "DeDislikeReply?"
+// 		method = "PUT"
+// 		data = JSON.stringify(Dynamic(rid=ReplyID))
+// 		// fields DeDisliked(bool), and error(string) 
+// 	}	
+// 	
+// 	resource SendPM(UserID : String, message : String) : JSON {
+// 		uri = "SendPM?"
+// 		method = "PUT"
+// 		data = JSON.stringify(Dynamic(uid=UserID,message=message))
+// 		// fields DeDisliked(bool), and error(string) 
+// 	}
+// 	
+// }
+// 
+// 
+// function loginMapper(data : JSON) : JSON {
+// 	loggedin = data.loggedin;
+// 	if (loggedin) {
+// 		uid = data.uid;
+// 	} else {
+// 		uid = null;
+// 	}
+// 	return data;
+// }
+// 
+// function logoutMapper(data : JSON) : Bool {
+// 	loggedin = false;
+// 	uid = null;
+// 	return data.loggedout;
+// }
+// 
+// function imageMapper(s : String) : String {
+// 	return /img(.+)src=['"](.+)['"]/.exec(s).get(2);
+// }

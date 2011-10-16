@@ -1,0 +1,18 @@
+module servicemodel
+
+entity Project{
+	name: String
+	description: String
+	url : String 
+	weeklyStatsGraph : String
+	members : [User]
+	followers: [User] 
+}
+
+entity User{
+	name: String 
+}
+
+function projectsMapper(json: JSON): [Project]{
+		return json;
+}

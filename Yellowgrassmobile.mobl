@@ -1,0 +1,82 @@
+application Yellowgrassmobile
+
+import mobl::ui::generic
+
+import webservices
+import servicemodel 
+import lib
+  
+var currentProject:Project = Project();
+
+screen root() {
+	
+	header(""){getHeaderImage(false)}
+	group{
+		item(onclick={showProjects();}){ label("Show Projects" ) }
+		item(onclick={showActiveProjects();}){ label("Show Favorite Projects" ) }
+	}
+} 
+
+screen showProjects(){
+	header("All Projects"){getHeaderImage(true) when(toSmall()){backButton("back",onclick={root();})}when(1-toSmall()){button("back",onclick={root();})}button("Active",onclick={showActiveProjects();})}
+	group{
+		var projects = Service.getProjects()
+		list(project in projects){ 
+			item(onclick={ShowProject(project);}){label(project.name)}   
+		}
+	}
+	 
+}  
+
+screen showActiveProjects(){
+	header("Active Projects",fixedPosition=true){getHeaderImage(true)button("back",onclick={root();})button("All",onclick={showProjects();})}
+	group{ 
+		var projects = Service.getPopularProjects(10)
+		list(project in projects){   
+			item(onclick={ShowProject(project);}){label(project.name)} 
+		}
+	}
+	  
+}
+  
+function getCurrentProject():Project{
+	return currentProject;
+}
+
+function setProject(project:Project){
+	currentProject = project;
+}
+screen ShowProject(project:Project){
+	script{
+		currentProject = project;
+	}
+	tabSet([("Info","",ShowProjectInfo)])
+} 
+
+control ShowProjectInfo(){
+	header(currentProject.name) {getHeaderImage(true)button("back",onclick={return showProjects();})}
+	item(onclick={openUrl(currentProject.url);}){label("Website")} 
+	group{
+			html("<h4><font color=#334E33>Description</font></h4>"+currentProject.description) 
+		}
+	group{
+		html("<h4><font color=#334E33>Weekly Issue Count</font></h4>") 
+		image(currentProject.weeklyStatsGraph,align="center") 
+	} 
+	group{
+		html("<h4><font color=#334E33>Members</font></h4>")  
+		list(user:User in currentProject.members){
+			item{label(user.name)}
+		}
+	}
+	group{
+		html("<h4><font color=#334E33>Followers</font></h4>") 
+		list(user:User in currentProject.followers){
+			item{label(user.name)} 
+		} 
+	}
+	
+	
+	
+	
+}

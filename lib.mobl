@@ -1,0 +1,16 @@
+module lib
+
+import mobl::ui::generic
+
+control getHeaderImage(hasTitle:Bool){
+	when((1-hasTitle)||(1-toSmall())){
+	image("http://yellowgrass.org/images/logo.png",align="left",height=43)}
+}
+
+control getBackButton(){
+	button("back",onclick={screen return;})
+}
+
+function toSmall():Bool{
+	return (window.innerWidth<=470) ;
+}
