@@ -30,6 +30,14 @@ module ac
 	 	true
 	 }
 	 
+	 rule page getProjects*(){
+	 	true
+	 }
+	 
+	 rule page getPopularProjects*(){
+	 	true
+	 }
+	 
 	 rule logsql {
 	 	loggedIn && principal.email=="sandervermolen@gmail.com"
 	 }

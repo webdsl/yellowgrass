@@ -106,6 +106,24 @@ entity Project {
 		
 		return url.concat();
 	}
+	function toJSON():JSONObject{
+		var jsonobject := JSONObject();
+		jsonobject.put("name", name);
+		jsonobject.put("description",description.format());
+		jsonobject.put("url",url);
+		jsonobject.put("weeklyStatsGraph",this.getWeeklyStatsGraph());
+		var jsonArrayMembers := JSONArray();
+		for (member:User in members ){
+			jsonArrayMembers.put(member.toJSON());
+		}
+		jsonobject.put("members",jsonArrayMembers);
+		var jsonArrayFollowers := JSONArray();
+		for (follower:User in followers ){
+			jsonArrayFollowers.put(follower.toJSON());
+		} 
+		jsonobject.put("followers",jsonArrayFollowers);
+		return jsonobject;
+	}
 }
 
 define page project(p : Project) {
@@ -209,6 +227,7 @@ define page projectList() {
 			from Project
 			where _private=false
 			order by _name;
+			
 		block [class := "Listing"] {
 			projects(projectList)
 		}

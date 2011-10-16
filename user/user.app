@@ -27,6 +27,12 @@ entity User {
 		var users := findUserByTag(tag);
 		return users.length > 1;	// Database view may be inconsistent, as queries in transaction are take into account
 	}
+	function toJSON():JSONObject{
+		var jsonobject := JSONObject();
+		jsonobject.put("name", name);
+		
+		return jsonobject;
+	}
 }
 
 function getUser(u : String) : User {
