@@ -7,9 +7,9 @@ import servicemodel
 import lib
   
 var currentProject:Project = Project();
+var allProjects:Collection<Project>=Collection<Project>();
 
 screen root() {
-	
 	header(""){getHeaderImage(false)}
 	group{
 		item(onclick={showProjects();}){ label("Show Projects" ) }
@@ -21,17 +21,21 @@ screen showProjects(){
 	header("All Projects"){getHeaderImage(true) when(toSmall()){backButton("back",onclick={root();})}when(1-toSmall()){button("back",onclick={root();})}button("Active",onclick={showActiveProjects();})}
 	group{
 		var projects = Service.getProjects()
-		list(project in projects){ 
+		script{
+			setAllProjects(projects);
+		}
+		list(project in projects){  
 			item(onclick={ShowProject(project);}){label(project.name)}   
 		}
 	}
 	 
-}  
+}   
 
 screen showActiveProjects(){
-	header("Active Projects",fixedPosition=true){getHeaderImage(true)button("back",onclick={root();})button("All",onclick={showProjects();})}
+	header("Active Projects"){getHeaderImage(true) when(toSmall()){backButton("back",onclick={root();})}when(1-toSmall()){button("back",onclick={root();})}button("Active",onclick={showActiveProjects();})}
 	group{ 
-		var projects = Service.getPopularProjects(10)
+		// var projects = Service.getPopularProjects(10)
+		var projects = allProjects.filter("name", "=", "Spoofax") 
 		list(project in projects){   
 			item(onclick={ShowProject(project);}){label(project.name)} 
 		}
@@ -39,44 +43,134 @@ screen showActiveProjects(){
 	  
 }
   
-function getCurrentProject():Project{
-	return currentProject;
-}
 
 function setProject(project:Project){
 	currentProject = project;
+	allProjects.add(project);
+}
+
+function setAllProjects(projects:[Project]){  
+	foreach(project:Project in projects){
+		allProjects.add(project);
+	} 
+
+	
 }
 screen ShowProject(project:Project){
 	script{
-		currentProject = project;
+		setProject(Service.getProject(project.name));
 	}
-	tabSet([("Info","",ShowProjectInfo)])
-} 
+	
+	tabSet([("Info","",ShowProjectInfo),("Issues","",ShowIssues)])
+	
+}  
 
 control ShowProjectInfo(){
-	header(currentProject.name) {getHeaderImage(true)button("back",onclick={return showProjects();})}
-	item(onclick={openUrl(currentProject.url);}){label("Website")} 
+	header(currentProject.name) {getHeaderImage(true)button("back",onclick={return showProjects(target="_top");})}
+	var List= Collection<(String,[User])>(("Members",currentProject.members),("Followers",currentProject.followers))
+	when(currentProject.url != null){
+		item(onclick={openUrl(currentProject.url);}){label("Website")} }
 	group{
-			html("<h4><font color=#334E33>Description</font></h4>"+currentProject.description) 
+			when(currentProject.description != null){html("<h4><font color=#334E33>Description</font></h4>"+currentProject.description)} 
 		}
 	group{
+		when(currentProject.weeklyStatsGraph != null){
 		html("<h4><font color=#334E33>Weekly Issue Count</font></h4>") 
-		image(currentProject.weeklyStatsGraph,align="center") 
+		image(currentProject.weeklyStatsGraph,align="center") }
+	} 
+	zoomList(List, ShowLabel, ShowUsers)
+		
+}
+
+control ShowIssues(){
+	header(currentProject.name) {getHeaderImage(true)button("back",onclick={return showProjects(target="_top");})}
+	var onzin:Collection<Issue> = Collection<Issue>()
+	script{
+		onzin.addAll(currentProject.issues);
 	} 
 	group{
-		html("<h4><font color=#334E33>Members</font></h4>")  
-		list(user:User in currentProject.members){
-			item{label(user.name)}
+		table {
+	   
+				row{
+			    	headerCol { label("Number") }
+			    	headerCol { label("Status") }
+			    	headerCol { label("Date" )}
+			    	headerCol { label("Title" )}
+	    		}
+   
+			list(issue:Issue in onzin.order("number", false)){
+
+				row{
+					cell{label(issue.number,onclick={ShowIssue(issue);})}
+					cell{when(!issue.open){image("./images/tick.png")}else{image("./images/question.gif")}}
+					cell{label(issue.submitted.toString().substr(5, 11))}
+					cell{label(issue.title,onclick={ShowIssue(issue);})}
+				}
+			}
 		}
 	}
+} 
+
+control ShowLabel(tuple:(String,[User])){
+ 	label(tuple._1)
+}
+
+control ShowUsers(tuple:(String,[User])){
+	label(tuple._1)
 	group{
-		html("<h4><font color=#334E33>Followers</font></h4>") 
-		list(user:User in currentProject.followers){
-			item{label(user.name)} 
-		} 
+		list(user:User in tuple._2){
+			item{label(user.name,onclick={ShowUser(user,target="_top");}) }
+		}
+	}	
+}
+
+screen ShowIssue(issue:Issue){
+	header(currentProject.name) {getHeaderImage(true)button("back",onclick={screen return ;})} 
+	when(issue.reporter){
+		group{
+			html("<h4><font color=#334E33>Reporter</font></h4>") 
+			item(onclick={ShowUser(issue.reporter);}){label(issue.reporter.name)} 
+		}
 	}
-	
-	
-	
+	when(!issue.open){image("./images/tick.png",align="right")html("<h4><font> # "+ issue.number+ ": "+issue.title+"</font></h4>")}else{image("./images/question.gif",align="right")
+	html("<h4><font> # "+ issue.number+ ": "+issue.title+"</font></h4>")}
+	when(issue.description != null){html("<h4><font color=#334E33>Description</font></h4>"+issue.description)} 
+
+}
+
+screen ShowUser(user:User){
+	header("User"){getHeaderImage(true)button("back",onclick={screen return;})}
+	var List= Collection<(String,[User])>(("Projects",user.projects))
+	group{
+		html("<h4><font color=#334E33>Name</font></h4>") 
+		label(user.name)
+	}
+	group{
+		html("<h4><font color=#334E33>Tag</font></h4>") 
+		when(user.tag != null){label(user.tag)}else{label("User has no Tag")}
+	} 
+	group{
+		when(user.url != null&&user.url !=""){html("<h4><font color=#334E33>Personal Site</font></h4>")  
+		item{label(user.url,onclick={openUrl(user.url);})}}
+	}
+	zoomList(List, ShowHTMLHeader, ShowProjects)
 	
 }
+
+control ShowHTMLHeader(tuple:(String,[Project])){
+ 	html("<h4><font color=#334E33>"+ tuple._1+"</font></h4>")  
+}
+control ShowProjects(tuple:(String,[Project])){
+	html("<h4><font color=#334E33>"+ tuple._1+"</font></h4>")
+ 	group{
+		list(project:Project in tuple._2){
+			item{label(project.name,onclick={ShowProject(project,target="_top");}) }
+		}
+	}
+	
+}
+
+
+
+
+	

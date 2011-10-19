@@ -20,6 +20,15 @@ service Service {
 		//fields : uid , registerd and errors(array of error having a mesasge)	
 	} 
 	
+	
+	resource  getProject(name:String) : Project {
+		uri = "getProject?"
+		method = "PUT"
+		data = JSON.stringify(Dynamic(name=name))
+		mapper = projectMapper
+		//fields : uid , registerd and errors(array of error having a mesasge)	 
+	} 
+	
 }
 // 	resource LoginUser(email: String, password: String) : JSON {
 // 		uri = "LoginUser?"

@@ -7,12 +7,31 @@ entity Project{
 	weeklyStatsGraph : String
 	members : [User]
 	followers: [User] 
+	issues : [Issue] 
 }
 
 entity User{
 	name: String 
+	tag: String
+	url: String
+	projects: [String] 
+	
+}
+
+entity Issue{
+	number: Num
+	title : String
+	description : String
+	submitted : DateTime
+	project : Project
+	reporter: User
+	open : Bool
 }
 
 function projectsMapper(json: JSON): [Project]{
 		return json;
 }
+
+function projectMapper(json: JSON): Project {
+		return json;
+} 

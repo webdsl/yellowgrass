@@ -1,10 +1,11 @@
 module lib
 
 import mobl::ui::generic
+import servicemodel
 
 control getHeaderImage(hasTitle:Bool){
 	when((1-hasTitle)||(1-toSmall())){
-	image("http://yellowgrass.org/images/logo.png",align="left",height=43)}
+	image("./images/logo.png",align="left",height=43)}
 }
 
 control getBackButton(){
@@ -14,3 +15,4 @@ control getBackButton(){
 function toSmall():Bool{
 	return (window.innerWidth<=470) ;
 }
+
