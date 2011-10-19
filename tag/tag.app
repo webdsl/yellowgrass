@@ -4,7 +4,7 @@ imports tag/ac
 imports tag/sidebar
 imports tag/manual
 imports user/user
-imports issue/issue
+// imports issue/issue
 imports project/roadmap
 imports comment/tagControl
 

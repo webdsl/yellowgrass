@@ -30,6 +30,13 @@ entity User {
 	function toJSON():JSONObject{
 		var jsonobject := JSONObject();
 		jsonobject.put("name", name);
+		jsonobject.put("tag", tag);
+		jsonobject.put("url",url);
+		var jsonarray:= JSONArray();
+		for (project:Project in projects){
+			jsonarray.put(project.toSimpleJSON());
+		} 
+		jsonobject.put("projects",jsonarray);
 		
 		return jsonobject;
 	}

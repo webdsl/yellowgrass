@@ -8,17 +8,17 @@ service getProjects(){
 			order by _name;
 	var jsonArray := JSONArray();
 	for(project:Project in projectList ) {
-		jsonArray.put(project.toJSON());
+		jsonArray.put(project.toSimpleJSON());
 	}
 	return jsonArray; 
 }
-
+/*
+@ param number: expecting max number of projecs
+*/
 service getPopularProjects(){
 	var json := JSONObject(readRequestBody());
-	log("called service: getPopularProjects");
 	var number := json.getInt("number");
-	log("called service: getPopularProjects");
-	var json := JSONArray();
+	log("called service: getPopularProjects:"+number);
 		var activeProjects : List<Project> := 
 			select p 
 			from Project as p
@@ -28,13 +28,18 @@ service getPopularProjects(){
 			order by max(i._submitted) desc
 			limit 10;
 	
+	var jsonArray := JSONArray();
 	for(project:Project in activeProjects ) {
-		var jsonobject := JSONObject();
-		jsonobject.put("name", project.name);
-		jsonobject.put("description",project.description.format());
-		jsonobject.put("url",project.url);
-		jsonobject.put("weeklyStatsGraph",project.getWeeklyStatsGraph());
-		json.put(jsonobject);
+		jsonArray.put(project.toJSON());
 	}
-	return json; 
+	return jsonArray; 
 }
+
+service getProject(){
+	var json:= JSONObject(readRequestBody());
+	var name := json.getString("name");
+	log("called service: getProject:"+name);
+	var project := loadProject(name);
+	return project.toJSON();
+}
+

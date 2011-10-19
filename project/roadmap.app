@@ -1,6 +1,6 @@
 module project/roadmap
 
-imports issue/issue
+// imports issue/issue
 
 define page roadmap(p : Project) {
 	continuousLoading()

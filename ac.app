@@ -26,7 +26,7 @@ module ac
 	 	true
 	 }
 	 
-	 rule ajaxtemplate empty() {
+	 rule ajaxtemplate empty() { 
 	 	true
 	 }
 	 
@@ -35,6 +35,10 @@ module ac
 	 }
 	 
 	 rule page getPopularProjects*(){
+	 	true
+	 }
+	 
+	rule page getProject*(){
 	 	true
 	 }
 	 

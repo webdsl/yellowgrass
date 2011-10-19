@@ -7,7 +7,7 @@ imports project/members
 imports project/sidebar
 imports project/settings
 imports project/statistics
-imports issue/issue
+// imports issue/issue
 imports tag/tag
 imports user/user
 
@@ -112,8 +112,13 @@ entity Project {
 		jsonobject.put("description",description.format());
 		jsonobject.put("url",url);
 		jsonobject.put("weeklyStatsGraph",this.getWeeklyStatsGraph());
+		var jsonArrayIssues := JSONArray();
+		for (issue:Issue in issues){
+			jsonArrayIssues.put(issue.toJSON());
+		}
+		jsonobject.put("issues", jsonArrayIssues);
 		var jsonArrayMembers := JSONArray();
-		for (member:User in members ){
+		for (member:User in members  ){
 			jsonArrayMembers.put(member.toJSON());
 		}
 		jsonobject.put("members",jsonArrayMembers);
@@ -122,6 +127,13 @@ entity Project {
 			jsonArrayFollowers.put(follower.toJSON());
 		} 
 		jsonobject.put("followers",jsonArrayFollowers);
+		return jsonobject;
+	}
+	
+	function toSimpleJSON():JSONObject{
+		var jsonobject := JSONObject();
+		jsonobject.put("name", name);
+		
 		return jsonobject;
 	}
 }

@@ -119,6 +119,18 @@ entity Issue {
 			tags.add(tag("@"+project.members.list().get(0).tag, project));
 		}
 	}
+	
+	function toJSON(): JSONObject{
+		var json := JSONObject();
+		json.put("number", number);
+		json.put("title",title);
+		json.put("description",description.format());
+		json.put("submitted",submitted);
+		json.put("project",project.toSimpleJSON());
+		if (reporter!=null){json.put("reporter",reporter.toJSON());}
+		json.put("open",open);
+		return json;
+	}
 }
 
 function getIssue(p : Project, issueNumber : Int) : Issue {

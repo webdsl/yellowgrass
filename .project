@@ -19,7 +19,7 @@
 			<triggers>clean,</triggers>
 			<arguments><dictionary>
 				<key>LaunchConfigHandle</key>
-				<value>&lt;project&gt;/yellowgrass clean-project.xml.launch</value>
+				<value>&lt;project&gt;/.settings/yellowgrass clean-project.xml.launch</value>
 			</dictionary></arguments>
 		</buildCommand>
 	</buildSpec>
