@@ -20,12 +20,35 @@ entity User{
 
 entity Issue{
 	number: Num
-	title : String
+	title : String (searchable)
 	description : String
 	submitted : DateTime
 	project : Project
-	reporter: User
+	reporter: User 
+	nrVotes: Num
 	open : Bool
+	comments : [Comment] 
+	tags: [Tag]
+}
+
+entity Comment :Event {
+	text : String
+	// submitted : DateTime
+	author : User
+	
+}
+	
+
+
+entity Event{
+	submitted : DateTime
+}
+
+entity Tag{
+	name  : String
+	color : String
+	
+	
 }
 
 function projectsMapper(json: JSON): [Project]{

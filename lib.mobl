@@ -16,3 +16,6 @@ function toSmall():Bool{
 	return (window.innerWidth<=470) ;
 }
 
+control myTable() {  
+	<table class="mobl__ui__generic__tableStyle" id="myTable">elements()</table>
+	}

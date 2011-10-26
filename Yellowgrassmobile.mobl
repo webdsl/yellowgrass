@@ -2,10 +2,21 @@ application Yellowgrassmobile
 
 import mobl::ui::generic
 
-import webservices
+import webservices 
 import servicemodel 
 import lib
-  
+
+resource hack.js
+load hack.js
+
+external sync function fixTablePopulairIssues() : void
+<javascript>
+__ns.fixTablePopulairIssues = function(){
+	fixTablePopulairIssues();
+};
+	 
+</javascript>
+
 var currentProject:Project = Project();
 var allProjects:Collection<Project>=Collection<Project>();
 
@@ -18,7 +29,7 @@ screen root() {
 } 
 
 screen showProjects(){
-	header("All Projects"){getHeaderImage(true) when(toSmall()){backButton("back",onclick={root();})}when(1-toSmall()){button("back",onclick={root();})}button("Active",onclick={showActiveProjects();})}
+	header("All Projects"){backButton("back",onclick={root();})button("Active",onclick={showActiveProjects();})}
 	group{
 		var projects = Service.getProjects()
 		script{
@@ -32,26 +43,28 @@ screen showProjects(){
 }   
 
 screen showActiveProjects(){
-	header("Active Projects"){getHeaderImage(true) when(toSmall()){backButton("back",onclick={root();})}when(1-toSmall()){button("back",onclick={root();})}button("Active",onclick={showActiveProjects();})}
+	header("Active Projects"){backButton("back",onclick={root();})button("All",onclick={showProjects();})}
 	group{ 
-		// var projects = Service.getPopularProjects(10)
-		var projects = allProjects.filter("name", "=", "Spoofax") 
+		var projects = Service.getPopularProjects(10)
+		// var projects = allProjects.filter("name", "=", "Spoofax") 
 		list(project in projects){   
 			item(onclick={ShowProject(project);}){label(project.name)} 
 		}
 	}
 	  
 }
-  
+
 
 function setProject(project:Project){
 	currentProject = project;
+	add(project);
 	allProjects.add(project);
 }
 
 function setAllProjects(projects:[Project]){  
 	foreach(project:Project in projects){
 		allProjects.add(project);
+		mobl::add(project);
 	} 
 
 	
@@ -59,14 +72,17 @@ function setAllProjects(projects:[Project]){
 screen ShowProject(project:Project){
 	script{
 		setProject(Service.getProject(project.name));
+		foreach(issue:Issue in currentProject.issues){
+			add(issue);
+		}
 	}
 	
-	tabSet([("Info","",ShowProjectInfo),("Issues","",ShowIssues)])
+	tabSet([("Info","",ShowProjectInfo),("Issues","",showPopulairIssues)])
 	
 }  
 
 control ShowProjectInfo(){
-	header(currentProject.name) {getHeaderImage(true)button("back",onclick={return showProjects(target="_top");})}
+	header(currentProject.name) {backButton("back",onclick={return showProjects(target="_top");})}
 	var List= Collection<(String,[User])>(("Members",currentProject.members),("Followers",currentProject.followers))
 	when(currentProject.url != null){
 		item(onclick={openUrl(currentProject.url);}){label("Website")} }
@@ -79,17 +95,59 @@ control ShowProjectInfo(){
 		image(currentProject.weeklyStatsGraph,align="center") }
 	} 
 	zoomList(List, ShowLabel, ShowUsers)
-		
-}
+		 
+}  
 
-control ShowIssues(){
-	header(currentProject.name) {getHeaderImage(true)button("back",onclick={return showProjects(target="_top");})}
-	var onzin:Collection<Issue> = Collection<Issue>()
+control showPopulairIssues(){
+	header("Populair Issues"){backButton("back",onclick={return showProjects(target="_top");})button("all",onclick={return ShowIssues();})}
+	var issues:Collection<Issue> = Collection<Issue>()
 	script{
-		onzin.addAll(currentProject.issues);
-	} 
-	group{
-		table {
+		issues.addAll(currentProject.issues);
+
+	}   
+	list(issue2:Issue in Issue.all()){
+		label(issue2.number)
+	}
+		lib::myTable{    
+	  
+					row{
+				    	headerCol {label("Nr")}
+				    	headerCol {} 
+				    	// headerCol { label("Date" )}
+				    	headerCol { label("Title" )}
+				    }
+	
+			list(issue:Issue in issues.filter("open", "=", true).order("nrVotes", false).limit(10)){
+
+				row{
+					cell{label(issue.number,onclick={add(issue);ShowIssue(issue);})}
+					cell{when(!issue.open){image("./images/tick.png")}else{image("./images/question.gif")}}
+					// cell{label(DateTime.parse(issue.submitted.toString()).toDateString())}
+					cell{label(issue.title,onclick={add(issue);ShowIssue(issue);})}
+				}
+			}
+			
+		}   
+
+		script{ 
+			fixTablePopulairIssues();
+		}  
+} 
+
+
+screen ShowIssues(){
+	header(currentProject.name) {backButton("back",onclick={return showProjects(target="_top");})button("populair",onclick={screen return;})}
+	var issues:Collection<Issue> = Collection<Issue>()
+	script{
+		issues.addAll(currentProject.issues);
+		foreach(issue:Issue in issues){
+			add(issue);
+		}
+	}
+	
+	
+	
+		lib::myTable {
 	   
 				row{
 			    	headerCol { label("Number") }
@@ -97,35 +155,77 @@ control ShowIssues(){
 			    	headerCol { label("Date" )}
 			    	headerCol { label("Title" )}
 	    		}
-   
-			list(issue:Issue in onzin.order("number", false)){
+	    	
+			list(issue:Issue in issues.order("number", false)){
 
 				row{
 					cell{label(issue.number,onclick={ShowIssue(issue);})}
 					cell{when(!issue.open){image("./images/tick.png")}else{image("./images/question.gif")}}
-					cell{label(issue.submitted.toString().substr(5, 11))}
+					cell{label(DateTime.parse(issue.submitted.toString()).toDateString())}
 					cell{label(issue.title,onclick={ShowIssue(issue);})}
 				}
 			}
-		}
+		// stagedList(issues order by number desc, ShowIssueRow)
+		// searchList(Issue, ShowIssueRow, ShowIssueControl)
+		
+  		
 	}
-} 
+		script{  
+			fixTablePopulairIssues();
+		} 
+
+}  
+  
+control ShowIssueRow(issue:Issue){ 
+		row{
+					cell{label(issue.number,onclick={ShowIssue(issue);})}
+					cell{when(!issue.open){image("./images/tick.png")}else{image("./images/question.gif")}}
+					cell{label(DateTime.parse(issue.submitted.toString()).toDateString())}
+					cell{label(issue.title,onclick={ShowIssue(issue);})}
+		} 
+}
 
 control ShowLabel(tuple:(String,[User])){
  	label(tuple._1)
 }
-
+ 
 control ShowUsers(tuple:(String,[User])){
 	label(tuple._1)
 	group{
 		list(user:User in tuple._2){
 			item{label(user.name,onclick={ShowUser(user,target="_top");}) }
-		}
-	}	
-}
+		} 
+	}	 
+}   
 
+ 
 screen ShowIssue(issue:Issue){
-	header(currentProject.name) {getHeaderImage(true)button("back",onclick={screen return ;})} 
+	header(currentProject.name) {backButton("back",onclick={screen return ;})} 
+
+	var logList= Collection<(String,[Comment])>(("Log",issue.comments))
+	when(issue.reporter){
+		group{
+			html("<h4><font color=#334E33>Reporter</font></h4>") 
+			item(onclick={ShowUser(issue.reporter);}){label(issue.reporter.name)} 
+		}
+	}
+
+	when(!issue.open){image("./images/tick.png",align="right")html("<h4><font> # "+ issue.number+ ": "+issue.title+"</font></h4>")}else{image("./images/question.gif",align="right")
+	html("<h4><font> # "+ issue.number+ ": "+issue.title+"</font></h4>")}
+		html("<h4><font color=#334E33>Tags</font></h4>") 
+	list(tag:Tag in issue.tags){
+		cell{html("<font color =" + tag.color + ">" + tag.name+ " </font>")}
+	} 
+	when(issue.description != null){html("<h4><font color=#334E33>Description</font></h4>"+issue.description)} 
+	
+	when(issue.comments.length){zoomList(logList, ShowHTMLHeaderLog, ShowLog)}
+	
+
+	
+} 
+control ShowIssueControl(issue:Issue) {
+	header(currentProject.name) //{backButton("back",onclick={screen return ;})} 
+	var logList= Collection<(String,[Comment])>(("Log",issue.comments))
 	when(issue.reporter){
 		group{
 			html("<h4><font color=#334E33>Reporter</font></h4>") 
@@ -135,12 +235,13 @@ screen ShowIssue(issue:Issue){
 	when(!issue.open){image("./images/tick.png",align="right")html("<h4><font> # "+ issue.number+ ": "+issue.title+"</font></h4>")}else{image("./images/question.gif",align="right")
 	html("<h4><font> # "+ issue.number+ ": "+issue.title+"</font></h4>")}
 	when(issue.description != null){html("<h4><font color=#334E33>Description</font></h4>"+issue.description)} 
-
+	
+	when(issue.comments.length){zoomList(logList, ShowHTMLHeaderLog, ShowLog)}
 }
-
+ 
 screen ShowUser(user:User){
-	header("User"){getHeaderImage(true)button("back",onclick={screen return;})}
-	var List= Collection<(String,[User])>(("Projects",user.projects))
+	header("User"){backButton("back",onclick={screen return;})}
+	var projectList= Collection<(String,[User])>(("Projects",user.projects))
 	group{
 		html("<h4><font color=#334E33>Name</font></h4>") 
 		label(user.name)
@@ -153,7 +254,7 @@ screen ShowUser(user:User){
 		when(user.url != null&&user.url !=""){html("<h4><font color=#334E33>Personal Site</font></h4>")  
 		item{label(user.url,onclick={openUrl(user.url);})}}
 	}
-	zoomList(List, ShowHTMLHeader, ShowProjects)
+	zoomList(projectList, ShowHTMLHeader, ShowProjects)
 	
 }
 
@@ -165,12 +266,23 @@ control ShowProjects(tuple:(String,[Project])){
  	group{
 		list(project:Project in tuple._2){
 			item{label(project.name,onclick={ShowProject(project,target="_top");}) }
-		}
+		} 
 	}
-	
-}
+	    
+}    
 
+control ShowHTMLHeaderLog(tuple:(String,[Project])){
+ 	
+ 	html("<h4><font color=#334E33>"+ tuple._1+"</font></h4>")
+ }
 
+control ShowLog(tuple:(String,[Comment])){
+
+		list(comment: Comment in tuple._2){
+			html("<h6><font color=#334E33>On " + formatDate(DateTime.parse(comment.submitted.toString()))   + " " +comment.author.name+" wrote:</font></h6>"+comment.text)
+		}
+	}   
+ 
 
 
 	
