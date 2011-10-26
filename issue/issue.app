@@ -126,9 +126,23 @@ entity Issue {
 		json.put("title",title);
 		json.put("description",description.format());
 		json.put("submitted",submitted);
+		json.put("nrVotes",nrVotes);
 		json.put("project",project.toSimpleJSON());
 		if (reporter!=null){json.put("reporter",reporter.toJSON());}
 		json.put("open",open);
+		var jsonArray := JSONArray();
+		for(event: Event in log){
+			if(event.toJSON()!=null){
+				jsonArray.put(event.toJSON());
+				}
+			
+		}
+		json.put("comments",jsonArray);
+		var jsonArrayTags := JSONArray();
+		for(tag: Tag in tags){
+			jsonArrayTags.put(tag.toJSON());
+		}
+		json.put("tags",jsonArrayTags);
 		return json;
 	}
 }

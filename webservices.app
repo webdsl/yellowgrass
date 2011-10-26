@@ -30,7 +30,7 @@ service getPopularProjects(){
 	
 	var jsonArray := JSONArray();
 	for(project:Project in activeProjects ) {
-		jsonArray.put(project.toJSON());
+		jsonArray.put(project.toSimpleJSON());
 	}
 	return jsonArray; 
 }

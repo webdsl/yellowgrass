@@ -59,7 +59,7 @@ define page root() {
 				par { <h2>"Recent Issues"</h2> }
 				par { issues(recentIssues.set(), true, false, false, 40) }
 			}
-		}}
+		}} 
 	}
 }
 

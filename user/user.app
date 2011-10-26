@@ -34,7 +34,9 @@ entity User {
 		jsonobject.put("url",url);
 		var jsonarray:= JSONArray();
 		for (project:Project in projects){
-			jsonarray.put(project.toSimpleJSON());
+			if(project.toSimpleJSON()!=null){
+				jsonarray.put(project.toSimpleJSON());
+			}
 		} 
 		jsonobject.put("projects",jsonarray);
 		

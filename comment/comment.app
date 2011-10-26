@@ -4,9 +4,17 @@ imports comment/ac
 imports comment/event
 
 entity Comment : Event {
-	submitted		:: DateTime
+	// submitted		:: DateTime
 	text			:: WikiText		(searchable)
 	author			-> User 
+	
+	function toJSON():JSONObject{
+		var json:= JSONObject();
+		json.put("text",text.format());
+		json.put("author",author.toJSON());
+		json.put("submitted", moment);
+		return json;
+	}
 }
 
 function createComment(t : WikiText) : Comment {

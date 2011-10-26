@@ -7,7 +7,14 @@ imports comment/tagControl
 
 entity Event {
 	moment			:: DateTime
+	
+	function toJSON():JSONObject{
+		var json := JSONObject();
+		return null;
+		
+	}
 }
+
 
 define template events(es : Set<Event>) {
 	for(e : Event in es order by e.moment asc) {
