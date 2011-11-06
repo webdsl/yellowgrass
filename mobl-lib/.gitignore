@@ -1,0 +1,4 @@
+.cache/*
+.project
+www/*
+.DS_Store
