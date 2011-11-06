@@ -111,7 +111,6 @@ screen ShowProject(project:Project){
 
 control ShowProjectInfo(){
 	header(currentProject.name) {backButton("back",onclick={return showProjects(target="_top");})}
-	label(Project.all().count())
 	var List= Collection<(String,[User])>(("Members",currentProject.members),("Followers",currentProject.followers))
 	when(currentProject.url != null){
 		item(onclick={openUrl(currentProject.url);}){label("Website")} }
