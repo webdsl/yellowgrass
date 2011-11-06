@@ -1,60 +1,71 @@
 module servicemodel
 
 entity Project{
-	name: String
+	// id : String
+	name: String (searchable)
 	description: String
 	url : String 
 	weeklyStatsGraph : String
-	members : [User]
-	followers: [User] 
-	issues : [Issue] 
+	members : Collection<User> (inverse:projects)
+	followers: Collection<User>  (inverse:projects)
+	issues : Collection<Issue> (inverse:project) 
 }
 
 entity User{
+	// id : String
 	name: String 
-	tag: String
+	tag: String 
 	url: String
-	projects: [String] 
+	projects: Collection<Project>(inverse:members) 
 	
 }
 
 entity Issue{
+	// id : String
 	number: Num
 	title : String (searchable)
 	description : String
 	submitted : DateTime
-	project : Project
+	project : Project 
 	reporter: User 
 	nrVotes: Num
 	open : Bool
-	comments : [Comment] 
-	tags: [Tag]
+	comments : Collection<Comment>(inverse:issue) 
+	tags: Collection<Tag> (inverse:issue)
 }
 
 entity Comment :Event {
+	// id : String
 	text : String
 	// submitted : DateTime
 	author : User
+	issue: Issue 
 	
 }
 	
 
 
 entity Event{
+	// id : String
 	submitted : DateTime
 }
 
 entity Tag{
+	// id: String
 	name  : String
 	color : String
-	
+	issue: Issue 
 	
 }
 
 function projectsMapper(json: JSON): [Project]{
-		return json;
+		var Array = Collection<Project>();
+		foreach(json:JSON in json){
+			Array.add(Project.fromSelectJSON(json));
+		}
+		return Array.list();
 }
 
 function projectMapper(json: JSON): Project {
-		return json;
+		return Project.fromSelectJSON(json);
 } 

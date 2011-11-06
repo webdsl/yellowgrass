@@ -12,15 +12,21 @@ load hack.js
 external sync function fixTablePopulairIssues() : void
 <javascript>
 __ns.fixTablePopulairIssues = function(){
-	fixTablePopulairIssues();
+	fixTablePopulairIssues(); 
 };
+	 
+</javascript>
+<javascript>
+__ns.log = function(string){
+	console.log(string); 
+}; 
 	 
 </javascript>
 
 var currentProject:Project = Project();
 var allProjects:Collection<Project>=Collection<Project>();
-
-screen root() {
+ 
+screen root() { 
 	header(""){getHeaderImage(false)}
 	group{
 		item(onclick={showProjects();}){ label("Show Projects" ) }
@@ -31,17 +37,38 @@ screen root() {
 screen showProjects(){
 	header("All Projects"){backButton("back",onclick={root();})button("Active",onclick={showActiveProjects();})}
 	group{
-		var projects = Service.getProjects()
+		
+		// var projects = Project.all()
 		script{
-			setAllProjects(projects);
+		Service.getProjects();
 		}
-		list(project in projects){  
-			item(onclick={ShowProject(project);}){label(project.name)}   
-		}
-	}
+		// script{
+			// setAllProjects(projects);
+		// }
+		var phrase = ""
+		
+		searchBox(phrase)
+		var projects =  Project.searchPrefix(phrase)
+		// whenLoaded(projects){
+		// searchList(Project, ShowProjectItem, ShowProjectItem)
+		group {
+			list(project in Project.searchPrefix(phrase)){  
+				item(onclick={ShowProject(project);}){label(project.name)}   
+			} 
+		}    
+		// }
+	} 
 	 
 }   
-
+  
+control ShowProjectItem(project:Project){
+	item(onclick={ShowProject(project);}){label(project.name)}
+}
+control showProjectList(phrase:String){
+	list(project in Project.search(phrase)){  
+			item(onclick={ShowProject(project);}){label(project.name)}   
+		}  
+}
 screen showActiveProjects(){
 	header("Active Projects"){backButton("back",onclick={root();})button("All",onclick={showProjects();})}
 	group{ 
@@ -57,14 +84,15 @@ screen showActiveProjects(){
 
 function setProject(project:Project){
 	currentProject = project;
-	add(project);
+	//mobl::add(project);
+	log("testString");
 	allProjects.add(project);
 }
 
 function setAllProjects(projects:[Project]){  
 	foreach(project:Project in projects){
 		allProjects.add(project);
-		mobl::add(project);
+		// mobl::add(project);
 	} 
 
 	
@@ -73,7 +101,7 @@ screen ShowProject(project:Project){
 	script{
 		setProject(Service.getProject(project.name));
 		foreach(issue:Issue in currentProject.issues){
-			add(issue);
+			//add(issue);
 		}
 	}
 	
@@ -83,6 +111,7 @@ screen ShowProject(project:Project){
 
 control ShowProjectInfo(){
 	header(currentProject.name) {backButton("back",onclick={return showProjects(target="_top");})}
+	label(Project.all().count())
 	var List= Collection<(String,[User])>(("Members",currentProject.members),("Followers",currentProject.followers))
 	when(currentProject.url != null){
 		item(onclick={openUrl(currentProject.url);}){label("Website")} }
@@ -100,30 +129,24 @@ control ShowProjectInfo(){
 
 control showPopulairIssues(){
 	header("Populair Issues"){backButton("back",onclick={return showProjects(target="_top");})button("all",onclick={return ShowIssues();})}
-	var issues:Collection<Issue> = Collection<Issue>()
-	script{
-		issues.addAll(currentProject.issues);
-
-	}   
-	list(issue2:Issue in Issue.all()){
-		label(issue2.number)
-	}
+	var issues:Collection<Issue> = Issue.all().filter("project", "=", currentProject)
+  
 		lib::myTable{    
 	  
 					row{
 				    	headerCol {label("Nr")}
 				    	headerCol {} 
-				    	// headerCol { label("Date" )}
+				    	headerCol { label("Date" )}
 				    	headerCol { label("Title" )}
 				    }
 	
 			list(issue:Issue in issues.filter("open", "=", true).order("nrVotes", false).limit(10)){
 
 				row{
-					cell{label(issue.number,onclick={add(issue);ShowIssue(issue);})}
+					cell{label(issue.number,onclick={ShowIssue(issue);})}
 					cell{when(!issue.open){image("./images/tick.png")}else{image("./images/question.gif")}}
-					// cell{label(DateTime.parse(issue.submitted.toString()).toDateString())}
-					cell{label(issue.title,onclick={add(issue);ShowIssue(issue);})}
+					cell{label(formatDate2(issue.submitted))}
+					cell{label(issue.title,onclick={ShowIssue(issue);})}
 				}
 			}
 			
@@ -137,50 +160,44 @@ control showPopulairIssues(){
 
 screen ShowIssues(){
 	header(currentProject.name) {backButton("back",onclick={return showProjects(target="_top");})button("populair",onclick={screen return;})}
-	var issues:Collection<Issue> = Collection<Issue>()
-	script{
-		issues.addAll(currentProject.issues);
-		foreach(issue:Issue in issues){
-			add(issue);
-		}
-	}
 	
+			var phrase = ""
+		var issues:Collection<Issue> = Issue.all().filter("project", "=", currentProject)
+		searchBox(phrase)
+		// var projects =  Project.search(phrase)
 	
-	
-		lib::myTable {
-	   
-				row{
-			    	headerCol { label("Number") }
-			    	headerCol { label("Status") }
-			    	headerCol { label("Date" )}
-			    	headerCol { label("Title" )}
-	    		}
-	    	
-			list(issue:Issue in issues.order("number", false)){
-
+	lib::myTable {
+		when(phrase ==""){
+			list(issue:Issue in Issue.all().filter("project", "=", currentProject).order("number", false)){
 				row{
 					cell{label(issue.number,onclick={ShowIssue(issue);})}
-					cell{when(!issue.open){image("./images/tick.png")}else{image("./images/question.gif")}}
-					cell{label(DateTime.parse(issue.submitted.toString()).toDateString())}
+				 	cell{when(!issue.open){image("./images/tick.png")}else{image("./images/question.gif")}}
+				 	cell{label( formatDate2(issue.submitted))}
 					cell{label(issue.title,onclick={ShowIssue(issue);})}
-				}
-			}
-		// stagedList(issues order by number desc, ShowIssueRow)
-		// searchList(Issue, ShowIssueRow, ShowIssueControl)
-		
-  		
-	}
-		script{  
-			fixTablePopulairIssues();
-		} 
+				} 
+			} 
+		}else{
+			list(issue:Issue in Issue.searchPrefix(phrase).filter("project", "=", currentProject).order("number", false).limit(10)){
+				row{
+					cell{label(issue.number,onclick={ShowIssue(issue);})}
+				 	cell{when(!issue.open){image("./images/tick.png")}else{image("./images/question.gif")}}
+				 	cell{label( formatDate2(issue.submitted))}
+					cell{label(issue.title,onclick={ShowIssue(issue);})}
+				} 
+			} 
+		}
 
-}  
+	} 
+		// script{  
+		// 	fixTablePopulairIssues();
+		// } 
+}   
   
 control ShowIssueRow(issue:Issue){ 
 		row{
 					cell{label(issue.number,onclick={ShowIssue(issue);})}
 					cell{when(!issue.open){image("./images/tick.png")}else{image("./images/question.gif")}}
-					cell{label(DateTime.parse(issue.submitted.toString()).toDateString())}
+					cell{ label(formatDate2(issue.submitted))}
 					cell{label(issue.title,onclick={ShowIssue(issue);})}
 		} 
 }
@@ -218,7 +235,7 @@ screen ShowIssue(issue:Issue){
 	} 
 	when(issue.description != null){html("<h4><font color=#334E33>Description</font></h4>"+issue.description)} 
 	
-	when(issue.comments.length){zoomList(logList, ShowHTMLHeaderLog, ShowLog)}
+	when(issue.comments.count()){zoomList(logList, ShowHTMLHeaderLog, ShowLog)}
 	
 
 	
@@ -236,7 +253,7 @@ control ShowIssueControl(issue:Issue) {
 	html("<h4><font> # "+ issue.number+ ": "+issue.title+"</font></h4>")}
 	when(issue.description != null){html("<h4><font color=#334E33>Description</font></h4>"+issue.description)} 
 	
-	when(issue.comments.length){zoomList(logList, ShowHTMLHeaderLog, ShowLog)}
+	when(issue.comments.count()){zoomList(logList, ShowHTMLHeaderLog, ShowLog)}
 }
  
 screen ShowUser(user:User){
@@ -279,7 +296,7 @@ control ShowHTMLHeaderLog(tuple:(String,[Project])){
 control ShowLog(tuple:(String,[Comment])){
 
 		list(comment: Comment in tuple._2){
-			html("<h6><font color=#334E33>On " + formatDate(DateTime.parse(comment.submitted.toString()))   + " " +comment.author.name+" wrote:</font></h6>"+comment.text)
+			html("<h6><font color=#334E33>On " + formatDate2(comment.submitted)   + " " +comment.author.name+" wrote:</font></h6>"+comment.text)
 		}
 	}   
  
