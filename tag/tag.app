@@ -25,7 +25,9 @@ entity Tag {
 	}
 	
 	function toJSON():JSONObject{
+		
 		var json := JSONObject();
+		json.put("id",id);
 		json.put("name",name);
 		// json.put("project",project.toSimpleJSON());
 		json.put("color",getColor());

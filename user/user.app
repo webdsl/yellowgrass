@@ -29,6 +29,7 @@ entity User {
 	}
 	function toJSON():JSONObject{
 		var jsonobject := JSONObject();
+		jsonobject.put("id",id);
 		jsonobject.put("name", name);
 		jsonobject.put("tag", tag);
 		jsonobject.put("url",url);

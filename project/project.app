@@ -109,6 +109,7 @@ entity Project {
 	function toJSON():JSONObject{
 		if(private){ return null;}
 		var jsonobject := JSONObject();
+		jsonobject.put("id",id);
 		jsonobject.put("name", name);
 		jsonobject.put("description",description.format());
 		jsonobject.put("url",url);
@@ -133,7 +134,9 @@ entity Project {
 	
 	function toSimpleJSON():JSONObject{
 		if(private){ return null;}
+	
 		var jsonobject := JSONObject();
+		jsonobject.put("id",id);
 		jsonobject.put("name", name);
 		
 		return jsonobject;
