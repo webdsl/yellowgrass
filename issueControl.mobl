@@ -1,0 +1,83 @@
+module issueControl
+
+import mobl::ui::generic
+import webservices
+import Yellowgrassmobile
+import servicemodel
+import projectControl
+import lib
+
+control showPopulairIssues(){
+	header("Populair Issues"){backButton("back",onclick={return showProjects(target="_top");})button("all",onclick={return ShowIssues();})}
+  		showTable(Issue.all().filter("project", "=", currentProject).filter("open", "=", true).order("nrVotes", false).limit(10))  
+} 
+
+screen ShowIssues(){
+	header(currentProject.name) {backButton("back",onclick={return showProjects(target="_top");})button("populair",onclick={screen return;})}
+	var phrase = "*"
+	searchBox(phrase) 
+	lib::myTable {
+		when(phrase ==""){
+			list(issue:Issue in Issue.all().filter("project", "=", currentProject).order("number", false)){
+				row{
+					cell{label(issue.number,onclick={ShowIssue(issue);})}
+				 	cell{when(!issue.open){image("./images/tick.png")}else{image("./images/question.gif")}}
+				 	cell{label( formatDate2(issue.submitted))}
+					cell{label(issue.title,onclick={ShowIssue(issue);})}
+				} 
+			} 
+		}else{
+			list(issue:Issue in Issue.searchPrefix(phrase).filter("project", "=", currentProject).order("number", false).limit(10)){
+				row{
+					cell{label(issue.number,onclick={ShowIssue(issue);})}
+				 	cell{when(!issue.open){image("./images/tick.png")}else{image("./images/question.gif")}}
+				 	cell{label( formatDate2(issue.submitted))}
+					cell{label(issue.title,onclick={ShowIssue(issue);})}
+				} 
+			} 
+		}
+	}  
+}
+
+screen ShowIssue(issue:Issue){
+	header(currentProject.name) {backButton("back",onclick={screen return ;})} 
+
+	var logList= Collection<(String,[Comment])>(("Log",issue.comments))
+	when(issue.reporter){
+		group{
+			html("<h4><font color=#334E33>Reporter</font></h4>") 
+			item(onclick={ShowUser(issue.reporter);}){label(issue.reporter.name)} 
+		}
+	}
+	when(!issue.open){image("./images/tick.png",align="right")html("<h4><font> # "+ issue.number+ ": "+issue.title+"</font></h4>")}else{image("./images/question.gif",align="right")
+	html("<h4><font> # "+ issue.number+ ": "+issue.title+"</font></h4>")}
+		html("<h4><font color=#334E33>Tags</font></h4>") 
+	list(tag:Tag in issue.tags){
+		cell{html("<font color =" + tag.color + ">" + tag.name+ " </font>")}
+	} 
+	when(issue.description != null){html("<h4><font color=#334E33>Description</font></h4>"+issue.description)} 
+	
+	when(issue.comments.count()){zoomList(logList, ShowHTMLHeaderLog, ShowLog)}   
+}
+
+control showTable(issues:Collection<Issue>){
+	lib::myTable{    
+		row{
+			headerCol {label("Nr")}
+			headerCol {} 
+			headerCol { label("Date" )}
+			headerCol { label("Title" )}
+		}
+		list(issue:Issue in issues){
+			row{
+				cell{label(issue.number,onclick={ShowIssue(issue);})}
+				cell{when(!issue.open){image("./images/tick.png")}else{image("./images/question.gif")}}
+				cell{label(formatDate2(issue.submitted))}
+				cell{label(issue.title,onclick={ShowIssue(issue);})}
+			}
+		}	
+	}   
+	script{ 
+		fixTablePopulairIssues();
+	} 
+}

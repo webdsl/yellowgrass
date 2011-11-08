@@ -1,0 +1,67 @@
+module projectControl
+
+import mobl::ui::generic
+import webservices
+import Yellowgrassmobile
+import servicemodel
+
+var currentProject:Project = Project();
+
+function setProject(project:Project){
+	currentProject = project;
+
+} 
+
+screen showProjects(){
+	header("All Projects"){backButton("back",onclick={root();})button("Active",onclick={showActiveProjects();})}
+	group{
+		
+		script{
+		Service.getProjects();
+		}
+		var phrase = ""
+		
+		searchBox(phrase)
+		var projects =  Project.searchPrefix(phrase)
+		group {
+			list(project in Project.searchPrefix(phrase)){  
+				item(onclick={ShowProject(project);}){label(project.name)}   
+			} 
+		}    
+	}
+} 
+ 
+screen showActiveProjects(){
+	header("Active Projects"){backButton("back",onclick={root();})button("All",onclick={showProjects();})}
+	group{ 
+		var projects = Service.getPopularProjects(10) 
+		list(project in projects){   
+			item(onclick={ShowProject(project);}){label(project.name)} 
+		} 
+	}	  
+}	  
+ 
+screen ShowProject(project:Project){ 
+	script{
+		setProject(Service.getProject(project.name));
+	}
+	
+	tabSet([("Info","",ShowProjectInfo),("Issues","",showPopulairIssues),("Roadmap","",showRoadmap)])
+}  
+ 
+control ShowProjectInfo(){
+	header(currentProject.name) {backButton("back",onclick={return showProjects(target="_top");})}
+	var List= Collection<(String,[User])>(("Members",currentProject.members),("Followers",currentProject.followers))
+	when(currentProject.url != null){
+		item(onclick={openUrl(currentProject.url);}){label("Website")} }
+	group{
+			when(currentProject.description != null){html("<h4><font color=#334E33>Description</font></h4>"+currentProject.description)} 
+		}
+	group{
+		when(currentProject.weeklyStatsGraph != null){
+		html("<h4><font color=#334E33>Weekly Issue Count</font></h4>") 
+		image(currentProject.weeklyStatsGraph,align="center") }
+	} 
+	zoomList(List, ShowLabel, ShowUsers)
+		 
+}  

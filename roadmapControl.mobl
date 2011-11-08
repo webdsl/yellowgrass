@@ -1,0 +1,18 @@
+module roadmapControl
+
+import mobl::ui::generic
+import projectControl
+import servicemodel
+import issueControl
+control showRoadmap(){ 
+	header(currentProject.name) {backButton("back",onclick={return showProjects(target="_top");})}
+	masterDetail(currentProject.roadmap order by name desc,releaseItem, releaseDetail)
+}
+
+control releaseItem(release:Release){
+	label(release.name)
+}
+
+control releaseDetail(release:Release){
+ 	showTable(release.issues.order("open",false).order("number", false))
+}

@@ -3,6 +3,24 @@ module lib
 import mobl::ui::generic
 import servicemodel
 
+resource hack.js
+load hack.js
+
+
+external sync function fixTablePopulairIssues() : void
+<javascript>
+__ns.fixTablePopulairIssues = function(){
+	fixTablePopulairIssues(); 
+};
+	 
+</javascript>
+<javascript>
+__ns.log = function(string){
+	console.log(string); 
+}; 
+	 
+</javascript>
+
 control getHeaderImage(hasTitle:Bool){
 	when((1-hasTitle)||(1-toSmall())){
 	image("./images/logo.png",align="left",height=43)}

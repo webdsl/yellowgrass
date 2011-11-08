@@ -1,0 +1,59 @@
+module old
+import mobl::ui::generic
+import servicemodel
+import projectControl
+import issueControl
+import Yellowgrassmobile
+control ShowProjectItem(project:Project){
+	item(onclick={ShowProject(project);}){label(project.name)}
+}
+control showProjectList(phrase:String){
+	list(project in Project.search(phrase)){  
+			item(onclick={ShowProject(project);}){label(project.name)}   
+		}  
+}
+
+function setAllProjects(projects:[Project]){  
+	foreach(project:Project in projects){
+		// allProjects.add(project);
+		// mobl::add(project); 
+	} 
+} 
+
+control ShowIssueRow(issue:Issue){ 
+		row{
+					cell{label(issue.number,onclick={ShowIssue(issue);})}
+					cell{when(!issue.open){image("./images/tick.png")}else{image("./images/question.gif")}}
+					cell{ label(formatDate2(issue.submitted))}
+					cell{label(issue.title,onclick={ShowIssue(issue);})}
+		} 
+}
+
+control ShowLabel(tuple:(String,[User])){
+ 	label(tuple._1)
+}
+  
+control ShowUsers(tuple:(String,[User])){
+	label(tuple._1)
+	group{
+		list(user:User in tuple._2){
+			item{label(user.name,onclick={ShowUser(user,target="_top");}) }
+		} 
+	}	 
+} 
+
+control ShowIssueControl(issue:Issue) {
+	header(currentProject.name) //{backButton("back",onclick={screen return ;})} 
+	var logList= Collection<(String,[Comment])>(("Log",issue.comments))
+	when(issue.reporter){
+		group{
+			html("<h4><font color=#334E33>Reporter</font></h4>") 
+			item(onclick={ShowUser(issue.reporter);}){label(issue.reporter.name)} 
+		}
+	}
+	when(!issue.open){image("./images/tick.png",align="right")html("<h4><font> # "+ issue.number+ ": "+issue.title+"</font></h4>")}else{image("./images/question.gif",align="right")
+	html("<h4><font> # "+ issue.number+ ": "+issue.title+"</font></h4>")}
+	when(issue.description != null){html("<h4><font color=#334E33>Description</font></h4>"+issue.description)} 
+	
+	when(issue.comments.count()){zoomList(logList, ShowHTMLHeaderLog, ShowLog)}
+} 
