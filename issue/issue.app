@@ -147,7 +147,13 @@ entity Issue {
 		json.put("tags",jsonArrayTags);
 		return json;
 	}
+	function toSimpleJSON(): JSONObject{
+		var json := JSONObject();
+		json.put("id",id);
+		return json;
+	}
 }
+
 
 function getIssue(p : Project, issueNumber : Int) : Issue {
 	var issuesWithNumber : List<Issue> := 

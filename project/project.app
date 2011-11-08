@@ -129,6 +129,12 @@ entity Project {
 			jsonArrayFollowers.put(follower.toJSON());
 		} 
 		jsonobject.put("followers",jsonArrayFollowers);
+		var releases:=generateRoadmap(this);
+		var jsonmap := JSONArray();
+		for(release:Release in releases){
+			jsonmap.put(release.toJSON());
+		}
+		jsonobject.put("roadmap",jsonmap);
 		return jsonobject;
 	}
 	

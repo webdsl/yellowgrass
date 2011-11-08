@@ -1,5 +1,8 @@
 module webservices
 
+imports
+webservice/model
+
 service getProjects(){
 	log("called service: getProjects");
 	var projectList : List<Project> := 
@@ -42,4 +45,6 @@ service getProject(){
 	var project := loadProject(name);
 	return project.toJSON();
 }
+
+
 
