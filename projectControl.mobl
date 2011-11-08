@@ -4,13 +4,12 @@ import mobl::ui::generic
 import webservices
 import Yellowgrassmobile
 import servicemodel
-
+import issueControl
+import roadmapControl
+import lib
+ 
 var currentProject:Project = Project();
 
-function setProject(project:Project){
-	currentProject = project;
-
-} 
 
 screen showProjects(){
 	header("All Projects"){backButton("back",onclick={root();})button("Active",onclick={showActiveProjects();})}
@@ -43,9 +42,8 @@ screen showActiveProjects(){
  
 screen ShowProject(project:Project){ 
 	script{
-		setProject(Service.getProject(project.name));
+		currentProject=Service.getProject(project.name);
 	}
-	
 	tabSet([("Info","",ShowProjectInfo),("Issues","",showPopulairIssues),("Roadmap","",showRoadmap)])
 }  
  

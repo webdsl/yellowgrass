@@ -29,18 +29,6 @@ control ShowIssueRow(issue:Issue){
 		} 
 }
 
-control ShowLabel(tuple:(String,[User])){
- 	label(tuple._1)
-}
-  
-control ShowUsers(tuple:(String,[User])){
-	label(tuple._1)
-	group{
-		list(user:User in tuple._2){
-			item{label(user.name,onclick={ShowUser(user,target="_top");}) }
-		} 
-	}	 
-} 
 
 control ShowIssueControl(issue:Issue) {
 	header(currentProject.name) //{backButton("back",onclick={screen return ;})} 
@@ -56,4 +44,9 @@ control ShowIssueControl(issue:Issue) {
 	when(issue.description != null){html("<h4><font color=#334E33>Description</font></h4>"+issue.description)} 
 	
 	when(issue.comments.count()){zoomList(logList, ShowHTMLHeaderLog, ShowLog)}
+} 
+
+function setProject(project:Project){
+	currentProject = project;
+
 } 

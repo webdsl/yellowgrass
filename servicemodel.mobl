@@ -18,7 +18,8 @@ entity User{
 	name: String 
 	tag: String 
 	url: String
-	projects: Collection<Project>(inverse:members) 
+	projects: Collection<Project>(inverse:members, inverse:followers) 
+	
 	
 }
 

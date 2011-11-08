@@ -3,12 +3,14 @@ module lib
 import mobl::ui::generic
 import servicemodel
 
-resource hack.js
+resource hack.js 
 load hack.js
-
-
+ 
+external sync function fixDB() : void
 external sync function fixTablePopulairIssues() : void
-<javascript>
+
+
+<javascript>    
 __ns.fixTablePopulairIssues = function(){
 	fixTablePopulairIssues(); 
 };
@@ -18,6 +20,15 @@ __ns.fixTablePopulairIssues = function(){
 __ns.log = function(string){
 	console.log(string); 
 }; 
+__ns.fixDB = function(){
+	fixDB(); 
+};
+</javascript>
+
+<javascript>
+__ns.fixTablePopulairIssues = function(){
+	fixTablePopulairIssues(); 
+};
 	 
 </javascript>
 
