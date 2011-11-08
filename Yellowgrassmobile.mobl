@@ -87,15 +87,13 @@ function setProject(project:Project){
 	//mobl::add(project);
 	log("testString");
 	allProjects.add(project);
-}
+} 
 
 function setAllProjects(projects:[Project]){  
 	foreach(project:Project in projects){
 		allProjects.add(project);
-		// mobl::add(project);
+		// mobl::add(project); 
 	} 
-
-	
 }
 screen ShowProject(project:Project){
 	script{
@@ -105,7 +103,7 @@ screen ShowProject(project:Project){
 		}
 	}
 	
-	tabSet([("Info","",ShowProjectInfo),("Issues","",showPopulairIssues)])
+	tabSet([("Info","",ShowProjectInfo),("Issues","",showPopulairIssues),("Roadmap","",showRoadmap)])
 	
 }  
 
@@ -124,43 +122,19 @@ control ShowProjectInfo(){
 	} 
 	zoomList(List, ShowLabel, ShowUsers)
 		 
-}  
-
+}   
+ 
 control showPopulairIssues(){
 	header("Populair Issues"){backButton("back",onclick={return showProjects(target="_top");})button("all",onclick={return ShowIssues();})}
-	var issues:Collection<Issue> = Issue.all().filter("project", "=", currentProject)
   
-		lib::myTable{    
-	  
-					row{
-				    	headerCol {label("Nr")}
-				    	headerCol {} 
-				    	headerCol { label("Date" )}
-				    	headerCol { label("Title" )}
-				    }
-	
-			list(issue:Issue in issues.filter("open", "=", true).order("nrVotes", false).limit(10)){
-
-				row{
-					cell{label(issue.number,onclick={ShowIssue(issue);})}
-					cell{when(!issue.open){image("./images/tick.png")}else{image("./images/question.gif")}}
-					cell{label(formatDate2(issue.submitted))}
-					cell{label(issue.title,onclick={ShowIssue(issue);})}
-				}
-			}
-			
-		}   
-
-		script{ 
-			fixTablePopulairIssues();
-		}  
+		showTable(Issue.all().filter("project", "=", currentProject).filter("open", "=", true).order("nrVotes", false).limit(10))  
 } 
 
 
 screen ShowIssues(){
 	header(currentProject.name) {backButton("back",onclick={return showProjects(target="_top");})button("populair",onclick={screen return;})}
 	
-			var phrase = ""
+			var phrase = "*"
 		var issues:Collection<Issue> = Issue.all().filter("project", "=", currentProject)
 		searchBox(phrase)
 		// var projects =  Project.search(phrase)
@@ -297,8 +271,53 @@ control ShowLog(tuple:(String,[Comment])){
 		list(comment: Comment in tuple._2){
 			html("<h6><font color=#334E33>On " + formatDate2(comment.submitted)   + " " +comment.author.name+" wrote:</font></h6>"+comment.text)
 		}
-	}   
- 
-
-
+	}    
+  
+control showRoadmap(){ 
+	header(currentProject.name) {backButton("back",onclick={return showProjects(target="_top");})}
+	// group{
+	// 	list(release:Release in currentProject.roadmap.order("name", false)){
+	// 		item{label(release.name) }
+	// 	} 
+	// }
+	masterDetail(currentProject.roadmap order by name desc,
+               releaseItem, releaseDetail)
 	
+}
+
+control releaseItem(release:Release){
+	label(release.name)
+}
+
+control releaseDetail(release:Release){
+ showTable(release.issues.order("open",false).order("number", false))
+}
+
+control showTable(issues:Collection<Issue>){
+	
+				lib::myTable{    
+	  
+			row{
+				headerCol {label("Nr")}
+				headerCol {} 
+				headerCol { label("Date" )}
+				headerCol { label("Title" )}
+			}
+	
+			list(issue:Issue in issues){
+
+				row{
+					cell{label(issue.number,onclick={ShowIssue(issue);})}
+					cell{when(!issue.open){image("./images/tick.png")}else{image("./images/question.gif")}}
+					cell{label(formatDate2(issue.submitted))}
+					cell{label(issue.title,onclick={ShowIssue(issue);})}
+				}
+			}
+			
+		}   
+
+		script{ 
+			fixTablePopulairIssues();
+		} 
+	
+}

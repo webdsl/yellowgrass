@@ -9,6 +9,8 @@ entity Project{
 	members : Collection<User> (inverse:projects)
 	followers: Collection<User>  (inverse:projects)
 	issues : Collection<Issue> (inverse:project) 
+	roadmap :Collection<Release> (inverse:project)
+	
 }
 
 entity User{
@@ -17,6 +19,15 @@ entity User{
 	tag: String 
 	url: String
 	projects: Collection<Project>(inverse:members) 
+	
+}
+
+entity Release{
+	
+	name: String
+	project: Project
+	issues: Collection<Issue> (inverse:release)
+	
 	
 }
 
@@ -32,6 +43,7 @@ entity Issue{
 	open : Bool
 	comments : Collection<Comment>(inverse:issue) 
 	tags: Collection<Tag> (inverse:issue)
+	release : Release
 }
 
 entity Comment :Event {
