@@ -6,11 +6,11 @@ entity Project{
 	description: String
 	url : String 
 	weeklyStatsGraph : String
+	issuecount: Num
 	members : Collection<User> (inverse:projects)
 	followers: Collection<User>  (inverse:projects)
 	issues : Collection<Issue> (inverse:project) 
 	roadmap :Collection<Release> (inverse:project)
-	
 }
 
 entity User{

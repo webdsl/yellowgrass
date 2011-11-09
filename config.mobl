@@ -1,14 +1,13 @@
 configuration
 
 title "Yellowgrassmobile"
-
+offline
 output "../../../tomcat/webapps/yellowgrass/" 
 style $baseColor = rgb(230,230,230)
-style $textButtonColor = rgb(51,76,51)
+style $textButtonColor = rgb(51,76,51) 
 
 stdlib "C:\Users\Chris\git\mobl-lib"
 
-debug
 
  
  

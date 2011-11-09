@@ -2,12 +2,12 @@ application Yellowgrassmobile
 
 import mobl::ui::generic
 
-import webservices 
+// import webservices 
 import servicemodel  
 import lib
-import projectControl 
+import projectControl  
 import issueControl
-   
+     
 screen root() { 
 	header(""){getHeaderImage(false)}
 	group{
@@ -15,7 +15,7 @@ screen root() {
 		item(onclick={showActiveProjects();}){ label("Show Favorite Projects" ) }
 	}
 } 
- 
+     
 screen ShowUser(user:User){
 	header("User"){backButton("back",onclick={screen return;})}
 	var projectList= Collection<(String,[User])>(("Projects",user.projects))
@@ -49,7 +49,7 @@ control ShowProjects(tuple:(String,[Project])){
 
 control ShowHTMLHeaderLog(tuple:(String,[Project])){
  	html("<h4><font color=#334E33>"+ tuple._1+"</font></h4>")
- }
+ } 
 
 control ShowLog(tuple:(String,[Comment])){
 	list(comment: Comment in tuple._2){

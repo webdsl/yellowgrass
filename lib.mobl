@@ -5,16 +5,17 @@ import servicemodel
 
 resource hack.js 
 load hack.js
- 
+  
 external sync function fixDB() : void
 external sync function fixTablePopulairIssues() : void
+external sync function checkServiceStatus(URL:String) : Bool
 
-
+ 
 <javascript>    
 __ns.fixTablePopulairIssues = function(){
 	fixTablePopulairIssues(); 
-};
-	 
+};  
+	  
 </javascript>
 <javascript>
 __ns.log = function(string){
@@ -23,15 +24,21 @@ __ns.log = function(string){
 __ns.fixDB = function(){
 	fixDB(); 
 };
-</javascript>
+</javascript>   
 
-<javascript>
-__ns.fixTablePopulairIssues = function(){
+<javascript> 
+__ns.fixTablePopulairIssues = function(){ 
 	fixTablePopulairIssues(); 
 };
 	 
 </javascript>
-
+ 
+<javascript> 
+__ns.checkServiceStatus = function(URL){
+	return checkServiceStatus(URL); 
+};
+	
+</javascript>
 control getHeaderImage(hasTitle:Bool){
 	when((1-hasTitle)||(1-toSmall())){
 	image("./images/logo.png",align="left",height=43)}
@@ -45,6 +52,12 @@ function toSmall():Bool{
 	return (window.innerWidth<=470) ;
 }
 
+function isServiceAvailable():Bool{
+	httpRequest("?getProjects", method="GET", encoding="json", data=null, mapper=null);
+	
+	
+	return true;
+}
 control myTable() {  
 	<table class="mobl__ui__generic__tableStyle" id="myTable">elements()</table>
 	}

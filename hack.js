@@ -5,11 +5,27 @@
 
 function fixTablePopulairIssues(){
 	setTimeout(function() {		
-		var body = $("#myTable > tbody > span")
-		body.replaceWith(body.contents());
-	},300);
+		var bodies = $("#myTable > tbody > span");
+		bodies.each(function(){$(this).replaceWith($(this).contents());});
+		},300); 
+}
+//function fixTablePopulairIssues(){
+//	setTimeout(function() {		
+//		var body = $("#myTable > tbody > span");
+//		var content = body.contents();
+//		while(content.is("span")){
+//			content = content.contents();
+//		}
+//		body.replaceWith(content);
+//	},300); 
+//}
+//function fixTablePopulairIssues(){
+//	setTimeout(function() {		
+//		var body = $("#myTable > tbody > span");
+//		body.replaceWith(body.contents());
+//	},300); 
+//}
 
-}	
 function fixDB(){
 	var db = openDatabase('Yellowgrassmobile', '1.0', 'Test DB', 2 * 1024 * 1024);
 	db.transaction(function (tx) {  
@@ -25,6 +41,17 @@ function fixDB(){
 	db.transaction(function (tx) {  
 		tx.executeSql('CREATE TABLE IF NOT EXISTS `servicemodel__Project_followers_servicemodel__User` (`servicemodel__Project_followers` VARCHAR(36), `servicemodel__User_projects` VARCHAR(36), PRIMARY KEY (`servicemodel__Project_followers`, `servicemodel__User_projects`))');
 	});
-	// prefere to call excute again by root but oke
 	mobl.reload();
+}
+
+function checkServiceStatus(URL){
+	var xmlhttp=new XMLHttpRequest();
+	xmlhttp.open("GET",URL,false);
+	try{
+		xmlhttp.send(null);
+	}catch(e){
+		return false;
+	}
+	
+	return xmlhttp.readyState == 4 && xmlhttp.status == 200 
 }

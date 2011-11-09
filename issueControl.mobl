@@ -1,7 +1,6 @@
 module issueControl
 
 import mobl::ui::generic
-import webservices
 import Yellowgrassmobile
 import servicemodel
 import projectControl
@@ -9,27 +8,8 @@ import lib
 
 control showPopulairIssues(){
 	header("Populair Issues"){backButton("back",onclick={return showProjects(target="_top");})button("all",onclick={return ShowIssues();})}
-	lib::myTable{    
-		row{
-			headerCol {label("Nr")}
-			headerCol {} 
-			headerCol { label("Date" )}
-			headerCol { label("Title" )}
-		}
-		list(issue:Issue in Issue.all().filter("project", "=", currentProject).filter("open", "=", true).order("nrVotes", false).limit(10)){
-			row{
-				cell{label(issue.number,onclick={ShowIssue(issue);})}
-				cell{when(!issue.open){image("./images/tick.png")}else{image("./images/question.gif")}}
-				cell{label(formatDate2(issue.submitted))}
-				cell{label(issue.title,onclick={ShowIssue(issue);})}
-			}
-		}
-		 	script{ 
-		fixTablePopulairIssues();
-	} 	
-	}   
-  	// showTable()
- 
+	showTable(Issue.all().filter("project", "=", currentProject).filter("open", "=", true).order("nrVotes", false).limit(10))
+  
 } 
 
 screen ShowIssues(){
@@ -103,3 +83,19 @@ lib::myTable{
 
 	}
 }
+
+control CreateIssue(){
+	header(currentProject.name) {backButton("back",onclick={screen return ;})} 
+	var title = ""
+	group{
+		textField(title, placeholder="title", label="title", inputType="text", validator=null, style=mobl::ui::generic::textFieldStyle, invalidStyle=mobl::ui::generic::textFieldInvalidStyle, autofocus=false, autocorrect=true, autocapitalize=true, autocomplete=true, onchange={}, onkeyup={})
+	}
+	group{
+		label("description")
+	}
+	
+	
+	
+	
+}
+

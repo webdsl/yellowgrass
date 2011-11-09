@@ -1,0 +1,31 @@
+module serviceOfflineWrapper
+
+import servicemodel
+import webservices
+import lib
+
+import mobl::ui::generic
+
+function getProjects():[Project]{
+	if(checkServiceStatus("getProjects")){
+		return Service.getProjects();
+	}else{
+		return Project.all().list();
+	}
+}
+
+function getPopularProjects(number:Num):[Project]{
+	if(checkServiceStatus("getProjects")){
+		return Service.getPopularProjects(number);
+	}else{
+		return Project.all().filter("issues", "!=", null).limit(number).list();
+	}
+}
+
+function getProject(name:String):Project{
+	if(checkServiceStatus("getProjects")){
+		return Service.getProject(name);
+	}else{
+		return Project.findBy("name", name);
+	}
+}
