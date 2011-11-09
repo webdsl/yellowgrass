@@ -841,7 +841,7 @@ style progressStyle {
     font-weight: bold;
     left: 10%;
     margin: 0 auto;
-    position: absolute;
+    position: fixed;
     text-align: center;
     top: 40%;
     width: 80%;
@@ -851,6 +851,11 @@ style progressStyle {
 function startLoading(loadingMessage : String = "Loading...", style : Style = progressStyle) {
   var loading = $("<div id='progress' class='" + style + "'>" + loadingMessage + "</div>");
   $("body").prepend(loading);
+}
+
+function startLoading2(loadingMessage : String = "Loading...", style : Style = progressStyle) {
+  var loading = $("<div id='progress' class='" + style + "'>" + loadingMessage + "</div>");
+  $("body").append(loading);
 }
 
 function endLoading() {
