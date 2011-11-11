@@ -147,6 +147,13 @@ entity Project {
 		
 		return jsonobject;
 	}
+	function toJSONRef():JSONObject{
+		if(private){ return null;}
+	
+		var jsonobject := JSONObject();
+		jsonobject.put("id",id);
+		return jsonobject;
+	}
 }
 
 define page project(p : Project) {
