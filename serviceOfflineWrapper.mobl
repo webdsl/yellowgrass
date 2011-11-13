@@ -10,6 +10,7 @@ function getProjects():[Project]{
 	if(checkStatus()){
 		return Service.getProjects();
 	}else{
+		alert("offline");
 		return Project.all().list();
 	}
 }
@@ -18,7 +19,8 @@ function getPopularProjects(number:Num):[Project]{
 	if(checkStatus()){
 		return Service.getPopularProjects(number);
 	}else{
-		return Project.all().filter("issues", "!=", null).limit(number).list();
+		alert("offline");
+		return Project.all().order("issuecount", false).limit(number).list();
 	}
 }
 
@@ -26,6 +28,7 @@ function getProject(name:String):Project{
 	if(checkStatus()){
 		return Service.getProject(name);
 	}else{
+		alert("offline");
 		return Project.findBy("name", name);
 	}
 }

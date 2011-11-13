@@ -5,11 +5,23 @@ import servicemodel
 
 resource hack.js 
 load hack.js
-  
+ 
+ 
+var online:Bool = null;
+
+
 external sync function fixDB() : void
 external sync function fixTablePopulairIssues() : void
 external sync function checkServiceStatus(URL:String) : Bool
 external sync function checkStatus() : Bool
+external sync function setCacheFunctions():void
+ 
+<javascript>    
+__ns.setCacheFunctions = function(){
+	setCacheFunctions(); 
+};  
+	   
+</javascript> 
  
 <javascript>    
 __ns.fixTablePopulairIssues = function(){
@@ -32,7 +44,7 @@ __ns.fixTablePopulairIssues = function(){
 };
 	 
 </javascript>
- 
+  
 <javascript> 
 __ns.checkServiceStatus = function(URL){
 	return checkServiceStatus(URL); 
@@ -51,11 +63,12 @@ control getHeaderImage(hasTitle:Bool){
 	image("./images/logo.png",align="left",height=43)}
 }
 
-control getBackButton(){
-	button("back",onclick={screen return;})
+control getBackButton(){ 
+	button("back",onclick={screen return;}) 
 }
-
+ 
 function toSmall():Bool{  
+	
 	return (window.innerWidth<=470) ;
 }
 
@@ -65,6 +78,7 @@ function isServiceAvailable():Bool{
 	
 	return true;
 }
+ 
 control myTable() {  
 	<table class="mobl__ui__generic__tableStyle" id="myTable">elements()</table>
 	}

@@ -57,12 +57,12 @@ function checkServiceStatus(URL){
 }
 
 function checkStatus(){
-	try{
-		window.applicationCache.update();
-	}catch(e){
-		console.log(e);
-		return false;
-	}
-	
-	return true;
+	window.applicationCache.update();
+	return lib.online;
+}
+
+function setCacheFunctions(){
+	window.applicationCache.onerror= function(){lib.online = false};
+	window.applicationCache.onupdateready=function(){lib.online = true};
+	window.applicationCache.onnoupdate=function(){lib.online = true};
 }

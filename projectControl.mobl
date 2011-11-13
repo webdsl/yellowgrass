@@ -43,6 +43,8 @@ screen ShowProject(project:Project){
 	script{
 		startLoading(); 
 		currentProject=getProject(project.name);
+		currentProject.issuecount= currentProject.issues.count(); 
+		add(currentProject);
 	}
 	tabSet([("Info","",ShowProjectInfo),("Issues","",showPopulairIssues),("Roadmap","",showRoadmap)])
 	script{endLoading();}

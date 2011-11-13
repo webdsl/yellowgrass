@@ -3,13 +3,16 @@ application Yellowgrassmobile
 import mobl::ui::generic
 
 // import webservices 
-import servicemodel   
-import lib
+import servicemodel      
+import lib 
 import projectControl   
 import issueControl
 resource Yellowgrassmobile.manifest 
 screen root() { 
 	header(""){getHeaderImage(false)}
+	script{
+		setCacheFunctions();
+	}
 	group{
 		item(onclick={showProjects();}){ label("Show Projects" ) }
 		item(onclick={showActiveProjects();}){ label("Show Favorite Projects" ) }
