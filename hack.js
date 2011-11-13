@@ -47,11 +47,22 @@ function fixDB(){
 function checkServiceStatus(URL){
 	var xmlhttp=new XMLHttpRequest();
 	xmlhttp.open("GET",URL,false);
-	try{
+	try{ 
 		xmlhttp.send(null);
 	}catch(e){
 		return false;
 	}
 	
 	return xmlhttp.readyState == 4 && xmlhttp.status == 200 
+}
+
+function checkStatus(){
+	try{
+		window.applicationCache.update();
+	}catch(e){
+		console.log(e);
+		return false;
+	}
+	
+	return true;
 }

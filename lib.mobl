@@ -9,7 +9,7 @@ load hack.js
 external sync function fixDB() : void
 external sync function fixTablePopulairIssues() : void
 external sync function checkServiceStatus(URL:String) : Bool
-
+external sync function checkStatus() : Bool
  
 <javascript>    
 __ns.fixTablePopulairIssues = function(){
@@ -39,6 +39,13 @@ __ns.checkServiceStatus = function(URL){
 };
 	
 </javascript>
+
+<javascript> 
+__ns.checkStatus = function(){
+	return checkStatus(); 
+};
+	
+</javascript>
 control getHeaderImage(hasTitle:Bool){
 	when((1-hasTitle)||(1-toSmall())){
 	image("./images/logo.png",align="left",height=43)}
@@ -48,7 +55,7 @@ control getBackButton(){
 	button("back",onclick={screen return;})
 }
 
-function toSmall():Bool{
+function toSmall():Bool{  
 	return (window.innerWidth<=470) ;
 }
 

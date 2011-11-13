@@ -7,7 +7,7 @@ import lib
 import mobl::ui::generic
 
 function getProjects():[Project]{
-	if(checkServiceStatus("getProjects")){
+	if(checkStatus()){
 		return Service.getProjects();
 	}else{
 		return Project.all().list();
@@ -15,7 +15,7 @@ function getProjects():[Project]{
 }
 
 function getPopularProjects(number:Num):[Project]{
-	if(checkServiceStatus("getProjects")){
+	if(checkStatus()){
 		return Service.getPopularProjects(number);
 	}else{
 		return Project.all().filter("issues", "!=", null).limit(number).list();
@@ -23,7 +23,7 @@ function getPopularProjects(number:Num):[Project]{
 }
 
 function getProject(name:String):Project{
-	if(checkServiceStatus("getProjects")){
+	if(checkStatus()){
 		return Service.getProject(name);
 	}else{
 		return Project.findBy("name", name);

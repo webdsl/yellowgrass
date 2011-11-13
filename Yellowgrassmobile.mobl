@@ -3,17 +3,17 @@ application Yellowgrassmobile
 import mobl::ui::generic
 
 // import webservices 
-import servicemodel  
+import servicemodel   
 import lib
-import projectControl  
+import projectControl   
 import issueControl
-     
+resource Yellowgrassmobile.manifest 
 screen root() { 
 	header(""){getHeaderImage(false)}
 	group{
 		item(onclick={showProjects();}){ label("Show Projects" ) }
 		item(onclick={showActiveProjects();}){ label("Show Favorite Projects" ) }
-	}
+	}           
 } 
      
 screen ShowUser(user:User){
@@ -50,13 +50,13 @@ control ShowProjects(tuple:(String,[Project])){
 control ShowHTMLHeaderLog(tuple:(String,[Project])){
  	html("<h4><font color=#334E33>"+ tuple._1+"</font></h4>")
  } 
-
+    
 control ShowLog(tuple:(String,[Comment])){
 	list(comment: Comment in tuple._2){
 		html("<h6><font color=#334E33>On " + formatDate2(comment.submitted)   + " " +comment.author.name+" wrote:</font></h6>"+comment.text)
 	}
-}    
- 
+}        
+  
  control ShowLabel(tuple:(String,[User])){
  	label(tuple._1)
 }
@@ -68,6 +68,6 @@ control ShowUsers(tuple:(String,[User])){
 			item{label(user.name,onclick={ShowUser(user,target="_top");}) }
 		} 
 	}	 
-} 
+}    
 
  
