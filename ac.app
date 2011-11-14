@@ -17,7 +17,10 @@ module ac
 	rule page search(p: Project, q : String) {
 		mayAccess(p)
 	}
-	
+	rule page searchAll(q : String){
+		true
+	}
+
 	 rule page features() {
 	 	true
 	 }

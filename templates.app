@@ -82,7 +82,12 @@ define mainheader(project : Project) {
 		}
 	}
 	action doSearch() {
-		return search(project, query);
+		if(project == null){
+			return searchAll(query);
+		}else{
+			return search(project,query);
+		}
+		
 	}
 }
 
