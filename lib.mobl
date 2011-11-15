@@ -4,10 +4,12 @@ import mobl::ui::generic
 import servicemodel
 
 resource hack.js 
+resource online.js
+resource offline.js
 load hack.js
  
  
-var online:Bool = null;
+var online:Bool = null;  
 
 
 external sync function fixDB() : void
@@ -15,9 +17,9 @@ external sync function fixTablePopulairIssues() : void
 external sync function checkServiceStatus(URL:String) : Bool
 external sync function checkStatus() : Bool
 external sync function setCacheFunctions():void
- 
+external sync function testOnline():Bool
 <javascript>    
-__ns.setCacheFunctions = function(){
+__ns.setCacheFunctions = function(){ 
 	setCacheFunctions(); 
 };  
 	   
@@ -52,12 +54,19 @@ __ns.checkServiceStatus = function(URL){
 	
 </javascript>
 
-<javascript> 
+<javascript>  
 __ns.checkStatus = function(){
 	return checkStatus(); 
 };
 	
 </javascript>
+
+<javascript>    
+__ns.testOnline = function(){
+	return testOnline();  
+};  
+	   
+</javascript> 
 control getHeaderImage(hasTitle:Bool){
 	when((1-hasTitle)||(1-toSmall())){
 	image("./images/logo.png",align="left",height=43)}
@@ -81,4 +90,4 @@ function isServiceAvailable():Bool{
  
 control myTable() {  
 	<table class="mobl__ui__generic__tableStyle" id="myTable">elements()</table>
-	}
+}

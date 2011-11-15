@@ -4,19 +4,19 @@ import mobl::ui::generic
 
 // import webservices 
 import servicemodel      
-import lib 
+import lib   
 import projectControl   
-import issueControl
+import issueControl   
 resource Yellowgrassmobile.manifest 
 screen root() { 
 	header(""){getHeaderImage(false)}
 	script{
 		setCacheFunctions();
 	}
-	group{
+	group{   
 		item(onclick={showProjects();}){ label("Show Projects" ) }
 		item(onclick={showActiveProjects();}){ label("Show Favorite Projects" ) }
-	}           
+	}             
 } 
      
 screen ShowUser(user:User){
@@ -49,7 +49,7 @@ control ShowProjects(tuple:(String,[Project])){
 		}  
 	}	    
 }    
-
+ 
 control ShowHTMLHeaderLog(tuple:(String,[Project])){
  	html("<h4><font color=#334E33>"+ tuple._1+"</font></h4>")
  } 

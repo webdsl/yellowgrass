@@ -66,3 +66,11 @@ function setCacheFunctions(){
 	window.applicationCache.onupdateready=function(){lib.online = true};
 	window.applicationCache.onnoupdate=function(){lib.online = true};
 }
+
+function testOnline(){
+	var oRequest = new XMLHttpRequest();
+	oRequest.open( "Get", "online.js", false );
+	oRequest.send(null);
+	var x = oRequest.responseText;
+	return x ==='true'
+}

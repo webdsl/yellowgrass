@@ -7,7 +7,7 @@ import lib
 import mobl::ui::generic
 
 function getProjects():[Project]{
-	if(checkStatus()){
+	if(testOnline()){
 		return Service.getProjects();
 	}else{
 		alert("offline");
@@ -16,7 +16,7 @@ function getProjects():[Project]{
 }
 
 function getPopularProjects(number:Num):[Project]{
-	if(checkStatus()){
+	if(testOnline()){
 		return Service.getPopularProjects(number);
 	}else{
 		alert("offline");
@@ -25,7 +25,7 @@ function getPopularProjects(number:Num):[Project]{
 }
 
 function getProject(name:String):Project{
-	if(checkStatus()){
+	if(testOnline()){
 		return Service.getProject(name);
 	}else{
 		alert("offline");

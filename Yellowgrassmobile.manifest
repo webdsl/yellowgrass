@@ -3,6 +3,7 @@ CACHE MANIFEST
 
 CACHE:
 
+offline.js
 hack.js
 issueControl.js
 lib.js
@@ -31,16 +32,18 @@ js/persistence.store.memory.js
 js/persistence.store.sql.js
 js/persistence.store.websql.js 
 
-mobl/location.js
 
 mobl/ui/generic.css
 mobl/ui/generic.js
 mobl/ui/generic_ext.css
-mobl/ui/googlechart.js
-mobl/ui/googlemap.js
 mobl/ui/stylemixin.js
 
-mobl/ui/generic/datepicker.css
-mobl/ui/generic/datepicker.js
+FALLBACK:
+online.js offline.js
 
+NETWORK:
+
+/online.js
+
+http://chart.apis.google.com/
 
