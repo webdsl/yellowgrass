@@ -32,3 +32,13 @@ function getProject(name:String):Project{
 		return Project.findBy("name", name);
 	}
 }
+
+function createIssue(project: Project,title:String,category:String,description:String,email:String ):Bool{
+	if(testOnline()){
+		
+		return Service.createIssue(project,title,category,description,email );
+	}else{
+		return false;
+	}
+}
+	

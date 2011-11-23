@@ -1,4 +1,5 @@
 module servicemodel
+import MSGBOX
 
 entity Project{
 	// id : String
@@ -7,10 +8,19 @@ entity Project{
 	url : String 
 	weeklyStatsGraph : String
 	issuecount: Num
+	issueTypes: Collection<Tag> (inverse:project)
 	members : Collection<User> (inverse:projects)
 	followers: Collection<User>  (inverse:projects)
 	issues : Collection<Issue> (inverse:project) 
 	roadmap :Collection<Release> (inverse:project)
+	
+	function getIssueTypes():[(String,String)]{
+		var array :[(String,String)] = [];
+		foreach(tag in this.issueTypes){
+			array.push((tag.id,tag.name));
+		} 
+		return array; 
+	}
 }
 
 entity User{
@@ -53,6 +63,7 @@ entity Comment :Event {
 	// submitted : DateTime
 	author : User
 	issue: Issue 
+
 	
 }
 	
@@ -68,6 +79,7 @@ entity Tag{
 	name  : String
 	color : String
 	issue: Issue 
+	project:Project
 	
 }
 
@@ -81,4 +93,18 @@ function projectsMapper(json: JSON): [Project]{
 
 function projectMapper(json: JSON): Project {
 		return Project.fromSelectJSON(json);
+} 
+
+function booleanMapper(json: JSON): Bool {
+		if(!json.answer){
+			var map = Dynamic(title="CreateIssue");
+			var content = "";
+			foreach(string in json.errors){
+				content= content + "<span class=\"error\">" + string +"</span>";
+			}
+			map.content=content;
+			map.type="error";
+			msgBox(map);
+		}
+		return json.answer;
 } 

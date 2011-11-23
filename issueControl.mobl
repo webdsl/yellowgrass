@@ -1,10 +1,13 @@
 module issueControl
 
 import mobl::ui::generic
+// import mobl::ui::ios 
 import Yellowgrassmobile
 import servicemodel
 import projectControl
 import lib
+import customStyle
+import serviceOfflineWrapper
 
 control showPopulairIssues(){
 	header("Populair Issues"){backButton("back",onclick={return showProjects(target="_top");})button("all",onclick={return ShowIssues();})}
@@ -77,25 +80,36 @@ lib::myTable{
 				cell{label(issue.title,onclick={ShowIssue(issue);})}
 			}
 		}
-		script{ 
+		script{   
 			fixTablePopulairIssues();
 		} 	
 
 	}
 }
 
+
+ 
 control CreateIssue(){
-	header(currentProject.name) {backButton("back",onclick={screen return ;})} 
+	header(currentProject.name) {backButton("back",onclick={return showProjects(target="_top");})} 
 	var title = ""
+	var discription = ""
+	var category = ""
+	var email = ""
 	group{
-		textField(title, placeholder="title", label="title", inputType="text", validator=null, style=mobl::ui::generic::textFieldStyle, invalidStyle=mobl::ui::generic::textFieldInvalidStyle, autofocus=false, autocorrect=true, autocapitalize=true, autocomplete=true, onchange={}, onkeyup={})
+		textField(title, placeholder="title", inputType="text", validator=null, style=MyTextField, invalidStyle=mobl::ui::generic::textFieldInvalidStyle, autofocus=false, autocorrect=true, autocapitalize=true, autocomplete=true, onchange={}, onkeyup={})
 	}
 	group{
-		label("description")
+		mySelectField(category,currentProject.getIssueTypes(), placeholder ="Select Category", style=MySelectField, optionStyle=null)
 	}
+	group{
+		textarea(discription,placeholder="discription",onchange=null)
+	}
+	group{
+		textField(email, placeholder="email", inputType="email", validator=null, style=MyTextField, invalidStyle=mobl::ui::generic::textFieldInvalidStyle, autofocus=false, autocorrect=true, autocapitalize=true, autocomplete=true, onchange={}, onkeyup={})
+	}
+	button("submit",onclick={var x = createIssue(currentProject, title, category, discription, email); if(x){return ShowProject(currentProject,target="_top"); }else{alert("wrong");}
+})
 	
-	
-	
-	
+	 
 }
 

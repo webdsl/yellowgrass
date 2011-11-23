@@ -8,8 +8,7 @@ service Service {
 		uri = "getProjects?"
 		method = "PUT"
 		data = JSON.stringify(Dynamic())
-		mapper = projectsMapper
-		//fields : uid , registerd and errors(array of error having a mesasge)	 
+		mapper = projectsMapper 
 	} 
 	
 	resource  getPopularProjects(number:Num) : [Project] {
@@ -17,7 +16,6 @@ service Service {
 		method = "PUT"
 		data = JSON.stringify(Dynamic(number=number))
 		mapper = projectsMapper 
-		//fields : uid , registerd and errors(array of error having a mesasge)	
 	} 
 	
 	
@@ -26,9 +24,15 @@ service Service {
 		method = "PUT"
 		data = JSON.stringify(Dynamic(name=name))
 		mapper = projectMapper
-		//fields : uid , registerd and errors(array of error having a mesasge)	 
 	} 
 	
+	resource createIssue(project: Project,title:String,category:String,description:String,email:String):Bool{
+		uri = "createIssueService?"
+		method = "PUT"
+		data = JSON.stringify(Dynamic(project=project.name,title=title,description=description,email=email,tag=category))
+		mapper = booleanMapper
+	}
+	 
 }
 // 	resource LoginUser(email: String, password: String) : JSON {
 // 		uri = "LoginUser?"

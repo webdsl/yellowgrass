@@ -2,21 +2,26 @@ application Yellowgrassmobile
 
 import mobl::ui::generic
 
-// import webservices 
-import servicemodel      
-import lib   
+// import webservices  
+import servicemodel        
+import lib    
 import projectControl   
 import issueControl   
-resource Yellowgrassmobile.manifest 
-screen root() { 
+import MSGBOX
+// resource Yellowgrassmobile.manifest 
+// resource stylesheets/custom.css
+// load stylesheets/custom.css    
+
+screen root() {  
 	header(""){getHeaderImage(false)}
-	script{
-		setCacheFunctions();
-	}
-	group{   
+	script{ 
+		setCacheFunctions(); 
+		
+	}    
+	group{    
 		item(onclick={showProjects();}){ label("Show Projects" ) }
 		item(onclick={showActiveProjects();}){ label("Show Favorite Projects" ) }
-	}             
+	}              
 } 
      
 screen ShowUser(user:User){
@@ -25,7 +30,7 @@ screen ShowUser(user:User){
 	group{
 		html("<h4><font color=#334E33>Name</font></h4>") 
 		label(user.name)
-	}
+	}  
 	group{
 		html("<h4><font color=#334E33>Tag</font></h4>") 
 		when(user.tag != null){label(user.tag)}else{label("User has no Tag")}
@@ -37,7 +42,7 @@ screen ShowUser(user:User){
 	zoomList(projectList, ShowHTMLHeader, ShowProjects)
 	
 }
-
+  
 control ShowHTMLHeader(tuple:(String,[Project])){
  	html("<h4><font color=#334E33>"+ tuple._1+"</font></h4>")  
 }
@@ -47,7 +52,7 @@ control ShowProjects(tuple:(String,[Project])){
 		list(project:Project in tuple._2){
 			item{label(project.name,onclick={ShowProject(project,target="_top");}) }
 		}  
-	}	    
+	}	      
 }    
  
 control ShowHTMLHeaderLog(tuple:(String,[Project])){
@@ -55,15 +60,14 @@ control ShowHTMLHeaderLog(tuple:(String,[Project])){
  } 
     
 control ShowLog(tuple:(String,[Comment])){
-	list(comment: Comment in tuple._2){
+	list(comment: Comment in tuple._2){ 
 		html("<h6><font color=#334E33>On " + formatDate2(comment.submitted)   + " " +comment.author.name+" wrote:</font></h6>"+comment.text)
-	}
+	} 
 }        
-  
- control ShowLabel(tuple:(String,[User])){
- 	label(tuple._1)
-}
-  
+    
+ control ShowLabel(tuple:(String,[User])){ 
+ 	label(tuple._1)    
+  } 
 control ShowUsers(tuple:(String,[User])){
 	label(tuple._1)
 	group{
@@ -71,6 +75,6 @@ control ShowUsers(tuple:(String,[User])){
 			item{label(user.name,onclick={ShowUser(user,target="_top");}) }
 		} 
 	}	 
-}    
-
+}     
+ 
  

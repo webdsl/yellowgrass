@@ -1,0 +1,25 @@
+module MSGBOX 
+
+resource MSGBOX/jquery.msgBox.js
+resource MSGBOX/msgBoxLight.css      
+resource MSGBOX/Images/alert.png
+resource MSGBOX/Images/confirm.png  
+resource MSGBOX/Images/error.png
+resource MSGBOX/Images/info.png     
+resource MSGBOX/Images/msgBoxBackGround.png
+ 
+load MSGBOX/jquery.msgBox.js      
+load MSGBOX/msgBoxLight.css
+external function msgBox(options:Dynamic):void     
+<javascript>
+__ns.msgBox =function(options){ $.msgBox(options);};
+</javascript>
+ 
+// external function msgBox(title:String ="title",message:String="message",type:String="info"):void
+// <javascript>
+// __ns.msgBox =function(title,message,type){ $.msgBox({
+// 	title:title,
+// 	message:message,
+// 	type:type 
+// });};
+// </javascript>

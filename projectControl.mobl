@@ -7,6 +7,7 @@ import servicemodel
 import issueControl
 import roadmapControl
 import lib
+import customStyle
  
 var currentProject:Project = Project();
 
@@ -46,8 +47,8 @@ screen ShowProject(project:Project){
 		currentProject.issuecount= currentProject.issues.count(); 
 		add(currentProject);
 	}
-	tabSet([("Info","",ShowProjectInfo),("Issues","",showPopulairIssues),("Roadmap","",showRoadmap)])
-	script{endLoading();}
+	myTabSet([("Info","",ShowProjectInfo),("Issues","",showPopulairIssues),("Roadmap","",showRoadmap),("New Issue","",CreateIssue)], activeTab=null, screenContextId="tabSetContext", tabbarStyle=MyTabbarStyle, activeTabButtonStyle=MyActiveTabButtonStyle, inActiveTabButtonStyle=MyInActiveTabButtonStyle, activeTabStyle=activeTabStyle, inActiveTabStyle=inActiveTabStyle)
+	script{endLoading();} 
 }  
  
 control ShowProjectInfo(){
@@ -55,13 +56,13 @@ control ShowProjectInfo(){
 	var List= Collection<(String,[User])>(("Members",currentProject.members),("Followers",currentProject.followers))
 	when(currentProject.url != null){
 		item(onclick={openUrl(currentProject.url);}){label("Website")} }
-	group{
+	group{ 
 			when(currentProject.description != null){html("<h4><font color=#334E33>Description</font></h4>"+currentProject.description)} 
 		}
 	group{
 		when(currentProject.weeklyStatsGraph != null){
 		html("<h4><font color=#334E33>Weekly Issue Count</font></h4>") 
-		image(currentProject.weeklyStatsGraph,align="center") }
+		image(currentProject.weeklyStatsGraph,align="center") } 
 	} 
 	zoomList(List, ShowLabel, ShowUsers)
 		 

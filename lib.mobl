@@ -2,6 +2,7 @@ module lib
 
 import mobl::ui::generic
 import servicemodel
+import customStyle
 
 resource hack.js 
 resource online.js
@@ -13,6 +14,7 @@ var online:Bool = null;
 
 
 external sync function fixDB() : void
+external sync function fixDB2() : void
 external sync function fixTablePopulairIssues() : void
 external sync function checkServiceStatus(URL:String) : Bool
 external sync function checkStatus() : Bool
@@ -35,10 +37,19 @@ __ns.fixTablePopulairIssues = function(){
 __ns.log = function(string){
 	console.log(string); 
 }; 
+</javascript>
+<javascript>
 __ns.fixDB = function(){
 	fixDB(); 
 };
 </javascript>   
+
+<javascript>
+__ns.fixDB2 = function(){
+	console.log("FixTables");
+	fixDB2(); 
+};
+</javascript> 
 
 <javascript> 
 __ns.fixTablePopulairIssues = function(){ 
@@ -91,3 +102,57 @@ function isServiceAvailable():Bool{
 control myTable() {  
 	<table class="mobl__ui__generic__tableStyle" id="myTable">elements()</table>
 }
+
+
+
+control textarea(s : String, placeholder : String = null, onchange : Callback = null, style:Style = MyTextArea ) {
+ <textarea class=style placeholder=placeholder databind=s onchange=onchange/>
+}
+
+control mySelectField(value : String, options : [(String, String)],placeholder:String=null, onchange : Callback = null, style : Style = selectFieldStyle, optionStyle : Style = null) {  
+	sel@<select class=style 
+		onchange={    
+			value = sel.val();
+		    if(onchange) {  
+		   		onchange(event);    
+		   	}  
+		}
+	>
+	<option databind=placeholder class=optionStyle value="" disabled="disabled" selected="selected"/>  
+	list((optionValue, optionDescription) in options) {
+		<option databind=optionDescription class=optionStyle value=optionValue selected=value == optionValue ? "selected" : ""/>  
+	}  
+	</select>  
+	script {    
+		// Hack, moving the options out of the list's span    
+		sel.append(sel.children().eq(1).children());  
+	}	
+}
+
+
+@doc "A tabset, takes a list of tuples as argument, e.g. [(\"Tab 1\", \"icon url\", tab1), (\"Tab 2\", \"icon uri\", tab2)] where tab1 and tab2 are controls with no arguments"
+control myTabSet(tabs : [(String, String, Control)], activeTab : String = null, screenContextId : String = "tabSetContext",tabbarStyle: Style = tabbarStyle , activeTabButtonStyle: Style = activeTabButtonStyle ,inActiveTabButtonStyle : Style = inActiveTabButtonStyle,activeTabStyle : Style = activeTabStyle,inActiveTabStyle : Style = inActiveTabStyle) {
+  script {
+    if(activeTab == null) {
+      activeTab = tabs[0]._1;
+    } 
+  } 
+  var s = ""
+
+  block(tabbarStyle) {
+    list((tabName, tabIcon, tabControl) in tabs) {
+      span(onclick={ activeTab = tabName; }, cssClass=activeTab == tabName ? activeTabButtonStyle : inActiveTabButtonStyle) {
+        label(tabName)
+      }
+    }
+  }
+  //<div style="height: 39px;"/>
+  list((tabName, tabIcon, tabControl) in tabs) {
+    block(activeTab == tabName ? activeTabStyle : inActiveTabStyle) {
+      screenContext(screenContextId) {
+        tabControl()
+      }
+    }
+  }
+}
+
