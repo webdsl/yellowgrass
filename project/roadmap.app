@@ -38,7 +38,7 @@ define ajaxtemplate roadmapRelease(r : Tag) {
 			output(" -- ") <i> output(r.description) </i>
 		}
 	</h2>
-	par { actionLink("Postpone Open Issues", postponeOpen(r)) }
+	par { actionLink("Postpone Open Issues to " + nextRelease(r).name, postponeOpen(r)) }
 	issues(releaseIssues(r), false, true, true, 50, true, true)
 	if(previousRelease != null) {
 		block[class="Ghost"] {
