@@ -4,9 +4,12 @@ CACHE MANIFEST
 CACHE:
 
 offline.js
+customStyle.css
+customStyle.js
 hack.js
 issueControl.js
 lib.js
+MSGBOX.js
 mobl.js
 projectControl.js
 roadmapControl.js
@@ -37,6 +40,15 @@ mobl/ui/generic.css
 mobl/ui/generic.js
 mobl/ui/generic_ext.css
 mobl/ui/stylemixin.js
+
+MSGBOX/jquery.msgBox.js
+MSGBOX/msgBoxLight.css
+
+MSGBOX/Images/alert.png
+MSGBOX/Images/confirm.png
+MSGBOX/Images/error.png
+MSGBOX/Images/info.png
+MSGBOX/Images/msgBoxBackGround.png
 
 FALLBACK:
 online.js offline.js
