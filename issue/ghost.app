@@ -4,7 +4,7 @@ entity IssueGhost {
 	title		:: String	(validate(title.length() >= 5, "Use a longer and more descriptive title"))
 	description	:: WikiText
 	project		-> Project
-	email		:: Email
+	email		:: Email 	(validate(email!="","Please enter an email address"))
 	tags		-> Set<Tag>
 	alive		:: Bool
 	

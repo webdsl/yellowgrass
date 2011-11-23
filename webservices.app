@@ -46,5 +46,49 @@ service getProject(){
 	return project.toJSON();
 }
 
+service createIssueService(){
+	var jsonobject := JSONObject();
+	
+	var errors := JSONArray();
+	var json:= JSONObject(readRequestBody());
+	var project := loadProject(json.getString("project"));
+	var title := json.getString("title");
+	var description := json.getString("description") as WikiText;
+	var tags := Set<Tag>();
+	if(json.getString("tag").length()>0){
+		tags.add(loadTag(json.getString("tag").parseUUID()));
+	}
+	var email := json.getString("email") as Email;
+	log ("createIssue: project: "+ project.name + " title: "+ title);
+	if (project == null){
+		errors.put("Non excisting project selected");
+	}
+	if (json.getString("tag").length() > 0 && tags.length == 0){
+		errors.put("Non excisting category selected");
+	}if(!email.isValid()){
+		errors.put("email is not valid");
+	}
+	var ig := IssueGhost{ alive := false
+						  project := project 
+						  email := email
+						  description:=description
+						  tags := tags
+						  title := title};
+	if(ig.validateSave().exceptions.length!=0){
+		for(e: ValidationException in ig.validateSave().exceptions){
+			errors.put(e.message);		
+		}
+	}
+	if (errors.length() == 0){
+		ig.save();
+		email(issueConfirmationEmail(ig));
+		jsonobject.put("answer", true);
+	}else{
+		jsonobject.put("errors", errors);
+		jsonobject.put("id","CreateIssue: "+ title);
+		jsonobject.put("answer", false);
+	}
+	return jsonobject;
+}
 
 

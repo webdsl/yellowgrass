@@ -17,7 +17,7 @@ module ac
 	rule page search(p: Project, q : String) {
 		mayAccess(p)
 	}
-	rule page searchAll(q : String){
+	rule page searchAllProjects(q : String){
 		true
 	}
 
@@ -42,6 +42,10 @@ module ac
 	 }
 	 
 	rule page getProject*(){
+	 	true
+	 }
+	 
+	 rule page createIssueService*(){
 	 	true
 	 }
 	 

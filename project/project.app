@@ -42,6 +42,20 @@ entity Project {
 		return result;
 	}
 	
+	function getIssueTypeTags():List<Tag>{
+		var issuetypes : List<Tag> := 
+		select t1
+		from Tag as t1 left join t1.tags as t2
+		where 
+			t1.project = ~this and
+			t2.project = ~this and
+			t2.name = ~ISSUE_TYPE_TAG()
+		group by t1.name
+		order by t1.name;
+
+	return 	issuetypes;	
+	}
+	
 	function getOrderedIssues(filterOpen : Bool) : List<Issue> {
 		if(filterOpen) {
 			return
@@ -135,6 +149,11 @@ entity Project {
 			jsonmap.put(release.toJSON());
 		}
 		jsonobject.put("roadmap",jsonmap);
+		var issuetags:=JSONArray();
+		for(tag:Tag in getIssueTypeTags()){
+			issuetags.put(tag.toJSON());
+		}
+		jsonobject.put("issueTypes",issuetags);
 		return jsonobject;
 	}
 	
