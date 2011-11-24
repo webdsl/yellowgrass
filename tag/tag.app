@@ -10,7 +10,7 @@ imports comment/tagControl
 
 entity Tag {
 	name 		:: String	(validate(name.length() > 1, "Tags need to have at least 2 characters"),
-							 validate(/[a-z0-9\.-_@!]*/.match(name),"Tags may consist of: a-z 0-9 . _ @ ! -"))
+							 validate(/[a-z0-9\.\-_@!]*/.match(name),"Tags may consist of: a-z 0-9 . _ @ ! -"))
 	description :: String
 	project 	-> Project
 	tags		-> Set<Tag>
