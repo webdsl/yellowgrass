@@ -97,11 +97,13 @@ function projectMapper(json: JSON): Project {
 
 function booleanMapper(json: JSON): Bool {
 		if(!json.answer){
-			var map = Dynamic(title="CreateIssue");
+			var map = Dynamic(title=json.id);
 			var content = "";
 			foreach(string in json.errors){
 				content= content + "<span class=\"error\">" + string +"</span>";
 			}
+			map.opacity=0.9;
+			map.autoclose=false;
 			map.content=content;
 			map.type="error";
 			msgBox(map);

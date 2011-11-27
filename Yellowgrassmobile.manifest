@@ -9,6 +9,7 @@ customStyle.js
 hack.js
 issueControl.js
 lib.js
+lib_javascript.js 
 MSGBOX.js
 mobl.js
 projectControl.js
@@ -20,7 +21,7 @@ Yellowgrassmobile.html
 Yellowgrassmobile.js
 Yellowgrassmobile.manifest
 
-images/tick.png
+images/tick.png 
 images/question.gif
 images/logo.png
 
@@ -35,6 +36,7 @@ js/persistence.store.memory.js
 js/persistence.store.sql.js
 js/persistence.store.websql.js 
 
+mobl/reflect.js
 
 mobl/ui/generic.css
 mobl/ui/generic.js

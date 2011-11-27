@@ -5,39 +5,43 @@ import webservices
 import lib
 
 import mobl::ui::generic
-
+var offlineMap =  Collection<(String,Dynamic)>();  
 function getProjects():[Project]{
-	if(testOnline()){
-		return Service.getProjects();
+	if(onlinecheck()){
+		return Service.getProjects(); 
 	}else{
-		alert("offline");
+		// alert("offline");
 		return Project.all().list();
-	}
+	} 
 }
 
 function getPopularProjects(number:Num):[Project]{
-	if(testOnline()){
+	if(onlinecheck()){
 		return Service.getPopularProjects(number);
+		
 	}else{
-		alert("offline");
+		// alert("offline");
+		
 		return Project.all().order("issuecount", false).limit(number).list();
 	}
 }
 
 function getProject(name:String):Project{
-	if(testOnline()){
+	if(onlinecheck()){
 		return Service.getProject(name);
 	}else{
-		alert("offline");
+		// alert("offline");
 		return Project.findBy("name", name);
 	}
 }
 
 function createIssue(project: Project,title:String,category:String,description:String,email:String ):Bool{
-	if(testOnline()){
+	if(onlinecheck()){
 		
-		return Service.createIssue(project,title,category,description,email );
+		return Service.createIssue(project.name,title,category,description,email );
 	}else{
+		var arguments = Dynamic(project=project.name,title=title,category=category,description=description,email=email );
+		offlineMap.add(("createIssue",arguments));
 		return false;
 	}
 }

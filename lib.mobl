@@ -3,14 +3,24 @@ module lib
 import mobl::ui::generic
 import servicemodel
 import customStyle
+import serviceOfflineWrapper
+import mobl::reflect
+import webservices
+import MSGBOX
 
 resource hack.js 
 resource online.js
 resource offline.js
+resource lib_javascript.js
+
+load lib_javascript.js
 load hack.js
- 
+
+   
  
 var online:Bool = null;  
+
+var lastStatus:Bool = null;
 
 
 external sync function fixDB() : void
@@ -20,6 +30,7 @@ external sync function checkServiceStatus(URL:String) : Bool
 external sync function checkStatus() : Bool
 external sync function setCacheFunctions():void
 external sync function testOnline():Bool
+external function executeOfflinefunc(func:Dynamic,params:Dynamic):void
 <javascript>    
 __ns.setCacheFunctions = function(){ 
 	setCacheFunctions(); 
@@ -69,7 +80,7 @@ __ns.checkServiceStatus = function(URL){
 __ns.checkStatus = function(){
 	return checkStatus(); 
 };
-	
+	  
 </javascript>
 
 <javascript>    
@@ -78,6 +89,13 @@ __ns.testOnline = function(){
 };  
 	   
 </javascript> 
+
+<javascript>    
+__ns.executeOfflinefunc = function(func,params){
+	return executeOfflinefunc(func,params);  
+};  
+	   
+</javascript>
 control getHeaderImage(hasTitle:Bool){
 	when((1-hasTitle)||(1-toSmall())){
 	image("./images/logo.png",align="left",height=43)}
@@ -156,3 +174,32 @@ control myTabSet(tabs : [(String, String, Control)], activeTab : String = null, 
   }
 }
 
+function executeOfflinefuncs(){
+	if(offlineMap.count()>0){
+		var entry = offlineMap.one();
+		var func = Reflector.get(Service, entry._1);
+		var params =  entry._2;
+		executeOfflinefunc(func,params);
+	}
+}
+
+sync function onlinecheck():Bool{
+	var status = testOnline();
+	if(lastStatus == null&& status == false){
+		msgBox(Dynamic(title="AppStatus", content="The app is currently working offline", type="info",autoClose=true));
+	}else {
+		if(lastStatus != null && lastStatus != status){
+			var map = Dynamic(title="AppStatus changed", type="info",autoClose=true);
+			if(status){
+				map.content = "The app changed to online mode";
+			}else{
+				map.content = "The app changed to offline mode";
+			} 
+			msgBox(map);
+		}
+	}
+	
+	lastStatus=status;
+	log("last:"+status);
+	return lastStatus; 
+}

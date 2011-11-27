@@ -7,22 +7,26 @@ import servicemodel
 import lib    
 import projectControl   
 import issueControl   
-import MSGBOX
-// resource Yellowgrassmobile.manifest 
+import MSGBOX  
+import mobl::reflect
+resource Yellowgrassmobile.manifest  
 // resource stylesheets/custom.css
 // load stylesheets/custom.css    
 
 screen root() {  
-	header(""){getHeaderImage(false)}
+	header(""){getHeaderImage(false)}   
 	script{ 
 		setCacheFunctions(); 
+		 
 		
 	}    
 	group{    
 		item(onclick={showProjects();}){ label("Show Projects" ) }
 		item(onclick={showActiveProjects();}){ label("Show Favorite Projects" ) }
-	}              
-} 
+		// item(onclick={showActiveProjects();}){ label("Try Execute OfflineMap" ) }
+	}  
+	button("OfflineMap",onclick={executeOfflinefuncs();})            
+}  
      
 screen ShowUser(user:User){
 	header("User"){backButton("back",onclick={screen return;})}
@@ -44,7 +48,7 @@ screen ShowUser(user:User){
 }
   
 control ShowHTMLHeader(tuple:(String,[Project])){
- 	html("<h4><font color=#334E33>"+ tuple._1+"</font></h4>")  
+ 	html("<h4><font color=#334E33>"+ tuple._1+"</font></h4>")   
 }
 control ShowProjects(tuple:(String,[Project])){
 	html("<h4><font color=#334E33>"+ tuple._1+"</font></h4>")
@@ -54,7 +58,7 @@ control ShowProjects(tuple:(String,[Project])){
 		}  
 	}	      
 }    
- 
+  
 control ShowHTMLHeaderLog(tuple:(String,[Project])){
  	html("<h4><font color=#334E33>"+ tuple._1+"</font></h4>")
  } 
@@ -64,7 +68,7 @@ control ShowLog(tuple:(String,[Comment])){
 		html("<h6><font color=#334E33>On " + formatDate2(comment.submitted)   + " " +comment.author.name+" wrote:</font></h6>"+comment.text)
 	} 
 }        
-    
+     
  control ShowLabel(tuple:(String,[User])){ 
  	label(tuple._1)    
   } 
@@ -76,5 +80,5 @@ control ShowUsers(tuple:(String,[User])){
 		} 
 	}	 
 }     
- 
+
  

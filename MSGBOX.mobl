@@ -10,7 +10,7 @@ resource MSGBOX/Images/msgBoxBackGround.png
  
 load MSGBOX/jquery.msgBox.js      
 load MSGBOX/msgBoxLight.css
-external function msgBox(options:Dynamic):void     
+external sync function msgBox(options:Dynamic):void     
 <javascript>
 __ns.msgBox =function(options){ $.msgBox(options);};
 </javascript>

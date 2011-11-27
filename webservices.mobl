@@ -26,11 +26,11 @@ service Service {
 		mapper = projectMapper
 	} 
 	
-	resource createIssue(project: Project,title:String,category:String,description:String,email:String):Bool{
+	resource createIssue(project: String,title:String,category:String,description:String,email:String):Bool{
 		uri = "createIssueService?"
 		method = "PUT"
-		data = JSON.stringify(Dynamic(project=project.name,title=title,description=description,email=email,tag=category))
-		mapper = booleanMapper
+		data = JSON.stringify(Dynamic(project=project,title=title,description=description,email=email,tag=category))
+		mapper = booleanMapper 
 	}
 	 
 }
