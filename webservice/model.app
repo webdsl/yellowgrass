@@ -11,11 +11,21 @@ entity Release{
 		jsonObject.put("name",name);
 		var jsonArray := JSONArray();
 		for(issue:Issue in issues){
-			jsonArray.put(issue.toSimpleJSON());		
+			var jsonobject := issue.toJSON();
+			// jsonobject.put("release",jsonObject.get("id"));
+			jsonArray.put(jsonobject);		
 		}
 		jsonObject.put("issues",jsonArray);
 		return jsonObject;
+	}	
+	
+	function toJSONSimple():JSONObject{
+		var jsonObject := JSONObject();
+		jsonObject.put("id",project.name.substring(0, min(20,project.name.length() -1)) + name);
+		jsonObject.put("name",name);
+		return jsonObject;
 	}		
+	
 }
 
 function generateRoadmap(project:Project):List<Release>{

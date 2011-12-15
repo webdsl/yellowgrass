@@ -37,7 +37,7 @@ module ac
 	 	true
 	 }
 	 
-	 rule page getPopularProjects*(){
+	rule page getPopularProjects*(){
 	 	true
 	 }
 	 
@@ -45,9 +45,21 @@ module ac
 	 	true
 	 }
 	 
-	 rule page createIssueService*(){
+	rule page createIssueService*(){
 	 	true
 	 }
+	 
+	rule page getIssues*(){
+	 	true
+	 }
+	 
+	rule page getRoadmap*(){
+	 	true
+	 }
+	 rule page getIssuesDetails*(){
+	 	true
+	 }
+	
 	 
 	 rule logsql {
 	 	loggedIn && principal.email=="sandervermolen@gmail.com"

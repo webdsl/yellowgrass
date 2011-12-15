@@ -13,7 +13,7 @@ entity Comment : Event {
 		json.put("id",id);
 		json.put("text",text.format());
 		json.put("author",author.toJSON());
-		json.put("submitted", moment);
+		json.put("submitted", moment.getTime()/1000L);
 		return json;
 	}
 }

@@ -46,6 +46,43 @@ service getProject(){
 	return project.toJSON();
 }
 
+service getIssues(){
+	var json:= JSONObject(readRequestBody());
+	var name := json.getString("project");
+	log("called service: getIssues:"+name);
+	var project := loadProject(name);
+	var jsonArrayIssues := JSONArray();
+	for (issue:Issue in project.issues){
+		jsonArrayIssues.put(issue.toJSON());
+	}
+	return jsonArrayIssues;
+}
+
+service getIssuesDetails(){
+	var json:= JSONObject(readRequestBody());
+	var name := json.getString("project");
+	log("called service: getIssuesDetails:"+name);
+	var project := loadProject(name);
+	var jsonArrayIssues := JSONArray();
+	for (issue:Issue in project.issues){
+		jsonArrayIssues.put(issue.toExtendedJSON());
+	}
+	return jsonArrayIssues;
+}
+
+service getRoadmap(){
+	var json:= JSONObject(readRequestBody());
+	var name := json.getString("project");
+	log("called service: getRoadmap:"+name);
+	var project := loadProject(name);
+	var releases := generateRoadmap(project);
+	var jsonArrayReleases := JSONArray();
+	for(release:Release in releases){
+		jsonArrayReleases.put(release.toJSONSimple());
+	}
+	return jsonArrayReleases;
+}
+
 service createIssueService(){
 	var jsonobject := JSONObject();
 	
@@ -91,4 +128,17 @@ service createIssueService(){
 	return jsonobject;
 }
 
+define page testing(){
+	var project := loadProject("WebDSL")
+	output(project.toJSON().toString())
+}
+
+access control rules
+
+	rule page testing(){
+		true
+	}
+	rule logsql{
+		true
+	}
 

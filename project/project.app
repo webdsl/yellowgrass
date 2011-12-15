@@ -129,7 +129,7 @@ entity Project {
 		jsonobject.put("url",url);
 		jsonobject.put("weeklyStatsGraph",this.getWeeklyStatsGraph());
 		var jsonArrayIssues := JSONArray();
-		for (issue:Issue in issues){
+		for (issue:Issue in issues order by issue.number desc limit 10){
 			jsonArrayIssues.put(issue.toJSON());
 		}
 		jsonobject.put("issues", jsonArrayIssues);
@@ -145,8 +145,12 @@ entity Project {
 		jsonobject.put("followers",jsonArrayFollowers);
 		var releases:=generateRoadmap(this);
 		var jsonmap := JSONArray();
-		for(release:Release in releases){
-			jsonmap.put(release.toJSON());
+		for(release:Release in releases order by release.name desc){
+			if(jsonmap.length() == 0){ 
+				jsonmap.put(release.toJSON());
+			}else{
+				jsonmap.put(release.toJSONSimple());
+			}
 		}
 		jsonobject.put("roadmap",jsonmap);
 		var issuetags:=JSONArray();
