@@ -1,0 +1,12 @@
+textarea.MyTextArea{
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+	resize: none;
+	border: 0px;
+	width: 90%;
+	background: white;
+	padding: 5px;
+	height: 10em;
+	margin-top: 0.1cm;
+	font-size: 1em;
+}

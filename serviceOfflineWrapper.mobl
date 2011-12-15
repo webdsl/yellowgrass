@@ -3,6 +3,8 @@ module serviceOfflineWrapper
 import servicemodel
 import webservices
 import lib
+import MSGBOX
+import issueControl
 
 import mobl::ui::generic
 var offlineMap =  Collection<(String,Dynamic)>();  
@@ -42,7 +44,25 @@ function createIssue(project: Project,title:String,category:String,description:S
 	}else{
 		var arguments = Dynamic(project=project.name,title=title,category=category,description=description,email=email );
 		offlineMap.add(("createIssue",arguments));
+		msgBox(Dynamic(title="CreateIssue", content="This webservice is currently not supported in offline mode", type="warning"));
 		return false;
 	}
 }
-	
+function getIssues(project:Project){
+		if(onlinecheck()){
+			Service.getIssues(project.name);
+			doneloading= "";
+		}
+}
+
+function getIssuesDetails(project:Project){
+		if(onlinecheck()){
+			Service.getIssuesDetails(project.name);
+		}
+}
+		
+function getRoadmap(project:Project):Collection<Release>{
+		if(onlinecheck()){
+			return Service.getRoadmap(project.name);
+		}
+}

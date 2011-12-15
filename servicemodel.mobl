@@ -42,7 +42,7 @@ entity Release{
 	
 }
 
-entity Issue{
+entity Issue{ 
 	// id : String
 	number: Num
 	title : String (searchable)
@@ -54,13 +54,13 @@ entity Issue{
 	open : Bool
 	comments : Collection<Comment>(inverse:issue) 
 	tags: Collection<Tag> (inverse:issue)
-	release : Release
+	release : Release 
 }
 
 entity Comment :Event {
 	// id : String
 	text : String
-	// submitted : DateTime
+	submitted : DateTime
 	author : User
 	issue: Issue 
 
@@ -110,3 +110,19 @@ function booleanMapper(json: JSON): Bool {
 		}
 		return json.answer;
 } 
+
+function issueMapper(json:JSON):Collection<Issue>{
+		var Array = Collection<Issue>();
+		foreach(json:JSON in json){
+			Array.add(Issue.fromSelectJSON(json));
+		}
+		return Array;
+}
+
+function releaseMapper(json:JSON):Collection<Release>{
+		var Array = Collection<Release>(); 
+		foreach(json:JSON in json){
+			Array.add(Release.fromSelectJSON(json));
+		}
+		return Array;
+}

@@ -8,18 +8,33 @@ import projectControl
 import lib
 import customStyle
 import serviceOfflineWrapper
-
+var doneloading = ""; 
 control showPopulairIssues(){
 	header("Populair Issues"){backButton("back",onclick={return showProjects(target="_top");})button("all",onclick={return ShowIssues();})}
-	showTable(Issue.all().filter("project", "=", currentProject).filter("open", "=", true).order("nrVotes", false).limit(10))
-  
-} 
+	// showTable(Issue.all().filter("project", "=", currentProject).filter("open", "=", true).order("nrVotes", false).limit(10))
+	var issues :Collection<Issue> = Issue.all().filter("project", "=", currentProject).filter("open", "=", true).order("nrVotes", false).limit(10)
+	script{
+		doneloading = ""; 
+	}
+	
+  	table{	
+  		list(issue:Issue in Issue.searchPrefix(doneloading).filter("project", "=", currentProject).order("number", false).limit(10)){ 
+			row{
+				cell{label(issue.number,onclick={ShowIssue(issue);})}
+				cell{when(!issue.open){image("./images/tick.png")}else{image("./images/question.gif")}}
+				cell{label(formatDate2(issue.submitted))}
+				cell{label(issue.title,onclick={ShowIssue(issue);})}
+			}
+		}
+	}
+}  
 
 screen ShowIssues(){
 	header(currentProject.name) {backButton("back",onclick={return showProjects(target="_top");})button("populair",onclick={screen return;})}
 	var phrase = "*"
 	searchBox(phrase) 
-	lib::myTable {
+	
+	table{
 		when(phrase ==""){
 			list(issue:Issue in Issue.all().filter("project", "=", currentProject).order("number", false)){
 				row{
@@ -65,23 +80,23 @@ screen ShowIssue(issue:Issue){
 
 control showTable(issues:Collection<Issue>){
 	
-lib::myTable{    
-		row{
-			headerCol {label("Nr")}
-			headerCol {} 
-			headerCol { label("Date" )}
-			headerCol { label("Title" )}
-		}
-		list(issue:Issue in issues){
+table {    
+		// row{
+		// 	headerCol {label("Nr")}
+		// 	headerCol {} 
+		// 	headerCol { label("Date" )}
+		// 	headerCol { label("Title" )}
+		// }
+		list(issue:Issue in issues){ 
 			row{
 				cell{label(issue.number,onclick={ShowIssue(issue);})}
 				cell{when(!issue.open){image("./images/tick.png")}else{image("./images/question.gif")}}
 				cell{label(formatDate2(issue.submitted))}
-				cell{label(issue.title,onclick={ShowIssue(issue);})}
+				cell{label(issue.title,onclick={ShowIssue(issue,target="_top");})}
 			}
 		}
 		script{   
-			fixTablePopulairIssues();
+			// fixTablePopulairIssues();
 		} 	
 
 	}
@@ -95,11 +110,12 @@ control CreateIssue(){
 	var discription = ""
 	var category = ""
 	var email = ""
+	var types = currentProject.getIssueTypes()
 	group{
 		textField(title, placeholder="title", inputType="text", validator=null, style=MyTextField, invalidStyle=mobl::ui::generic::textFieldInvalidStyle, autofocus=false, autocorrect=true, autocapitalize=true, autocomplete=true, onchange={}, onkeyup={})
 	}
 	group{
-		mySelectField(category,currentProject.getIssueTypes(), placeholder ="Select Category", style=MySelectField, optionStyle=null)
+		mySelectField(category,types, placeholder ="Select Category", style=MySelectField, optionStyle=null)
 	}
 	group{
 		textarea(discription,placeholder="discription",onchange=null)
@@ -107,7 +123,7 @@ control CreateIssue(){
 	group{
 		textField(email, placeholder="email", inputType="email", validator=null, style=MyTextField, invalidStyle=mobl::ui::generic::textFieldInvalidStyle, autofocus=false, autocorrect=true, autocapitalize=true, autocomplete=true, onchange={}, onkeyup={})
 	}
-	button("submit",onclick={var x = createIssue(currentProject, title, category, discription, email); if(x){return ShowProject(currentProject,target="_top"); }else{alert("wrong");}
+	button("submit",onclick={var x = createIssue(currentProject, title, category, discription, email); if(x){return ShowProject(currentProject,target="_top"); }else{}
 })
 	
 	 

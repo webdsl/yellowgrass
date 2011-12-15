@@ -1,0 +1,105 @@
+module customStyle
+
+style MyTextField{
+	display: inline-block;
+	-webkit-appearance: none;
+	-webkit-box-flex: 100;
+	-webkit-rtl-ordering: logical;
+	-webkit-user-select: text;
+	-webkit-text-size-adjust: 140%;
+	-moz-text-size-adjust: 140%;
+	-webkit-appearance: textarea;
+	background: white -webkit-gradient(linear, 0% 0%, 0% 100%, from(white), to(white));
+	border: 0;
+	color: black;
+	display: block;
+	font-size: 14px;
+	height: 1.2em;
+	padding: 5px;
+	margin-left: 0px;
+	width: 90%;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+	margin-top: 5px;
+}
+
+style MyTextArea  { 
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+	resize: none;
+	border: 0px;
+	width: 90%;
+	background: white;
+	padding: 5px;
+	height: 10em;
+	margin-top: 5px;
+	font-size: 12px;
+}
+
+style MySelectField {
+	display: inline-block;
+	width: 91%;
+	border: 0;
+	font-size: 14px;
+	padding: 5px;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+	margin-top: 5px;
+}
+style MyTabbarStyle {
+  text-align: left;
+  font-size: 15px;
+  z-index: 3;
+  width: 100%;
+  //position: fixed;
+  border-bottom: 1px solid #444;
+  margin-top: 3px;
+  margin-bottom: 0;
+  background-color: #f0f0f0;
+}
+ 
+style MyTabbarStyle MyInActiveTabButtonStyle {
+  padding-right: 10px;
+  padding-left: 10px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  margin-left: 5px;
+  line-height: 39px;
+  height: 39px;
+  margin-bottom: 0;
+  background-color: white;
+  color: black;
+  border-top: 1px solid #444;
+  border-right: 1px solid #444;
+  border-left: 1px solid #444;
+  -webkit-border-top-right-radius: 8px;
+  -moz-border-radius-topright: 8px;
+  -webkit-border-top-left-radius: 8px;
+  -moz-border-radius-topleft: 8px;
+}
+
+// 92,152,246
+style MyTabbarStyle MyActiveTabButtonStyle {
+  background-color: $baseColor;
+  color: black;
+  position: relative;
+  top: 2px;
+
+  padding-right: 10px;
+  padding-left: 10px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  margin-left: 5px;
+  line-height: 37px;
+  height: 39px;
+  margin-bottom: 0;
+  border-top: 1px solid #444;
+  border-right: 1px solid #444;
+  border-left: 1px solid #444;
+  -webkit-border-top-right-radius: 8px;
+  -moz-border-radius-topright: 8px;
+  -webkit-border-top-left-radius: 8px;
+  -moz-border-radius-topleft: 8px;
+}
+

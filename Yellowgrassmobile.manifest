@@ -16,7 +16,7 @@ projectControl.js
 roadmapControl.js
 servicemodel.js
 serviceOfflineWrapper.js
-webservices.js
+webservices.js 
 Yellowgrassmobile.html
 Yellowgrassmobile.js
 Yellowgrassmobile.manifest
@@ -44,7 +44,7 @@ mobl/ui/generic_ext.css
 mobl/ui/stylemixin.js
 
 MSGBOX/jquery.msgBox.js
-MSGBOX/msgBoxLight.css
+MSGBOX/msgBoxLight.css 
 
 MSGBOX/Images/alert.png
 MSGBOX/Images/confirm.png

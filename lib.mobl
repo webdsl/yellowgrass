@@ -7,7 +7,7 @@ import serviceOfflineWrapper
 import mobl::reflect
 import webservices
 import MSGBOX
-
+ 
 resource hack.js 
 resource online.js
 resource offline.js
@@ -18,9 +18,10 @@ load hack.js
 
    
  
-var online:Bool = null;  
+var online:Bool = null;   
 
 var lastStatus:Bool = null;
+var currentTab:String = null;
 
 
 external sync function fixDB() : void
@@ -31,6 +32,7 @@ external sync function checkStatus() : Bool
 external sync function setCacheFunctions():void
 external sync function testOnline():Bool
 external function executeOfflinefunc(func:Dynamic,params:Dynamic):void
+external sync function asyncServiceCall (): void
 <javascript>    
 __ns.setCacheFunctions = function(){ 
 	setCacheFunctions(); 
@@ -96,6 +98,16 @@ __ns.executeOfflinefunc = function(func,params){
 };  
 	   
 </javascript>
+
+<javascript>    
+__ns.asyncServiceCall = function(){
+	setTimeout(function() {	
+		x = serviceOfflineWrapper.getIssues(projectControl.currentProject.get());
+		mobl.log("sync call is done");
+	},100);
+}; 
+	   
+</javascript>
 control getHeaderImage(hasTitle:Bool){
 	when((1-hasTitle)||(1-toSmall())){
 	image("./images/logo.png",align="left",height=43)}
@@ -159,7 +171,7 @@ control myTabSet(tabs : [(String, String, Control)], activeTab : String = null, 
 
   block(tabbarStyle) {
     list((tabName, tabIcon, tabControl) in tabs) {
-      span(onclick={ activeTab = tabName; }, cssClass=activeTab == tabName ? activeTabButtonStyle : inActiveTabButtonStyle) {
+      span(onclick={ activeTab = tabName; currentTab=activeTab; }, cssClass=activeTab == tabName ? activeTabButtonStyle : inActiveTabButtonStyle) {
         label(tabName)
       }
     }
@@ -184,22 +196,27 @@ function executeOfflinefuncs(){
 }
 
 sync function onlinecheck():Bool{
-	var status = testOnline();
-	if(lastStatus == null&& status == false){
-		msgBox(Dynamic(title="AppStatus", content="The app is currently working offline", type="info",autoClose=true));
-	}else {
-		if(lastStatus != null && lastStatus != status){
-			var map = Dynamic(title="AppStatus changed", type="info",autoClose=true);
-			if(status){
-				map.content = "The app changed to online mode";
-			}else{
-				map.content = "The app changed to offline mode";
-			} 
-			msgBox(map);
-		}
-	}
-	
-	lastStatus=status;
-	log("last:"+status);
-	return lastStatus; 
+	// var status = testOnline();
+	// if(lastStatus == null&& status == false){
+	// 	msgBox(Dynamic(title="AppStatus", content="The app is currently working offline", type="info",autoClose=true));
+	// }else {
+	// 	if(lastStatus != null && lastStatus != status){
+	// 		var map = Dynamic(title="AppStatus changed", type="info",autoClose=true);
+	// 		if(status){
+	// 			map.content = "The app changed to online mode";
+	// 		}else{
+	// 			map.content = "The app changed to offline mode";
+	// 		} 
+	// 		msgBox(map);
+	// 	}
+	// }
+	// ;
+	// lastStatus=status;
+	// log("last:"+status);
+	// return lastStatus;
+	return true ;
+}
+
+function showAbout(){
+	msgBox(Dynamic(title="About YellowgrassMobile v0.3",content="The app is in currently in development.",type="info"));
 }

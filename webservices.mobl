@@ -32,6 +32,27 @@ service Service {
 		data = JSON.stringify(Dynamic(project=project,title=title,description=description,email=email,tag=category))
 		mapper = booleanMapper 
 	}
+	
+	resource getIssues(project: String):Collection<Issue>{
+		uri = "getIssues?"
+		method = "PUT"
+		data = JSON.stringify(Dynamic(project=project))
+		mapper = issueMapper 
+	}
+	
+	resource getIssuesDetails(project: String):Collection<Issue>{
+		uri = "getIssuesDetails?"
+		method = "PUT"
+		data = JSON.stringify(Dynamic(project=project))
+		mapper = issueMapper 
+	}
+	resource getRoadmap(project: String):Collection<Release>{
+		uri = "getRoadmap?"
+		method = "PUT"
+		data = JSON.stringify(Dynamic(project=project))
+		mapper = releaseMapper 
+	}
+	  
 	 
 }
 // 	resource LoginUser(email: String, password: String) : JSON {

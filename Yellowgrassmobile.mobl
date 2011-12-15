@@ -3,29 +3,27 @@ application Yellowgrassmobile
 import mobl::ui::generic
 
 // import webservices  
-import servicemodel        
-import lib    
+import servicemodel         
+import lib       
 import projectControl   
-import issueControl   
-import MSGBOX  
-import mobl::reflect
-resource Yellowgrassmobile.manifest  
+import issueControl      
+import MSGBOX   
+import mobl::reflect 
+// resource Yellowgrassmobile.manifest  
 // resource stylesheets/custom.css
 // load stylesheets/custom.css    
 
 screen root() {  
-	header(""){getHeaderImage(false)}   
+	header(""){getHeaderImage(false)button("About",onclick={showAbout();})}   
 	script{ 
-		setCacheFunctions(); 
-		 
-		
-	}    
+		//setCacheFunctions();  
+	}      
 	group{    
 		item(onclick={showProjects();}){ label("Show Projects" ) }
 		item(onclick={showActiveProjects();}){ label("Show Favorite Projects" ) }
 		// item(onclick={showActiveProjects();}){ label("Try Execute OfflineMap" ) }
 	}  
-	button("OfflineMap",onclick={executeOfflinefuncs();})            
+	// button("OfflineMap",onclick={executeOfflinefuncs();})            
 }  
      
 screen ShowUser(user:User){
@@ -35,7 +33,7 @@ screen ShowUser(user:User){
 		html("<h4><font color=#334E33>Name</font></h4>") 
 		label(user.name)
 	}  
-	group{
+	group{ 
 		html("<h4><font color=#334E33>Tag</font></h4>") 
 		when(user.tag != null){label(user.tag)}else{label("User has no Tag")}
 	} 
@@ -55,11 +53,11 @@ control ShowProjects(tuple:(String,[Project])){
  	group{
 		list(project:Project in tuple._2){
 			item{label(project.name,onclick={ShowProject(project,target="_top");}) }
-		}  
+		}   
 	}	      
-}    
+}     
   
-control ShowHTMLHeaderLog(tuple:(String,[Project])){
+control ShowHTMLHeaderLog(tuple:(String,[Project])){ 
  	html("<h4><font color=#334E33>"+ tuple._1+"</font></h4>")
  } 
     
@@ -67,18 +65,22 @@ control ShowLog(tuple:(String,[Comment])){
 	list(comment: Comment in tuple._2){ 
 		html("<h6><font color=#334E33>On " + formatDate2(comment.submitted)   + " " +comment.author.name+" wrote:</font></h6>"+comment.text)
 	} 
-}        
+}          
      
- control ShowLabel(tuple:(String,[User])){ 
- 	label(tuple._1)    
+ control ShowLabel(tuple:(String,Collection<User>)){ 
+ 	when(tuple._2.count()>0){label(tuple._1)} 
+ 	else{label("No " + tuple._1)}
   } 
-control ShowUsers(tuple:(String,[User])){
-	label(tuple._1)
-	group{
-		list(user:User in tuple._2){
-			item{label(user.name,onclick={ShowUser(user,target="_top");}) }
-		} 
-	}	 
+control ShowUsers(tuple:(String,Collection<User>)){   
+	when(tuple._2.count()>0){
+		group{
+			label(tuple._1)
+			list(user:User in tuple._2){
+				item{label(user.name,onclick={ShowUser(user,target="_top");}) }
+			} 
+		}
+	}
+	else{label("No " + tuple._1)}  
 }     
-
+ 
  
