@@ -78,7 +78,7 @@ service getRoadmap(){
 	var releases := generateRoadmap(project);
 	var jsonArrayReleases := JSONArray();
 	for(release:Release in releases){
-		jsonArrayReleases.put(release.toJSONSimple());
+		jsonArrayReleases.put(release.toJSON());
 	}
 	return jsonArrayReleases;
 }
