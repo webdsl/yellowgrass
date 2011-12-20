@@ -51,7 +51,7 @@ screen ShowProject(project:Project){
 	script{
 		startLoading(); 
 		currentProject=getProject(project.name); 
-		currentProject.issuecount= currentProject.issues.count(); 
+		
 		async{
 			getRestProject(currentProject);
 		}
@@ -81,6 +81,7 @@ function getRestProject(project:Project){
 		sleep(2000);
 		if(currentProject==project){
 			getIssues(project);
+			project.issuecount= project.issues.count(); 
 		}
 		if(currentProject==project){ 
 			currentProject.roadmap=getRoadmap(project);

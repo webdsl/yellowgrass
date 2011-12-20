@@ -60,7 +60,7 @@ function getIssuesDetails(project:Project){
 			Service.getIssuesDetails(project.name);
 		}
 }
-		
+		 
 function getRoadmap(project:Project):Collection<Release>{
 		if(onlinecheck()){
 			return Service.getRoadmap(project.name);

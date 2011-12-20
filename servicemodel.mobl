@@ -50,7 +50,7 @@ entity Issue{
 	submitted : DateTime
 	project : Project 
 	reporter: User 
-	nrVotes: Num
+	nrVotes: Num 
 	open : Bool
 	comments : Collection<Comment>(inverse:issue) 
 	tags: Collection<Tag> (inverse:issue)
