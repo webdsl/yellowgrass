@@ -120,39 +120,74 @@ entity Project {
 		
 		return url.concat();
 	}
-	function toJSON():JSONObject{
-		if(private){ return null;}
+	function toJSON(old:JSONObject):JSONObject{
+		if(private){ return null; }
 		var jsonobject := JSONObject();
 		jsonobject.put("id",id);
-		jsonobject.put("name", name);
-		jsonobject.put("description",description.format());
-		jsonobject.put("url",url);
+		var version := old.getInt("version");
+		if(version < this.version){
+			jsonobject.put("name", name);
+			jsonobject.put("description",description.format());
+			jsonobject.put("url",url);
+			jsonobject.put("version",this.version);
+		}
 		jsonobject.put("weeklyStatsGraph",this.getWeeklyStatsGraph());
-		var jsonArrayIssues := JSONArray();
-		for (issue:Issue in issues order by issue.number desc limit 10){
-			jsonArrayIssues.put(issue.toJSON());
+		if(version == 0){
+			var jsonArrayIssues := JSONArray();
+			for (issue:Issue in issues order by issue.number desc limit 10){
+				jsonArrayIssues.put(issue.toJSON());
+			}
+			jsonobject.put("issues", jsonArrayIssues);
+			var releases:=generateRoadmap(this);
+			var jsonmap := JSONArray();
+			for(release:Release in releases order by release.name desc){
+				if(jsonmap.length() == 0){ 
+					jsonmap.put(release.toJSON());
+				}else{
+					jsonmap.put(release.toJSONSimple());
+				}
+			}
+			jsonobject.put("roadmap",jsonmap);
 		}
-		jsonobject.put("issues", jsonArrayIssues);
+		var jsonoldmembers := toVersionObejcts( old.getJSONArray("members"));
 		var jsonArrayMembers := JSONArray();
-		for (member:User in members  ){
-			jsonArrayMembers.put(member.toJSON());
-		}
-		jsonobject.put("members",jsonArrayMembers);
-		var jsonArrayFollowers := JSONArray();
-		for (follower:User in followers ){
-			jsonArrayFollowers.put(follower.toJSON());
-		} 
-		jsonobject.put("followers",jsonArrayFollowers);
-		var releases:=generateRoadmap(this);
-		var jsonmap := JSONArray();
-		for(release:Release in releases order by release.name desc){
-			if(jsonmap.length() == 0){ 
-				jsonmap.put(release.toJSON());
+		var dirty := false;
+		for (member:User in members ){
+			var vobject := VersionObject{id:=member.id};
+			var index := jsonoldmembers.indexOf(vobject);
+			if(index == -1 || jsonoldmembers.get(index).version != member.version){
+				log(member.name +"is out dated" );
+				jsonArrayMembers.put(member.toJSON());
+				dirty := true;
 			}else{
-				jsonmap.put(release.toJSONSimple());
+				//var x := jsonoldmembers.toString();
+				log(member.name+"("+member.id +")" + ":" + member.version  +"is in ");
+				for(object :VersionObject in jsonoldmembers){
+					log(object.toString2());
+				}
+				jsonArrayMembers.put(member.toSimpleJSON()); 
 			}
 		}
-		jsonobject.put("roadmap",jsonmap);
+		
+		if(dirty){
+			jsonobject.put("members",jsonArrayMembers);
+		}
+		var jsonoldfollowers := toVersionObejcts( old.getJSONArray("followers"));
+		dirty:=false;
+		var jsonArrayFollowers := JSONArray();
+		for (follower:User in followers ){
+			var vobject := VersionObject{id:=follower.id};
+			var index := jsonoldfollowers.indexOf(vobject);
+			if(index == -1 || jsonoldmembers.get(index).version != follower.version){
+				jsonArrayMembers.put(follower.toJSON());
+				dirty := true;
+			}else{
+				jsonArrayMembers.put(follower.toSimpleJSON());
+			}
+		} 
+		if(dirty){
+			jsonobject.put("followers",jsonArrayFollowers);
+		}
 		var issuetags:=JSONArray();
 		for(tag:Tag in getIssueTypeTags()){
 			issuetags.put(tag.toJSON());

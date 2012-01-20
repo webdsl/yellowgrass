@@ -180,6 +180,7 @@ entity Issue {
 			jsonArrayTags.put(tag.toJSON());
 		}
 		json.put("tags",jsonArrayTags);
+		json.put("version",version);
 		return json;
 	}
 }

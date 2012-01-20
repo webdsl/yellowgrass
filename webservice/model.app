@@ -54,3 +54,21 @@ function min (a:Int, b:Int): Int{
 	}
 	
 }
+
+entity VersionObject{
+	 function  toString2(): String{
+	 	return"{ id:"+ id + ", version:" + version+" }";
+	 }
+ }
+
+function toVersionObejcts(json:JSONArray):List<VersionObject>{
+	var versionobjects := List<VersionObject>();
+	for(i:Int from 0 to json.length()){
+		var object := json.getJSONObject(i);
+		versionobjects.add(
+			VersionObject{
+				id :=  object.getString("id").parseUUID() 
+				version:= object.getInt("version") });
+	}
+	return versionobjects;	
+}

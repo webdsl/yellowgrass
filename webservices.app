@@ -41,9 +41,10 @@ service getPopularProjects(){
 service getProject(){
 	var json:= JSONObject(readRequestBody());
 	var name := json.getString("name");
+	var versions := json.getJSONObject("versions");
 	log("called service: getProject:"+name);
 	var project := loadProject(name);
-	return project.toJSON();
+	return project.toJSON(versions); 
 }
 
 service getIssues(){
@@ -52,7 +53,10 @@ service getIssues(){
 	log("called service: getIssues:"+name);
 	var project := loadProject(name);
 	var jsonArrayIssues := JSONArray();
+	
+
 	for (issue:Issue in project.issues){
+		
 		jsonArrayIssues.put(issue.toJSON());
 	}
 	return jsonArrayIssues;
@@ -61,11 +65,20 @@ service getIssues(){
 service getIssuesDetails(){
 	var json:= JSONObject(readRequestBody());
 	var name := json.getString("project");
+	var versions := json.getJSONObject("versions").getJSONArray("issues");
 	log("called service: getIssuesDetails:"+name);
 	var project := loadProject(name);
+	var versionobjects := toVersionObejcts(versions);
 	var jsonArrayIssues := JSONArray();
 	for (issue:Issue in project.issues){
-		jsonArrayIssues.put(issue.toExtendedJSON());
+		var vobject := VersionObject{id:=issue.id};
+		var index := versionobjects.indexOf(vobject);
+		if(index == -1 || versionobjects.get(index).version != issue.version){
+			jsonArrayIssues.put(issue.toExtendedJSON());
+		}else{
+			jsonArrayIssues.put(issue.toSimpleJSON());
+		}
+		
 	}
 	return jsonArrayIssues;
 }
@@ -130,7 +143,7 @@ service createIssueService(){
 
 define page testing(){
 	var project := loadProject("WebDSL")
-	output(project.toJSON().toString())
+	// output(project.toJSON().toString())
 }
 
 access control rules
