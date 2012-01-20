@@ -19,10 +19,10 @@ service Service {
 	} 
 	
 	
-	resource  getProject(name:String) : Project {
+	resource  getProject(name:String, versions:JSON) : Project {
 		uri = "getProject?"
 		method = "PUT"
-		data = JSON.stringify(Dynamic(name=name))
+		data = JSON.stringify(Dynamic(name=name,versions=versions ))
 		mapper = projectMapper
 	} 
 	
@@ -40,10 +40,10 @@ service Service {
 		mapper = issueMapper 
 	}
 	
-	resource getIssuesDetails(project: String):Collection<Issue>{
+	resource getIssuesDetails(project: String, versions: JSON):Collection<Issue>{
 		uri = "getIssuesDetails?"
 		method = "PUT"
-		data = JSON.stringify(Dynamic(project=project))
+		data = JSON.stringify(Dynamic(project=project,versions=versions))
 		mapper = issueMapper 
 	}
 	resource getRoadmap(project: String):Collection<Release>{

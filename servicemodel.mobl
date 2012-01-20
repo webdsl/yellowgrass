@@ -13,6 +13,7 @@ entity Project{
 	followers: Collection<User>  (inverse:projects)
 	issues : Collection<Issue> (inverse:project) 
 	roadmap :Collection<Release> (inverse:project)
+	version : Num
 	
 	function getIssueTypes():[(String,String)]{
 		var array :[(String,String)] = [];
@@ -29,7 +30,7 @@ entity User{
 	tag: String 
 	url: String
 	projects: Collection<Project>(inverse:members, inverse:followers) 
-	
+	version :Num
 	
 }
 
@@ -55,6 +56,7 @@ entity Issue{
 	comments : Collection<Comment>(inverse:issue) 
 	tags: Collection<Tag> (inverse:issue)
 	release : Release 
+	version : Num
 }
 
 entity Comment :Event {

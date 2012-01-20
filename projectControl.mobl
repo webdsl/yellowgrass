@@ -44,7 +44,7 @@ screen showActiveProjects(){
 		list(project in projects){   
 			item(onclick={ShowProject(project);}){label(project.name)} 
 		} 
-	}	   
+	}	      
 }	  
  
 screen ShowProject(project:Project){ 
@@ -79,7 +79,7 @@ control ShowProjectInfo(){
 
 function getRestProject(project:Project){
 		sleep(2000);
-		if(currentProject==project){
+		if(currentProject==project&&project.issuecount == 0){
 			getIssues(project);
 			project.issuecount= project.issues.count(); 
 		}

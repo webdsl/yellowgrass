@@ -218,5 +218,5 @@ sync function onlinecheck():Bool{
 }
 
 function showAbout(){
-	msgBox(Dynamic(title="About YellowgrassMobile v0.3",content="The app is in currently in development.",type="info"));
+	msgBox(Dynamic(title="About YellowgrassMobile v0.3.5",content="The app is in currently in development.",type="info"));
 }

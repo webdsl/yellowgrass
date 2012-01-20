@@ -28,13 +28,15 @@ function getPopularProjects(number:Num):[Project]{
 	}
 }
 
-function getProject(name:String):Project{
+function getProject(name:String):Project{ 
 	if(onlinecheck()){
-		return Service.getProject(name);
+		var old = Project.findBy("name", name).selectJSON(["id","members.[id,version]","followers.[id,version]","version"]);
+		return Service.getProject(name,old);
+		
 	}else{
 		// alert("offline");
 		return Project.findBy("name", name);
-	}
+	} 
 }
 
 function createIssue(project: Project,title:String,category:String,description:String,email:String ):Bool{
@@ -57,9 +59,10 @@ function getIssues(project:Project){
 
 function getIssuesDetails(project:Project){
 		if(onlinecheck()){
-			Service.getIssuesDetails(project.name);
+			var versions = Project.findBy("name", project.name).selectJSON(["issues.[id,version]"]);
+			Service.getIssuesDetails(project.name,versions);
 		}
-}
+}  
 		 
 function getRoadmap(project:Project):Collection<Release>{
 		if(onlinecheck()){

@@ -13,11 +13,11 @@ import mobl::reflect
 // resource stylesheets/custom.css
 // load stylesheets/custom.css    
 
-screen root() {   
+screen root() {    
 	header(""){getHeaderImage(false)button("About",onclick={showAbout();})}   
 	script{ 
 		//setCacheFunctions();  
-	}      
+	}       
 	group{    
 		item(onclick={showProjects();}){ label("Show Projects" ) }
 		item(onclick={showActiveProjects();}){ label("Show Favorite Projects" ) }
@@ -31,9 +31,9 @@ screen ShowUser(user:User){
 	var projectList= Collection<(String,[User])>(("Projects",user.projects))
 	group{
 		html("<h4><font color=#334E33>Name</font></h4>") 
-		label(user.name)
+		label(user.name) 
 	}  
-	group{ 
+	group{  
 		html("<h4><font color=#334E33>Tag</font></h4>") 
 		when(user.tag != null){label(user.tag)}else{label("User has no Tag")}
 	} 
@@ -42,24 +42,24 @@ screen ShowUser(user:User){
 		item{label(user.url,onclick={openUrl(user.url);})}}
 	}
 	zoomList(projectList, ShowHTMLHeader, ShowProjects)
-	
+	 
 }
   
 control ShowHTMLHeader(tuple:(String,[Project])){ 
- 	html("<h4><font color=#334E33>"+ tuple._1+"</font></h4>")   
-}
+ 	html("<h4><font color=#334E33>"+ tuple._1+"</font></h4>")    
+} 
 control ShowProjects(tuple:(String,[Project])){
 	html("<h4><font color=#334E33>"+ tuple._1+"</font></h4>")
  	group{
-		list(project:Project in tuple._2){
+		list(project:Project in tuple._2){ 
 			item{label(project.name,onclick={ShowProject(project,target="_top");}) }
-		}   
-	}	      
+		}    
+	}	       
 }     
   
-control ShowHTMLHeaderLog(tuple:(String,[Project])){ 
+control ShowHTMLHeaderLog(tuple:(String,[Project])){   
  	html("<h4><font color=#334E33>"+ tuple._1+"</font></h4>")
- } 
+ }    
       
 control ShowLog(tuple:(String,[Comment])){
 	list(comment: Comment in tuple._2){ 
@@ -72,7 +72,7 @@ control ShowLog(tuple:(String,[Comment])){
  	else{label("No " + tuple._1)}
   } 
 control ShowUsers(tuple:(String,Collection<User>)){   
-	when(tuple._2.count()>0){
+	when(tuple._2.count()>0){   
 		group{
 			label(tuple._1)
 			list(user:User in tuple._2){
@@ -80,7 +80,7 @@ control ShowUsers(tuple:(String,Collection<User>)){
 			} 
 		}
 	}
-	else{label("No " + tuple._1)}  
+	else{label("No " + tuple._1)}   
 }     
  
  
