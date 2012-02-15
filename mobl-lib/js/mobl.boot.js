@@ -13,9 +13,13 @@ mobl.provides = function (moduleName) {
 
 mobl.loadedFiles = {};
 
+mobl.IsWebkitBrowser= function(){
+	return RegExp(" AppleWebKit/").test(navigator.userAgent);
+}
+
 mobl.load = function(url) {
     if(url in mobl.loadedFiles) {
-        return;
+       return; 
     }
     if(url.substring(url.length-4) === '.css') {
         $("head").append("<link rel=\"stylesheet\" type=\"text/css\" href=\"" + url + "\">");
@@ -26,6 +30,9 @@ mobl.load = function(url) {
 };
 
 mobl.initDb = function(callback) {
+  if(!mobl.IsWebkitBrowser()){
+	  alert("This website is based on Webkit functionality, current browser doesn't support this. For full functionality please use a Webkit based browser like: Chrome/Safari")
+  }
   if(mobl.migration) {
     mobl.migration.performMigration(callback)
   } else {
