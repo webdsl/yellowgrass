@@ -465,7 +465,7 @@ persistence.get = function(arg1, arg2) {
               }());
           }
         }
-
+        
         for ( var it in meta.hasMany) {
           if (meta.hasMany.hasOwnProperty(it)) {
             (function () {
@@ -840,16 +840,15 @@ persistence.get = function(arg1, arg2) {
               var coll = persistence.get(obj, p);
               var ar = jsonObj[p].slice(0);
               var PropertyEntity = meta.hasMany[p].type;
-              // get all current items
-              
-              coll.list(tx, function(currentItems) {
-            	  for( i=0; i< currentItems.length; i++){
-            		  if(ar.filter(function(element,index,array){return element.id === currentItems[i].id;}).length === 0){
-//            		        console.log("deleted: currentItem"+ currentItems[i]);
-            			  currentItems.remove(currentItems[i]);
+              coll.list(tx, function(currentItems) { 
+              	for( i=0; i< currentItems.length; i++){
+              		if(ar.filter(function(element,index,array){return element.id === currentItems[i].id;}).length === 0){
+//            		   	console.log("deleted: currentItem"+ currentItems[i]);
+              			coll.remove(currentItems[i]);
             		  }else{
-//            		      console.log("still in there");
-            		  }}
+//            		  	console.log("still in there");
+            		  }
+              		}
                   persistence.asyncForEach(ar, function(item, callback) {
                       PropertyEntity.fromSelectJSON(session, tx, item, function(result) {
                           // Check if not already in collection
@@ -867,6 +866,7 @@ persistence.get = function(arg1, arg2) {
                     });
                   currentItems
                 });
+              
             }
           }, function() {
             callback(obj);
