@@ -10,6 +10,12 @@ import mobl::ui::generic
 var offlineMap =  Collection<(String,Dynamic)>();  
 function getProjects():[Project]{
 	if(onlinecheck()){
+			var projects = Service.getProjects(); 
+			foreach(project in Project.all()  ){
+				if (!projects.contains(project)){
+					remove(project);
+				}
+			}
 		return Service.getProjects(); 
 	}else{
 		// alert("offline");
