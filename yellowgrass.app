@@ -30,7 +30,7 @@ define page root() {
 			order by _submitted desc
 			limit 27;
 		
-		table [class = "columns"] { row { 
+		table [class = "columns"] { row {  
 			column [class = "column1"] {
 				par { <h2>"About YellowGrass"</h2> }
 				par {

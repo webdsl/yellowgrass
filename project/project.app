@@ -169,7 +169,7 @@ entity Project {
 			}
 		}
 		
-		if(dirty){
+		if(dirty||version < this.version){
 			jsonobject.put("members",jsonArrayMembers);
 		}
 		var jsonoldfollowers := toVersionObejcts( old.getJSONArray("followers"));
@@ -185,7 +185,7 @@ entity Project {
 				jsonArrayMembers.put(follower.toSimpleJSON());
 			}
 		} 
-		if(dirty){
+		if(dirty||version < this.version){
 			jsonobject.put("followers",jsonArrayFollowers);
 		}
 		var issuetags:=JSONArray();

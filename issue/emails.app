@@ -19,12 +19,12 @@ extend entity Issue {
 			mailinglist.add(reporter.email);
 		}
 		if(reporter == null && email != "") {
-			mailinglist.add(email);
+			mailinglist.add(email); 
 		}
 		
 		var commenters := [(e as Comment).author | e : Event in log where e is a Comment];
 		var commenterEmails := [u.email | u : User in commenters where u.notifications];
-		mailinglist.addAll(commenterEmails);
+		mailinglist.addAll(commenterEmails); 
 		
 		var issueFollowers : Set<User> := getFollowers(tags);
 		mailinglist.addAll([u.email | u : User in issueFollowers where u.notifications]);

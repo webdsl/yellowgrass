@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
+	<classpathentry kind="src" path=".servletapp/src-template"/>
+	<classpathentry kind="src" path=".servletapp/src-generated"/>
 	<classpathentry kind="src" path="nativejava"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
+	<classpathentry kind="output" path="WebContent/WEB-INF/classes"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/antlr-2.7.6.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/asm-attrs.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/asm.jar"/>
@@ -53,7 +56,7 @@
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/strategoxt.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/uncommons-maths-1.2.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/urlrewrite.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/webdsl-built-ins.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/webdsl-support.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/xercesImpl.jar"/>
-	<classpathentry kind="output" path="WebContent/WEB-INF/classes"/>
 </classpath>
