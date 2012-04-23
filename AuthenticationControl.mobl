@@ -1,0 +1,14 @@
+module AuthenticationControl
+import mobl::ui::generic 
+
+screen LoginScreen(){
+	var username = ""
+	var password = ""
+	var deviceDescription = ""
+	header("User"){backButton("back",onclick={screen return;})} 
+	group{
+		textField(username, label="Username")
+		passwordField(password, label="Password")
+		passwordField(deviceDescription, label="Device Description")
+	}
+}

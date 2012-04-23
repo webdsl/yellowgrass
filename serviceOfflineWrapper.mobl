@@ -75,3 +75,7 @@ function getRoadmap(project:Project):Collection<Release>{
 			return Service.getRoadmap(project.name);
 		}
 }
+
+function getAuthenticationToken(username: String, password : String, machineid:String ){
+	
+}

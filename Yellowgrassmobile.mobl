@@ -1,31 +1,33 @@
-application Yellowgrassmobile
-
+application Yellowgrassmobile 
+ 
 import mobl::ui::generic
 
-// import webservices  
+// import webservices     
 import servicemodel         
 import lib       
 import projectControl   
-import issueControl      
-import MSGBOX   
-import mobl::reflect 
-// resource Yellowgrassmobile.manifest   
-// resource stylesheets/custom.css
+import issueControl       
+import MSGBOX      
+import mobl::reflect
+import AuthenticationControl     
+// resource Yellowgrassmobile.manifest        
+// resource stylesheets/custom.css 
 // load stylesheets/custom.css    
-
-screen root() {    
-	header(""){getHeaderImage(false)button("About",onclick={showAbout();})}   
+  
+screen root() {     
+	header(""){getHeaderImage(false)button("About",onclick={showAbout();})}    
 	script{ 
-		//setCacheFunctions();  
-	}       
-	group{    
+		//setCacheFunctions();      
+	}           
+	group{       
 		item(onclick={showProjects();}){ label("Show Projects" ) }
-		item(onclick={showActiveProjects();}){ label("Show Favorite Projects" ) }
+		item(onclick={showActiveProjects();}){ label("Show Favorite Projects" ) } 
+		item(onclick={LoginScreen();}){ label("Login" ) } 
 		// item(onclick={showActiveProjects();}){ label("Try Execute OfflineMap" ) }
 	}  
 	// button("OfflineMap",onclick={executeOfflinefuncs();})            
 }  
-     
+       
 screen ShowUser(user:User){
 	header("User"){backButton("back",onclick={screen return;})}
 	var projectList= Collection<(String,[User])>(("Projects",user.projects))
@@ -43,20 +45,20 @@ screen ShowUser(user:User){
 	}
 	zoomList(projectList, ShowHTMLHeader, ShowProjects)
 	 
-}
+} 
   
 control ShowHTMLHeader(tuple:(String,[Project])){ 
  	html("<h4><font color=#334E33>"+ tuple._1+"</font></h4>")    
-} 
+}  
 control ShowProjects(tuple:(String,[Project])){
 	html("<h4><font color=#334E33>"+ tuple._1+"</font></h4>")
  	group{
 		list(project:Project in tuple._2){ 
 			item{label(project.name,onclick={ShowProject(project,target="_top");}) }
 		}    
-	}	       
+	}	           
 }     
-  
+   
 control ShowHTMLHeaderLog(tuple:(String,[Project])){   
  	html("<h4><font color=#334E33>"+ tuple._1+"</font></h4>")
  }    
@@ -65,7 +67,7 @@ control ShowLog(tuple:(String,[Comment])){
 	list(comment: Comment in tuple._2){ 
 		html("<h6><font color=#334E33>On " + formatDate2(comment.submitted)   + " " +comment.author.name+" wrote:</font></h6>"+comment.text)
 	} 
-}          
+}           
      
  control ShowLabel(tuple:(String,Collection<User>)){ 
  	when(tuple._2.count()>0){label(tuple._1)} 
@@ -77,7 +79,7 @@ control ShowUsers(tuple:(String,Collection<User>)){
 			label(tuple._1)
 			list(user:User in tuple._2){
 				item{label(user.name,onclick={ShowUser(user,target="_top");}) }
-			} 
+			}  
 		}
 	}
 	else{label("No " + tuple._1)}   
