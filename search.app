@@ -10,11 +10,12 @@ define page searchAllProjects(q : String) {
 
 define searchtmpl(p : Project, q : String){
 	var issues : List<Issue>;
-	var issueSearcher := IssueSearcher()
+	var issueSearcher := search Issue with facets (tags,40);
 			
 	init{
 		if (p != null){
 			issueSearcher.filterByField("project.name", p.name);
+			
 		}else{
 			issueSearcher.filterByField("project.private", "false") ;
 		}
@@ -29,6 +30,12 @@ define searchtmpl(p : Project, q : String){
 			table {
 				issues(issues, true, true, false, 80, true, true)
 			}
-		}
+		}	group("facets"){
+				for(f: Facet in issueSearcher.getFilteredFacets()){
+					output(f.getFieldName())
+				}
+			}
+		
+		
 	}
 }

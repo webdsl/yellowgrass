@@ -22,11 +22,12 @@ entity Issue {
 	project		-> Project	(searchable, inverse = Project.issues)
 	reporter	-> User
 	open		:: Bool
-	log			-> Set<Event> (searchable(name=comments, subclass=Comment))
-	tags		-> Set<Tag>
+	log			-> Set<Event>
+	tags		-> Set<Tag>(searchable)
 	email		:: Email // Only when reporter == null
 	nrVotes		:: Int := [ t | t : Tag in tags where /!.*/.match(t.name)].length
 	attachments -> Set<Attachment>
+	// comments -> Set<Comment>(searchable) := getComments()
 	
 	projectName  :: String (searchable) := project.name
 	reporterName :: String (searchable) := 
@@ -42,6 +43,14 @@ entity Issue {
 		} else {
 			return "";
 		}
+	}
+	function getComments():Set<Comment>{
+		var set : Set<Comment>;
+		log("getComments");
+		for(e:Event in log where e is a Comment){
+			set.add(e as Comment);
+		}
+		return set;
 	}
 	
 	function getTitle() : String {
