@@ -33,33 +33,39 @@ module ac
 	 	true
 	 }
 	 
-	 rule page getProjects*(){
+	rule page getProjects(){
 	 	true
-	 }
+	}
 	 
-	rule page getPopularProjects*(){
+	rule page getPopularProjects() {
 	 	true
-	 }
+	}
 	 
-	rule page getProject*(){
+	rule page getProject() {
 	 	true
-	 }
+	}
 	 
-	rule page createIssueService*(){
+	rule page createIssueService() {
 	 	true
-	 }
+	}
 	 
-	rule page getIssues*(){
+	rule page getIssues() {
 	 	true
-	 }
+	}
 	 
-	rule page getRoadmap*(){
+	rule page getRoadmap() {
 	 	true
-	 }
-	 rule page getIssuesDetails*(){
+	}
+	 
+	rule page getIssuesDetails() { 
 	 	true
-	 }
-	 rule page authenticate() {
+	}
+	 
+	rule page authenticate() {
+		true
+	}
+	
+	rule page checkAuthenticate() {
 		true
 	}
 	

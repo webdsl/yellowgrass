@@ -15,22 +15,49 @@ service authenticate() {
 	var password := json.getString("password");
 	var deviceDescription  := json.getString("deviceDescription");
 	log("called service: athenticate " + email + ":" + deviceDescription);
-	if(!authenticate(email, password)){
+	if(!authenticate(email, password)) {
 		jsonErrors.put("The login credentials are not valid.");
 	}
-	log("after");
 	if(jsonErrors.length() > 0) {
 		jsonResult.put("errors", jsonErrors);
 	} else {
 		jsonResult.put("key", securityContext.principal.generateAuthenticationKey(deviceDescription));
 	}
 	return jsonResult; 
-	
+}
+
+service checkAuthenticate() {
+	var jsonErrors := JSONArray();
+	var jsonResult := JSONObject();
+	var json := JSONObject(readRequestBody());
+	var email := json.getString("username");
+	var key := json.getString("key").parseUUID();
+	var deviceDescription  := json.getString("deviceDescription");
+	var users := findUserByEmail(email);
+	log("called service: athenticate " + email + ":" + deviceDescription);
+	if(users.length != 1) {
+		jsonErrors.put("The user does not exists");
+	} else {
+		var user := users[0];
+		if(user.getDeviceKey(deviceDescription) != key) {
+			jsonErrors.put("The key is unvalid");
+		} else {
+			securityContext.principal := user;
+		}
+	}
+	if(jsonErrors.length() > 0) {
+		jsonResult.put("errors", jsonErrors);
+		jsonResult.put("answer", false);
+	} else {
+		jsonResult.put("answer", true);
+	}
+	return jsonResult; 
 }
 
 function tryAuthenticate(email : String, password : String) {
 	auth:validate(authenticate(email, password), "The login credentials are not valid.");
 }
+
 service getProjects(){
 	log("called service: getProjects");
 	var projectList : List<Project> := 
