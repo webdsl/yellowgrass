@@ -12,7 +12,7 @@ import mobl::reflect
 import AuthenticationControl     
 // resource Yellowgrassmobile.manifest        
 // resource stylesheets/custom.css 
-// load stylesheets/custom.css    
+// load stylesheets/custom.css      
   
 screen root() {     
 	header(""){getHeaderImage(false)button("About",onclick={showAbout();})}    
@@ -21,8 +21,13 @@ screen root() {
 	}           
 	group{       
 		item(onclick={showProjects();}){ label("Show Projects" ) }
-		item(onclick={showActiveProjects();}){ label("Show Favorite Projects" ) } 
-		item(onclick={LoginScreen();}){ label("Login" ) } 
+		item(onclick={showActiveProjects();}){ label("Show Favorite Projects" ) }
+		when(checkAuthentication()){
+			
+		} else {
+			item(onclick={LoginScreen();}){ label("Login" ) } 
+		}
+		
 		// item(onclick={showActiveProjects();}){ label("Try Execute OfflineMap" ) }
 	}  
 	// button("OfflineMap",onclick={executeOfflinefuncs();})            

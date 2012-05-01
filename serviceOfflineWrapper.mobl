@@ -81,3 +81,12 @@ function authenticate(username: String, password : String, deviceDescription : S
 	}
 	
 }
+
+function checkAuthenticate(username: String, key : String, deviceDescription : String) : Bool {
+	if(onlinecheck()) {
+		return Service.checkAuthenticate(username, key, deviceDescription);
+	} else {
+		return true;
+	} 
+	
+}

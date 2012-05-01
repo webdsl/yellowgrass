@@ -58,6 +58,13 @@ service Service {
 		method 	= "PUT"
 		data 	= JSON.stringify(Dynamic(username=username, password=password, deviceDescription=deviceDescription))
 		mapper  = keyMapper
+	}
+	
+	resource checkAuthenticate(username : String, key : String, deviceDescription : String) : Bool {
+		uri 	= "checkAuthenticate"
+		method 	= "PUT"
+		data 	= JSON.stringify(Dynamic(username=username, key=key, deviceDescription=deviceDescription))
+		mapper  = booleanMapper
 	}  
 }
 // 	resource LoginUser(email: String, password: String) : JSON {

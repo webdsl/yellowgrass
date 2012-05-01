@@ -34,3 +34,18 @@ function login(username : String, password : String, deviceDescription : String)
 	} 
 }
 
+function checkAuthentication() : Bool {
+	var currentUser = LocalStorage.getItem("authenticationInformation");
+	if(currentUser) {
+		if(!checkAuthenticate(currentUser.username, currentUser.key, currentUser.deviceDescription)) {
+			resetDatabase();
+			LocalStorage.removeItem("authenticationInformation");
+			return false;
+		} else { 
+			return true;
+		}
+	} else {
+		return false;
+	}
+}
+
