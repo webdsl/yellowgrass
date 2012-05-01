@@ -75,6 +75,9 @@ function getRoadmap(project : Project) : Collection<Release> {
 		}
 }
 
-function getAuthenticationToken(username: String, password : String, machineid:String ){
+function getAuthenticationToken(username: String, password : String, deviceDescription : String) : String {
+	if(onlinecheck()){
+		return Service.authenticate(username, password, deviceDescription);
+	}
 	
 }
