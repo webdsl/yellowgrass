@@ -18,7 +18,6 @@ service Service {
 		mapper 	= projectsMapper 
 	} 
 	
-	
 	resource  getProject(name : String, versions : JSON) : Project {
 		uri 	= "getProject"
 		method 	= "PUT"

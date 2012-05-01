@@ -27,12 +27,14 @@ var currentTab:String = null;
 external sync function fixDB() : void
 external sync function fixDB2() : void
 external sync function fixTablePopulairIssues() : void
-external sync function checkServiceStatus(URL:String) : Bool
+external sync function checkServiceStatus(URL : String) : Bool
 external sync function checkStatus() : Bool
-external sync function setCacheFunctions():void
-external sync function testOnline():Bool
-external function executeOfflinefunc(func:Dynamic,params:Dynamic):void
-external sync function asyncServiceCall (): void
+external sync function setCacheFunctions() : void
+external sync function testOnline() : Bool
+external function executeOfflinefunc(func : Dynamic, params : Dynamic) : void
+external sync function asyncServiceCall() : void
+
+
 <javascript>    
 __ns.setCacheFunctions = function(){ 
 	setCacheFunctions(); 
