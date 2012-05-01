@@ -3,6 +3,28 @@ module webservices
 imports
 webservice/model
 
+service authenticate() {
+	var jsonErrors := JSONArray();
+	var jsonResult := JSONObject();
+	var json := JSONObject(readRequestBody());
+	var email := json.getString("username");
+	var password := json.getString("password");
+	var deviceDescription  := json.getString("deviceDescription");
+	log("called service: athenticate " + email + ":" + deviceDescription);
+	auth:validate(authenticate(email, password), "The login credentials are not valid.");
+	log("after");
+	var errors := getPage().getValidationErrorsByName("auth");
+	if(errors.length > 0) {
+		for(message: String in errors) {
+			jsonErrors.put(message);		
+		}
+		jsonResult.put("errors", jsonErrors);
+	} else {
+		jsonResult.put("key", securityContext.principal.generateAuthenticationKey(deviceDescription));
+	}
+	return jsonResult;
+	
+}
 service getProjects(){
 	log("called service: getProjects");
 	var projectList : List<Project> := 
@@ -154,4 +176,5 @@ access control rules
 	rule logsql{
 		true
 	}
+
 

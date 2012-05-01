@@ -59,6 +59,9 @@ module ac
 	 rule page getIssuesDetails*(){
 	 	true
 	 }
+	 rule page authenticate() {
+		true
+	}
 	
 	 
 	 rule logsql {
