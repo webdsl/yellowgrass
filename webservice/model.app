@@ -72,3 +72,37 @@ function toVersionObejcts(json:JSONArray):List<VersionObject>{
 	}
 	return versionobjects;	
 }
+
+section authentication
+
+extend entity User {
+ 	deviceKeySet  -> Set<AuthenticationKey>
+ 	
+ 	function generateAuthenticationKey(deviceDescription : String) : UUID {
+ 		var key := getDeviceKey(deviceDescription);
+ 		if(key == null){
+ 			var newKey := AuthenticationKey {
+ 				deviceDescription := deviceDescription	
+ 			};
+ 			newKey.save();
+ 			deviceKeySet.add(newKey);
+ 			key := newKey.id;
+ 		}
+ 		return key;	
+ 	}
+ 	
+ 	function getDeviceKey(deviceDescription : String) : UUID {
+ 		var filteredList := [key | key : AuthenticationKey in deviceKeySet where  deviceDescription == key.deviceDescription ];
+ 		if(filteredList.length == 1) {
+ 			return filteredList[0].id;	
+ 		} else {
+ 			return null;
+ 		}
+ 		
+ 	}
+ 	
+}
+
+entity AuthenticationKey {
+	deviceDescription 	:: String 
+}
