@@ -119,7 +119,7 @@ function releaseMapper(json : JSON):Collection<Release>{
 
 function keyMapper(json : JSON) : String {
 	if(json.errors) {
-		showErrors("invalid key", json.erros);
+		showErrors("invalid key", json.errors);
 		return null;
 	} else {
 		return json.key;
