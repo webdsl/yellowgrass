@@ -20,12 +20,12 @@ screen root() {
 		//setCacheFunctions();      
 	}           
 	group{       
-		item(onclick={showProjects();}){ label("Show Projects" ) }
-		item(onclick={showActiveProjects();}){ label("Show Favorite Projects" ) }
-		when(checkAuthentication()){
-			
+		item(onclick={showProjects();}) { label("Show Projects" ) }
+		item(onclick={showActiveProjects();}) { label("Show Favorite Projects" ) }
+		when(checkAuthentication()) {
+			item(onclick={logout();root();}) { label("Logout") }
 		} else {
-			item(onclick={LoginScreen();}){ label("Login" ) } 
+			item(onclick={LoginScreen();}) { label("Login" ) } 
 		}
 		
 		// item(onclick={showActiveProjects();}){ label("Try Execute OfflineMap" ) }

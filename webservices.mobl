@@ -66,6 +66,12 @@ service Service {
 		data 	= JSON.stringify(Dynamic(username=username, key=key, deviceDescription=deviceDescription))
 		mapper  = booleanMapper
 	}  
+	
+	resource logout() : Bool {
+		uri 	= "logoutDevice"
+		method 	= "PUT"
+		mapper  = booleanMapper
+	}
 }
 // 	resource LoginUser(email: String, password: String) : JSON {
 // 		uri = "LoginUser?"

@@ -70,16 +70,15 @@ function getIssuesDetails(project : Project) {
 }  
 		 
 function getRoadmap(project : Project) : Collection<Release> {
-		if(onlinecheck()) {
-			return Service.getRoadmap(project.name);
-		}
+	if(onlinecheck()) {
+		return Service.getRoadmap(project.name);
+	}
 }
 
 function authenticate(username: String, password : String, deviceDescription : String) : String {
 	if(onlinecheck()) {
 		return Service.authenticate(username, password, deviceDescription);
 	}
-	
 }
 
 function checkAuthenticate(username: String, key : String, deviceDescription : String) : Bool {
@@ -88,5 +87,10 @@ function checkAuthenticate(username: String, key : String, deviceDescription : S
 	} else {
 		return true;
 	} 
-	
+}
+
+function logout() {
+	if(onlinecheck()) {
+		Service.logout();
+	}
 }

@@ -49,3 +49,8 @@ function checkAuthentication() : Bool {
 	}
 }
 
+function logout() {
+	resetDatabase();
+	LocalStorage.removeItem("authenticationInformation");
+}
+
