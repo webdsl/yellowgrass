@@ -54,6 +54,13 @@ service checkAuthenticate() {
 	return jsonResult; 
 }
 
+service logoutDevice() {
+	log("called service: logoutDevice");
+	securityContext.principal := null;
+	var jsonResult := JSONObject();
+	jsonResult.put("answer", true);
+}
+
 function tryAuthenticate(email : String, password : String) {
 	auth:validate(authenticate(email, password), "The login credentials are not valid.");
 }

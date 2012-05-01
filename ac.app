@@ -68,8 +68,9 @@ module ac
 	rule page checkAuthenticate() {
 		true
 	}
-	
-	 
+	rule page logoutDevice() {
+		true
+	} 
 	 rule logsql {
 	 	loggedIn && principal.email=="sandervermolen@gmail.com"
 	 }
