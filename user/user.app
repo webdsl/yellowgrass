@@ -146,3 +146,40 @@ define page editUser(u : User) {
 		return home();
 	}
 }
+
+define page manageDevices(u : User) {
+	title{output(u.name) " on YellowGrass.org [Editing]"}
+	main()
+	define body(){
+		<h1> "Manage Devices" </h1>
+		form {
+			par {
+				block [class := "Listing"] {
+					table {
+						row {
+							column{ <b> "Device Description" </b> }
+							column{ <b> "Key" </b> }
+							column{ empty() }
+						}
+						for(device : AuthenticationKey in u.deviceKeySet ) {
+							row { 
+								column{ output(device.deviceDescription) } 
+								column{ output(device.id) }
+								column{ submit action{u.deviceKeySet.remove(device);} { "x" } }
+							}
+						}
+							
+					}
+				}
+			}
+			par {
+				navigate(home()) {"Back"}
+			}
+		}
+	}
+	action save(){
+		u.save();
+		//message("Profile saved");
+		return home();
+	}
+}
