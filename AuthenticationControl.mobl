@@ -1,14 +1,36 @@
 module AuthenticationControl
 import mobl::ui::generic 
+import serviceOfflineWrapper
+import Yellowgrassmobile 
 
-screen LoginScreen(){
+
+screen LoginScreen() {
 	var username = ""
 	var password = ""
 	var deviceDescription = ""
-	header("User"){backButton("back",onclick={screen return;})} 
+	header("User") { 
+		backButton("back", onclick={screen return;})
+	} 
 	group{
 		textField(username, label="Username")
 		passwordField(password, label="Password")
-		passwordField(deviceDescription, label="Device Description")
+		textField(deviceDescription, label="Device Description")
 	}
+	button("log in", onclick = {
+		if(login(username, password, deviceDescription)) {
+			root();		
+		}
+	})
+	
 }
+
+function login(username : String, password : String, deviceDescription : String) : Bool {
+	var key = authenticate(username, password, deviceDescription);
+	if(key == null) {
+		return false;
+	} else {
+		LocalStorage.setItem("authenticationInformation", Dynamic(username=username, key=key, deviceDescription=deviceDescription));
+		return true;
+	} 
+}
+
