@@ -2,7 +2,11 @@ module webservices
 
 imports
 webservice/model
-
+/**
+@ param username: valid email of excisting user
+@ param password: valid password of the user asociated to the username
+@ param deviceDescription: string for descriptionDevice
+*/
 service authenticate() {
 	var jsonErrors := JSONArray();
 	var jsonResult := JSONObject();
@@ -11,19 +15,21 @@ service authenticate() {
 	var password := json.getString("password");
 	var deviceDescription  := json.getString("deviceDescription");
 	log("called service: athenticate " + email + ":" + deviceDescription);
-	auth:validate(authenticate(email, password), "The login credentials are not valid.");
+	if(!authenticate(email, password)){
+		jsonErrors.put("The login credentials are not valid.");
+	}
 	log("after");
-	var errors := getPage().getValidationErrorsByName("auth");
-	if(errors.length > 0) {
-		for(message: String in errors) {
-			jsonErrors.put(message);		
-		}
+	if(jsonErrors.length() > 0) {
 		jsonResult.put("errors", jsonErrors);
 	} else {
 		jsonResult.put("key", securityContext.principal.generateAuthenticationKey(deviceDescription));
 	}
-	return jsonResult;
+	return jsonResult; 
 	
+}
+
+function tryAuthenticate(email : String, password : String) {
+	auth:validate(authenticate(email, password), "The login credentials are not valid.");
 }
 service getProjects(){
 	log("called service: getProjects");
