@@ -7,71 +7,70 @@ import MSGBOX
 import issueControl
 
 import mobl::ui::generic
-var offlineMap =  Collection<(String,Dynamic)>();  
-function getProjects():[Project]{
-	if(onlinecheck()){
-			var projects = Service.getProjects(); 
-			foreach(project in Project.all()  ){
-				if (!projects.contains(project)){
-					remove(project);
-				}
+
+var offlineMap =  Collection<(String,Dynamic)>();
+  
+function getProjects() : [Project] {
+	if(onlinecheck()) {
+		var projects = Service.getProjects(); 
+		foreach(project in Project.all()) {
+			if(!projects.contains(project)) {
+				remove(project);
 			}
+		}
 		return Service.getProjects(); 
-	}else{
+	} else {
 		// alert("offline");
 		return Project.all().list();
 	} 
 }
 
-function getPopularProjects(number:Num):[Project]{
-	if(onlinecheck()){
-		return Service.getPopularProjects(number);
-		
-	}else{
+function getPopularProjects(number : Num) : [Project] {
+	if(onlinecheck()) {
+		return Service.getPopularProjects(number);	
+	} else {
 		// alert("offline");
-		
 		return Project.all().order("issuecount", false).limit(number).list();
 	}
 }
 
-function getProject(name:String):Project{ 
-	if(onlinecheck()){
-		var old = Project.findBy("name", name).selectJSON(["id","members.[id,version]","followers.[id,version]","version"]);
-		return Service.getProject(name,old);
-		
-	}else{
+function getProject(name : String) : Project { 
+	if(onlinecheck()) {
+		var old = Project.findBy("name", name).selectJSON(["id", "members.[id, version]", "followers.[id,version]", "version"]);
+		return Service.getProject(name, old);	
+	} else {
 		// alert("offline");
 		return Project.findBy("name", name);
 	} 
 }
 
-function createIssue(project: Project,title:String,category:String,description:String,email:String ):Bool{
+function createIssue(project : Project, title : String, category : String, description : String, email : String) : Bool {
 	if(onlinecheck()){
-		
-		return Service.createIssue(project.name,title,category,description,email );
-	}else{
-		var arguments = Dynamic(project=project.name,title=title,category=category,description=description,email=email );
-		offlineMap.add(("createIssue",arguments));
+		return Service.createIssue(project.name, title, category, description, email);
+	} else {
+		var arguments = Dynamic(project=project.name, title=title, category=category, description=description, email=email);
+		offlineMap.add(("createIssue", arguments));
 		msgBox(Dynamic(title="CreateIssue", content="This webservice is currently not supported in offline mode", type="warning"));
 		return false;
 	}
 }
-function getIssues(project:Project){
-		if(onlinecheck()){
+
+function getIssues(project : Project) {
+		if(onlinecheck()) {
 			Service.getIssues(project.name);
-			doneloading= "";
+			doneloading = "";
 		}
 }
 
-function getIssuesDetails(project:Project){
-		if(onlinecheck()){
-			var versions = Project.findBy("name", project.name).selectJSON(["issues.[id,version]"]);
-			Service.getIssuesDetails(project.name,versions);
+function getIssuesDetails(project : Project) {
+		if(onlinecheck()) {
+			var versions = Project.findBy("name", project.name).selectJSON(["issues.[id, version]"]);
+			Service.getIssuesDetails(project.name, versions);
 		}
 }  
 		 
-function getRoadmap(project:Project):Collection<Release>{
-		if(onlinecheck()){
+function getRoadmap(project : Project) : Collection<Release> {
+		if(onlinecheck()) {
 			return Service.getRoadmap(project.name);
 		}
 }

@@ -1,119 +1,107 @@
 module servicemodel
 import MSGBOX
 
-entity Project{
+entity Project {
 	// id : String
-	name: String (searchable)
-	description: String
-	url : String 
-	weeklyStatsGraph : String
-	issuecount: Num
-	issueTypes: Collection<Tag> (inverse:project)
-	members : Collection<User> (inverse:projects)
-	followers: Collection<User>  (inverse:projects)
-	issues : Collection<Issue> (inverse:project) 
-	roadmap :Collection<Release> (inverse:project)
-	version : Num
+	name				: String (searchable)
+	description			: String
+	url 				: String 
+	weeklyStatsGraph 	: String
+	issuecount			: Num
+	issueTypes			: Collection<Tag> (inverse:project)
+	members 			: Collection<User> (inverse:projects)
+	followers			: Collection<User>  (inverse:projects)
+	issues 				: Collection<Issue> (inverse:project) 
+	roadmap 			: Collection<Release> (inverse:project)
+	version 			: Num
 	
-	function getIssueTypes():[(String,String)]{
-		var array :[(String,String)] = [];
-		foreach(tag in this.issueTypes){
-			array.push((tag.id,tag.name));
+	function getIssueTypes() : [ (String, String) ] {
+		var array : [ (String, String) ] = [];
+		foreach(tag in this.issueTypes) {
+			array.push((tag.id, tag.name));
 		} 
 		return array; 
 	}
 }
 
-entity User{
+entity User {
 	// id : String
-	name: String 
-	tag: String 
-	url: String
-	projects: Collection<Project>(inverse:members, inverse:followers) 
-	version :Num
+	name		: String 
+	tag			: String 
+	url			: String
+	projects	: Collection<Project>(inverse:members, inverse:followers) 
+	version 	: Num
 	
 }
 
-entity Release{
+entity Release {
 	
-	name: String
-	project: Project
-	issues: Collection<Issue> (inverse:release)
-	
-	
+	name	: String
+	project	: Project
+	issues	: Collection<Issue> (inverse:release)
+
 }
 
-entity Issue{ 
+entity Issue { 
 	// id : String
-	number: Num
-	title : String (searchable)
-	description : String
-	submitted : DateTime
-	project : Project 
-	reporter: User 
-	nrVotes: Num 
-	open : Bool
-	comments : Collection<Comment>(inverse:issue) 
-	tags: Collection<Tag> (inverse:issue)
-	release : Release 
-	version : Num
+	number			: Num
+	title 			: String (searchable)
+	description 	: String
+	submitted 		: DateTime
+	project 		: Project 
+	reporter		: User 
+	nrVotes			: Num 
+	open 			: Bool
+	comments 		: Collection<Comment>(inverse:issue) 
+	tags			: Collection<Tag> (inverse:issue)
+	release 		: Release 
+	version 		: Num
 }
 
-entity Comment :Event {
+entity Comment {
 	// id : String
-	text : String
-	submitted : DateTime
-	author : User
-	issue: Issue 
+	text 		: String
+	submitted 	: DateTime
+	author 		: User
+	issue		: Issue 
 
-	
 }
 	
 
-
-entity Event{
+entity Event {
 	// id : String
 	submitted : DateTime
 }
 
-entity Tag{
+entity Tag {
 	// id: String
-	name  : String
-	color : String
-	issue: Issue 
-	project:Project
+	name  	: String
+	color 	: String
+	issue	: Issue 
+	project	: Project
 	
 }
 
-function projectsMapper(json: JSON): [Project]{
+function projectsMapper(json : JSON) : [Project] {
 		var Array = Collection<Project>();
-		foreach(json:JSON in json){
+		foreach(json:JSON in json) {
 			Array.add(Project.fromSelectJSON(json));
 		}
 		return Array.list();
 }
 
-function projectMapper(json: JSON): Project {
+function projectMapper(json : JSON) : Project {
 		return Project.fromSelectJSON(json);
 } 
 
-function booleanMapper(json: JSON): Bool {
-		if(!json.answer){
-			var map = Dynamic(title=json.id);
-			var content = "";
-			foreach(string in json.errors){
-				content= content + "<span class=\"error\">" + string +"</span>";
-			}
-			map.opacity=0.9;
-			map.autoclose=false;
-			map.content=content;
-			map.type="error";
-			msgBox(map);
+function booleanMapper(json : JSON) : Bool {
+		if(!json.answer) {
+			showErrors(json.id, json.errors);
 		}
 		return json.answer;
 } 
 
-function issueMapper(json:JSON):Collection<Issue>{
+function issueMapper(json : JSON) : Collection<Issue> {
 		var Array = Collection<Issue>();
 		foreach(json:JSON in json){
 			Array.add(Issue.fromSelectJSON(json));
@@ -121,10 +109,33 @@ function issueMapper(json:JSON):Collection<Issue>{
 		return Array;
 }
 
-function releaseMapper(json:JSON):Collection<Release>{
+function releaseMapper(json : JSON):Collection<Release>{
 		var Array = Collection<Release>(); 
 		foreach(json:JSON in json){
 			Array.add(Release.fromSelectJSON(json));
 		}
 		return Array;
 }
+
+function keyMapper(json : JSON) : String {
+	if(json.errors) {
+		showErrors("invalid key", json.erros);
+		return null;
+	} else {
+		return json.key;
+	}
+}
+
+function showErrors(title : String, errors : JSON) {
+	var map = Dynamic(title=title);
+	var content = "";
+	foreach(string in errors) {
+		content = content + "<span class=\"error\">" + string + "</span>";
+	}
+	map.opacity = 0.9;
+	map.autoclose = false;
+	map.content = content;
+	map.type = "error";
+	msgBox(map);
+}
+

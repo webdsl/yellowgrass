@@ -5,52 +5,53 @@ import servicemodel
 
 service Service {
 	resource  getProjects() : [Project] {
-		uri = "getProjects?"
-		method = "PUT"
-		data = JSON.stringify(Dynamic())
-		mapper = projectsMapper 
+		uri		= "getProjects"
+		method 	= "PUT"
+		data 	= JSON.stringify(Dynamic())
+		mapper 	= projectsMapper 
 	} 
 	
-	resource  getPopularProjects(number:Num) : [Project] {
-		uri = "getPopularProjects?"  
-		method = "PUT"
-		data = JSON.stringify(Dynamic(number=number))
-		mapper = projectsMapper 
+	resource  getPopularProjects(number : Num) : [Project] {
+		uri		= "getPopularProjects"  
+		method 	= "PUT"
+		data 	= JSON.stringify(Dynamic(number=number))
+		mapper 	= projectsMapper 
 	} 
 	
 	
-	resource  getProject(name:String, versions:JSON) : Project {
-		uri = "getProject?"
-		method = "PUT"
-		data = JSON.stringify(Dynamic(name=name,versions=versions ))
-		mapper = projectMapper
+	resource  getProject(name : String, versions : JSON) : Project {
+		uri 	= "getProject"
+		method 	= "PUT"
+		data 	= JSON.stringify(Dynamic(name=name, versions=versions))
+		mapper 	= projectMapper
 	} 
 	
-	resource createIssue(project: String,title:String,category:String,description:String,email:String):Bool{
-		uri = "createIssueService?"
-		method = "PUT"
-		data = JSON.stringify(Dynamic(project=project,title=title,description=description,email=email,tag=category))
-		mapper = booleanMapper 
+	resource createIssue(project : String, title : String, category : String, description : String, email : String) : Bool {
+		uri 	= "createIssueService"
+		method 	= "PUT"
+		data 	= JSON.stringify(Dynamic(project=project, title=title, description=description, email=email, tag=category))
+		mapper 	= booleanMapper 
 	}
 	
-	resource getIssues(project: String):Collection<Issue>{
-		uri = "getIssues?"
-		method = "PUT"
-		data = JSON.stringify(Dynamic(project=project))
-		mapper = issueMapper 
+	resource getIssues(project : String) : Collection<Issue> {
+		uri 	= "getIssues"
+		method 	= "PUT"
+		data 	= JSON.stringify(Dynamic(project=project))
+		mapper 	= issueMapper 
 	}
 	
-	resource getIssuesDetails(project: String, versions: JSON):Collection<Issue>{
-		uri = "getIssuesDetails?"
-		method = "PUT"
-		data = JSON.stringify(Dynamic(project=project,versions=versions))
-		mapper = issueMapper 
+	resource getIssuesDetails(project : String, versions : JSON) : Collection<Issue> {
+		uri 	= "getIssuesDetails"
+		method 	= "PUT"
+		data 	= JSON.stringify(Dynamic(project=project, versions=versions))
+		mapper 	= issueMapper 
 	}
-	resource getRoadmap(project: String):Collection<Release>{
-		uri = "getRoadmap?"
-		method = "PUT"
-		data = JSON.stringify(Dynamic(project=project))
-		mapper = releaseMapper 
+	
+	resource getRoadmap(project : String) : Collection<Release> {
+		uri 	= "getRoadmap"
+		method 	= "PUT"
+		data 	= JSON.stringify(Dynamic(project=project))
+		mapper 	= releaseMapper 
 	}
 	  
 	 
