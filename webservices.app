@@ -78,6 +78,20 @@ service getProjects(){
 	}
 	return jsonArray; 
 }
+
+service getMyProjects(){
+	log("called service: getMyProjects: ");
+	var pr := securityContext.principal;
+	var projectList : List<Project> := 
+	   select distinct p from Project as p join p.members as m where (~pr) = m;
+	var jsonArray := JSONArray();
+	for(project : Project in projectList ) {
+		jsonArray.put(project.toSimpleJSON());
+	}
+	return jsonArray; 
+}
+
+
 /*
 @ param number: expecting max number of projecs
 */
