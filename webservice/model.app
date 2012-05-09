@@ -45,30 +45,30 @@ function generateRoadmap(project:Project):List<Release>{
 }
 
 
-function min (a:Int, b:Int): Int{
-	if(a<b){
+function min (a : Int, b : Int) : Int {
+	if(a < b) {
 		return a;
 		
-	}else{
+	} else {
 		return b;
 	}
-	
 }
 
-entity VersionObject{
-	 function  toString2(): String{
-	 	return"{ id:"+ id + ", version:" + version+" }";
+entity VersionObject {
+	 function  toString2() : String {
+	 	return "{ id:" + id + ", version:" + version + " }";
 	 }
  }
 
-function toVersionObejcts(json:JSONArray):List<VersionObject>{
+function toVersionObejcts(json : JSONArray) : List<VersionObject> {
 	var versionobjects := List<VersionObject>();
-	for(i:Int from 0 to json.length()){
+	for(i : Int from 0 to json.length()) {
 		var object := json.getJSONObject(i);
 		versionobjects.add(
 			VersionObject{
 				id :=  object.getString("id").parseUUID() 
-				version:= object.getInt("version") });
+				version := object.getInt("version") 
+			});
 	}
 	return versionobjects;	
 }
@@ -106,3 +106,4 @@ extend entity User {
 entity AuthenticationKey {
 	deviceDescription 	:: String 
 }
+

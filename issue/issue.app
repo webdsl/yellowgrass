@@ -129,19 +129,21 @@ entity Issue {
 		}
 	}
 	
-	function toJSON(): JSONObject{
+	function toJSON() : JSONObject {
 		
 		var json := JSONObject();
-		json.put("id",id);
+		json.put("id", id);
 		json.put("number", number);
-		json.put("title",title);
+		json.put("title", title);
 		// json.put("description",description.format());
-		json.put("submitted",submitted.getTime()/1000L);
+		json.put("submitted", submitted.getTime()/1000L);
 
-		json.put("nrVotes",nrVotes);
-		json.put("project",project.toSimpleJSON());
-		if (reporter!=null){json.put("reporter",reporter.toJSON());}
-		json.put("open",open);
+		json.put("nrVotes", nrVotes);
+		json.put("project", project.toSimpleJSON());
+		if(reporter != null) { 
+			json.put("reporter", reporter.toJSON()); 
+		}
+		json.put("open", open);
 		// var jsonArray := JSONArray();
 		// for(event: Event in log){
 		// 	if(event.toJSON()!=null){
