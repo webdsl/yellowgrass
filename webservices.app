@@ -59,6 +59,7 @@ service logoutDevice() {
 	securityContext.principal := null;
 	var jsonResult := JSONObject();
 	jsonResult.put("answer", true);
+	return jsonResult;
 }
 
 function tryAuthenticate(email : String, password : String) {
@@ -68,7 +69,6 @@ function tryAuthenticate(email : String, password : String) {
 service getProjects(){
 	log("called service: getProjects: ");
 	var pr := securityContext.principal;
-		log("called service: getProjects: " + pr.name);
 	var projectList : List<Project> := 
 	   select distinct p from Project as p join p.members as m where p.private=false or (~pr) = m;
 	var jsonArray := JSONArray();
