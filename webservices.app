@@ -68,9 +68,10 @@ function tryAuthenticate(email : String, password : String) {
 service getProjects(){
 	log("called service: getProjects");
 	var projectList : List<Project> := 
-			from Project
-			where _private=false
-			order by _name;
+		[p | p : Project in Project.all() where 
+			p.private == false 
+			|| securityContext.principal in p.members 
+		];
 	var jsonArray := JSONArray();
 	for(project:Project in projectList ) {
 		jsonArray.put(project.toSimpleJSON());
