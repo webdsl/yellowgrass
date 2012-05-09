@@ -165,7 +165,9 @@ service getIssuesDetails() {
 		return result;
 	}
 	var versionobjects := toVersionObejcts(versions);
+	checkNewIssueObjects(versions);
 	var jsonArrayIssues := JSONArray();
+
 	for (issue : Issue in project.issues) {
 		var vobject := VersionObject{id:=issue.id};
 		var index := versionobjects.indexOf(vobject);
