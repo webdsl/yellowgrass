@@ -81,10 +81,10 @@ service getProjects(){
 /*
 @ param number: expecting max number of projecs
 */
-service getPopularProjects(){
+service getPopularProjects() {
 	var json := JSONObject(readRequestBody());
 	var number := json.getInt("number");
-	log("called service: getPopularProjects:"+number);
+	log("called service: getPopularProjects:" + number);
 		var activeProjects : List<Project> := 
 			select p 
 			from Project as p
@@ -95,45 +95,49 @@ service getPopularProjects(){
 			limit 10;
 	
 	var jsonArray := JSONArray();
-	for(project:Project in activeProjects ) {
+	for(project:Project in activeProjects) {
 		jsonArray.put(project.toSimpleJSON());
 	}
 	return jsonArray; 
 }
 
-service getProject(){
-	var json:= JSONObject(readRequestBody());
+service getProject() {
+	var json := JSONObject(readRequestBody());
 	var name := json.getString("name");
 	var versions := json.getJSONObject("versions");
-	log("called service: getProject:"+name);
+	log("called service: getProject:" + name);
 	var project := loadProject(name);
+	if(project.private && !(securityContext.principal in project.members) ){
+		var errors := JSONArray();
+		errors.put("you are not authenticated for this project");
+		var result := JSONObject();
+		result.put("errors",errors);
+		return result;
+	}
 	return project.toJSON(versions); 
 }
 
-service getIssues(){
-	var json:= JSONObject(readRequestBody());
+service getIssues() {
+	var json := JSONObject(readRequestBody());
 	var name := json.getString("project");
 	log("called service: getIssues:"+name);
 	var project := loadProject(name);
 	var jsonArrayIssues := JSONArray();
-	
-
-	for (issue:Issue in project.issues){
-		
+	for (issue : Issue in project.issues) {
 		jsonArrayIssues.put(issue.toJSON());
 	}
 	return jsonArrayIssues;
 }
 
-service getIssuesDetails(){
-	var json:= JSONObject(readRequestBody());
+service getIssuesDetails() {
+	var json := JSONObject(readRequestBody());
 	var name := json.getString("project");
 	var versions := json.getJSONObject("versions").getJSONArray("issues");
-	log("called service: getIssuesDetails:"+name);
+	log("called service: getIssuesDetails:" + name);
 	var project := loadProject(name);
 	var versionobjects := toVersionObejcts(versions);
 	var jsonArrayIssues := JSONArray();
-	for (issue:Issue in project.issues){
+	for (issue : Issue in project.issues) {
 		var vobject := VersionObject{id:=issue.id};
 		var index := versionobjects.indexOf(vobject);
 		if(index == -1 || versionobjects.get(index).version != issue.version){
@@ -141,25 +145,24 @@ service getIssuesDetails(){
 		}else{
 			jsonArrayIssues.put(issue.toSimpleJSON());
 		}
-		
 	}
 	return jsonArrayIssues;
 }
 
-service getRoadmap(){
+service getRoadmap() {
 	var json:= JSONObject(readRequestBody());
 	var name := json.getString("project");
-	log("called service: getRoadmap:"+name);
+	log("called service: getRoadmap:" + name);
 	var project := loadProject(name);
 	var releases := generateRoadmap(project);
 	var jsonArrayReleases := JSONArray();
-	for(release:Release in releases){
+	for(release : Release in releases){
 		jsonArrayReleases.put(release.toJSON());
 	}
 	return jsonArrayReleases;
 }
 
-service createIssueService(){
+service createIssueService() {
 	var jsonobject := JSONObject();
 	
 	var errors := JSONArray();
