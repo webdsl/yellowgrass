@@ -22,6 +22,7 @@ service authenticate() {
 		jsonResult.put("errors", jsonErrors);
 	} else {
 		jsonResult.put("key", securityContext.principal.generateAuthenticationKey(deviceDescription));
+		jsonResult.put("name", securityContext.principal.name );
 	}
 	return jsonResult; 
 }
