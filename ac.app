@@ -36,6 +36,10 @@ module ac
 	rule page getProjects(){
 	 	true
 	}
+	
+	rule page getMyProjects() {
+	 	securityContext.loggedIn
+	}
 	 
 	rule page getPopularProjects() {
 	 	true
