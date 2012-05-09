@@ -120,8 +120,15 @@ service getProject() {
 service getIssues() {
 	var json := JSONObject(readRequestBody());
 	var name := json.getString("project");
-	log("called service: getIssues:"+name);
+	log("called service: getIssues:" + name);
 	var project := loadProject(name);
+	if(project.private && !(securityContext.principal in project.members) ){
+		var errors := JSONArray();
+		errors.put("you are not authenticated for this project");
+		var result := JSONObject();
+		result.put("errors",errors);
+		return result;
+	}
 	var jsonArrayIssues := JSONArray();
 	for (issue : Issue in project.issues) {
 		jsonArrayIssues.put(issue.toJSON());
@@ -135,6 +142,13 @@ service getIssuesDetails() {
 	var versions := json.getJSONObject("versions").getJSONArray("issues");
 	log("called service: getIssuesDetails:" + name);
 	var project := loadProject(name);
+	if(project.private && !(securityContext.principal in project.members) ){
+		var errors := JSONArray();
+		errors.put("you are not authenticated for this project");
+		var result := JSONObject();
+		result.put("errors",errors);
+		return result;
+	}
 	var versionobjects := toVersionObejcts(versions);
 	var jsonArrayIssues := JSONArray();
 	for (issue : Issue in project.issues) {
@@ -152,8 +166,16 @@ service getIssuesDetails() {
 service getRoadmap() {
 	var json:= JSONObject(readRequestBody());
 	var name := json.getString("project");
+	
 	log("called service: getRoadmap:" + name);
 	var project := loadProject(name);
+	if(project.private && !(securityContext.principal in project.members) ){
+		var errors := JSONArray();
+		errors.put("you are not authenticated for this project");
+		var result := JSONObject();
+		result.put("errors",errors);
+		return result;
+	}
 	var releases := generateRoadmap(project);
 	var jsonArrayReleases := JSONArray();
 	for(release : Release in releases){
