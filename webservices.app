@@ -34,7 +34,7 @@ service checkAuthenticate() {
 	var key := json.getString("key").parseUUID();
 	var deviceDescription  := json.getString("deviceDescription");
 	var users := findUserByEmail(email);
-	log("called service: athenticate " + email + ":" + deviceDescription);
+	log("called service: check authenticate " + email + ":" + deviceDescription);
 	if(users.length != 1) {
 		jsonErrors.put("The user does not exists");
 	} else {
@@ -66,14 +66,13 @@ function tryAuthenticate(email : String, password : String) {
 }
 
 service getProjects(){
-	log("called service: getProjects");
+	log("called service: getProjects: ");
+	var pr := securityContext.principal;
+		log("called service: getProjects: " + pr.name);
 	var projectList : List<Project> := 
-		[p | p : Project in Project.all() where 
-			p.private == false 
-			|| securityContext.principal in p.members 
-		];
+	   select distinct p from Project as p join p.members as m where p.private=false or (~pr) = m;
 	var jsonArray := JSONArray();
-	for(project:Project in projectList ) {
+	for(project : Project in projectList ) {
 		jsonArray.put(project.toSimpleJSON());
 	}
 	return jsonArray; 

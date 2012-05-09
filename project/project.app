@@ -120,96 +120,104 @@ entity Project {
 		
 		return url.concat();
 	}
-	function toJSON(old:JSONObject):JSONObject{
-		if(private){ return null; }
+	function toJSON(old : JSONObject) : JSONObject {
+		if(private && !(securityContext.principal in members)) { 
+			return null;
+		}
 		var jsonobject := JSONObject();
 		jsonobject.put("id",id);
 		var version := old.getInt("version");
-		if(version < this.version){
+		if(version < this.version) {
 			jsonobject.put("name", name);
-			jsonobject.put("description",description.format());
+			jsonobject.put("description", description.format());
 			jsonobject.put("url",url);
-			jsonobject.put("version",this.version);
+			jsonobject.put("version", this.version);
 		}
-		jsonobject.put("weeklyStatsGraph",this.getWeeklyStatsGraph());
-		if(version == 0){
+		jsonobject.put("weeklyStatsGraph", this.getWeeklyStatsGraph());
+		if(version == 0) {
 			var jsonArrayIssues := JSONArray();
-			for (issue:Issue in issues order by issue.number desc limit 10){
+			for (issue : Issue in issues order by issue.number desc limit 10) {
 				jsonArrayIssues.put(issue.toJSON());
 			}
 			jsonobject.put("issues", jsonArrayIssues);
-			var releases:=generateRoadmap(this);
+			var releases :=generateRoadmap(this);
 			var jsonmap := JSONArray();
-			for(release:Release in releases order by release.name desc){
-				if(jsonmap.length() == 0){ 
+			for(release : Release in releases order by release.name desc) {
+				if(jsonmap.length() == 0) { 
 					jsonmap.put(release.toJSON());
-				}else{
+				} else {
 					jsonmap.put(release.toJSONSimple());
 				}
 			}
-			jsonobject.put("roadmap",jsonmap);
+			jsonobject.put("roadmap", jsonmap);
 		}
 		var jsonoldmembers := toVersionObejcts( old.getJSONArray("members"));
 		var jsonArrayMembers := JSONArray();
 		var dirty := false;
-		for (member:User in members ){
-			var vobject := VersionObject{id:=member.id};
+		for (member : User in members) {
+			var vobject := VersionObject{
+				id := member.id
+			};
 			var index := jsonoldmembers.indexOf(vobject);
-			if(index == -1 || jsonoldmembers.get(index).version != member.version){
-				log(member.name +"is out dated" );
+			if(index == -1 || jsonoldmembers.get(index).version != member.version) {
+				log(member.name + "is out dated");
 				jsonArrayMembers.put(member.toJSON());
 				dirty := true;
-			}else{
+			} else {
 				//var x := jsonoldmembers.toString();
-				log(member.name+"("+member.id +")" + ":" + member.version  +"is in ");
-				for(object :VersionObject in jsonoldmembers){
+				log(member.name + "(" + member.id + ")" + ":" + member.version + "is in ");
+				for(object : VersionObject in jsonoldmembers) {
 					log(object.toString2());
 				}
 				jsonArrayMembers.put(member.toSimpleJSON()); 
 			}
 		}
 		
-		if(dirty||version < this.version){
-			jsonobject.put("members",jsonArrayMembers);
+		if(dirty||version < this.version) {
+			jsonobject.put("members", jsonArrayMembers);
 		}
 		var jsonoldfollowers := toVersionObejcts( old.getJSONArray("followers"));
-		dirty:=false;
+		dirty := false;
 		var jsonArrayFollowers := JSONArray();
-		for (follower:User in followers ){
-			var vobject := VersionObject{id:=follower.id};
+		for (follower : User in followers) {
+			var vobject := VersionObject{
+				id := follower.id
+			};
 			var index := jsonoldfollowers.indexOf(vobject);
-			if(index == -1 || jsonoldmembers.get(index).version != follower.version){
+			if(index == -1 || jsonoldmembers.get(index).version != follower.version) {
 				jsonArrayMembers.put(follower.toJSON());
 				dirty := true;
-			}else{
+			} else {
 				jsonArrayMembers.put(follower.toSimpleJSON());
 			}
 		} 
-		if(dirty||version < this.version){
-			jsonobject.put("followers",jsonArrayFollowers);
+		if(dirty||version < this.version) {
+			jsonobject.put("followers", jsonArrayFollowers);
 		}
-		var issuetags:=JSONArray();
-		for(tag:Tag in getIssueTypeTags()){
+		var issuetags := JSONArray();
+		for(tag : Tag in getIssueTypeTags()) {
 			issuetags.put(tag.toJSON());
 		}
-		jsonobject.put("issueTypes",issuetags);
+		jsonobject.put("issueTypes", issuetags);
 		return jsonobject;
 	}
 	
-	function toSimpleJSON():JSONObject{
-		if(private){ return null;}
-	
+	function toSimpleJSON() : JSONObject {
+		if(private && !(securityContext.principal in members)) { 
+			return null;
+		}
 		var jsonobject := JSONObject();
-		jsonobject.put("id",id);
+		jsonobject.put("id", id);
 		jsonobject.put("name", name);
-		
 		return jsonobject;
 	}
-	function toJSONRef():JSONObject{
-		if(private){ return null;}
 	
+	function toJSONRef() : JSONObject{
+		if(private && !(securityContext.principal in members)) { 
+			return null;
+		}
 		var jsonobject := JSONObject();
-		jsonobject.put("id",id);
+		jsonobject.put("id", id);
 		return jsonobject;
 	}
 }
