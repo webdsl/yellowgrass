@@ -78,7 +78,7 @@ entity Tag {
 	// id: String
 	name  	: String
 	color 	: String
-	issue	: Issue 
+	issue	: Collection<Issue> (inverse:tags) 
 	project	: Project
 	
 }

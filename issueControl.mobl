@@ -8,8 +8,9 @@ import projectControl
 import lib
 import customStyle
 import serviceOfflineWrapper
+import AuthenticationControl
 var doneloading = ""; 
-control showPopulairIssues(){
+control showPopulairIssues() {
 	header("Populair Issues"){backButton("back",onclick={return showProjects(target="_top");})button("all",onclick={return ShowIssues();})}
 	// showTable(Issue.all().filter("project", "=", currentProject).filter("open", "=", true).order("nrVotes", false).limit(10))
 	var issues :Collection<Issue> = Issue.all().filter("project", "=", currentProject).filter("open", "=", true).order("nrVotes", false).limit(10)
@@ -57,19 +58,25 @@ screen ShowIssues(){
 	}  
 }
 
-screen ShowIssue(issue:Issue){
-	header(currentProject.name) {backButton("back",onclick={screen return ;})} 
-
+screen ShowIssue(issue : Issue) {
+	header(currentProject.name) {
+		backButton("back", onclick={ return ShowProject(currentProject); })
+	} 
 	var logList= Collection<(String,[Comment])>(("Log",issue.comments))
+	when(!issue.open) {
+		image("./images/tick.png",align="right")
+		html("<h4><font> # "+ issue.number+ ": "+issue.title+"</font></h4>")
+	} else {
+		image("./images/question.gif", align="right")
+		html("<h4><font> # "+ issue.number+ ": "+issue.title+"</font></h4>")
+	}
 	when(issue.reporter){
 		group{
 			html("<h4><font color=#334E33>Reporter</font></h4>") 
 			item(onclick={ShowUser(issue.reporter);}){label(issue.reporter.name)} 
 		}
 	}
-	when(!issue.open){image("./images/tick.png",align="right")html("<h4><font> # "+ issue.number+ ": "+issue.title+"</font></h4>")}else{image("./images/question.gif",align="right")
-	html("<h4><font> # "+ issue.number+ ": "+issue.title+"</font></h4>")}
-		html("<h4><font color=#334E33>Tags</font></h4>") 
+	html("<h4><font color=#334E33>Tags</font></h4>") 
 	list(tag:Tag in issue.tags){
 		cell{html("<font color =" + tag.color + ">" + tag.name+ " </font>")}
 	} 
@@ -104,28 +111,66 @@ table {
 
 
  
-control CreateIssue(){
-	header(currentProject.name) {backButton("back",onclick={return showProjects(target="_top");})} 
+control CreateIssue() {
+	header(currentProject.name) {
+		backButton("back", onclick={ return showProjects(target="_top"); })
+	} 
 	var title = ""
-	var discription = ""
+	var description = ""
 	var category = ""
 	var email = ""
 	var types = currentProject.getIssueTypes()
 	group{
-		textField(title, placeholder="title", inputType="text", validator=null, style=MyTextField, invalidStyle=mobl::ui::generic::textFieldInvalidStyle, autofocus=false, autocorrect=true, autocapitalize=true, autocomplete=true, onchange={}, onkeyup={})
+		textField(title, placeholder="title", inputType="text", 
+			validator=null, style=MyTextField, 
+			invalidStyle=mobl::ui::generic::textFieldInvalidStyle, 
+			autofocus=false, autocorrect=true, autocapitalize=true, 
+			autocomplete=true, onchange={}, onkeyup={}
+		)
 	}
 	group{
 		mySelectField(category,types, placeholder ="Select Category", style=MySelectField, optionStyle=null)
 	}
 	group{
-		textarea(discription,placeholder="discription",onchange=null)
+		textarea(description, placeholder="discription", onchange=null)
+	} 
+	when (!checkAuthentication()){
+		group{
+			textField(email, placeholder="email", inputType="email", 
+				validator=null, style=MyTextField, 
+				invalidStyle=mobl::ui::generic::textFieldInvalidStyle, 
+				autofocus=false, autocorrect=true, autocapitalize=true, 
+				autocomplete=true, onchange={}, onkeyup={}
+			)
+		}
 	}
-	group{
-		textField(email, placeholder="email", inputType="email", validator=null, style=MyTextField, invalidStyle=mobl::ui::generic::textFieldInvalidStyle, autofocus=false, autocorrect=true, autocapitalize=true, autocomplete=true, onchange={}, onkeyup={})
-	}
-	button("submit",onclick={var x = createIssue(currentProject, title, category, discription, email); if(x){return ShowProject(currentProject,target="_top"); }else{}
-})
 	
-	 
+	button("submit",onclick={
+			if(!checkAuthentication()){
+				if(createIssue(currentProject, title, category, description, email)) { 
+					return ShowProject(currentProject,target="_top"); 
+				}
+			} else {
+				// var tags = Collection<Tag>();
+				
+				
+				// tags.add(tag);
+				// tags.add(currentProject.issueTypes.filter("name", "=", category));
+				var newIssue = Issue(
+					title 		= title,
+					description	= description,
+					open		= true,
+					submitted 	= now(), 
+					number		= currentProject.issuecount + 1,
+					reporter	= User.findBy("name", getUserName()),
+					project		= currentProject
+				);
+				if(category != "") {
+					var tag = Tag.load(category);
+					newIssue.tags.add(tag);
+				}
+				currentProject.issuecount = currentProject.issuecount + 1 ;
+				return ShowIssue(newIssue, target="_top");
+			}
+	})	 
 }
-

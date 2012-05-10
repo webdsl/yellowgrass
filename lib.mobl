@@ -33,6 +33,7 @@ external sync function setCacheFunctions() : void
 external sync function testOnline() : Bool
 external function executeOfflinefunc(func : Dynamic, params : Dynamic) : void
 external sync function asyncServiceCall() : void
+external sync function fixSelect(id : String) : void
 
 
 <javascript>    
@@ -104,6 +105,14 @@ __ns.asyncServiceCall = function() {
 	}, 100);
 };    
 </javascript>
+<javascript>    
+__ns.fixSelect = function (id) {
+	setTimeout(function() {	
+		$("." + id).append($("." + id + "> span").children());  
+		},
+		100);
+};    
+</javascript>
 
 control getHeaderImage(hasTitle : Bool) {
 	when((1-hasTitle) || (1-toSmall())) {
@@ -142,15 +151,14 @@ control mySelectField(value : String, options : [(String, String)],placeholder:S
 	>
 	<option databind=placeholder class=optionStyle value="" disabled="disabled" selected="selected"/>  
 	list((optionValue, optionDescription) in options) {
-		<option databind=optionDescription class=optionStyle value=optionValue selected=value == optionValue ? "selected" : ""/>  
+		<option databind=optionDescription class=optionStyle value=optionValue  /> 
 	}  
 	</select>  
 	script {    
-		// Hack, moving the options out of the list's span    
-		sel.append(sel.children().eq(1).children());  
+		log("temp");
+		fixSelect("customStyle__MySelectField");
 	}	
 }
-
 
 @doc "A tabset, takes a list of tuples as argument, e.g. [(\"Tab 1\", \"icon url\", tab1), (\"Tab 2\", \"icon uri\", tab2)] where tab1 and tab2 are controls with no arguments"
 control myTabSet(tabs : [(String, String, Control)], activeTab : String = null, screenContextId : String = "tabSetContext", tabbarStyle : Style = tabbarStyle, activeTabButtonStyle : Style = activeTabButtonStyle, inActiveTabButtonStyle : Style = inActiveTabButtonStyle, activeTabStyle : Style = activeTabStyle, inActiveTabStyle : Style = inActiveTabStyle) {
