@@ -36,106 +36,96 @@ external sync function asyncServiceCall() : void
 
 
 <javascript>    
-__ns.setCacheFunctions = function(){ 
+__ns.setCacheFunctions = function() { 
 	setCacheFunctions(); 
-};  
-	   
+};  	   
 </javascript> 
  
 <javascript>    
-__ns.fixTablePopulairIssues = function(){
+__ns.fixTablePopulairIssues = function() {
 	fixTablePopulairIssues(); 
-};  
-	  
+};  	  
 </javascript>
+
 <javascript>
-__ns.log = function(string){
+__ns.log = function(string) {
 	console.log(string); 
 }; 
 </javascript>
+
 <javascript>
-__ns.fixDB = function(){
+__ns.fixDB = function() {
 	fixDB(); 
 };
 </javascript>   
 
 <javascript>
-__ns.fixDB2 = function(){
+__ns.fixDB2 = function() {
 	console.log("FixTables");
 	fixDB2(); 
 };
 </javascript> 
 
 <javascript> 
-__ns.fixTablePopulairIssues = function(){ 
+__ns.fixTablePopulairIssues = function() { 
 	fixTablePopulairIssues(); 
-};
-	 
+};	 
 </javascript>
   
 <javascript> 
-__ns.checkServiceStatus = function(URL){
+__ns.checkServiceStatus = function(URL) {
 	return checkServiceStatus(URL); 
 };
-	
 </javascript>
 
 <javascript>  
-__ns.checkStatus = function(){
+__ns.checkStatus = function() {
 	return checkStatus(); 
-};
-	  
+};  
 </javascript>
 
 <javascript>    
-__ns.testOnline = function(){
+__ns.testOnline = function() {
 	return testOnline();  
-};  
-	   
+};    
 </javascript> 
 
 <javascript>    
-__ns.executeOfflinefunc = function(func,params){
-	return executeOfflinefunc(func,params);  
+__ns.executeOfflinefunc = function(func, params) {
+	return executeOfflinefunc(func, params);  
 };  
-	   
 </javascript>
 
 <javascript>    
-__ns.asyncServiceCall = function(){
+__ns.asyncServiceCall = function() {
 	setTimeout(function() {	
 		x = serviceOfflineWrapper.getIssues(projectControl.currentProject.get());
 		mobl.log("sync call is done");
-	},100);
-}; 
-	   
+	}, 100);
+};    
 </javascript>
-control getHeaderImage(hasTitle:Bool){
-	when((1-hasTitle)||(1-toSmall())){
-	image("./images/logo.png",align="left",height=43)}
+
+control getHeaderImage(hasTitle : Bool) {
+	when((1-hasTitle) || (1-toSmall())) {
+	image("./images/logo.png", align="left", height=43)}
 }
 
-control getBackButton(){ 
-	button("back",onclick={screen return;}) 
+control getBackButton() { 
+	button("back", onclick={ screen return; }) 
 }
  
-function toSmall():Bool{  
-	
+function toSmall() : Bool {  
 	return (window.innerWidth<=470) ;
 }
 
-function isServiceAvailable():Bool{
+function isServiceAvailable() : Bool{
 	httpRequest("?getProjects", method="GET", encoding="json", data=null, mapper=null);
-	
-	
 	return true;
 }
  
 control myTable() {  
-	<table class="mobl__ui__generic__tableStyle" id="myTable">elements()</table>
+	<table class="mobl__ui__generic__tableStyle" id="myTable"> elements() </table>
 }
-
-
 
 control textarea(s : String, placeholder : String = null, onchange : Callback = null, style:Style = MyTextArea ) {
  <textarea class=style placeholder=placeholder databind=s onchange=onchange/>
@@ -163,7 +153,7 @@ control mySelectField(value : String, options : [(String, String)],placeholder:S
 
 
 @doc "A tabset, takes a list of tuples as argument, e.g. [(\"Tab 1\", \"icon url\", tab1), (\"Tab 2\", \"icon uri\", tab2)] where tab1 and tab2 are controls with no arguments"
-control myTabSet(tabs : [(String, String, Control)], activeTab : String = null, screenContextId : String = "tabSetContext",tabbarStyle: Style = tabbarStyle , activeTabButtonStyle: Style = activeTabButtonStyle ,inActiveTabButtonStyle : Style = inActiveTabButtonStyle,activeTabStyle : Style = activeTabStyle,inActiveTabStyle : Style = inActiveTabStyle) {
+control myTabSet(tabs : [(String, String, Control)], activeTab : String = null, screenContextId : String = "tabSetContext", tabbarStyle : Style = tabbarStyle, activeTabButtonStyle : Style = activeTabButtonStyle, inActiveTabButtonStyle : Style = inActiveTabButtonStyle, activeTabStyle : Style = activeTabStyle, inActiveTabStyle : Style = inActiveTabStyle) {
   script {
     if(activeTab == null) {
       activeTab = tabs[0]._1;
@@ -188,16 +178,16 @@ control myTabSet(tabs : [(String, String, Control)], activeTab : String = null, 
   }
 }
 
-function executeOfflinefuncs(){
-	if(offlineMap.count()>0){
+function executeOfflinefuncs() {
+	if(offlineMap.count() > 0) {
 		var entry = offlineMap.one();
 		var func = Reflector.get(Service, entry._1);
 		var params =  entry._2;
-		executeOfflinefunc(func,params);
+		executeOfflinefunc(func, params);
 	}
 }
 
-sync function onlinecheck():Bool{
+sync function onlinecheck() : Bool { 
 	// var status = testOnline();
 	// if(lastStatus == null&& status == false){
 	// 	msgBox(Dynamic(title="AppStatus", content="The app is currently working offline", type="info",autoClose=true));
@@ -219,6 +209,7 @@ sync function onlinecheck():Bool{
 	return true ;
 }
 
-function showAbout(){
-	msgBox(Dynamic(title="About YellowgrassMobile v0.3.5",content="The app is in currently in development.",type="info"));
+function showAbout() {
+	msgBox( Dynamic(
+		title = "About YellowgrassMobile v0.3.5",
 }
