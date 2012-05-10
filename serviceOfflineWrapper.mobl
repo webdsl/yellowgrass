@@ -89,7 +89,7 @@ function checkAuthenticate(username: String, key : String, deviceDescription : S
 	} 
 }
 
-function logout() {
+function logoutDevice() {
 	if(onlinecheck()) {
 		Service.logout();
 	}

@@ -49,8 +49,10 @@ function checkAuthentication() : Bool {
 	}
 }
 
-function logout() {
+function logout() { 
+	logoutDevice();
 	resetDatabase();
 	LocalStorage.removeItem("authenticationInformation");
+	reload();
 }
 
