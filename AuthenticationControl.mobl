@@ -25,11 +25,11 @@ screen LoginScreen() {
 }
 
 function login(username : String, password : String, deviceDescription : String) : Bool {
-	var key = authenticate(username, password, deviceDescription);
-	if(key == null) {
+	var result = authenticate(username, password, deviceDescription);
+	if(result == null) {
 		return false;
 	} else {
-		LocalStorage.setItem("authenticationInformation", Dynamic(username=username, key=key, deviceDescription=deviceDescription));
+		LocalStorage.setItem("authenticationInformation", Dynamic(username=username, key=result[0], name=result[1], deviceDescription=deviceDescription));
 		return true;
 	} 
 }
@@ -55,4 +55,5 @@ function logout() {
 	LocalStorage.removeItem("authenticationInformation");
 	reload();
 }
+
 

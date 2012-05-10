@@ -75,10 +75,13 @@ function getRoadmap(project : Project) : Collection<Release> {
 	}
 }
 
-function authenticate(username: String, password : String, deviceDescription : String) : String {
+function authenticate(username: String, password : String, deviceDescription : String) : [String] {
 	if(onlinecheck()) {
 		return Service.authenticate(username, password, deviceDescription);
+	} else {
+		return null;
 	}
+	
 }
 
 function checkAuthenticate(username: String, key : String, deviceDescription : String) : Bool {

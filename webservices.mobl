@@ -53,7 +53,7 @@ service Service {
 		mapper 	= releaseMapper 
 	}
 	  
-	resource authenticate(username : String, password : String, deviceDescription : String) : String {
+	resource authenticate(username : String, password : String, deviceDescription : String) : [String] {
 		uri 	= "authenticate"
 		method 	= "PUT"
 		data 	= JSON.stringify(Dynamic(username=username, password=password, deviceDescription=deviceDescription))
