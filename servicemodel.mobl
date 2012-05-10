@@ -22,6 +22,7 @@ entity Project {
 		} 
 		return array; 
 	}
+	
 }
 
 entity User {
@@ -83,46 +84,66 @@ entity Tag {
 }
 
 function projectsMapper(json : JSON) : [Project] {
+	if(json.errors) {
+		showErrors("error", json.errors);
+		return null;
+	} else {
 		var Array = Collection<Project>();
 		foreach(json:JSON in json) {
 			Array.add(Project.fromSelectJSON(json));
 		}
 		return Array.list();
+	}
 }
 
 function projectMapper(json : JSON) : Project {
+	if(json.errors) {
+		showErrors("error", json.errors);
+		return null;
+	} else {
 		return Project.fromSelectJSON(json);
+	}
 } 
 
 function booleanMapper(json : JSON) : Bool {
-		if(!json.answer) {
-			showErrors(json.id, json.errors);
-		}
-		return json.answer;
+	if(!json.answer) {
+		showErrors(json.id, json.errors);
+	}
+	return json.answer;
 } 
 
 function issueMapper(json : JSON) : Collection<Issue> {
+	if(json.errors) {
+		showErrors("error", json.errors);
+		return null;
+	} else {
 		var Array = Collection<Issue>();
 		foreach(json:JSON in json){
 			Array.add(Issue.fromSelectJSON(json));
 		}
 		return Array;
+	}
 }
 
-function releaseMapper(json : JSON):Collection<Release>{
+function releaseMapper(json : JSON) : Collection<Release> {
+	if(json.errors) {
+		showErrors("error", json.errors);
+		return null;
+	} else {
 		var Array = Collection<Release>(); 
 		foreach(json:JSON in json){
 			Array.add(Release.fromSelectJSON(json));
 		}
 		return Array;
+	}
 }
 
-function keyMapper(json : JSON) : String {
+function keyMapper(json : JSON) : [String] {
 	if(json.errors) {
 		showErrors("invalid key", json.errors);
 		return null;
 	} else {
-		return json.key;
+		return [json.key, json.name];
 	}
 }
 
