@@ -9,84 +9,120 @@ import roadmapControl
 import lib
 import customStyle
  
-var currentProject:Project = Project();
+var currentProject : Project = Project();
 
 
-screen showProjects(){
-	header("All Projects"){backButton("back",onclick={root();})button("Active",onclick={showActiveProjects();})}
-	group{
-		
+screen showProjects() {
+	header("All Projects"){ 
+		backButton("back", onclick={ root() ;})
+		button("Active", onclick={ showActiveProjects(); })
+	}
+	group{	
 		script{
 			currentProject = Project();
 			async{
-				getProjects(); 
-				
+				getProjects(); 	
 			}
 		}
 		var phrase = ""
 		// item{label(checkServiceStatus("getProjects"))}
 		searchBox(phrase)
 		group {
-			list(project in Project.searchPrefix(phrase).order("name", true)){  
-				item(onclick={ShowProject(project);}){label(project.name)}   
+			list(project in Project.searchPrefix(phrase).order("name", true)) {  
+				item(onclick={ ShowProject(project); }) { label(project.name) }   
 			} 
 		}    
 	}
 } 
- 
-screen showActiveProjects(){
-	header("Active Projects"){backButton("back",onclick={root();})button("All",onclick={showProjects();})}
+
+// screen showMyProjects() {
+// 	header("All Projects") { backButton("back",onclick={ root(); }) }
+// 	group{
+// 		script{
+// 			currentProject = Project();
+// 		}
+// 		group{ 
+// 			var projects = getMyProjects(10) 
+// 			list(project in projects) {   
+// 				item(onclick={ ShowProject(project); }) { label(project.name) } 
+// 			} 
+// 		}	
+// 	}
+// } 
+//  
+screen showActiveProjects() {
+	header("Active Projects"){
+		backButton("back", onclick={ root(); })
+		button("All", onclick={ showProjects(); })
+	}
 	script{
 		currentProject = Project();
 	}
 	group{ 
 		var projects = getPopularProjects(10) 
-		list(project in projects){   
-			item(onclick={ShowProject(project);}){label(project.name)} 
+		list(project in projects) {   
+			item(onclick={ ShowProject(project); }) { label(project.name) } 
 		} 
 	}	      
 }	  
  
-screen ShowProject(project:Project){ 
+screen ShowProject(project : Project) { 
 	script{
 		startLoading(); 
 		currentProject=getProject(project.name); 
-		
 		async{
 			getRestProject(currentProject);
 		}
 	}
-	myTabSet([("Info","",ShowProjectInfo),("Issues","",showPopulairIssues),("Roadmap","",showRoadmap),("New Issue","",CreateIssue)], activeTab=null, screenContextId="tabSetContext", tabbarStyle=MyTabbarStyle, activeTabButtonStyle=MyActiveTabButtonStyle, inActiveTabButtonStyle=MyInActiveTabButtonStyle, activeTabStyle=activeTabStyle, inActiveTabStyle=inActiveTabStyle)
+	myTabSet(
+			[("Info", "", ShowProjectInfo),
+			("Issues", "", showPopulairIssues),
+			("Roadmap", "", showRoadmap),
+			("New Issue", "", CreateIssue)], 
+		activeTab = null, 
+		screenContextId = "tabSetContext",
+		tabbarStyle = MyTabbarStyle, 
+		activeTabButtonStyle = MyActiveTabButtonStyle, 
+		inActiveTabButtonStyle = MyInActiveTabButtonStyle, 
+		activeTabStyle = activeTabStyle,
+		inActiveTabStyle = inActiveTabStyle
+	)
 	//("Issues","",showPopulairIssues),("Roadmap","",showRoadmap),
-	script{endLoading();} 
+	script{ endLoading(); } 
 }   
  
-control ShowProjectInfo(){  
-	header(currentProject.name) {backButton("back",onclick={return showProjects(target="_top");})}
-	var List= Collection<(String,[User])>(("Members",currentProject.members),("Followers",currentProject.followers))
-	when(currentProject.url != null){
-		item(onclick={openUrl(currentProject.url);}){label("Website")} }
+control ShowProjectInfo() {  
+	header(currentProject.name) {
+		backButton("back", onclick={ return showProjects(target="_top"); })
+	}
+	var List = Collection<(String, [User])> (("Members", currentProject.members), ("Followers", currentProject.followers))
+	when(currentProject.url != null) {
+		item(onclick={ openUrl(currentProject.url);}) { label("Website") } 
+	}
 	group{ 
-			when(currentProject.description != null){html("<h4><font color=#334E33>Description</font></h4>"+currentProject.description)} 
-		}
+		when(currentProject.description != null) {
+			html("<h4><font color=#334E33>Description</font></h4>" + currentProject.description)
+		} 
+	}
 	group{
-		when(currentProject.weeklyStatsGraph != null){
-		html("<h4><font color=#334E33>Weekly Issue Count</font></h4>") 
-		image(currentProject.weeklyStatsGraph,align="center") } 
+		when(currentProject.weeklyStatsGraph != null) {
+			html("<h4><font color=#334E33>Weekly Issue Count</font></h4>") 
+			image(currentProject.weeklyStatsGraph, align="center") 
+		} 
 	} 
 	zoomList(List, ShowLabel, ShowUsers) 
 }  
 
-function getRestProject(project:Project){
-		sleep(2000);
-		if(currentProject==project&&project.issuecount == 0){
-			getIssues(project);
-			project.issuecount= project.issues.count(); 
-		}
-		if(currentProject==project){ 
-			currentProject.roadmap=getRoadmap(project);
-		}
-		if(currentProject==project){
-			getIssuesDetails(project);
-		} 
+function getRestProject(project : Project) {
+	sleep(2000);
+	if(currentProject == project && project.issuecount == 0) {
+		getIssues(project);
+		project.issuecount = project.issues.count(); 
+	}
+	if(currentProject == project) { 
+		currentProject.roadmap = getRoadmap(project);
+	}
+	if(currentProject == project) {
+		getIssuesDetails(project);
+	} 
 }
