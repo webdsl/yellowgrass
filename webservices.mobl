@@ -10,7 +10,14 @@ service Service {
 		data 	= JSON.stringify(Dynamic())
 		mapper 	= projectsMapper 
 	} 
-	
+
+	resource  getMyProjects() : [Project] {
+		uri		= "getMyProjects"
+		method 	= "PUT"
+		data 	= JSON.stringify(Dynamic())
+		mapper 	= projectsMapper 
+	} 
+
 	resource  getPopularProjects(number : Num) : [Project] {
 		uri		= "getPopularProjects"  
 		method 	= "PUT"

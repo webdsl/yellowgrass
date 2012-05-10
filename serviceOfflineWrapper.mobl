@@ -97,3 +97,11 @@ function logoutDevice() {
 		Service.logout();
 	}
 }
+
+function getMyProjects() : [Project] {
+	if(onlinecheck()) {
+		return Service.getMyProjects();
+	} else {
+		return User.findBy("name", getUserName()).projects.list();
+	}
+}

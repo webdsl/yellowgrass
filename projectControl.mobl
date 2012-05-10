@@ -35,21 +35,21 @@ screen showProjects() {
 	}
 } 
 
-// screen showMyProjects() {
-// 	header("All Projects") { backButton("back",onclick={ root(); }) }
-// 	group{
-// 		script{
-// 			currentProject = Project();
-// 		}
-// 		group{ 
-// 			var projects = getMyProjects(10) 
-// 			list(project in projects) {   
-// 				item(onclick={ ShowProject(project); }) { label(project.name) } 
-// 			} 
-// 		}	
-// 	}
-// } 
-//  
+screen showMyProjects() {
+	header("My Projects") { backButton("back",onclick={ root(); }) }
+	group{
+		script{
+			currentProject = Project();
+		}
+		group{ 
+			var projects = getMyProjects() 
+			list(project in projects) {   
+				item(onclick={ ShowProject(project); }) { label(project.name) } 
+			} 
+		}	
+	}
+} 
+ 
 screen showActiveProjects() {
 	header("Active Projects"){
 		backButton("back", onclick={ root(); })

@@ -23,7 +23,9 @@ screen root() {
 		item(onclick={showProjects();}) { label("Show Projects" ) }
 		item(onclick={showActiveProjects();}) { label("Show Favorite Projects" ) }
 		when(checkAuthentication()) {
+			item(onclick={ showMyProjects(); }) { label("Show My Projects") }
 			item(onclick={logout();root();}) { label("Logout") }
+			
 		} else {
 			item(onclick={LoginScreen();}) { label("Login" ) } 
 		}
