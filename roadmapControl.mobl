@@ -4,16 +4,20 @@ import mobl::ui::generic
 import projectControl
 import servicemodel
 import issueControl
-control showRoadmap(){ 
-	header(currentProject.name) {backButton("back",onclick={return showProjects(target="_top");})}
-	when(currentProject.roadmap.count()>0){masterDetail(currentProject.roadmap order by name desc,releaseItem, releaseDetail)}
-	else{  
+
+control showRoadmap() { 
+	header(currentProject.name) {
+		backButton("back", onclick={ return showProjects(target="_top"); })
+	}
+	when(currentProject.roadmap.count() > 0) {
+		masterDetail(currentProject.roadmap order by name desc, releaseItem, releaseDetail)
+	} else {  
 		// script{alert("There is no Roadmap defined");} 
 		html("<center><h2><font color=#334E33>No Roadmap Defined</font></h2></center>")
-		}
+	}
 } 
 
-control releaseItem(release:Release){
+control releaseItem(release : Release) {
 	label(release.name)
 }
 
