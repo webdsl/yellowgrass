@@ -212,4 +212,16 @@ sync function onlinecheck() : Bool {
 function showAbout() {
 	msgBox( Dynamic(
 		title = "About YellowgrassMobile v0.3.5",
+		content = "The app is in currently in development.",
+		type = "info"
+	));
+}
+
+function getUserName () : String {
+	var currentUser = LocalStorage.getItem("authenticationInformation");
+	if(currentUser) {
+		return currentUser.name;
+	} else {
+		return null;
+	}
 }
