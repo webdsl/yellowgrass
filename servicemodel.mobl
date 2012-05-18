@@ -143,6 +143,7 @@ function keyMapper(json : JSON) : [String] {
 		showErrors("invalid key", json.errors);
 		return null;
 	} else {
+		User.fromSelectJSON(json.person);
 		return [json.key, json.name];
 	}
 }
