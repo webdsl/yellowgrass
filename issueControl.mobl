@@ -172,10 +172,13 @@ control CreateIssue() {
 					submitted 	= now(), 
 					number		= currentProject.issuecount + 1,
 					reporter	= User.findBy("name", getUserName()),
-					project		= currentProject
+					project		= currentProject,
+					new 		= true
 				);
+				// newIssue.new = true;
 				if(category != "") {
 					var tag = Tag.load(category);
+					log(tag.name);
 					newIssue.tags.add(tag);
 				}
 				currentProject.issuecount = currentProject.issuecount + 1 ;
@@ -183,3 +186,14 @@ control CreateIssue() {
 			}
 	})	 
 }
+
+control ShowHTMLHeaderLog(tuple : (String, [Project])) {   
+ 	html("<h4><font color=#334E33>" + tuple._1 + "</font></h4>")
+}    
+      
+control ShowLog(tuple : (String, [Comment])) {
+	list(comment : Comment in tuple._2) { 
+		html("<h6><font color=#334E33>On " + formatDate2(comment.submitted) + " " + comment.author.name + " wrote:</font></h6>" + comment.text)
+	} 
+}           
+     
