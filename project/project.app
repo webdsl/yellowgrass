@@ -125,12 +125,12 @@ entity Project {
 			return null;
 		}
 		var jsonobject := JSONObject();
-		jsonobject.put("id",id);
+		jsonobject.put("id", id);
 		var version := old.getInt("version");
 		if(version < this.version) {
 			jsonobject.put("name", name);
 			jsonobject.put("description", description.format());
-			jsonobject.put("url",url);
+			jsonobject.put("url", url);
 			jsonobject.put("version", this.version);
 		}
 		jsonobject.put("weeklyStatsGraph", this.getWeeklyStatsGraph());
@@ -140,7 +140,7 @@ entity Project {
 				jsonArrayIssues.put(issue.toJSON());
 			}
 			jsonobject.put("issues", jsonArrayIssues);
-			var releases :=generateRoadmap(this);
+			var releases := generateRoadmap(this);
 			var jsonmap := JSONArray();
 			for(release : Release in releases order by release.name desc) {
 				if(jsonmap.length() == 0) { 
@@ -173,7 +173,7 @@ entity Project {
 			}
 		}
 		
-		if(dirty||version < this.version) {
+		if(dirty || (version < this.version)) {
 			jsonobject.put("members", jsonArrayMembers);
 		}
 		var jsonoldfollowers := toVersionObejcts( old.getJSONArray("followers"));
@@ -191,7 +191,7 @@ entity Project {
 				jsonArrayMembers.put(follower.toSimpleJSON());
 			}
 		} 
-		if(dirty||version < this.version) {
+		if(dirty|| (version < this.version)) {
 			jsonobject.put("followers", jsonArrayFollowers);
 		}
 		var issuetags := JSONArray();
@@ -209,6 +209,7 @@ entity Project {
 		var jsonobject := JSONObject();
 		jsonobject.put("id", id);
 		jsonobject.put("name", name);
+		jsonobject.put("version", version); 
 		return jsonobject;
 	}
 	

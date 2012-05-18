@@ -27,26 +27,27 @@ entity User {
 		var users := findUserByTag(tag);
 		return users.length > 1;	// Database view may be inconsistent, as queries in transaction are take into account
 	}
-	function toJSON():JSONObject{
+	function toJSON() : JSONObject {
 		var jsonobject := JSONObject();
-		jsonobject.put("id",id);
+		jsonobject.put("id", id);
 		jsonobject.put("name", name);
 		jsonobject.put("tag", tag);
-		jsonobject.put("url",url);
-		jsonobject.put("version",version);
+		jsonobject.put("url", url);
+		jsonobject.put("version", version);
 		var jsonarray:= JSONArray();
-		for (project:Project in projects){
-			if(project.toSimpleJSON()!=null){
+		for (project : Project in projects) {
+			if(project.toSimpleJSON() != null) {
 				jsonarray.put(project.toJSONRef());
 			}
 		} 
-		jsonobject.put("projects",jsonarray);
-		
+		jsonobject.put("projects", jsonarray);
 		return jsonobject;
 	}
-	function toSimpleJSON():JSONObject{
+	function toSimpleJSON() : JSONObject{
 		var jsonobject := JSONObject();
-		jsonobject.put("id",id);	
+		jsonobject.put("id", id);
+		jsonobject.put("name", name);
+		jsonobject.put("version", version);	
 		return jsonobject;
 	}
 }

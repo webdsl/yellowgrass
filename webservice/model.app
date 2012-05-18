@@ -5,26 +5,26 @@ entity Release{
 	issues	-> List<Issue>
 	project -> Project
 
-	function toJSON():JSONObject{
+	function toJSON() : JSONObject {
 		var jsonObject := JSONObject();
-		jsonObject.put("id",project.name.substring(0, min(20,project.name.length() -1)) + name);
-		jsonObject.put("name",name);
+		jsonObject.put("id", project.name.substring(0, min(20,project.name.length() - 1)) + name);
+		jsonObject.put("name", name);
 		// var releaseobject := JSONObject();
 		// releaseobject.put("id",jsonObject.get("id"));
 		var jsonArray := JSONArray();
-		for(issue:Issue in issues){
+		for(issue : Issue in issues) {
 			var jsonobject := issue.toJSON();
 			// jsonobject.put("release",releaseobject);
 			jsonArray.put(jsonobject);		
 		}
-		jsonObject.put("issues",jsonArray);
+		jsonObject.put("issues", jsonArray);
 		return jsonObject;
 	}	 
 	
-	function toJSONSimple():JSONObject{
+	function toJSONSimple() : JSONObject {
 		var jsonObject := JSONObject();
-		jsonObject.put("id",project.name.substring(0, min(20,project.name.length() -1)) + name);
-		jsonObject.put("name",name);
+		jsonObject.put("id", project.name.substring(0, min(20,project.name.length() - 1)) + name);
+		jsonObject.put("name", name);
 		return jsonObject;
 	}		
 	
