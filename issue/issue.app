@@ -219,6 +219,10 @@ function checkNewIssueObjects(json : JSONArray) {
 				for(i : Int from 0 to tags.length()) {
 					newObject.tags.add(loadTag(tags.getJSONObject(i).getString("id").parseUUID()));
 				}
+				var newComments := checkNewCommentObjects(object.getJSONArray("comments"));
+				for(comment : Comment in newComments) {
+					newObject.log.add(comment);
+				}
 				newObject.save();
 			}
 		}
