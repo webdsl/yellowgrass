@@ -231,7 +231,7 @@ function checkNewIssueObjects(json : JSONArray) {
 function checkDirtyIssueObjects(json : JSONArray) {
 		for(i : Int from 0 to json.length()) {
 			var object := json.getJSONObject(i);
-			if(object.has("dirty") && object.getBoolean("dirty")) {
+			if(!(object.has("new") && object.getBoolean("new")) && object.has("dirty") && object.getBoolean("dirty")) {
 				var issue := loadIssue(object.getString("id").parseUUID());
 				var newComments := checkNewCommentObjects(object.getJSONArray("comments"));
 				for(comment : Comment in newComments) {
