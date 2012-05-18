@@ -8,12 +8,12 @@ webservice/model
 @ param deviceDescription: string for descriptionDevice
 */
 service authenticate() {
-	var jsonErrors := JSONArray();
-	var jsonResult := JSONObject();
-	var json := JSONObject(readRequestBody());
-	var email := json.getString("username");
-	var password := json.getString("password");
-	var deviceDescription  := json.getString("deviceDescription");
+	var jsonErrors 			:= JSONArray();
+	var jsonResult 			:= JSONObject();
+	var json 				:= JSONObject(readRequestBody());
+	var email 				:= json.getString("username");
+	var password 			:= json.getString("password");
+	var deviceDescription  	:= json.getString("deviceDescription");
 	log("called service: athenticate " + email + ":" + deviceDescription);
 	if(!authenticate(email, password)) {
 		jsonErrors.put("The login credentials are not valid.");
@@ -23,19 +23,19 @@ service authenticate() {
 	} else {
 		jsonResult.put("key", securityContext.principal.generateAuthenticationKey(deviceDescription));
 		jsonResult.put("name", securityContext.principal.name );
-		jsonResult.put("person",securityContext.principal.toJSON());
+		jsonResult.put("person", securityContext.principal.toJSON());
 	}
 	return jsonResult; 
 }
 
 service checkAuthenticate() {
-	var jsonErrors := JSONArray();
-	var jsonResult := JSONObject();
-	var json := JSONObject(readRequestBody());
-	var email := json.getString("username");
-	var key := json.getString("key").parseUUID();
-	var deviceDescription  := json.getString("deviceDescription");
-	var users := findUserByEmail(email);
+	var jsonErrors 			:= JSONArray();
+	var jsonResult 			:= JSONObject();
+	var json 				:= JSONObject(readRequestBody());
+	var email 				:= json.getString("username");
+	var key 				:= json.getString("key").parseUUID();
+	var deviceDescription  	:= json.getString("deviceDescription");
+	var users 				:= findUserByEmail(email);
 	log("called service: check authenticate " + email + ":" + deviceDescription);
 	if(users.length != 1) {
 		jsonErrors.put("The user does not exists");
@@ -58,8 +58,8 @@ service checkAuthenticate() {
 
 service logoutDevice() {
 	log("called service: logoutDevice");
-	securityContext.principal := null;
-	var jsonResult := JSONObject();
+	securityContext.principal 	:= null;
+	var jsonResult 				:= JSONObject();
 	jsonResult.put("answer", true);
 	return jsonResult;
 }
@@ -68,39 +68,38 @@ function tryAuthenticate(email : String, password : String) {
 	auth:validate(authenticate(email, password), "The login credentials are not valid.");
 }
 
-service getProjects(){
+service getProjects() {
 	log("called service: getProjects: ");
-	var pr := securityContext.principal;
+	var pr 							:= securityContext.principal;
 	var projectList : List<Project> := 
 	   select distinct p from Project as p join p.members as m where p.private=false or (~pr) = m;
-	var jsonArray := JSONArray();
+	var jsonArray 					:= JSONArray();
 	for(project : Project in projectList ) {
 		jsonArray.put(project.toSimpleJSON());
 	}
 	return jsonArray; 
 }
 
-service getMyProjects(){
+service getMyProjects() {
 	log("called service: getMyProjects: ");
-	var pr := securityContext.principal;
+	var pr 							:= securityContext.principal;
 	var projectList : List<Project> := 
 	   select distinct p from Project as p join p.members as m where (~pr) = m;
-	var jsonArray := JSONArray();
+	var jsonArray 					:= JSONArray();
 	for(project : Project in projectList ) {
 		jsonArray.put(project.toSimpleJSON());
 	}
 	return jsonArray; 
 }
-
 
 /*
 @ param number: expecting max number of projecs
 */
 service getPopularProjects() {
-	var json := JSONObject(readRequestBody());
-	var number := json.getInt("number");
+	var json 								:= JSONObject(readRequestBody());
+	var number 								:= json.getInt("number");
 	log("called service: getPopularProjects:" + number);
-		var activeProjects : List<Project> := 
+		var activeProjects : List<Project> 	:= 
 			select p 
 			from Project as p
 			join p.issues as i
@@ -110,31 +109,31 @@ service getPopularProjects() {
 			limit 10;
 	
 	var jsonArray := JSONArray();
-	for(project:Project in activeProjects) {
+	for(project : Project in activeProjects) {
 		jsonArray.put(project.toSimpleJSON());
 	}
 	return jsonArray; 
 }
 
 service getProject() {
-	var json := JSONObject(readRequestBody());
-	var name := json.getString("name");
-	var versions := json.getJSONObject("versions");
+	var json 		:= JSONObject(readRequestBody());
+	var name 		:= json.getString("name");
+	var versions 	:= json.getJSONObject("versions");
 	log("called service: getProject:" + name);
-	var project := loadProject(name);
+	var project 	:= loadProject(name);
 	if(project.private && !(securityContext.principal in project.members) ){
 		var errors := JSONArray();
 		errors.put("you are not authenticated for this project");
 		var result := JSONObject();
-		result.put("errors",errors);
+		result.put("errors", errors);
 		return result;
 	}
 	return project.toJSON(versions); 
 }
 
 service getIssues() {
-	var json := JSONObject(readRequestBody());
-	var name := json.getString("project");
+	var json 	:= JSONObject(readRequestBody());
+	var name 	:= json.getString("project");
 	log("called service: getIssues:" + name);
 	var project := loadProject(name);
 	if(project.private && !(securityContext.principal in project.members) ){
@@ -152,12 +151,12 @@ service getIssues() {
 }
 
 service getIssuesDetails() {
-	var json := JSONObject(readRequestBody());
-	var name := json.getString("project");
-	var versions := json.getJSONObject("versions").getJSONArray("issues");
+	var json 		:= JSONObject(readRequestBody());
+	var name 		:= json.getString("project");
+	var versions 	:= json.getJSONObject("versions").getJSONArray("issues");
 	log("called service: getIssuesDetails:" + name);
-	var project := loadProject(name);
-	if(project.private && !(securityContext.principal in project.members) ){
+	var project 	:= loadProject(name);
+	if(project.private && !(securityContext.principal in project.members)) {
 		var errors := JSONArray();
 		errors.put("you are not authenticated for this project");
 		var result := JSONObject();
@@ -171,7 +170,7 @@ service getIssuesDetails() {
 	for (issue : Issue in project.issues) {
 		var vobject := VersionObject{id:=issue.id};
 		var index := versionobjects.indexOf(vobject);
-		if(index == -1 || versionobjects.get(index).version != issue.version){
+		if(index == -1 || versionobjects.get(index).version != issue.version) {
 			jsonArrayIssues.put(issue.toExtendedJSON());
 		}else{
 			jsonArrayIssues.put(issue.toSimpleJSON());
@@ -181,7 +180,7 @@ service getIssuesDetails() {
 }
 
 service getRoadmap() {
-	var json:= JSONObject(readRequestBody());
+	var json	:= JSONObject(readRequestBody());
 	var name := json.getString("project");
 	
 	log("called service: getRoadmap:" + name);
@@ -202,62 +201,62 @@ service getRoadmap() {
 }
 
 service createIssueService() {
-	var jsonobject := JSONObject();
-	
-	var errors := JSONArray();
-	var json:= JSONObject(readRequestBody());
-	var project := loadProject(json.getString("project"));
-	var title := json.getString("title");
-	var description := json.getString("description") as WikiText;
+	var jsonobject 		:= JSONObject();
+	var errors 			:= JSONArray();
+	var json			:= JSONObject(readRequestBody());
+	var project 		:= loadProject(json.getString("project"));
+	var title 			:= json.getString("title");
+	var description 	:= json.getString("description") as WikiText;
 	var tags := Set<Tag>();
-	if(json.getString("tag").length()>0){
+	if(json.getString("tag").length() > 0) {
 		tags.add(loadTag(json.getString("tag").parseUUID()));
 	}
 	var email := json.getString("email") as Email;
-	log ("createIssue: project: "+ project.name + " title: "+ title);
-	if (project == null){
+	log ("createIssue: project: " + project.name + " title: " + title);
+	if (project == null) {
 		errors.put("Non excisting project selected");
 	}
-	if (json.getString("tag").length() > 0 && tags.length == 0){
+	if (json.getString("tag").length() > 0 && tags.length == 0) {
 		errors.put("Non excisting category selected");
-	}if(!email.isValid()){
+	}if(!email.isValid()) {
 		errors.put("email is not valid");
 	}
-	var ig := IssueGhost{ alive := false
-						  project := project 
-						  email := email
-						  description:=description
-						  tags := tags
-						  title := title};
-	if(ig.validateSave().exceptions.length!=0){
-		for(e: ValidationException in ig.validateSave().exceptions){
+	var ig := IssueGhost{ 
+		alive 		:= false
+		project 	:= project 
+		email 		:= email
+		description	:= description
+		tags 		:= tags
+		title 		:= title
+	};
+	if(ig.validateSave().exceptions.length != 0) {
+		for(e : ValidationException in ig.validateSave().exceptions) {
 			errors.put(e.message);		
 		}
 	}
-	if (errors.length() == 0){
+	if (errors.length() == 0) {
 		ig.save();
 		email(issueConfirmationEmail(ig));
 		jsonobject.put("answer", true);
-	}else{
+	} else {
 		jsonobject.put("errors", errors);
-		jsonobject.put("id","CreateIssue: "+ title);
+		jsonobject.put("id", "CreateIssue: " + title);
 		jsonobject.put("answer", false);
 	}
 	return jsonobject;
 }
 
-define page testing(){
+define page testing() {
 	var project := loadProject("WebDSL")
 	// output(project.toJSON().toString())
 }
 
 access control rules
 
-	rule page testing(){
+	rule page testing() {
 		true
 	}
-	rule logsql{
+	
+	rule logsql {
 		true
 	}
-
-
