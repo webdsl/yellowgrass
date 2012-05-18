@@ -165,6 +165,7 @@ service getIssuesDetails() {
 	}
 	var versionobjects := toVersionObejcts(versions);
 	checkNewIssueObjects(versions);
+	checkDirtyIssueObjects(versions);
 	var jsonArrayIssues := JSONArray();
 
 	for (issue : Issue in project.issues) {
@@ -185,7 +186,7 @@ service getRoadmap() {
 	
 	log("called service: getRoadmap:" + name);
 	var project := loadProject(name);
-	if(project.private && !(securityContext.principal in project.members) ){
+	if(project.private && !(securityContext.principal in project.members)) {
 		var errors := JSONArray();
 		errors.put("you are not authenticated for this project");
 		var result := JSONObject();

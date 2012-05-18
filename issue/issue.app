@@ -141,7 +141,7 @@ entity Issue {
 		json.put("nrVotes", nrVotes);
 		json.put("project", project.toSimpleJSON());
 		if(reporter != null) { 
-			json.put("reporter", reporter.toJSON()); 
+			json.put("reporter", reporter.toSimpleJSON()); 
 		}
 		json.put("open", open);
 		// var jsonArray := JSONArray();
@@ -222,6 +222,21 @@ function checkNewIssueObjects(json : JSONArray) {
 				newObject.save();
 			}
 		}
+	}
+	
+function checkDirtyIssueObjects(json : JSONArray) {
+		for(i : Int from 0 to json.length()) {
+			var object := json.getJSONObject(i);
+			if(object.has("dirty") && object.getBoolean("dirty")) {
+				var issue := loadIssue(object.getString("id").parseUUID());
+				var newComments := checkNewCommentObjects(object.getJSONArray("comments"));
+				for(comment : Comment in newComments) {
+					issue.log.add(comment);
+				}
+				
+			}
+		}
+		flush();
 	}
 
 
