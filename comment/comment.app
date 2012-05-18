@@ -8,15 +8,35 @@ entity Comment : Event {
 	text			:: WikiText		(searchable)
 	author			-> User 
 	
-	function toJSON():JSONObject{
-		var json:= JSONObject();
-		json.put("id",id);
-		json.put("text",text.format());
-		json.put("author",author.toJSON());
-		json.put("submitted", moment.getTime()/1000L);
+	function toJSON() : JSONObject {
+		var json := JSONObject();
+		json.put("id", id);
+		json.put("text", text.format());
+		json.put("author", author.toJSON());
+		json.put("submitted", moment.getTime() / 1000L);
+		json.put("version", version);
 		return json;
 	}
 }
+
+
+function checkNewCommentObjects(json : JSONArray) : List<Comment> {
+		var newObjects := List<Comment> ();
+		for(i : Int from 0 to json.length()) {
+			var object := json.getJSONObject(i);
+			if(object.has("new") && object.getBoolean("new")) { 
+				var newObject :=  Comment {
+					author 	:= loadUser(object.getJSONObject("author").getString("id").parseUUID())
+					moment 	:= now()
+					text   	:= object.getString("text") 
+				};
+				newObject.save();
+				newObjects.add(newObject);
+				log("new Comment : " + newObject.text);
+			 }
+		}
+		return newObjects;
+	}
 
 function createComment(t : WikiText) : Comment {
 	var c := Comment {
