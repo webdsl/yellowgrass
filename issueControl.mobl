@@ -30,7 +30,7 @@ control showPopulairIssues() {
 	}
 }  
 
-screen ShowIssues(){
+screen ShowIssues() {
 	header(currentProject.name) {backButton("back",onclick={return showProjects(target="_top");})button("populair",onclick={screen return;})}
 	var phrase = "*"
 	searchBox(phrase) 
@@ -64,48 +64,56 @@ screen ShowIssue(issue : Issue) {
 	} 
 	var logList= Collection<(String,[Comment])>(("Log",issue.comments))
 	when(!issue.open) {
-		image("./images/tick.png",align="right")
-		html("<h4><font> # "+ issue.number+ ": "+issue.title+"</font></h4>")
+		image("./images/tick.png", align="right")
+		html("<h4><font> # " + issue.number + ": " + issue.title + "</font></h4>")
 	} else {
 		image("./images/question.gif", align="right")
-		html("<h4><font> # "+ issue.number+ ": "+issue.title+"</font></h4>")
+		html("<h4><font> # " + issue.number + ": " + issue.title + "</font></h4>")
 	}
-	when(issue.reporter){
+	when(issue.reporter) {
 		group{
 			html("<h4><font color=#334E33>Reporter</font></h4>") 
-			item(onclick={ShowUser(issue.reporter);}){label(issue.reporter.name)} 
+			item(onclick={ ShowUser(issue.reporter); }) { label(issue.reporter.name) } 
 		}
 	}
 	html("<h4><font color=#334E33>Tags</font></h4>") 
-	list(tag:Tag in issue.tags){
-		cell{html("<font color =" + tag.color + ">" + tag.name+ " </font>")}
+	list(tag : Tag in issue.tags) {
+		cell{ html("<font color =" + tag.color + ">" + tag.name + " </font>")}
 	} 
-	when(issue.description != null){html("<h4><font color=#334E33>Description</font></h4>"+issue.description)} 
-	
-	when(issue.comments.count()){zoomList(logList, ShowHTMLHeaderLog, ShowLog)}   
+	when(issue.description != null) {
+		html("<h4><font color=#334E33>Description</font></h4>" + issue.description)
+	} 
+	when(issue.comments.count()) {
+		zoomList(logList, ShowHTMLHeaderLog, ShowLog)
+	}   
 }
-
-control showTable(issues:Collection<Issue>){
+ 
+control showTable(issues : Collection<Issue>) {
 	
-table {    
+	table {    
 		// row{
 		// 	headerCol {label("Nr")}
 		// 	headerCol {} 
 		// 	headerCol { label("Date" )}
 		// 	headerCol { label("Title" )}
 		// }
-		list(issue:Issue in issues){ 
+		list(issue : Issue in issues) { 
 			row{
-				cell{label(issue.number,onclick={ShowIssue(issue);})}
-				cell{when(!issue.open){image("./images/tick.png")}else{image("./images/question.gif")}}
-				cell{label(formatDate2(issue.submitted))}
-				cell{label(issue.title,onclick={ShowIssue(issue,target="_top");})}
+				cell{ label(issue.number, onclick={ ShowIssue(issue, target="_top"); }) }
+				cell{ 
+					when(!issue.open) {
+						image("./images/tick.png")
+					} else { 
+						image("./images/question.gif")
+					}
+				}
+				cell{ label(formatDate2(issue.submitted)) }
+				cell{ label(issue.title,onclick={ShowIssue(issue, target="_top"); }) }
 			}
 		}
 		script{   
 			// fixTablePopulairIssues();
 		} 	
-
 	}
 }
 
