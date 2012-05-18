@@ -162,6 +162,7 @@ entity Issue {
 	function toSimpleJSON() : JSONObject {
 		var json := JSONObject();
 		json.put("id", id);
+		json.put("version", version); 
 		return json;
 	}
 	
