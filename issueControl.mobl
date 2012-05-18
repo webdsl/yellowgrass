@@ -62,7 +62,8 @@ screen ShowIssue(issue : Issue) {
 	header(currentProject.name) {
 		backButton("back", onclick={ return ShowProject(currentProject, target="_top"); })
 	} 
-	var logList= Collection<(String,[Comment])>(("Log",issue.comments))
+	var logList = Collection<(String, [Comment])> (("Log", issue.comments.order("submitted", true)))
+	// label(issue.id)
 	when(!issue.open) {
 		image("./images/tick.png", align="right")
 		html("<h4><font> # " + issue.number + ": " + issue.title + "</font></h4>")
