@@ -108,12 +108,38 @@ screen ShowIssue(issue : Issue) {
 	} 
 	when(issue.description != null) {
 		html("<h4><font color=#334E33>Description</font></h4>" + issue.description)
+	}
+	when(checkAuthentication()){
+		item{ label("Add Comment", onclick={ createComment(issue); }) }
 	} 
 	when(issue.comments.count()) {
 		zoomList(logList, ShowHTMLHeaderLog, ShowLog)
 	}   
 }
  
+screen createComment(issue : Issue) {
+	header("add Comment") {
+		backButton("back")
+	}
+	var comment = ""
+	group{
+		textarea(comment, placeholder="Comment", onchange=null)
+	}
+	button("Post", onclick = {
+		var newComment = Comment(
+			new = true,
+			issue = issue,
+			submitted = now(),
+		 	text = comment,
+		 	author = User.findBy("name", getUserName())
+		);
+		// issue.dirty = true;
+		return ShowIssue(issue);
+		}
+		
+	)
+}
+
 control showTable(issues : Collection<Issue>) {
 	table {    
 		// row{
@@ -142,8 +168,6 @@ control showTable(issues : Collection<Issue>) {
 	}
 }
 
-
- 
 control CreateIssue() {
 	header(currentProject.name) {
 		backButton("back", onclick={ return showProjects(target="_top"); })
@@ -178,7 +202,7 @@ control CreateIssue() {
 		}
 	}
 	
-	button("submit",onclick={
+	button("Post", onclick={
 			if(!checkAuthentication()) {
 				if(createIssue(currentProject, title, category, description, email)) { 
 					return ShowProject(currentProject,target="_top"); 
