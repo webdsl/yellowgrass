@@ -65,7 +65,7 @@ function getIssues(project : Project) {
 function getIssuesDetails(project : Project) {
 		if(onlinecheck()) {
 			var versions = Project.findBy("name", project.name).selectJSON(["issues.[id, version]"]);
-			Service.getIssuesDetails(project.name, versions);
+			project.issues = Service.getIssuesDetails(project.name, versions);
 		}
 }  
 		 
