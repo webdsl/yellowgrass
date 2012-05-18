@@ -155,7 +155,6 @@ control mySelectField(value : String, options : [(String, String)],placeholder:S
 	}  
 	</select>  
 	script {    
-		log("temp");
 		fixSelect("customStyle__MySelectField");
 	}	
 }
