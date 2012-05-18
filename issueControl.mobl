@@ -10,49 +10,74 @@ import customStyle
 import serviceOfflineWrapper
 import AuthenticationControl
 var doneloading = ""; 
+
 control showPopulairIssues() {
-	header("Populair Issues"){backButton("back",onclick={return showProjects(target="_top");})button("all",onclick={return ShowIssues();})}
+	header("Populair Issues") {
+		backButton("back", onclick={ return showProjects(target="_top"); })
+		button("all", onclick={ return ShowIssues(); })
+	}
 	// showTable(Issue.all().filter("project", "=", currentProject).filter("open", "=", true).order("nrVotes", false).limit(10))
-	var issues :Collection<Issue> = Issue.all().filter("project", "=", currentProject).filter("open", "=", true).order("nrVotes", false).limit(10)
+	var issues : Collection<Issue> = Issue.all().filter("project", "=", currentProject).filter("open", "=", true).order("nrVotes", false).limit(10)
 	script{
 		doneloading = ""; 
 	}
 	
   	table{	
-  		list(issue:Issue in Issue.searchPrefix(doneloading).filter("project", "=", currentProject).order("number", false).limit(10)){ 
+  		list(issue : Issue in Issue.searchPrefix(doneloading).filter("project", "=", currentProject).order("number", false).limit(10)) { 
 			row{
-				cell{label(issue.number,onclick={ShowIssue(issue);})}
-				cell{when(!issue.open){image("./images/tick.png")}else{image("./images/question.gif")}}
-				cell{label(formatDate2(issue.submitted))}
-				cell{label(issue.title,onclick={ShowIssue(issue);})}
+				cell{ label(issue.number, onclick={ ShowIssue(issue, target="_top"); }) }
+				cell{ 
+					when(!issue.open) {
+						image("./images/tick.png")
+					} else { 
+						image("./images/question.gif")
+					}
+				}
+				cell{ label(formatDate2(issue.submitted)) }
+				cell{ label(issue.title,onclick={ ShowIssue(issue, target="_top"); }) }
 			}
 		}
 	}
 }  
 
 screen ShowIssues() {
-	header(currentProject.name) {backButton("back",onclick={return showProjects(target="_top");})button("populair",onclick={screen return;})}
+	header(currentProject.name) {
+		backButton("back",onclick={ return showProjects(target="_top"); })
+		button("populair",onclick={ screen return; }) 
+	}
 	var phrase = "*"
 	searchBox(phrase) 
 	
 	table{
-		when(phrase ==""){
-			list(issue:Issue in Issue.all().filter("project", "=", currentProject).order("number", false)){
+		when(phrase == "") {
+			list(issue : Issue in Issue.all().filter("project", "=", currentProject).order("number", false)) {
 				row{
-					cell{label(issue.number,onclick={ShowIssue(issue);})}
-				 	cell{when(!issue.open){image("./images/tick.png")}else{image("./images/question.gif")}}
-				 	cell{label( formatDate2(issue.submitted))}
-					cell{label(issue.title,onclick={ShowIssue(issue);})}
+					cell{ label(issue.number, onclick={ ShowIssue(issue, target="_top"); }) }
+					cell{ 
+						when(!issue.open) {
+							image("./images/tick.png")
+						} else { 
+							image("./images/question.gif")
+						}
+					}
+					cell{ label(formatDate2(issue.submitted)) }
+					cell{ label(issue.title,onclick={ ShowIssue(issue, target="_top"); }) }
 				} 
 			} 
-		}else{
-			list(issue:Issue in Issue.searchPrefix(phrase).filter("project", "=", currentProject).order("number", false).limit(10)){
+		} else {
+			list(issue : Issue in Issue.searchPrefix(phrase).filter("project", "=", currentProject).order("number", false).limit(10)) {
 				row{
-					cell{label(issue.number,onclick={ShowIssue(issue);})}
-				 	cell{when(!issue.open){image("./images/tick.png")}else{image("./images/question.gif")}}
-				 	cell{label( formatDate2(issue.submitted))}
-					cell{label(issue.title,onclick={ShowIssue(issue);})}
-				} 
+					cell{ label(issue.number, onclick={ ShowIssue(issue, target="_top"); }) }
+					cell{ 
+						when(!issue.open) {
+							image("./images/tick.png")
+						} else { 
+							image("./images/question.gif")
+						}
+					}
+					cell{ label(formatDate2(issue.submitted)) }
+					cell{ label(issue.title,onclick={ ShowIssue(issue, target="_top"); }) }
+				}
 			} 
 		}
 	}  
@@ -90,7 +115,6 @@ screen ShowIssue(issue : Issue) {
 }
  
 control showTable(issues : Collection<Issue>) {
-	
 	table {    
 		// row{
 		// 	headerCol {label("Nr")}
@@ -138,12 +162,12 @@ control CreateIssue() {
 		)
 	}
 	group{
-		mySelectField(category,types, placeholder ="Select Category", style=MySelectField, optionStyle=null)
+		mySelectField(category,types, placeholder="Select Category", style=MySelectField, optionStyle=null)
 	}
 	group{
 		textarea(description, placeholder="discription", onchange=null)
 	} 
-	when (!checkAuthentication()){
+	when(!checkAuthentication()) {
 		group{
 			textField(email, placeholder="email", inputType="email", 
 				validator=null, style=MyTextField, 
@@ -155,16 +179,11 @@ control CreateIssue() {
 	}
 	
 	button("submit",onclick={
-			if(!checkAuthentication()){
+			if(!checkAuthentication()) {
 				if(createIssue(currentProject, title, category, description, email)) { 
 					return ShowProject(currentProject,target="_top"); 
 				}
 			} else {
-				// var tags = Collection<Tag>();
-				
-				
-				// tags.add(tag);
-				// tags.add(currentProject.issueTypes.filter("name", "=", category));
 				var newIssue = Issue(
 					title 		= title,
 					description	= description,
@@ -175,7 +194,6 @@ control CreateIssue() {
 					project		= currentProject,
 					new 		= true
 				);
-				// newIssue.new = true;
 				if(category != "") {
 					var tag = Tag.load(category);
 					log(tag.name);
@@ -195,5 +213,4 @@ control ShowLog(tuple : (String, [Comment])) {
 	list(comment : Comment in tuple._2) { 
 		html("<h6><font color=#334E33>On " + formatDate2(comment.submitted) + " " + comment.author.name + " wrote:</font></h6>" + comment.text)
 	} 
-}           
-     
+}   
