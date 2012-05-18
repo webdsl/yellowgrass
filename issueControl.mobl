@@ -133,7 +133,7 @@ screen createComment(issue : Issue) {
 		 	text = comment,
 		 	author = User.findBy("name", getUserName())
 		);
-		// issue.dirty = true;
+		issue.dirty = true;
 		return ShowIssue(issue);
 		}
 		
