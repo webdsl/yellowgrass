@@ -60,7 +60,7 @@ screen ShowIssues(){
 
 screen ShowIssue(issue : Issue) {
 	header(currentProject.name) {
-		backButton("back", onclick={ return ShowProject(currentProject); })
+		backButton("back", onclick={ return ShowProject(currentProject, target="_top"); })
 	} 
 	var logList= Collection<(String,[Comment])>(("Log",issue.comments))
 	when(!issue.open) {
