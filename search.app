@@ -33,12 +33,6 @@ define searchtmpl(p : Project, q : String) {
 			table {
 				issues(issues, true, true, false, 80, true, true)
 			}
-		}	group("facets"){
-				for(f: Facet in issueSearcher.getFilteredFacets()){
-					output(f.getFieldName())
-				}
-			}
-		
-		
+		}	
 	}
 }
