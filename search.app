@@ -6,20 +6,23 @@ define page search(p: Project, q : String) {
 define page searchAllProjects(q : String) {
 	var p : Project := null;
 	searchtmpl(p ,q)
-}
+}                        
 
-define searchtmpl(p : Project, q : String){
+define searchtmpl(p : Project, q : String) {
 	var issues : List<Issue>;
-	var issueSearcher := search Issue with facets (tags,40);
+	var issueSearcher := search Issue
+	 matching q
+	 limit 50;
+ 
 			
 	init{
-		if (p != null){
-			issueSearcher.filterByField("project.name", p.name);
+		if (p != null) {
+			~issueSearcher with filters project.name : p.name;
 			
-		}else{
-			issueSearcher.filterByField("project.private", "false") ;
+		} else {
+			~issueSearcher with filters project.private : false;
 		}
-		issues := issueSearcher.query(q).maxResults(50).list();
+		issues := issueSearcher.results();
 	}	
 	
 	title{"YellowGrass.org - Search"}
