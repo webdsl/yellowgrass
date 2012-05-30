@@ -51,7 +51,7 @@ screen showMyProjects() {
 } 
 
 screen syncProjects() {
-	header("Projects that I want to Sync") {
+	header("Set Projects") {
 		backButton("back", onclick={ root(); })
 	}
 	var phrase = ""
