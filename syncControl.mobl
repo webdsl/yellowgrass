@@ -1,0 +1,16 @@
+module syncControl
+import mobl::ui
+import servicemodel
+import Yellowgrassmobile
+
+screen syncProjects() {
+	header("Set Projects") {
+		backButton("back", onclick={ root(); })
+	}
+	var phrase = ""
+	
+	searchBox(phrase) 
+	list(pr in Project.searchPrefix(phrase).order("name", true)) {
+		item{ checkBox(pr.sync, label=pr.name) }
+	}
+}

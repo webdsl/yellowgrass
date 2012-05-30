@@ -56,17 +56,6 @@ function hasUser(project : Project) : Bool {
 	return project.members.list().containsElementWithValue("name", getUserName());
 } 
 
-screen syncProjects() {
-	header("Set Projects") {
-		backButton("back", onclick={ root(); })
-	}
-	var phrase = ""
-	
-	searchBox(phrase)
-	list(pr in Project.searchPrefix(phrase).order("name", true)) {
-		item{ checkBox(pr.sync, label=pr.name) }
-	}
-}
  
 screen showActiveProjects() {
 	header("Active Projects") {

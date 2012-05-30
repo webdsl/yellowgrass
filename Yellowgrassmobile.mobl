@@ -9,7 +9,8 @@ import projectControl
 import issueControl       
 import MSGBOX      
 import mobl::reflect
-import AuthenticationControl     
+import AuthenticationControl
+import syncControl    
 // resource Yellowgrassmobile.manifest        
 // resource stylesheets/custom.css 
 // load stylesheets/custom.css      
