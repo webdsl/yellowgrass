@@ -15,7 +15,7 @@ import AuthenticationControl
 // load stylesheets/custom.css      
   
 screen root() {     
-	header(""){
+	header("") {
 		getHeaderImage(false)
 		button("About", onclick={ showAbout(); })
 	}    
@@ -24,7 +24,8 @@ screen root() {
 	}           
 	group{       
 		item(onclick={ showProjects(); }) { label("Show Projects" ) }
-		item(onclick={ showActiveProjects(); }) { label("Show Favorite Projects" ) }
+		item(onclick= { syncProjects(); }) { label("Set Projects") }
+		// item(onclick={ showActiveProjects(); }) { label("Show Favorite Projects" ) }
 		when(checkAuthentication()) {
 			item(onclick={ showMyProjects(); }) { label("Show My Projects") }
 			item(onclick={ logout(); root(); }) { label("Logout") }

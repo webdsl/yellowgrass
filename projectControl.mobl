@@ -13,7 +13,7 @@ var currentProject : Project = Project();
 
 
 screen showProjects() {
-	header("All Projects"){ 
+	header("All Projects") { 
 		backButton("back", onclick={ root() ;})
 		button("Active", onclick={ showActiveProjects(); })
 	}
@@ -28,7 +28,7 @@ screen showProjects() {
 		// item{label(checkServiceStatus("getProjects"))}
 		searchBox(phrase)
 		group {
-			list(project in Project.searchPrefix(phrase).order("name", true)) {  
+			list(project in Project.searchPrefix(phrase).filter("sync", "=", true).order("name", true)) {  
 				item(onclick={ ShowProject(project); }) { label(project.name) }   
 			} 
 		}    
@@ -42,12 +42,18 @@ screen showMyProjects() {
 			currentProject = Project();
 		}
 		group{ 
-			var projects = getMyProjects() 
-			list(project in projects) {   
-				item(onclick={ ShowProject(project); }) { label(project.name) } 
+			// var projects = getMyProjects() 
+			list(project in Project.all().filter("sync", "=", true).list()) {
+				when(hasUser(project)){   
+					item(onclick={ ShowProject(project); }) { label(project.name) } 
+				}
 			} 
 		}	
 	}
+}
+
+function hasUser(project : Project) : Bool {
+	return project.members.list().containsElementWithValue("name", getUserName());
 } 
 
 screen syncProjects() {
@@ -63,7 +69,7 @@ screen syncProjects() {
 }
  
 screen showActiveProjects() {
-	header("Active Projects"){
+	header("Active Projects") {
 		backButton("back", onclick={ root(); })
 		button("All", onclick={ showProjects(); })
 	}
