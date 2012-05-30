@@ -11,7 +11,7 @@ control progressbar() {
 	<p id="progresslabel" class=progressLabelStyle>html(labelString)</p>  
 }
 
-function changeLabel(newText : String) {
+function setLabel(newText : String) {
 	labelString = newText;
 }
 
@@ -19,7 +19,11 @@ function setPersentage(newPercentage : Num) {
 	if(newPercentage >  0 && newPercentage <= 100){
 		percentage = newPercentage * 2.5;
 	}
-	
+}
+
+function resetProgress() {
+	percentage = 0;
+	labelString = "";
 }
 
 style progressbarStyle {

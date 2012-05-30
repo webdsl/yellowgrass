@@ -6,6 +6,7 @@ import Yellowgrassmobile
 import lib
 import customStyle
 import serviceOfflineWrapper
+import progressbar
 
 screen syncSettings() {
 		script{
@@ -51,7 +52,7 @@ control generalSyncSettings() {
 		label("Dirty: Unknown")
 	}
 	button("Sync now", onclick={ syncDataProjects(); })
-
+	progressbar()
 	
 	
 }
