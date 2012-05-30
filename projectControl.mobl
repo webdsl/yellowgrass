@@ -44,18 +44,13 @@ screen showMyProjects() {
 		group{ 
 			// var projects = getMyProjects() 
 			list(project in Project.all().filter("sync", "=", true).list()) {
-				when(hasUser(project)){   
+				when(project.hasMember(getUserName())) {   
 					item(onclick={ ShowProject(project); }) { label(project.name) } 
 				}
 			} 
 		}	
 	}
 }
-
-function hasUser(project : Project) : Bool {
-	return project.members.list().containsElementWithValue("name", getUserName());
-} 
-
  
 screen showActiveProjects() {
 	header("Active Projects") {

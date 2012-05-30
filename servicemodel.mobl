@@ -24,6 +24,10 @@ entity Project {
 		return array; 
 	}
 	
+	function hasMember(name : String) : Bool {
+		return this.members.list().containsElementWithValue("name", name);
+	} 
+	
 }
 
 entity User {
