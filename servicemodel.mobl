@@ -15,6 +15,8 @@ entity Project {
 	roadmap 			: Collection<Release> (inverse:project)
 	version 			: Num
 	sync				: Bool
+	lastSynced			: DateTime
+	
 	
 	function getIssueTypes() : [ (String, String) ] {
 		var array : [ (String, String) ] = [];

@@ -1,12 +1,18 @@
 module syncControl
+
 import mobl::ui::generic
 import servicemodel
 import Yellowgrassmobile
 import lib
 import customStyle
-
+import serviceOfflineWrapper
 
 screen syncSettings() {
+		script{
+			async{
+					getProjects(); 	
+			}
+		}
 		myTabSet(
 			[ 	("General", "", generalSyncSettings),	
 				("Set Projects", "", syncProjects)], 
@@ -37,8 +43,22 @@ control generalSyncSettings() {
 		backButton("back", onclick={ root(target="_top"); })
 	}
 	html("<h4><font color=#334E33>Last Synced</font></h4>" + getLastSyncDate())
+	group{
+		html("<h4><font color=#334E33>Data Status</font></h4>")
+		label("Complete: ") 
+		checkProjectsSynced()  
+		<br/>
+		label("Dirty: Unknown")
+	}
+	// button("Sync now")
+	
 	
 }
+
+// function syncProject() {
+// 	var project = Project.findBy("name", "yellowgrassm");
+// 	
+// }
 
 function getLastSyncDate() : String {
 	var generalSync = getLastGeneralSyncFromLocalStorage();
@@ -51,4 +71,28 @@ function getLastSyncDate() : String {
 
 function getLastGeneralSyncFromLocalStorage() : DateTime {
 	return  LocalStorage.getItem("lastSync");
+}
+
+function checkProjectsEverSynced() : String {
+	foreach (project in Project.all().filter("sync", "=", "true")) {
+		if(!project.lastSynced) {
+			return "Missing";
+		}
+	} 
+	if(Project.all().filter("sync", "=", "true").count() == 0 ){
+		return "no data to sync";
+	}
+	return "true";
+}
+control checkProjectsSynced() {
+	var result = checkProjectsEverSynced()
+	when(result == "Missing") {
+		image("images/kruisje.png")
+	} else {
+		when(result == "true") {
+			image("images/tick.png")
+		} else {
+			label(result)
+		}
+	}
 }
