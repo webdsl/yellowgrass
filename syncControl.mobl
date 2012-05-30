@@ -92,7 +92,14 @@ function getLastSyncDate() : String {
 }
 
 function getLastGeneralSyncFromLocalStorage() : DateTime {
-	return  LocalStorage.getItem("lastSync");
+	var lastSync = LocalStorage.getItem("lastSync");
+	if(lastSync) {
+		return  DateTime.parse(lastSync);
+	} else {
+		return null;
+	}
+}
+
 }
 
 function checkProjectsEverSynced() : String {
