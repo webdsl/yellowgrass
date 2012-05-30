@@ -10,6 +10,7 @@ import progressbar
 
 var syncFlag : Bool = false;
 var lastSynced : String = "Never";
+var dataComplete : String = "Unknown"; 
 screen syncSettings() {
 		script{
 			async{
@@ -84,6 +85,7 @@ sync function syncDataProjects() {
 	log("timeNeeded: " + (end - start) / 1000 + " s");
 	setLastGeneralSyncFromLocalStorage(start);
 	syncFlag = false;
+	dataComplete = checkProjectsEverSynced();
 }
 
 sync function syncProject(project : Project) {
@@ -136,14 +138,17 @@ function checkProjectsEverSynced() : String {
 }
 
 control checkProjectsSynced() {
-	var result = checkProjectsEverSynced()
-	when(result == "Missing") {
+	script{
+		dataComplete = checkProjectsEverSynced();
+	}
+	
+	when(dataComplete == "Missing") {
 		image("images/kruisje.png")
 	} else {
-		when(result == "true") {
+		when(dataComplete == "true") {
 			image("images/tick.png")
 		} else {
-			label(result)
+			label(dataComplete)
 		}
 	}
 }
