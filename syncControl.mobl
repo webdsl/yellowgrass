@@ -8,6 +8,7 @@ import customStyle
 import serviceOfflineWrapper
 import progressbar
 
+var syncFlag : Bool = false;
 screen syncSettings() {
 		script{
 			async{
@@ -51,10 +52,14 @@ control generalSyncSettings() {
 		<br/>
 		label("Dirty: Unknown")
 	}
-	button("Sync now", onclick={ syncDataProjects(); })
-	progressbar()
-	
-	
+	html("<h4><font color=#334E33>Sync Status</font></h4>")
+	group{ 
+		when(syncFlag){
+			progressbar()
+		} else {
+			button("Sync now", onclick={ syncDataProjects(); })
+		}
+	}
 }
 
 sync function syncDataProjects() {
