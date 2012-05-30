@@ -1,0 +1,33 @@
+module progressbar
+
+resource images/pggray.png
+resource images/pggreen.png 
+
+control progressbar () { 
+	<div id="progressbar" class=progressbar>
+		<div id="indicator" class=indicator></div>
+	</div>
+	<p id="progresslabel">"nog niks gedaan"</p>  
+}
+
+style progressbar {
+	position : relative;
+	width : 250 px;
+	padding : 0 0 0 0;
+  	background-image : url("images/pggray.png");
+  	height : 14px;
+  	border : 1px solid #CCC;
+  	-moz-border-radius : 2px;
+  	border-radius : 2px;
+}
+
+style indicator {
+	position : absolute;
+  	left : 0;
+  	top : 0;
+  	width : 0px;
+  	background-image : url("images/pggreen.png");
+  	height : 14px;
+  	margin : 0 0 0 0;
+	
+}
