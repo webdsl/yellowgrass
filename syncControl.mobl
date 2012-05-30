@@ -1,11 +1,27 @@
 module syncControl
-import mobl::ui
+import mobl::ui::generic
 import servicemodel
 import Yellowgrassmobile
+import lib
+import customStyle
 
-screen syncProjects() {
+
+screen syncSettings() {
+		myTabSet(
+			[("Set Projects", "", syncProjects)], 
+		activeTab = null, 
+		screenContextId = "tabSetContext",
+		tabbarStyle = MyTabbarStyle, 
+		activeTabButtonStyle = MyActiveTabButtonStyle, 
+		inActiveTabButtonStyle = MyInActiveTabButtonStyle, 
+		activeTabStyle = activeTabStyle,
+		inActiveTabStyle = inActiveTabStyle
+	)
+}
+
+control syncProjects() {
 	header("Set Projects") {
-		backButton("back", onclick={ root(); })
+		backButton("back", onclick={ root(target="_top"); })
 	}
 	var phrase = ""
 	

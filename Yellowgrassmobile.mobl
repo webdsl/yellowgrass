@@ -25,7 +25,7 @@ screen root() {
 	}           
 	group{       
 		item(onclick={ showProjects(); }) { label("Show Projects" ) }
-		item(onclick= { syncProjects(); }) { label("Set Projects") }
+		item(onclick= { syncSettings(); }) { label("Sync Settings") }
 		// item(onclick={ showActiveProjects(); }) { label("Show Favorite Projects" ) }
 		when(checkAuthentication()) {
 			item(onclick={ showMyProjects(); }) { label("Show My Projects") }
@@ -33,7 +33,7 @@ screen root() {
 		} else {
 			item(onclick={LoginScreen();}) { label("Login" ) } 
 		}
-		// item(onclick={showActiveProjects();}){ label("Try Execute OfflineMap" ) }
+		// item(onclick={showActiveProjects();}){ label("Try Execute OfflineMap" ) } 
 	}  
 	// button("OfflineMap",onclick={executeOfflinefuncs();})            
 }  
