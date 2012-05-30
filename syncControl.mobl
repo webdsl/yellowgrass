@@ -67,11 +67,18 @@ control generalSyncSettings() {
 }
 
 sync function syncDataProjects() {
+	resetProgress();
 	syncFlag = true ;
 	var start = now();
+	var workdone = 0;
+	var count = 1;
+	var nrProjects = Project.all().filter("sync", "=", true).count();
 	foreach (project in Project.all().filter("sync", "=", true)) {
 		log("syncProject: " + project.name);
+		setLabel("syncing : " + project.name);
 		syncProject(project);
+		setPersentage(100/nrProjects * count);
+		count= count + 1;
 	}
 	var end = now();
 	log("timeNeeded: " + (end - start) / 1000 + " s");
@@ -127,6 +134,7 @@ function checkProjectsEverSynced() : String {
 	}
 	return "true";
 }
+
 control checkProjectsSynced() {
 	var result = checkProjectsEverSynced()
 	when(result == "Missing") {
