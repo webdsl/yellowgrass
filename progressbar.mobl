@@ -2,12 +2,23 @@ module progressbar
 
 resource images/pggray.png
 resource images/pggreen.png 
+var labelString : String =""; 
+var percentage : Num = 0;
 
 control progressbar () { 
 	<div id="progressbar" class=progressbar>
 		<div id="indicator" class=indicator></div>
 	</div>
 	<p id="progresslabel">"nog niks gedaan"</p>  
+function changeLabel(newText : String) {
+	labelString = newText;
+}
+
+function setPersentage(newPercentage : Num) {
+	if(newPercentage >  0 && newPercentage <= 100){
+		percentage = newPercentage * 2.5;
+	}
+	
 }
 
 style progressbar {
