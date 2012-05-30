@@ -4,12 +4,13 @@ resource images/pggray.png
 resource images/pggreen.png 
 var labelString : String =""; 
 var percentage : Num = 0;
-
-control progressbar () { 
-	<div id="progressbar" class=progressbar>
-		<div id="indicator" class=indicator></div>
+control progressbar() { 
+	<div id="progressbar" class=progressbarStyle>
+		<div id="indicator" class=indicatorStyle style="width : " + percentage + "px;"></div>
 	</div>
-	<p id="progresslabel">"nog niks gedaan"</p>  
+	<p id="progresslabel" class=progressLabelStyle>html(labelString)</p>  
+}
+
 function changeLabel(newText : String) {
 	labelString = newText;
 }
@@ -21,7 +22,7 @@ function setPersentage(newPercentage : Num) {
 	
 }
 
-style progressbar {
+style progressbarStyle {
 	position : relative;
 	width : 250 px;
 	padding : 0 0 0 0;
@@ -32,13 +33,16 @@ style progressbar {
   	border-radius : 2px;
 }
 
-style indicator {
+style indicatorStyle {
 	position : absolute;
   	left : 0;
   	top : 0;
   	width : 0px;
   	background-image : url("images/pggreen.png");
   	height : 14px;
-  	margin : 0 0 0 0;
-	
+  	margin : 0 0 0 0;	
+}
+
+style progressLabelStyle {
+	font-size: 10px;
 }
