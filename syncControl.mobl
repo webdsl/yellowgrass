@@ -8,7 +8,8 @@ import customStyle
 
 screen syncSettings() {
 		myTabSet(
-			[("Set Projects", "", syncProjects)], 
+			[ ("General", "", generalSyncSettings),	
+				("Set Projects", "", syncProjects)], 
 		activeTab = null, 
 		screenContextId = "tabSetContext",
 		tabbarStyle = MyTabbarStyle, 
@@ -29,4 +30,15 @@ control syncProjects() {
 	list(pr in Project.searchPrefix(phrase).order("name", true)) {
 		item{ checkBox(pr.sync, label=pr.name) }
 	}
+}
+
+control generalSyncSettings() {
+	header("General") {
+		backButton("back", onclick={ root(target="_top"); })
+	}
+	html("<h4><font color=#334E33>Last Synced</font></h4>" + formatDate(getLastSyncDate()))
+}
+
+function getLastSyncDate() : DateTime {
+	return now();
 }
