@@ -90,7 +90,7 @@ sync function syncDataProjects() {
 
 sync function syncProject(project : Project) {
 	// var project = Project.findBy("name", projectname);
-	
+		var synced = now();
 	log("get first project info");
 	setLabel("syncing : " + project.name + "( "+ "general" + " )");
 	getProject(project.name);
@@ -104,7 +104,7 @@ sync function syncProject(project : Project) {
 	log("getIssueDetails");
 	getIssuesDetails(project);
 	log("done");
-
+	project.lastSynced = synced; 
 }
 
 function checkLastSynced() {
