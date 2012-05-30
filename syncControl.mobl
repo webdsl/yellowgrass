@@ -63,6 +63,7 @@ control generalSyncSettings() {
 }
 
 sync function syncDataProjects() {
+	syncFlag = true ;
 	var start = now();
 	foreach (project in Project.all().filter("sync", "=", true)) {
 		log("syncProject: " + project.name);
@@ -71,6 +72,7 @@ sync function syncDataProjects() {
 	var end = now();
 	log("timeNeeded: " + (end - start) / 1000 + " s");
 	setLastGeneralSyncFromLocalStorage(start);
+	syncFlag = false;
 }
 
 sync function syncProject(project : Project) {
