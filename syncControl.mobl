@@ -65,6 +65,7 @@ sync function syncDataProjects() {
 	}
 	var end = now();
 	log("timeNeeded: " + (end - start) / 1000 + " s");
+	setLastGeneralSyncFromLocalStorage(start);
 }
 
 sync function syncProject(project : Project) {
