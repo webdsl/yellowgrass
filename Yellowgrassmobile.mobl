@@ -71,7 +71,7 @@ control ShowProjects(tuple : (String, [Project])) {
 	html("<h4><font color=#334E33>" + tuple._1 + "</font></h4>")
  	group{
 		list(project : Project in tuple._2) { 
-			item{ label(project.name, onclick={ ShowProject(project, target="_top"); }) }
+			item{ label(project.name, onclick={ if(project.sync){ ShowProject(project, target="_top"); } }) }
 		}    
 	}	           
 }     
