@@ -14,6 +14,7 @@ entity Project {
 	issues 				: Collection<Issue> (inverse:project) 
 	roadmap 			: Collection<Release> (inverse:project)
 	version 			: Num
+	sync				: Bool
 	
 	function getIssueTypes() : [ (String, String) ] {
 		var array : [ (String, String) ] = [];

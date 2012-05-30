@@ -49,6 +49,18 @@ screen showMyProjects() {
 		}	
 	}
 } 
+
+screen syncProjects() {
+	header("Projects that I want to Sync") {
+		backButton("back", onclick={ root(); })
+	}
+	var phrase = ""
+	
+	searchBox(phrase)
+	list(pr in Project.searchPrefix(phrase).order("name", true)) {
+		item{ checkBox(pr.sync, label=pr.name) }
+	}
+}
  
 screen showActiveProjects() {
 	header("Active Projects"){
