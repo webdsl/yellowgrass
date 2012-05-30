@@ -8,7 +8,7 @@ import customStyle
 
 screen syncSettings() {
 		myTabSet(
-			[ ("General", "", generalSyncSettings),	
+			[ 	("General", "", generalSyncSettings),	
 				("Set Projects", "", syncProjects)], 
 		activeTab = null, 
 		screenContextId = "tabSetContext",
@@ -21,7 +21,7 @@ screen syncSettings() {
 }
 
 control syncProjects() {
-	header("Set Projects") {
+	header("Sync Settings") {
 		backButton("back", onclick={ root(target="_top"); })
 	}
 	var phrase = ""
@@ -33,12 +33,22 @@ control syncProjects() {
 }
 
 control generalSyncSettings() {
-	header("General") {
+	header("Sync Settings") {
 		backButton("back", onclick={ root(target="_top"); })
 	}
-	html("<h4><font color=#334E33>Last Synced</font></h4>" + formatDate(getLastSyncDate()))
+	html("<h4><font color=#334E33>Last Synced</font></h4>" + getLastSyncDate())
+	
 }
 
-function getLastSyncDate() : DateTime {
-	return now();
+function getLastSyncDate() : String {
+	var generalSync = getLastGeneralSyncFromLocalStorage();
+	if(!generalSync) {
+		return "Never";
+	} else {
+		return formatDate(generalSync);
+	}
+}
+
+function getLastGeneralSyncFromLocalStorage() : DateTime {
+	return  LocalStorage.getItem("lastSync");
 }
