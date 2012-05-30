@@ -55,10 +55,19 @@ control generalSyncSettings() {
 	
 }
 
-// function syncProject() {
-// 	var project = Project.findBy("name", "yellowgrassm");
-// 	
-// }
+sync function syncProject(project : Project) {
+	// var project = Project.findBy("name", projectname);
+	project.lastSynced = now();
+	log("get first project info");
+	getProject(project.name);
+	log("getIssues"); 
+	getIssues(project);
+	log("getRoadMap");
+	project.roadmap = getRoadmap(project);
+	log("getIssueDetails");
+	getIssuesDetails(project);
+	log("done");
+}
 
 function getLastSyncDate() : String {
 	var generalSync = getLastGeneralSyncFromLocalStorage();
