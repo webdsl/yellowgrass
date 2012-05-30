@@ -9,6 +9,7 @@ import serviceOfflineWrapper
 import progressbar
 
 var syncFlag : Bool = false;
+var lastSynced : String = "Never";
 screen syncSettings() {
 		script{
 			async{
@@ -44,7 +45,10 @@ control generalSyncSettings() {
 	header("Sync Settings") {
 		backButton("back", onclick={ root(target="_top"); })
 	}
-	html("<h4><font color=#334E33>Last Synced</font></h4>" + getLastSyncDate())
+	script{
+		checkLastSynced();
+	}
+	html("<h4><font color=#334E33>Last Synced</font></h4>" +  lastSynced)
 	group{
 		html("<h4><font color=#334E33>Data Status</font></h4>")
 		label("Complete: ") 
@@ -89,12 +93,12 @@ sync function syncProject(project : Project) {
 	log("done");
 }
 
-function getLastSyncDate() : String {
+function checkLastSynced() {
 	var generalSync = getLastGeneralSyncFromLocalStorage();
 	if(!generalSync) {
-		return "Never";
+		lastSynced = "Never";
 	} else {
-		return formatDate(generalSync);
+		lastSynced = formatDate(generalSync);
 	}
 }
 
@@ -108,7 +112,8 @@ function getLastGeneralSyncFromLocalStorage() : DateTime {
 }
 
 function setLastGeneralSyncFromLocalStorage(time : DateTime)  {
-	  LocalStorage.setItem("lastSync",time.toString());
+	lastSynced = formatDate(time);
+	LocalStorage.setItem("lastSync",time.toString());
 }
 
 function checkProjectsEverSynced() : String {
