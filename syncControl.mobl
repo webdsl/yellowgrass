@@ -90,16 +90,21 @@ sync function syncDataProjects() {
 
 sync function syncProject(project : Project) {
 	// var project = Project.findBy("name", projectname);
-	project.lastSynced = now();
+	
 	log("get first project info");
+	setLabel("syncing : " + project.name + "( "+ "general" + " )");
 	getProject(project.name);
 	log("getIssues"); 
+	setLabel("syncing : " + project.name + "( "+ "issues" + " )");
 	getIssues(project);
+	setLabel("syncing : " + project.name + "( "+ "roadmap" + " )");
 	log("getRoadMap");
 	project.roadmap = getRoadmap(project);
+	setLabel("syncing : " + project.name + "( "+ "IssueDetails" + " )");
 	log("getIssueDetails");
 	getIssuesDetails(project);
 	log("done");
+
 }
 
 function checkLastSynced() {
