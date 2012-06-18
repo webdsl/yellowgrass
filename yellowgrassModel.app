@@ -1,5 +1,6 @@
 application yellowgrassModel
-
+imports model/main
+imports entity-pages/main
 page root() {
-	"this is a test app for using the model"
+	navigate showEntities() { "entities" }
 }  

@@ -1,0 +1,28 @@
+Module(
+  "entity-pages/test"
+, [ Section(
+      "definitions"
+    , [ Define(
+          [Page()]
+        , "test"
+        , []
+        , None()
+        , [ TemplateCall("title"{"topdef1_title0"}, [], None(), TemplateBody([Text("\"Issue\"")]))
+          , TemplateCall("header"{"topdef1_header0"}, [], None(), TemplateBody([Text("\"Issue\"")]))
+          , TemplateCall(
+              "group"{"topdef1_group0"}
+            , [String("\"Properties\"")]
+            , None()
+            , TemplateBody(
+                [ TemplateCall("par"{"topdef1_par0"}, [], None(), TemplateBody([Text("\"name :: String\"")]))
+                , TemplateCall("par"{"topdef1_par1"}, [], None(), TemplateBody([Text("\"sdfsfsdf :: String\"")]))
+                ]
+              )
+            )
+          , TemplateCall("group"{"topdef1_group1"}, [String("\"Functions\"")], None(), TemplateBody([]))
+          ]
+        ){TopLevelName("topdef1")}
+      ]
+    )
+  ]
+)

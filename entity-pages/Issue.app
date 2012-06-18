@@ -36,13 +36,25 @@ title {
                                 " "
                                 "->"
                                 " "
+                                navigate
+                                showEntityProject()
+                                [
+                                ]
+                                {
                                 "Project"
+                                }
                               } par {
                                   "reporter"
                                   " "
                                   "->"
                                   " "
+                                  navigate
+                                  showEntityUser()
+                                  [
+                                  ]
+                                  {
                                   "User"
+                                  }
                                 } par {
                                     "open"
                                     " "
@@ -54,13 +66,29 @@ title {
                                       " "
                                       "->"
                                       " "
-                                      "Set<Event>"
+                                      "Set<"
+                                      navigate
+                                      showEntityEvent()
+                                      [
+                                      ]
+                                      {
+                                      "Event"
+                                      }
+                                      ">"
                                     } par {
                                         "tags"
                                         " "
                                         "->"
                                         " "
-                                        "Set<Tag>"
+                                        "Set<"
+                                        navigate
+                                        showEntityTag()
+                                        [
+                                        ]
+                                        {
+                                        "Tag"
+                                        }
+                                        ">"
                                       } par {
                                           "email"
                                           " "
@@ -78,7 +106,15 @@ title {
                                               " "
                                               "->"
                                               " "
-                                              "Set<Attachment>"
+                                              "Set<"
+                                              navigate
+                                              showEntityAttachment()
+                                              [
+                                              ]
+                                              {
+                                              "Attachment"
+                                              }
+                                              ">"
                                             } par {
                                                 "projectName"
                                                 " "
@@ -103,7 +139,15 @@ title {
                        } par {
                            "function getComments ("
                            " ) : "
-                           "Set<Comment>"
+                           "Set<"
+                           navigate
+                           showEntityComment()
+                           [
+                           ]
+                           {
+                           "Comment"
+                           }
+                           ">"
                          } par {
                              "function getTitle ("
                              " ) : "
@@ -131,13 +175,25 @@ title {
                                      } par {
                                          "function addComment ("
                                          "c : "
+                                         navigate
+                                         showEntityComment()
+                                         [
+                                         ]
+                                         {
                                          "Comment"
+                                         }
                                          " ) : "
                                          "Void"
                                        } par {
                                            "function commentClose ("
                                            "c : "
+                                           navigate
+                                           showEntityComment()
+                                           [
+                                           ]
+                                           {
                                            "Comment"
+                                           }
                                            " ) : "
                                            "Void"
                                          } par {
@@ -171,13 +227,25 @@ title {
                                                        } par {
                                                            "function addTag ("
                                                            "t : "
+                                                           navigate
+                                                           showEntityTag()
+                                                           [
+                                                           ]
+                                                           {
                                                            "Tag"
+                                                           }
                                                            " ) : "
                                                            "Void"
                                                          } par {
                                                              "function deleteTag ("
                                                              "t : "
+                                                             navigate
+                                                             showEntityTag()
+                                                             [
+                                                             ]
+                                                             {
                                                              "Tag"
+                                                             }
                                                              " ) : "
                                                              "Void"
                                                            } par {
