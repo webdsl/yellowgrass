@@ -1,4 +1,4 @@
-module entities_generated/VersionObject
+module model/VersionObject
 entity VersionObject {
   function toString2 ( ) : String
   {

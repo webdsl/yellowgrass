@@ -1,4 +1,4 @@
-module entities_generated/Release
+module model/Release
 entity Release {
   project -> Project
   issues -> List<Issue>

@@ -1,4 +1,4 @@
-module entities_generated/IssueReopen
+module model/IssueReopen
 entity IssueReopen : Event {
   actor -> User
 }

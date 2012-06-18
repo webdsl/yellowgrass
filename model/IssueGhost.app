@@ -1,4 +1,4 @@
-module entities_generated/IssueGhost
+module model/IssueGhost
 entity IssueGhost {
   alive :: Bool
   tags -> Set<Tag>

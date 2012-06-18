@@ -1,4 +1,4 @@
-module entities_generated/User
+module model/User
 entity User {
   deviceKeySet -> Set<AuthenticationKey>
   tag :: String ( validate(tag.length()>=3&&/[a-z0-9]*/.match(tag),"User names consist of lowercase characters and numbers. Their minimum length is 3 characters."), validate ( ! userTagTaken() , "Another user already registered this user name" ) )

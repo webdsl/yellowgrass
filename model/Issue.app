@@ -1,4 +1,4 @@
-module entities_generated/Issue
+module model/Issue
 entity Issue {
   reporterName :: String ( searchable ) := if ( reporter != null && reporter.name != null ) reporter.name else ""
   projectName :: String ( searchable ) := project.name

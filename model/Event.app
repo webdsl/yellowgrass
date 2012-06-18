@@ -1,4 +1,4 @@
-module entities_generated/Event
+module model/Event
 entity Event {
   moment :: DateTime
   function toJSON ( ) : JSONObject

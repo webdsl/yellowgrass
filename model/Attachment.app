@@ -1,4 +1,4 @@
-module entities_generated/Attachment
+module model/Attachment
 entity Attachment {
   file :: File
   date :: DateTime

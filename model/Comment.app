@@ -1,4 +1,4 @@
-module entities_generated/Comment
+module model/Comment
 entity Comment : Event {
   author -> User
   text :: WikiText ( searchable )

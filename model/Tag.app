@@ -1,4 +1,4 @@
-module entities_generated/Tag
+module model/Tag
 entity Tag {
   tags -> Set<Tag>
   project -> Project

@@ -1,4 +1,4 @@
-module entities_generated/AuthenticationKey
+module model/AuthenticationKey
 entity AuthenticationKey {
   deviceDescription :: String
 }

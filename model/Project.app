@@ -1,4 +1,4 @@
-module entities_generated/Project
+module model/Project
 entity Project {
   email :: Email
   private :: Bool ( searchable )

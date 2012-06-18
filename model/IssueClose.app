@@ -1,4 +1,4 @@
-module entities_generated/IssueClose
+module model/IssueClose
 entity IssueClose : Event {
   actor -> User
 }

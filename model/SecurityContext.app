@@ -1,4 +1,4 @@
-module entities_generated/SecurityContext
+module model/SecurityContext
 entity SecurityContext {
   loggedIn :: Bool := this.principal != null
   principal -> User
