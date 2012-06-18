@@ -6,14 +6,14 @@ entity Release {
   function toJSONSimple ( ) : JSONObject
   {
     var jsonObject := JSONObject() ;
-    jsonObject.put("id", project.name.substring(0, min(20, project.name.length() - 1)) + name);
+    jsonObject.put("id", project.name.substring(0, 20) + name);
     jsonObject.put("name", name);
     return jsonObject;
   }
   function toJSON ( ) : JSONObject
   {
     var jsonObject := JSONObject() ;
-    jsonObject.put("id", project.name.substring(0, min(20, project.name.length() - 1)) + name);
+    jsonObject.put("id", project.name.substring(0, 20) + name);
     jsonObject.put("name", name);
     var jsonArray := JSONArray() ;
     for ( issue : Issue in issues )

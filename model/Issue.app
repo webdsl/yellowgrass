@@ -29,14 +29,14 @@ entity Issue {
   {
     tags.remove(t);
     log.add(TagRemoval{moment := now()
-                       actor := securityContext.principal
+                       // actor := securityContext.principal
                        tag := t});
   }
   function addTag ( t : Tag ) : Void
   {
     tags.add(t);
     log.add(TagAddition{moment := now()
-                        actor := securityContext.principal
+                        // actor := securityContext.principal
                         tag := t});
   }
   function mailSubject ( ) : String
@@ -71,13 +71,13 @@ entity Issue {
     var commenters := [ ( e as Comment ).author | e : Event in log where e is a Comment ] ;
     var commenterEmails := [ u.email | u : User in commenters where u.notifications ] ;
     mailinglist.addAll(commenterEmails);
-    var issueFollowers : Set<User> := getFollowers(tags) ;
+    var issueFollowers : Set<User> ; //getFollowers(tags) ;
     mailinglist.addAll([ u.email | u : User in issueFollowers where u.notifications ]);
     var projectFollowers : Set<User> := project.followers ;
     mailinglist.addAll([ u.email | u : User in projectFollowers where u.notifications ]);
-    if ( securityContext.principal != null )
+    //if ( securityContext.principal != null )
     {
-      mailinglist.remove(securityContext.principal.email);
+    //  mailinglist.remove(securityContext.principal.email);
     }
     return mailinglist;
   }
@@ -141,7 +141,7 @@ entity Issue {
   {
     if ( project.members.length == 1 )
     {
-      tags.add(tag("@"+project.members.list().get(0).tag, project));
+      // tags.add(tag("@"+project.members.list().get(0).tag, project));
     }
   }
   function isAssigned ( ) : Bool
@@ -162,7 +162,7 @@ entity Issue {
     this.save();
     for ( e : Email in mailinglist() )
     {
-      email ( issueCommentCloseNotification ( this, e, c ) );
+      // email ( issueCommentCloseNotification ( this, e, c ) );
     }
   }
   function addComment ( c : Comment ) : Void
@@ -171,41 +171,45 @@ entity Issue {
     this.save();
     for ( e : Email in mailinglist() )
     {
-      email ( issueCommentNotification ( this, e, c ) );
+      // email ( issueCommentNotification ( this, e, c ) );
     }
   }
   function notifyReopen ( ) : Void
   {
     for ( e : Email in mailinglist() )
     {
-      email ( issueReopenNotification ( this, e ) );
+      // email ( issueReopenNotification ( this, e ) );
     }
   }
   function notifyClose ( ) : Void
   {
     for ( e : Email in mailinglist() )
     {
-      email ( issueCloseNotification ( this, e ) );
+      // email ( issueCloseNotification ( this, e ) );
     }
   }
   function notifyRegister ( ) : Void
   {
     for ( e : Email in mailinglist() )
     {
-      email ( issueNotification ( this, e ) );
+      // email ( issueNotification ( this, e ) );
     }
   }
   function reopen ( ) : Void
   {
     open := true;
     log.add(IssueReopen{moment := now()
-                        actor := securityContext.principal});
+                        // actor := securityContext.principal
+                        }
+                        );
   }
   function close ( ) : Void
   {
     open := false;
     log.add(IssueClose{moment := now()
-                       actor := securityContext.principal});
+                       // actor := securityContext.principal
+                       }
+                       );
   }
   function getTitle ( ) : String
   {

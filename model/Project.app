@@ -12,20 +12,20 @@ entity Project {
   name :: String ( id, searchable, validate(isUniqueProject(this),"Another project with this name already exists"), validate(name.length()>=3,"Project names should be three characters or longer"), validate ( /[a-z0-9A-Z._]*/.match(name) , "Project names may contain characters, numbers, dots and underscores." ) )
   function toJSONRef ( ) : JSONObject
   {
-    if ( private && ! securityContext.principal in members )
-    {
-      return null;
-    }
+    // if ( private && ! securityContext.principal in members )
+    // {
+    //   return null;
+    // }
     var jsonobject := JSONObject() ;
     jsonobject.put("id", id);
     return jsonobject;
   }
   function toSimpleJSON ( ) : JSONObject
   {
-    if ( private && ! securityContext.principal in members )
-    {
-      return null;
-    }
+    // if ( private && ! securityContext.principal in members )
+    // {
+    //   return null;
+    // }
     var jsonobject := JSONObject() ;
     jsonobject.put("id", id);
     jsonobject.put("name", name);
@@ -34,10 +34,10 @@ entity Project {
   }
   function toJSON ( old : JSONObject ) : JSONObject
   {
-    if ( private && ! securityContext.principal in members )
-    {
-      return null;
-    }
+    // if ( private && ! securityContext.principal in members )
+    // {
+    //   return null;
+    // }
     var jsonobject := JSONObject() ;
     jsonobject.put("id", id);
     var version := old.getInt("version") ;
@@ -57,7 +57,7 @@ entity Project {
         jsonArrayIssues.put(issue.toJSON());
       }
       jsonobject.put("issues", jsonArrayIssues);
-      var releases := generateRoadmap(this) ;
+      var releases : List<Release>;//= generateRoadmap(this) ;
       var jsonmap := JSONArray() ;
       for ( release : Release in releases order by release.name desc )
       {
@@ -72,54 +72,54 @@ entity Project {
       }
       jsonobject.put("roadmap", jsonmap);
     }
-    var jsonoldmembers := toVersionObejcts(old.getJSONArray("members")) ;
+    // var jsonoldmembers := toVersionObejcts(old.getJSONArray("members")) ;
     var jsonArrayMembers := JSONArray() ;
-    var dirty := false ;
-    for ( member : User in members )
-    {
-      var vobject := VersionObject{id := member.id} ;
-      var index := jsonoldmembers.indexOf(vobject) ;
-      if ( index == -1 || jsonoldmembers.get(index).version != member.version )
-      {
-        log(member.name + "is out dated");
-        jsonArrayMembers.put(member.toJSON());
-        dirty := true;
-      }
-      else
-      {
-        log(member.name + "(" + member.id + ")" + ":" + member.version + "is in ");
-        for ( object : VersionObject in jsonoldmembers )
-        {
-          log(object.toString2());
-        }
-        jsonArrayMembers.put(member.toSimpleJSON());
-      }
-    }
-    if ( dirty || version < this.version )
-    {
-      jsonobject.put("members", jsonArrayMembers);
-    }
-    var jsonoldfollowers := toVersionObejcts(old.getJSONArray("followers")) ;
-    dirty := false;
-    var jsonArrayFollowers := JSONArray() ;
-    for ( follower : User in followers )
-    {
-      var vobject := VersionObject{id := follower.id} ;
-      var index := jsonoldfollowers.indexOf(vobject) ;
-      if ( index == -1 || jsonoldmembers.get(index).version != follower.version )
-      {
-        jsonArrayMembers.put(follower.toJSON());
-        dirty := true;
-      }
-      else
-      {
-        jsonArrayMembers.put(follower.toSimpleJSON());
-      }
-    }
-    if ( dirty || version < this.version )
-    {
-      jsonobject.put("followers", jsonArrayFollowers);
-    }
+    // var dirty := false ;
+    // for ( member : User in members )
+    // {
+    //   // var vobject := VersionObject{id := member.id} ;
+    //   var index := 1;// jsonoldmembers.indexOf(vobject) ;
+    //   if ( index == -1 || jsonoldmembers.get(index).version != member.version )
+    //   {
+    //     log(member.name + "is out dated");
+    //     jsonArrayMembers.put(member.toJSON());
+    //     dirty := true;
+    //   }
+    //   else
+    //   {
+    //     log(member.name + "(" + member.id + ")" + ":" + member.version + "is in ");
+    //     for ( object : VersionObject in jsonoldmembers )
+    //     {
+    //       log(object.toString2());
+    //     }
+    //     jsonArrayMembers.put(member.toSimpleJSON());
+    //   }
+    // }
+    // if ( dirty || version < this.version )
+    // {
+    //   jsonobject.put("members", jsonArrayMembers);
+    // }
+    // var jsonoldfollowers := toVersionObejcts(old.getJSONArray("followers")) ;
+    // dirty := false;
+    // var jsonArrayFollowers := JSONArray() ;
+    // for ( follower : User in followers )
+    // {
+    //   var vobject := VersionObject{id := follower.id} ;
+    //   var index := jsonoldfollowers.indexOf(vobject) ;
+    //   if ( index == -1 || jsonoldmembers.get(index).version != follower.version )
+    //   {
+    //     jsonArrayMembers.put(follower.toJSON());
+    //     dirty := true;
+    //   }
+    //   else
+    //   {
+    //     jsonArrayMembers.put(follower.toSimpleJSON());
+    //   }
+    // }
+    // if ( dirty || version < this.version )
+    // {
+    //   jsonobject.put("followers", jsonArrayFollowers);
+    // }
     var issuetags := JSONArray() ;
     for ( tag : Tag in getIssueTypeTags() )
     {
@@ -131,7 +131,7 @@ entity Project {
   function getWeeklyStatsGraph ( ) : String
   {
     var stats := getIssueStatsWeekly() ;
-    var maxStat := maxList(stats) ;
+    var maxStat := 20;//maxList(stats) ;
     var prefix := "http://chart.apis.google.com/chart?cht=bvg&chs=230x100&chco=bbcebb&chbh=a,5,10&chxt=y" ;
     var rangePrefix := "&chds=0," + maxStat ;
     var axisPrefix := "&chxr=0,0," + maxStat ;
@@ -210,7 +210,7 @@ entity Project {
                                             .
                                             tags
                                             as
-                                            t2 where t1 . project = ~this and t2 . project = ~this and t2 . name = ~ISSUE_TYPE_TAG() group by t1 . name order by
+                                            t2 where t1 . project = ~this and t2 . project = ~this and t2 . name = ~"issuetype" group by t1 . name order by
                                                                                                                                                         t1
                                                                                                                                                         .
                                                                                                                                                         name ;
@@ -218,7 +218,7 @@ entity Project {
   }
   function getCommonTags ( nr : Int ) : List<Tag>
   {
-    var result : List<Tag> := ( select t from
+    var result : List<Tag> := (( select t from
                                          Issue
                                          as
                                          i
@@ -233,7 +233,7 @@ entity Project {
                                                                                                                                                                                             (
                                                                                                                                                                                             i
                                                                                                                                                                                             )
-                                                                                                                                                                                            desc limit ~nr as List<Tag> ) ;
+                                                                                                                                                                                            desc limit ~nr )as List<Tag> ) ;
     return result;
   }
 }

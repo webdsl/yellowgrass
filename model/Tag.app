@@ -34,7 +34,7 @@ entity Tag {
     {
       return "PurpleTag Tag";
     }
-    if ( hasTag(ISSUE_TYPE_TAG()) )
+    if ( hasTag("issuetype") )
     {
       return "IssuetypeTag Tag";
     }
@@ -57,7 +57,7 @@ entity Tag {
     {
       return "green";
     }
-    if ( hasTag("grey") || hasTag(ISSUE_TYPE_TAG()) )
+    if ( hasTag("grey") || hasTag("issuetype") )
     {
       return "black";
     }

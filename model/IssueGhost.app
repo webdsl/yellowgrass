@@ -8,7 +8,7 @@ entity IssueGhost {
   title :: String ( validate ( title.length() >= 5 , "Use a longer and more descriptive title" ) )
   function realize ( ) : Issue
   {
-    var i := Issue{number := newIssueNumber(this.project)
+    var i := Issue{//number := newIssueNumber(this.project) random
                    title := this.title
                    description := this.description
                    submitted := now()
@@ -16,7 +16,8 @@ entity IssueGhost {
                    open := true
                    email := this.email
                    tags := this.tags
-                   reporter := securityContext.principal} ;
+                   // reporter := securityContext.principal
+                   } ;
     i.assign();
     i.save();
     alive := true;
