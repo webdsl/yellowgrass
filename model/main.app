@@ -10,7 +10,6 @@ imports model/IssueMoved
 imports model/IssueReopen
 imports model/Project
 imports model/Release
-imports model/SecurityContext
 imports model/Tag
 imports model/TagAddition
 imports model/TagRemoval
