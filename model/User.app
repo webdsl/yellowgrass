@@ -1,6 +1,6 @@
 module model/User
 entity User {
-  deviceKeySet -> Set<AuthenticationKey>
+  // deviceKeySet -> Set<AuthenticationKey>
   tag :: String ( validate(tag.length()>=3&&/[a-z0-9]*/.match(tag),"User names consist of lowercase characters and numbers. Their minimum length is 3 characters."), validate ( ! userTagTaken() , "Another user already registered this user name" ) )
   url :: URL
   projects -> Set<Project> ( inverse = Project . members )
@@ -10,12 +10,12 @@ entity User {
   name :: String ( validate ( name.length() >= 3 , "Names need to be at least 3 characters" ) )
   function getDeviceKey ( deviceDescription : String ) : UUID
   {
-    var filteredList := [ key | key : AuthenticationKey in deviceKeySet where deviceDescription == key.deviceDescription ] ;
-    if ( filteredList.length == 1 )
-    {
-      return filteredList[0].id;
-    }
-    else
+    // var filteredList := [ key | key : AuthenticationKey in deviceKeySet where deviceDescription == key.deviceDescription ] ;
+    // if ( filteredList.length == 1 )
+    // {
+    //   return filteredList[0].id;
+    // }
+    // else
     {
       return null;
     }
@@ -25,10 +25,10 @@ entity User {
     var key := getDeviceKey(deviceDescription) ;
     if ( key == null )
     {
-      var newKey := AuthenticationKey{deviceDescription := deviceDescription} ;
-      newKey.save();
-      deviceKeySet.add(newKey);
-      key := newKey.id;
+      // var newKey := AuthenticationKey{deviceDescription := deviceDescription} ;
+      // newKey.save();
+      // deviceKeySet.add(newKey);
+      // key := newKey.id;
     }
     return key;
   }

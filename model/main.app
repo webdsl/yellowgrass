@@ -1,6 +1,6 @@
 module model/main
 imports model/Attachment
-imports model/AuthenticationKey
+// imports model/AuthenticationKey
 imports model/Comment
 imports model/Event
 imports model/Issue
@@ -14,4 +14,4 @@ imports model/Tag
 imports model/TagAddition
 imports model/TagRemoval
 imports model/User
-imports model/VersionObject
+// imports model/VersionObject
