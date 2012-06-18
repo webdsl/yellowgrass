@@ -1,6 +1,5 @@
 module entity-pages
 imports entity-pages/Attachment
-imports entity-pages/AuthenticationKey
 imports entity-pages/Comment
 imports entity-pages/Event
 imports entity-pages/Issue
@@ -14,7 +13,6 @@ imports entity-pages/Tag
 imports entity-pages/TagAddition
 imports entity-pages/TagRemoval
 imports entity-pages/User
-imports entity-pages/VersionObject
 page showEntities ( )
 {
 title {
@@ -28,125 +26,109 @@ title {
                       {
                       "Attachment"
                       }
-                    }  par {
+                    } par {
                         navigate
-                        showEntityAuthenticationKey()
+                        showEntityComment()
                         [
                         ]
                         {
-                        "AuthenticationKey"
+                        "Comment"
                         }
                       } par {
                           navigate
-                          showEntityComment()
+                          showEntityEvent()
                           [
                           ]
                           {
-                          "Comment"
+                          "Event"
                           }
                         } par {
                             navigate
-                            showEntityEvent()
+                            showEntityIssue()
                             [
                             ]
                             {
-                            "Event"
+                            "Issue"
                             }
                           } par {
                               navigate
-                              showEntityIssue()
+                              showEntityIssueClose()
                               [
                               ]
                               {
-                              "Issue"
+                              "IssueClose"
                               }
                             } par {
                                 navigate
-                                showEntityIssueClose()
+                                showEntityIssueGhost()
                                 [
                                 ]
                                 {
-                                "IssueClose"
+                                "IssueGhost"
                                 }
                               } par {
                                   navigate
-                                  showEntityIssueGhost()
+                                  showEntityIssueMoved()
                                   [
                                   ]
                                   {
-                                  "IssueGhost"
+                                  "IssueMoved"
                                   }
                                 } par {
                                     navigate
-                                    showEntityIssueMoved()
+                                    showEntityIssueReopen()
                                     [
                                     ]
                                     {
-                                    "IssueMoved"
+                                    "IssueReopen"
                                     }
                                   } par {
                                       navigate
-                                      showEntityIssueReopen()
+                                      showEntityProject()
                                       [
                                       ]
                                       {
-                                      "IssueReopen"
+                                      "Project"
                                       }
                                     } par {
                                         navigate
-                                        showEntityProject()
+                                        showEntityRelease()
                                         [
                                         ]
                                         {
-                                        "Project"
+                                        "Release"
                                         }
                                       } par {
                                           navigate
-                                          showEntityRelease()
+                                          showEntityTag()
                                           [
                                           ]
                                           {
-                                          "Release"
+                                          "Tag"
                                           }
                                         } par {
                                             navigate
-                                            showEntityTag()
+                                            showEntityTagAddition()
                                             [
                                             ]
                                             {
-                                            "Tag"
+                                            "TagAddition"
                                             }
                                           } par {
                                               navigate
-                                              showEntityTagAddition()
+                                              showEntityTagRemoval()
                                               [
                                               ]
                                               {
-                                              "TagAddition"
+                                              "TagRemoval"
                                               }
                                             } par {
                                                 navigate
-                                                showEntityTagRemoval()
+                                                showEntityUser()
                                                 [
                                                 ]
                                                 {
-                                                "TagRemoval"
+                                                "User"
                                                 }
-                                              } par {
-                                                  navigate
-                                                  showEntityUser()
-                                                  [
-                                                  ]
-                                                  {
-                                                  "User"
-                                                  }
-                                                } par {
-                                                    navigate
-                                                    showEntityVersionObject()
-                                                    [
-                                                    ]
-                                                    {
-                                                    "VersionObject"
-                                                    }
-                                                  }}
+                                              }}
 }

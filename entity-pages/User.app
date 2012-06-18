@@ -57,21 +57,7 @@ title {
                                     "::"
                                     " "
                                     "String"
-                                  } par {
-                                      "deviceKeySet"
-                                      " "
-                                      "->"
-                                      " "
-                                      "Set<"
-                                      navigate
-                                      showEntityAuthenticationKey()
-                                      [
-                                      ]
-                                      {
-                                      "AuthenticationKey"
-                                      }
-                                      ">"
-                                    }}
+                                  }}
   group("Functions"){par {
                        "function userEmailTaken ("
                        " ) : "
