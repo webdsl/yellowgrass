@@ -20,5 +20,133 @@ page showEntities ( )
 title {
   "Entities"
 }
-  group("Entities"){navigate showEntityAttachment() [ ] { "Attachment" } navigate showEntityAuthenticationKey() [ ] { "AuthenticationKey" } navigate showEntityComment() [ ] { "Comment" } navigate showEntityEvent() [ ] { "Event" } navigate showEntityIssue() [ ] { "Issue" } navigate showEntityIssueClose() [ ] { "IssueClose" } navigate showEntityIssueGhost() [ ] { "IssueGhost" } navigate showEntityIssueMoved() [ ] { "IssueMoved" } navigate showEntityIssueReopen() [ ] { "IssueReopen" } navigate showEntityProject() [ ] { "Project" } navigate showEntityRelease() [ ] { "Release" } navigate showEntityTag() [ ] { "Tag" } navigate showEntityTagAddition() [ ] { "TagAddition" } navigate showEntityTagRemoval() [ ] { "TagRemoval" } navigate showEntityUser() [ ] { "User" } navigate showEntityVersionObject() [ ] { "VersionObject" }}
+  group("Entities"){par {
+                      navigate
+                      showEntityAttachment()
+                      [
+                      ]
+                      {
+                      "Attachment"
+                      }
+                    }  par {
+                        navigate
+                        showEntityAuthenticationKey()
+                        [
+                        ]
+                        {
+                        "AuthenticationKey"
+                        }
+                      } par {
+                          navigate
+                          showEntityComment()
+                          [
+                          ]
+                          {
+                          "Comment"
+                          }
+                        } par {
+                            navigate
+                            showEntityEvent()
+                            [
+                            ]
+                            {
+                            "Event"
+                            }
+                          } par {
+                              navigate
+                              showEntityIssue()
+                              [
+                              ]
+                              {
+                              "Issue"
+                              }
+                            } par {
+                                navigate
+                                showEntityIssueClose()
+                                [
+                                ]
+                                {
+                                "IssueClose"
+                                }
+                              } par {
+                                  navigate
+                                  showEntityIssueGhost()
+                                  [
+                                  ]
+                                  {
+                                  "IssueGhost"
+                                  }
+                                } par {
+                                    navigate
+                                    showEntityIssueMoved()
+                                    [
+                                    ]
+                                    {
+                                    "IssueMoved"
+                                    }
+                                  } par {
+                                      navigate
+                                      showEntityIssueReopen()
+                                      [
+                                      ]
+                                      {
+                                      "IssueReopen"
+                                      }
+                                    } par {
+                                        navigate
+                                        showEntityProject()
+                                        [
+                                        ]
+                                        {
+                                        "Project"
+                                        }
+                                      } par {
+                                          navigate
+                                          showEntityRelease()
+                                          [
+                                          ]
+                                          {
+                                          "Release"
+                                          }
+                                        } par {
+                                            navigate
+                                            showEntityTag()
+                                            [
+                                            ]
+                                            {
+                                            "Tag"
+                                            }
+                                          } par {
+                                              navigate
+                                              showEntityTagAddition()
+                                              [
+                                              ]
+                                              {
+                                              "TagAddition"
+                                              }
+                                            } par {
+                                                navigate
+                                                showEntityTagRemoval()
+                                                [
+                                                ]
+                                                {
+                                                "TagRemoval"
+                                                }
+                                              } par {
+                                                  navigate
+                                                  showEntityUser()
+                                                  [
+                                                  ]
+                                                  {
+                                                  "User"
+                                                  }
+                                                } par {
+                                                    navigate
+                                                    showEntityVersionObject()
+                                                    [
+                                                    ]
+                                                    {
+                                                    "VersionObject"
+                                                    }
+                                                  }}
 }
