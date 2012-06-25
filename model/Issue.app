@@ -114,29 +114,29 @@ entity Issue {
     json.put("version", version);
     return json;
   }
-  function toSimpleJSON ( ) : JSONObject
-  {
-    var json := JSONObject() ;
-    json.put("id", id);
-    json.put("version", version);
-    return json;
-  }
-  function toJSON ( ) : JSONObject
-  {
-    var json := JSONObject() ;
-    json.put("id", id);
-    json.put("number", number);
-    json.put("title", title);
-    json.put("submitted", submitted.getTime() / 1000L);
-    json.put("nrVotes", nrVotes);
-    json.put("project", project.toSimpleJSON());
-    if ( reporter != null )
-    {
-      json.put("reporter", reporter.toSimpleJSON());
-    }
-    json.put("open", open);
-    return json;
-  }
+  // function toSimpleJSON ( ) : JSONObject
+  // {
+  //   var json := JSONObject() ;
+  //   json.put("id", id);
+  //   json.put("version", version);
+  //   return json;
+  // }
+  // function toJSON ( ) : JSONObject
+  // {
+  //   var json := JSONObject() ;
+  //   json.put("id", id);
+  //   json.put("number", number);
+  //   json.put("title", title);
+  //   json.put("submitted", submitted.getTime() / 1000L);
+  //   json.put("nrVotes", nrVotes);
+  //   json.put("project", project.toSimpleJSON());
+  //   if ( reporter != null )
+  //   {
+  //     json.put("reporter", reporter.toSimpleJSON());
+  //   }
+  //   json.put("open", open);
+  //   return json;
+  // }
   function assign ( ) : Void
   {
     if ( project.members.length == 1 )

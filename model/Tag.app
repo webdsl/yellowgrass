@@ -70,14 +70,14 @@ entity Tag {
       return "yellow";
     }
   }
-  function toJSON ( ) : JSONObject
-  {
-    var json := JSONObject() ;
-    json.put("id", id);
-    json.put("name", name);
-    json.put("color", getColor());
-    return json;
-  }
+  // function toJSON ( ) : JSONObject
+  // {
+  //   var json := JSONObject() ;
+  //   json.put("id", id);
+  //   json.put("name", name);
+  //   json.put("color", getColor());
+  //   return json;
+  // }
   function hasTag ( tagName : String ) : Bool
   {
     for ( t : Tag in tags )

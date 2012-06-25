@@ -205,54 +205,54 @@ title {
                                                " ) : "
                                                "Void"
                                              } par {
-                                                 "function toJSON ("
+                                                 "function toExtendedJSON ("
                                                  " ) : "
                                                  "JSONObject"
                                                } par {
-                                                   "function toSimpleJSON ("
+                                                   "function mailinglist ("
                                                    " ) : "
-                                                   "JSONObject"
+                                                   "Set<Email>"
                                                  } par {
-                                                     "function toExtendedJSON ("
+                                                     "function mailSubject ("
                                                      " ) : "
-                                                     "JSONObject"
+                                                     "String"
                                                    } par {
-                                                       "function mailinglist ("
+                                                       "function addTag ("
+                                                       "t : "
+                                                       navigate
+                                                       showEntityTag()
+                                                       [
+                                                       ]
+                                                       {
+                                                       "Tag"
+                                                       }
                                                        " ) : "
-                                                       "Set<Email>"
+                                                       "Void"
                                                      } par {
-                                                         "function mailSubject ("
+                                                         "function deleteTag ("
+                                                         "t : "
+                                                         navigate
+                                                         showEntityTag()
+                                                         [
+                                                         ]
+                                                         {
+                                                         "Tag"
+                                                         }
                                                          " ) : "
-                                                         "String"
+                                                         "Void"
                                                        } par {
-                                                           "function addTag ("
-                                                           "t : "
-                                                           navigate
-                                                           showEntityTag()
-                                                           [
-                                                           ]
-                                                           {
-                                                           "Tag"
-                                                           }
+                                                           "function hasTag ("
+                                                           "tagName : "
+                                                           "String"
                                                            " ) : "
-                                                           "Void"
+                                                           "Bool"
                                                          } par {
-                                                             "function deleteTag ("
-                                                             "t : "
-                                                             navigate
-                                                             showEntityTag()
-                                                             [
-                                                             ]
-                                                             {
-                                                             "Tag"
-                                                             }
+                                                             "function toJSON ("
                                                              " ) : "
-                                                             "Void"
+                                                             "JSONObject"
                                                            } par {
-                                                               "function hasTag ("
-                                                               "tagName : "
-                                                               "String"
+                                                               "function toSimpleJSON ("
                                                                " ) : "
-                                                               "Bool"
+                                                               "JSONObject"
                                                              }}
 }

@@ -53,24 +53,28 @@ title {
                        " ) : "
                        "Bool"
                      } par {
-                         "function toJSON ("
+                         "function getColor ("
                          " ) : "
-                         "JSONObject"
+                         "String"
                        } par {
-                           "function getColor ("
+                           "function getStylingClass ("
                            " ) : "
                            "String"
                          } par {
-                             "function getStylingClass ("
+                             "function isColored ("
                              " ) : "
-                             "String"
+                             "Bool"
                            } par {
-                               "function isColored ("
+                               "function isRelease ("
                                " ) : "
                                "Bool"
                              } par {
-                                 "function isRelease ("
+                                 "function toJSON ("
                                  " ) : "
-                                 "Bool"
-                               }}
+                                 "JSONObject"
+                               } par {
+                                   "function toSimpleJSON ("
+                                   " ) : "
+                                   "JSONObject"
+                                 }}
 }

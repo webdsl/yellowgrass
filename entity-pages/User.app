@@ -67,24 +67,24 @@ title {
                          " ) : "
                          "Bool"
                        } par {
-                           "function toJSON ("
+                           "function generateAuthenticationKey ("
+                           "deviceDescription : "
+                           "String"
                            " ) : "
-                           "JSONObject"
+                           "UUID"
                          } par {
-                             "function toSimpleJSON ("
+                             "function getDeviceKey ("
+                             "deviceDescription : "
+                             "String"
                              " ) : "
-                             "JSONObject"
+                             "UUID"
                            } par {
-                               "function generateAuthenticationKey ("
-                               "deviceDescription : "
-                               "String"
+                               "function toJSON ("
                                " ) : "
-                               "UUID"
+                               "JSONObject"
                              } par {
-                                 "function getDeviceKey ("
-                                 "deviceDescription : "
-                                 "String"
+                                 "function toSimpleJSON ("
                                  " ) : "
-                                 "UUID"
+                                 "JSONObject"
                                }}
 }

@@ -78,5 +78,13 @@ title {
                          {
                          "Issue"
                          }
-                       }}
+                       } par {
+                           "function toJSON ("
+                           " ) : "
+                           "JSONObject"
+                         } par {
+                             "function toSimpleJSON ("
+                             " ) : "
+                             "JSONObject"
+                           }}
 }

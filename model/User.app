@@ -32,33 +32,33 @@ entity User {
     }
     return key;
   }
-  function toSimpleJSON ( ) : JSONObject
-  {
-    var jsonobject := JSONObject() ;
-    jsonobject.put("id", id);
-    jsonobject.put("name", name);
-    jsonobject.put("version", version);
-    return jsonobject;
-  }
-  function toJSON ( ) : JSONObject
-  {
-    var jsonobject := JSONObject() ;
-    jsonobject.put("id", id);
-    jsonobject.put("name", name);
-    jsonobject.put("tag", tag);
-    jsonobject.put("url", url);
-    jsonobject.put("version", version);
-    var jsonarray := JSONArray() ;
-    for ( project : Project in projects )
-    {
-      if ( project.toSimpleJSON() != null )
-      {
-        jsonarray.put(project.toJSONRef());
-      }
-    }
-    jsonobject.put("projects", jsonarray);
-    return jsonobject;
-  }
+  // function toSimpleJSON ( ) : JSONObject
+  // {
+  //   var jsonobject := JSONObject() ;
+  //   jsonobject.put("id", id);
+  //   jsonobject.put("name", name);
+  //   jsonobject.put("version", version);
+  //   return jsonobject;
+  // }
+  // function toJSON ( ) : JSONObject
+  // {
+  //   var jsonobject := JSONObject() ;
+  //   jsonobject.put("id", id);
+  //   jsonobject.put("name", name);
+  //   jsonobject.put("tag", tag);
+  //   jsonobject.put("url", url);
+  //   jsonobject.put("version", version);
+  //   var jsonarray := JSONArray() ;
+  //   for ( project : Project in projects )
+  //   {
+  //     if ( project.toSimpleJSON() != null )
+  //     {
+  //       jsonarray.put(project.toJSONRef());
+  //     }
+  //   }
+  //   jsonobject.put("projects", jsonarray);
+  //   return jsonobject;
+  // }
   function userTagTaken ( ) : Bool
   {
     var users := findUserByTag(tag) ;

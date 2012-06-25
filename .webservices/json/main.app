@@ -1,0 +1,15 @@
+module .webservices/json/main
+imports .webservices/json/Attachment
+imports .webservices/json/Comment
+imports .webservices/json/Event
+imports .webservices/json/Issue
+imports .webservices/json/IssueClose
+imports .webservices/json/IssueGhost
+imports .webservices/json/IssueMoved
+imports .webservices/json/IssueReopen
+imports .webservices/json/Project
+imports .webservices/json/Release
+imports .webservices/json/Tag
+imports .webservices/json/TagAddition
+imports .webservices/json/TagRemoval
+imports .webservices/json/User

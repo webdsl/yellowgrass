@@ -149,17 +149,15 @@ title {
                                " ) : "
                                "String"
                              } par {
-                                 "function toJSON ("
-                                 "old : "
-                                 "JSONObject"
+                                 "function toJSONRef ("
                                  " ) : "
                                  "JSONObject"
                                } par {
-                                   "function toSimpleJSON ("
+                                   "function toJSON ("
                                    " ) : "
                                    "JSONObject"
                                  } par {
-                                     "function toJSONRef ("
+                                     "function toSimpleJSON ("
                                      " ) : "
                                      "JSONObject"
                                    }}

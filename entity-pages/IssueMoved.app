@@ -39,5 +39,13 @@ title {
                           "Issue"
                           }
                         }}
-  group("Functions"){}
+  group("Functions"){par {
+                       "function toJSON ("
+                       " ) : "
+                       "JSONObject"
+                     } par {
+                         "function toSimpleJSON ("
+                         " ) : "
+                         "JSONObject"
+                       }}
 }

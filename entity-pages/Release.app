@@ -41,12 +41,16 @@ title {
                             }
                           }}
   group("Functions"){par {
-                       "function toJSON ("
+                       "function toJSONSimple ("
                        " ) : "
                        "JSONObject"
                      } par {
-                         "function toJSONSimple ("
+                         "function toJSON ("
                          " ) : "
                          "JSONObject"
-                       }}
+                       } par {
+                           "function toSimpleJSON ("
+                           " ) : "
+                           "JSONObject"
+                         }}
 }

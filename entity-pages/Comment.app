@@ -37,5 +37,9 @@ title {
                        "function toJSON ("
                        " ) : "
                        "JSONObject"
-                     }}
+                     } par {
+                         "function toSimpleJSON ("
+                         " ) : "
+                         "JSONObject"
+                       }}
 }
