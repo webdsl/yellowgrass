@@ -1,4 +1,4 @@
-module .webservices/json/Issue
+module webservices/json/Issue
 extend entity Issue {
   function toSimpleJSON ( ) : JSONObject
   {
@@ -111,9 +111,9 @@ extend entity Issue {
     else
     {
       var arraylog := JSONArray() ;
-      for ( Event : Event in this.log )
+      for ( d_200018 : Event in this.log )
       {
-        arraylog.put(Event.id);
+        arraylog.put(d_200018.id);
       }
       object.put("log", arraylog);
     }
@@ -124,9 +124,9 @@ extend entity Issue {
     else
     {
       var arraytags := JSONArray() ;
-      for ( Tag : Tag in this.tags )
+      for ( e_200018 : Tag in this.tags )
       {
-        arraytags.put(Tag.id);
+        arraytags.put(e_200018.id);
       }
       object.put("tags", arraytags);
     }
@@ -153,9 +153,9 @@ extend entity Issue {
     else
     {
       var arrayattachments := JSONArray() ;
-      for ( Attachment : Attachment in this.attachments )
+      for ( f_200018 : Attachment in this.attachments )
       {
-        arrayattachments.put(Attachment.id);
+        arrayattachments.put(f_200018.id);
       }
       object.put("attachments", arrayattachments);
     }

@@ -1,12 +1,8 @@
-module .webservices/json/Comment
-extend entity Comment {
+module webservices/json/IssueReopen
+extend entity IssueReopen {
   function toSimpleJSON ( ) : JSONObject
   {
     var object := JSONObject() ;
-    if ( this.text != null )
-    {
-      object.put("text", text.format());
-    }
     if ( this.test15 != null )
     {
       object.put("test15", test15.format(DateType.getDefaultDateFormat()));
@@ -64,21 +60,13 @@ extend entity Comment {
   function toJSON ( ) : JSONObject
   {
     var object := JSONObject() ;
-    if ( this.text == null )
+    if ( this.actor == null )
     {
-      object.put("text", ( null as Object ));
+      object.put("actor", ( null as Object ));
     }
     else
     {
-      object.put("text", this.text.format());
-    }
-    if ( this.author == null )
-    {
-      object.put("author", ( null as Object ));
-    }
-    else
-    {
-      object.put("author", this.author.id);
+      object.put("actor", this.actor.id);
     }
     if ( this.test19 == null )
     {
@@ -87,24 +75,11 @@ extend entity Comment {
     else
     {
       var arraytest19 := JSONArray() ;
-      for ( Project : Project in this.test19 )
+      for ( z_200017 : Project in this.test19 )
       {
-        arraytest19.put(Project.id);
+        arraytest19.put(z_200017.id);
       }
       object.put("test19", arraytest19);
-    }
-    if ( this.test18 == null )
-    {
-      object.put("test18", ( null as Object ));
-    }
-    else
-    {
-      var arraytest18 := JSONArray() ;
-      for ( Issue : Issue in this.test18 )
-      {
-        arraytest18.put(Issue.id);
-      }
-      object.put("test18", arraytest18);
     }
     if ( this.test17 == null )
     {

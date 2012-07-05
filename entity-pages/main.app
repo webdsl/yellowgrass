@@ -8,7 +8,6 @@ imports entity-pages/IssueGhost
 imports entity-pages/IssueMoved
 imports entity-pages/IssueReopen
 imports entity-pages/Project
-imports entity-pages/Release
 imports entity-pages/Tag
 imports entity-pages/TagAddition
 imports entity-pages/TagRemoval
@@ -92,43 +91,35 @@ title {
                                       }
                                     } par {
                                         navigate
-                                        showEntityRelease()
+                                        showEntityTag()
                                         [
                                         ]
                                         {
-                                        "Release"
+                                        "Tag"
                                         }
                                       } par {
                                           navigate
-                                          showEntityTag()
+                                          showEntityTagAddition()
                                           [
                                           ]
                                           {
-                                          "Tag"
+                                          "TagAddition"
                                           }
                                         } par {
                                             navigate
-                                            showEntityTagAddition()
+                                            showEntityTagRemoval()
                                             [
                                             ]
                                             {
-                                            "TagAddition"
+                                            "TagRemoval"
                                             }
                                           } par {
                                               navigate
-                                              showEntityTagRemoval()
+                                              showEntityUser()
                                               [
                                               ]
                                               {
-                                              "TagRemoval"
+                                              "User"
                                               }
-                                            } par {
-                                                navigate
-                                                showEntityUser()
-                                                [
-                                                ]
-                                                {
-                                                "User"
-                                                }
-                                              }}
+                                            }}
 }

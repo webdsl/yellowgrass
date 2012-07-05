@@ -1,11 +1,15 @@
-module .webservices/json/Release
-extend entity Release {
+module webservices/json/Tag
+extend entity Tag {
   function toSimpleJSON ( ) : JSONObject
   {
     var object := JSONObject() ;
     if ( this.name != null )
     {
       object.put("name", name);
+    }
+    if ( this.description != null )
+    {
+      object.put("description", description);
     }
     if ( this.id != null )
     {
@@ -24,18 +28,13 @@ extend entity Release {
     {
       object.put("name", this.name);
     }
-    if ( this.issues == null )
+    if ( this.description == null )
     {
-      object.put("issues", ( null as Object ));
+      object.put("description", ( null as Object ));
     }
     else
     {
-      var arrayissues := JSONArray() ;
-      for ( Issue : Issue in this.issues )
-      {
-        arrayissues.put(Issue.id);
-      }
-      object.put("issues", arrayissues);
+      object.put("description", this.description);
     }
     if ( this.project == null )
     {
@@ -44,6 +43,19 @@ extend entity Release {
     else
     {
       object.put("project", this.project.id);
+    }
+    if ( this.tags == null )
+    {
+      object.put("tags", ( null as Object ));
+    }
+    else
+    {
+      var arraytags := JSONArray() ;
+      for ( u_200017 : Tag in this.tags )
+      {
+        arraytags.put(u_200017.id);
+      }
+      object.put("tags", arraytags);
     }
     if ( this.version == null )
     {

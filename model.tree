@@ -1,0 +1,13 @@
+Node(
+  "Project"
+, [ Node(
+      "Issue"
+    , [ Node("User", [])
+      , Node("Event", [])
+      , Node("Tag", [])
+      , Node("Attachment", [])
+      ]
+    )
+  , Node("User", [])
+  ]
+)

@@ -1,4 +1,4 @@
-module .webservices/json/Attachment
+module webservices/json/Attachment
 extend entity Attachment {
   function toSimpleJSON ( ) : JSONObject
   {

@@ -1,4 +1,4 @@
-module .webservices/json/User
+module webservices/json/User
 extend entity User {
   function toSimpleJSON ( ) : JSONObject
   {
@@ -63,9 +63,9 @@ extend entity User {
     else
     {
       var arrayprojects := JSONArray() ;
-      for ( Project : Project in this.projects )
+      for ( r_200017 : Project in this.projects )
       {
-        arrayprojects.put(Project.id);
+        arrayprojects.put(r_200017.id);
       }
       object.put("projects", arrayprojects);
     }

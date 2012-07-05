@@ -12,7 +12,7 @@ title {
                         " "
                         "->"
                         " "
-                        "Set<"
+                        "List<"
                         navigate
                         showEntityProject()
                         [
@@ -22,140 +22,126 @@ title {
                         }
                         ">"
                       } par {
-                          "test18"
+                          "test17"
                           " "
                           "->"
                           " "
-                          "List<"
                           navigate
-                          showEntityIssue()
+                          showEntityProject()
                           [
                           ]
                           {
-                          "Issue"
+                          "Project"
                           }
-                          ">"
                         } par {
-                            "test17"
+                            "test16"
                             " "
                             "->"
                             " "
                             navigate
-                            showEntityProject()
+                            showEntityIssue()
                             [
                             ]
                             {
-                            "Project"
+                            "Issue"
                             }
                           } par {
-                              "test16"
+                              "test15"
                               " "
-                              "->"
+                              "::"
                               " "
-                              navigate
-                              showEntityIssue()
-                              [
-                              ]
-                              {
-                              "Issue"
-                              }
+                              "Date"
                             } par {
-                                "test15"
+                                "test14"
                                 " "
                                 "::"
                                 " "
-                                "Date"
+                                "Time"
                               } par {
-                                  "test14"
+                                  "test13"
                                   " "
                                   "::"
                                   " "
-                                  "Time"
+                                  "WikiText"
                                 } par {
-                                    "test13"
+                                    "test12"
                                     " "
                                     "::"
                                     " "
-                                    "WikiText"
+                                    "Image"
                                   } par {
-                                      "test12"
+                                      "test11"
                                       " "
                                       "::"
                                       " "
-                                      "Image"
+                                      "File"
                                     } par {
-                                        "test11"
+                                        "test10"
                                         " "
                                         "::"
                                         " "
-                                        "File"
+                                        "Secret"
                                       } par {
-                                          "test10"
+                                          "test9"
                                           " "
                                           "::"
                                           " "
-                                          "Secret"
+                                          "Text"
                                         } par {
-                                            "test9"
+                                            "test8"
                                             " "
                                             "::"
                                             " "
-                                            "Text"
+                                            "Patch"
                                           } par {
-                                              "test8"
+                                              "test7"
                                               " "
                                               "::"
                                               " "
-                                              "Patch"
+                                              "URL"
                                             } par {
-                                                "test7"
+                                                "test6"
                                                 " "
                                                 "::"
                                                 " "
-                                                "URL"
+                                                "Long"
                                               } par {
-                                                  "test6"
+                                                  "test5"
                                                   " "
                                                   "::"
                                                   " "
-                                                  "Long"
+                                                  "Float"
                                                 } par {
-                                                    "test5"
+                                                    "test4"
                                                     " "
                                                     "::"
                                                     " "
-                                                    "Float"
+                                                    "Email"
                                                   } par {
-                                                      "test4"
+                                                      "test3"
                                                       " "
                                                       "::"
                                                       " "
-                                                      "Email"
+                                                      "Int"
                                                     } par {
-                                                        "test3"
+                                                        "test2"
                                                         " "
                                                         "::"
                                                         " "
-                                                        "Int"
+                                                        "String"
                                                       } par {
-                                                          "test2"
+                                                          "test"
                                                           " "
                                                           "::"
                                                           " "
-                                                          "String"
+                                                          "Bool"
                                                         } par {
-                                                            "test"
+                                                            "moment"
                                                             " "
                                                             "::"
                                                             " "
-                                                            "Bool"
-                                                          } par {
-                                                              "moment"
-                                                              " "
-                                                              "::"
-                                                              " "
-                                                              "DateTime"
-                                                            }}
+                                                            "DateTime"
+                                                          }}
   group("Functions"){par {
                        "function toJSON ("
                        " ) : "

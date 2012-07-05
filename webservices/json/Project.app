@@ -1,4 +1,4 @@
-module .webservices/json/Project
+module webservices/json/Project
 extend entity Project {
   function toSimpleJSON ( ) : JSONObject
   {
@@ -67,9 +67,9 @@ extend entity Project {
     else
     {
       var arrayissues := JSONArray() ;
-      for ( Issue : Issue in this.issues )
+      for ( v_200017 : Issue in this.issues )
       {
-        arrayissues.put(Issue.id);
+        arrayissues.put(v_200017.id);
       }
       object.put("issues", arrayissues);
     }
@@ -80,9 +80,9 @@ extend entity Project {
     else
     {
       var arraymembers := JSONArray() ;
-      for ( User : User in this.members )
+      for ( w_200017 : User in this.members )
       {
-        arraymembers.put(User.id);
+        arraymembers.put(w_200017.id);
       }
       object.put("members", arraymembers);
     }
@@ -93,9 +93,9 @@ extend entity Project {
     else
     {
       var arraymemberRequests := JSONArray() ;
-      for ( User : User in this.memberRequests )
+      for ( x_200017 : User in this.memberRequests )
       {
-        arraymemberRequests.put(User.id);
+        arraymemberRequests.put(x_200017.id);
       }
       object.put("memberRequests", arraymemberRequests);
     }
@@ -106,9 +106,9 @@ extend entity Project {
     else
     {
       var arrayfollowers := JSONArray() ;
-      for ( User : User in this.followers )
+      for ( y_200017 : User in this.followers )
       {
-        arrayfollowers.put(User.id);
+        arrayfollowers.put(y_200017.id);
       }
       object.put("followers", arrayfollowers);
     }

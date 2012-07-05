@@ -1,0 +1,210 @@
+module webservices::mobl::model
+  entity User {
+    version : Num
+    name : String
+    email : String
+    notifications : Bool
+    projects : Collection < Project > ( inverse : members )
+    url : String
+    tag : String
+    generatedPropertyForInverse_Project_followers : Project
+    generatedPropertyForInverse_Project_memberRequests : Project
+  }
+  entity TagRemoval {
+    version : Num
+    actor : User
+    tag : Tag
+    test19 : Collection < Project > ( inverse : generatedPropertyForInverse_TagRemoval_test19 )
+    test17 : Project
+    test16 : Issue
+    test15 : String
+    test14 : String
+    test13 : String
+    test9 : String
+    test7 : String
+    test6 : Num
+    test5 : Num
+    test4 : String
+    test3 : Num
+    test2 : String ( searchable )
+    test : Bool
+    moment : DateTime
+  }
+  entity TagAddition {
+    version : Num
+    actor : User
+    tag : Tag
+    test19 : Collection < Project > ( inverse : generatedPropertyForInverse_TagAddition_test19 )
+    test17 : Project
+    test16 : Issue
+    test15 : String
+    test14 : String
+    test13 : String
+    test9 : String
+    test7 : String
+    test6 : Num
+    test5 : Num
+    test4 : String
+    test3 : Num
+    test2 : String ( searchable )
+    test : Bool
+    moment : DateTime
+  }
+  entity Tag {
+    version : Num
+    name : String
+    description : String
+    project : Project
+    tags : Collection < Tag > ( inverse : generatedPropertyForInverse_Tag_tags )
+    generatedPropertyForInverse_Issue_tags : Issue
+    generatedPropertyForInverse_IssueGhost_tags : IssueGhost
+    generatedPropertyForInverse_Tag_tags : Tag
+  }
+  entity Project {
+    version : Num
+    name : String ( searchable )
+    description : String
+    url : String
+    issues : Collection < Issue > ( inverse : project )
+    members : Collection < User > ( inverse : projects )
+    memberRequests : Collection < User > ( inverse : generatedPropertyForInverse_Project_memberRequests )
+    followers : Collection < User > ( inverse : generatedPropertyForInverse_Project_followers )
+    created : DateTime
+    private : Bool ( searchable )
+    email : String
+    generatedPropertyForInverse_Comment_test19 : Collection < Comment > ( inverse : test19 )
+    generatedPropertyForInverse_Event_test19 : Collection < Event > ( inverse : test19 )
+    generatedPropertyForInverse_IssueClose_test19 : Collection < IssueClose > ( inverse : test19 )
+    generatedPropertyForInverse_IssueMoved_test19 : Collection < IssueMoved > ( inverse : test19 )
+    generatedPropertyForInverse_IssueReopen_test19 : Collection < IssueReopen > ( inverse : test19 )
+    generatedPropertyForInverse_TagAddition_test19 : Collection < TagAddition > ( inverse : test19 )
+    generatedPropertyForInverse_TagRemoval_test19 : Collection < TagRemoval > ( inverse : test19 )
+  }
+  entity IssueReopen {
+    version : Num
+    actor : User
+    test19 : Collection < Project > ( inverse : generatedPropertyForInverse_IssueReopen_test19 )
+    test17 : Project
+    test16 : Issue
+    test15 : String
+    test14 : String
+    test13 : String
+    test9 : String
+    test7 : String
+    test6 : Num
+    test5 : Num
+    test4 : String
+    test3 : Num
+    test2 : String ( searchable )
+    test : Bool
+    moment : DateTime
+  }
+  entity IssueMoved {
+    version : Num
+    actor : User
+    target : Issue
+    test19 : Collection < Project > ( inverse : generatedPropertyForInverse_IssueMoved_test19 )
+    test17 : Project
+    test16 : Issue
+    test15 : String
+    test14 : String
+    test13 : String
+    test9 : String
+    test7 : String
+    test6 : Num
+    test5 : Num
+    test4 : String
+    test3 : Num
+    test2 : String ( searchable )
+    test : Bool
+    moment : DateTime
+  }
+  entity IssueGhost {
+    version : Num
+    title : String
+    description : String
+    project : Project
+    email : String
+    tags : Collection < Tag > ( inverse : generatedPropertyForInverse_IssueGhost_tags )
+    alive : Bool
+  }
+  entity IssueClose {
+    version : Num
+    actor : User
+    test19 : Collection < Project > ( inverse : generatedPropertyForInverse_IssueClose_test19 )
+    test17 : Project
+    test16 : Issue
+    test15 : String
+    test14 : String
+    test13 : String
+    test9 : String
+    test7 : String
+    test6 : Num
+    test5 : Num
+    test4 : String
+    test3 : Num
+    test2 : String ( searchable )
+    test : Bool
+    moment : DateTime
+  }
+  entity Issue {
+    version : Num
+    number : Num ( searchable )
+    title : String ( searchable )
+    description : String ( searchable )
+    submitted : DateTime
+    project : Project ( inverse:issues, searchable )
+    reporter : User
+    open : Bool
+    log : Collection < Event > ( inverse : generatedPropertyForInverse_Issue_log )
+    tags : Collection < Tag > ( inverse:generatedPropertyForInverse_Issue_tags, searchable )
+    email : String
+    nrVotes : Num
+    attachments : Collection < Attachment > ( inverse : generatedPropertyForInverse_Issue_attachments )
+    projectName : String ( searchable )
+    reporterName : String ( searchable )
+  }
+  entity Event {
+    version : Num
+    test19 : Collection < Project > ( inverse : generatedPropertyForInverse_Event_test19 )
+    test17 : Project
+    test16 : Issue
+    test15 : String
+    test14 : String
+    test13 : String
+    test9 : String
+    test7 : String
+    test6 : Num
+    test5 : Num
+    test4 : String
+    test3 : Num
+    test2 : String ( searchable )
+    test : Bool
+    moment : DateTime
+    generatedPropertyForInverse_Issue_log : Issue
+  }
+  entity Comment {
+    version : Num
+    text : String ( searchable )
+    author : User
+    test19 : Collection < Project > ( inverse : generatedPropertyForInverse_Comment_test19 )
+    test17 : Project
+    test16 : Issue
+    test15 : String
+    test14 : String
+    test13 : String
+    test9 : String
+    test7 : String
+    test6 : Num
+    test5 : Num
+    test4 : String
+    test3 : Num
+    test2 : String ( searchable )
+    test : Bool
+    moment : DateTime
+  }
+  entity Attachment {
+    version : Num
+    date : DateTime
+    generatedPropertyForInverse_Issue_attachments : Issue
+  }

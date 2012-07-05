@@ -2,8 +2,8 @@ module model/Event
 entity Event {
   moment :: DateTime
   test ::  Bool  //todofix
-  test2 :: String
-  test3 :: Int
+  test2 :: String (searchable)
+  test3 :: Int 
   test4 :: Email
   test5 :: Float
   test6 :: Long 
@@ -18,8 +18,8 @@ entity Event {
   test15 :: Date
   test16 -> Issue
   test17 -> Project
-  test18 -> List<Issue>
-  test19 -> Set<Project> 
+  // test18 -> List<Issue> (inverse = Issue.test)
+  test19 -> List<Project> 
   
   // test18 -> Ref<Project> 
 // function toJSON ( ) : JSONObject

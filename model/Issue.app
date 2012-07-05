@@ -5,7 +5,7 @@ entity Issue {
   attachments -> Set<Attachment>
   nrVotes :: Int := [ t | t : Tag in tags where /!.*/.match(t.name) ].length
   email :: Email
-  tags -> Set<Tag> ( searchable )
+  tags -> Set<Tag> ( searchable ) 
   log -> Set<Event>
   open :: Bool
   reporter -> User
@@ -14,6 +14,7 @@ entity Issue {
   description :: WikiText ( searchable )
   title :: String ( searchable, validate ( title.length() >= 5 , "Use a longer and more descriptive title" ) )
   number :: Int ( searchable )
+  // test -> Event //(inverse = Event.test18 )
   function hasTag ( tagName : String ) : Bool
   {
     for ( t : Tag in tags )

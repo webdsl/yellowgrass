@@ -1,4 +1,4 @@
-module .webservices/json/IssueGhost
+module webservices/json/IssueGhost
 extend entity IssueGhost {
   function toSimpleJSON ( ) : JSONObject
   {
@@ -67,9 +67,9 @@ extend entity IssueGhost {
     else
     {
       var arraytags := JSONArray() ;
-      for ( Tag : Tag in this.tags )
+      for ( b_200018 : Tag in this.tags )
       {
-        arraytags.put(Tag.id);
+        arraytags.put(b_200018.id);
       }
       object.put("tags", arraytags);
     }

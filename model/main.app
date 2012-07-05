@@ -9,7 +9,7 @@ imports model/IssueGhost
 imports model/IssueMoved
 imports model/IssueReopen
 imports model/Project
-imports model/Release
+// imports model/Release
 imports model/Tag
 imports model/TagAddition
 imports model/TagRemoval

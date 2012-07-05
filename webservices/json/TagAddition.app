@@ -1,5 +1,5 @@
-module .webservices/json/Event
-extend entity Event {
+module webservices/json/TagAddition
+extend entity TagAddition {
   function toSimpleJSON ( ) : JSONObject
   {
     var object := JSONObject() ;
@@ -60,6 +60,22 @@ extend entity Event {
   function toJSON ( ) : JSONObject
   {
     var object := JSONObject() ;
+    if ( this.actor == null )
+    {
+      object.put("actor", ( null as Object ));
+    }
+    else
+    {
+      object.put("actor", this.actor.id);
+    }
+    if ( this.tag == null )
+    {
+      object.put("tag", ( null as Object ));
+    }
+    else
+    {
+      object.put("tag", this.tag.id);
+    }
     if ( this.test19 == null )
     {
       object.put("test19", ( null as Object ));
@@ -67,24 +83,11 @@ extend entity Event {
     else
     {
       var arraytest19 := JSONArray() ;
-      for ( Project : Project in this.test19 )
+      for ( t_200017 : Project in this.test19 )
       {
-        arraytest19.put(Project.id);
+        arraytest19.put(t_200017.id);
       }
       object.put("test19", arraytest19);
-    }
-    if ( this.test18 == null )
-    {
-      object.put("test18", ( null as Object ));
-    }
-    else
-    {
-      var arraytest18 := JSONArray() ;
-      for ( Issue : Issue in this.test18 )
-      {
-        arraytest18.put(Issue.id);
-      }
-      object.put("test18", arraytest18);
     }
     if ( this.test17 == null )
     {

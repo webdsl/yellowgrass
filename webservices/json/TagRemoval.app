@@ -1,5 +1,5 @@
-module .webservices/json/IssueMoved
-extend entity IssueMoved {
+module webservices/json/TagRemoval
+extend entity TagRemoval {
   function toSimpleJSON ( ) : JSONObject
   {
     var object := JSONObject() ;
@@ -68,13 +68,13 @@ extend entity IssueMoved {
     {
       object.put("actor", this.actor.id);
     }
-    if ( this.target == null )
+    if ( this.tag == null )
     {
-      object.put("target", ( null as Object ));
+      object.put("tag", ( null as Object ));
     }
     else
     {
-      object.put("target", this.target.id);
+      object.put("tag", this.tag.id);
     }
     if ( this.test19 == null )
     {
@@ -83,24 +83,11 @@ extend entity IssueMoved {
     else
     {
       var arraytest19 := JSONArray() ;
-      for ( Project : Project in this.test19 )
+      for ( s_200017 : Project in this.test19 )
       {
-        arraytest19.put(Project.id);
+        arraytest19.put(s_200017.id);
       }
       object.put("test19", arraytest19);
-    }
-    if ( this.test18 == null )
-    {
-      object.put("test18", ( null as Object ));
-    }
-    else
-    {
-      var arraytest18 := JSONArray() ;
-      for ( Issue : Issue in this.test18 )
-      {
-        arraytest18.put(Issue.id);
-      }
-      object.put("test18", arraytest18);
     }
     if ( this.test17 == null )
     {
