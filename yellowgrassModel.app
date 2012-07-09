@@ -2,6 +2,7 @@ application yellowgrassModel
 imports model/main
 imports entity-pages/main
 imports webservices/json/main
+imports webservices/services/interface
 page root() {
 	navigate showEntities() { "entities" }
 	// init{
