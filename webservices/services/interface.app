@@ -1,4 +1,6 @@
 module webservices/services/interface
+imports webservices/services/getTopLevelEntities
+imports webservices/services/test
 native class DispatchServletHelper as DispatchServletHelper : DispatchServlet
 {
 getResponse ( ) : HttpServletResponse
@@ -17,13 +19,13 @@ function getDispatchServletHelper ( ) : DispatchServletHelper
     return null;
   }
 }
-function getAvialableServices ( ) : List<String>
+function getAvialableServices ( ) : Set<String>
 {
-  return ["test"];
+  return {"test", "getTopLevelEntities"};
 }
 service webservices ( service : String )
 {
-  if ( getAvialableServices().indexOf(service) >= 0 )
+  if ( service in getAvialableServices() )
   {
     getDispatchServletHelper().forwardRequest("/webservice_generated_" + service + "/");
   }
@@ -35,13 +37,4 @@ service webservices ( service : String )
     json.put("errors", errors);
     return json;
   }
-}
-service webservice_generated_test ( )
-{
-  var json := JSONObject() ;
-  var errors := JSONArray() ;
-  var message := "This is a test service" ;
-  json.put("errors", errors);
-  json.put("result", message);
-  return json;
 }

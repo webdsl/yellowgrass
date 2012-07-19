@@ -1,0 +1,158 @@
+module webservices::mobl::mapper
+  import webservices :: mobl :: model
+  function UserMapper ( json : JSON ) : void {
+    if ( json . errors )
+    {
+      log(json.errors);
+    }
+    else
+    {
+      foreach ( json : JSON in json ) {
+        User . fromSelectJSON ( json );
+      }
+    }
+  }
+  function TagRemovalMapper ( json : JSON ) : void {
+    if ( json . errors )
+    {
+      log(json.errors);
+    }
+    else
+    {
+      foreach ( json : JSON in json ) {
+        TagRemoval . fromSelectJSON ( json );
+      }
+    }
+  }
+  function TagAdditionMapper ( json : JSON ) : void {
+    if ( json . errors )
+    {
+      log(json.errors);
+    }
+    else
+    {
+      foreach ( json : JSON in json ) {
+        TagAddition . fromSelectJSON ( json );
+      }
+    }
+  }
+  function TagMapper ( json : JSON ) : void {
+    if ( json . errors )
+    {
+      log(json.errors);
+    }
+    else
+    {
+      foreach ( json : JSON in json ) {
+        Tag . fromSelectJSON ( json );
+      }
+    }
+  }
+  function ProjectMapper ( json : JSON ) : void {
+    if ( json . errors )
+    {
+      log(json.errors);
+    }
+    else
+    {
+      foreach ( json : JSON in json ) {
+        Project . fromSelectJSON ( json );
+      }
+    }
+  }
+  function IssueReopenMapper ( json : JSON ) : void {
+    if ( json . errors )
+    {
+      log(json.errors);
+    }
+    else
+    {
+      foreach ( json : JSON in json ) {
+        IssueReopen . fromSelectJSON ( json );
+      }
+    }
+  }
+  function IssueMovedMapper ( json : JSON ) : void {
+    if ( json . errors )
+    {
+      log(json.errors);
+    }
+    else
+    {
+      foreach ( json : JSON in json ) {
+        IssueMoved . fromSelectJSON ( json );
+      }
+    }
+  }
+  function IssueGhostMapper ( json : JSON ) : void {
+    if ( json . errors )
+    {
+      log(json.errors);
+    }
+    else
+    {
+      foreach ( json : JSON in json ) {
+        IssueGhost . fromSelectJSON ( json );
+      }
+    }
+  }
+  function IssueCloseMapper ( json : JSON ) : void {
+    if ( json . errors )
+    {
+      log(json.errors);
+    }
+    else
+    {
+      foreach ( json : JSON in json ) {
+        IssueClose . fromSelectJSON ( json );
+      }
+    }
+  }
+  function IssueMapper ( json : JSON ) : void {
+    if ( json . errors )
+    {
+      log(json.errors);
+    }
+    else
+    {
+      foreach ( json : JSON in json ) {
+        Issue . fromSelectJSON ( json );
+      }
+    }
+  }
+  function EventMapper ( json : JSON ) : void {
+    if ( json . errors )
+    {
+      log(json.errors);
+    }
+    else
+    {
+      foreach ( json : JSON in json ) {
+        Event . fromSelectJSON ( json );
+      }
+    }
+  }
+  function CommentMapper ( json : JSON ) : void {
+    if ( json . errors )
+    {
+      log(json.errors);
+    }
+    else
+    {
+      foreach ( json : JSON in json ) {
+        Comment . fromSelectJSON ( json );
+      }
+    }
+  }
+  function AttachmentMapper ( json : JSON ) : void {
+    if ( json . errors )
+    {
+      log(json.errors);
+    }
+    else
+    {
+      foreach ( json : JSON in json ) {
+        Attachment . fromSelectJSON ( json );
+      }
+    }
+  }
