@@ -1,0 +1,12 @@
+configuration
+
+title "yellowgrassModel"
+offline
+// output "temp2"        
+// output "/WebContent/" 
+output "../../../tomcat/webapps/yellowgrassModel"
+version "0.3.0"
+//debug 
+stdlib "C:\Users\Chris\git\mobl-lib"
+html mobl.html  
+         

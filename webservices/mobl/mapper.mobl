@@ -1,157 +1,157 @@
 module webservices::mobl::mapper
   import webservices :: mobl :: model
   function UserMapper ( json : JSON ) : void {
-    if ( json . errors )
+    if ( json . errors && json . errors . length > 0 )
     {
       log(json.errors);
     }
     else
     {
-      foreach ( json : JSON in json ) {
+      foreach ( json : JSON in json . result ) {
         User . fromSelectJSON ( json );
       }
     }
   }
   function TagRemovalMapper ( json : JSON ) : void {
-    if ( json . errors )
+    if ( json . errors && json . errors . length > 0 )
     {
       log(json.errors);
     }
     else
     {
-      foreach ( json : JSON in json ) {
+      foreach ( json : JSON in json . result ) {
         TagRemoval . fromSelectJSON ( json );
       }
     }
   }
   function TagAdditionMapper ( json : JSON ) : void {
-    if ( json . errors )
+    if ( json . errors && json . errors . length > 0 )
     {
       log(json.errors);
     }
     else
     {
-      foreach ( json : JSON in json ) {
+      foreach ( json : JSON in json . result ) {
         TagAddition . fromSelectJSON ( json );
       }
     }
   }
   function TagMapper ( json : JSON ) : void {
-    if ( json . errors )
+    if ( json . errors && json . errors . length > 0 )
     {
       log(json.errors);
     }
     else
     {
-      foreach ( json : JSON in json ) {
+      foreach ( json : JSON in json . result ) {
         Tag . fromSelectJSON ( json );
       }
     }
   }
   function ProjectMapper ( json : JSON ) : void {
-    if ( json . errors )
+    if ( json . errors && json . errors . length > 0 )
     {
       log(json.errors);
     }
     else
     {
-      foreach ( json : JSON in json ) {
+      foreach ( json : JSON in json . result ) {
         Project . fromSelectJSON ( json );
       }
     }
   }
   function IssueReopenMapper ( json : JSON ) : void {
-    if ( json . errors )
+    if ( json . errors && json . errors . length > 0 )
     {
       log(json.errors);
     }
     else
     {
-      foreach ( json : JSON in json ) {
+      foreach ( json : JSON in json . result ) {
         IssueReopen . fromSelectJSON ( json );
       }
     }
   }
   function IssueMovedMapper ( json : JSON ) : void {
-    if ( json . errors )
+    if ( json . errors && json . errors . length > 0 )
     {
       log(json.errors);
     }
     else
     {
-      foreach ( json : JSON in json ) {
+      foreach ( json : JSON in json . result ) {
         IssueMoved . fromSelectJSON ( json );
       }
     }
   }
   function IssueGhostMapper ( json : JSON ) : void {
-    if ( json . errors )
+    if ( json . errors && json . errors . length > 0 )
     {
       log(json.errors);
     }
     else
     {
-      foreach ( json : JSON in json ) {
+      foreach ( json : JSON in json . result ) {
         IssueGhost . fromSelectJSON ( json );
       }
     }
   }
   function IssueCloseMapper ( json : JSON ) : void {
-    if ( json . errors )
+    if ( json . errors && json . errors . length > 0 )
     {
       log(json.errors);
     }
     else
     {
-      foreach ( json : JSON in json ) {
+      foreach ( json : JSON in json . result ) {
         IssueClose . fromSelectJSON ( json );
       }
     }
   }
   function IssueMapper ( json : JSON ) : void {
-    if ( json . errors )
+    if ( json . errors && json . errors . length > 0 )
     {
       log(json.errors);
     }
     else
     {
-      foreach ( json : JSON in json ) {
+      foreach ( json : JSON in json . result ) {
         Issue . fromSelectJSON ( json );
       }
     }
   }
   function EventMapper ( json : JSON ) : void {
-    if ( json . errors )
+    if ( json . errors && json . errors . length > 0 )
     {
       log(json.errors);
     }
     else
     {
-      foreach ( json : JSON in json ) {
+      foreach ( json : JSON in json . result ) {
         Event . fromSelectJSON ( json );
       }
     }
   }
   function CommentMapper ( json : JSON ) : void {
-    if ( json . errors )
+    if ( json . errors && json . errors . length > 0 )
     {
       log(json.errors);
     }
     else
     {
-      foreach ( json : JSON in json ) {
+      foreach ( json : JSON in json . result ) {
         Comment . fromSelectJSON ( json );
       }
     }
   }
   function AttachmentMapper ( json : JSON ) : void {
-    if ( json . errors )
+    if ( json . errors && json . errors . length > 0 )
     {
       log(json.errors);
     }
     else
     {
-      foreach ( json : JSON in json ) {
+      foreach ( json : JSON in json . result ) {
         Attachment . fromSelectJSON ( json );
       }
     }

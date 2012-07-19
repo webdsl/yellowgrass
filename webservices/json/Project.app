@@ -67,9 +67,9 @@ extend entity Project {
     else
     {
       var arrayissues := JSONArray() ;
-      for ( v_200017 : Issue in this.issues )
+      for ( a_19776 : Issue in this.issues )
       {
-        arrayissues.put(v_200017.id);
+        arrayissues.put(a_19776.id);
       }
       object.put("issues", arrayissues);
     }
@@ -80,9 +80,9 @@ extend entity Project {
     else
     {
       var arraymembers := JSONArray() ;
-      for ( w_200017 : User in this.members )
+      for ( b_19776 : User in this.members )
       {
-        arraymembers.put(w_200017.id);
+        arraymembers.put(b_19776.id);
       }
       object.put("members", arraymembers);
     }
@@ -93,9 +93,9 @@ extend entity Project {
     else
     {
       var arraymemberRequests := JSONArray() ;
-      for ( x_200017 : User in this.memberRequests )
+      for ( c_19776 : User in this.memberRequests )
       {
-        arraymemberRequests.put(x_200017.id);
+        arraymemberRequests.put(c_19776.id);
       }
       object.put("memberRequests", arraymemberRequests);
     }
@@ -106,9 +106,9 @@ extend entity Project {
     else
     {
       var arrayfollowers := JSONArray() ;
-      for ( y_200017 : User in this.followers )
+      for ( d_19776 : User in this.followers )
       {
-        arrayfollowers.put(y_200017.id);
+        arrayfollowers.put(d_19776.id);
       }
       object.put("followers", arrayfollowers);
     }

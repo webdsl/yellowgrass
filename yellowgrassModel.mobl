@@ -1,0 +1,30 @@
+application yellowgrassModel
+import mobl::ui::generic
+import webservices::mobl::simpleView
+import webservices::mobl::model
+import webservices::mobl::sync
+import syncControl
+import lib   
+screen root(){
+	header("root"){
+		button("Sync", onclick={Sync.getTopLevelEntities();}) 
+		button("Sync2", onclick={Sync.syncProjects(Project.all().filter("sync", "=", "true").selectJSON(["id","version"]));}) 
+		}
+	group{
+		item(onclick={ showProjectsSimple(); }) { label("Show Projects" ) }
+		item(onclick={ syncSimpleView(); }) {label("Sync Settings")} 
+		item(onclick={ log(Project.all().filter("sync", "=", "true").selectJSON(["id","version"])); }) {label("test")}	}
+}
+
+screen showProjectsSimple() {
+	header("All Projects") { 
+		backButton("back")
+	}
+		var phrase = ""
+		searchBox(phrase)
+		group {
+			list(project in Project.searchPrefix(phrase).order("name", true)) {  
+				item(onclick={ return showControl(showProjectSimple, project); }) { label(project.name) }   
+			} 
+		}    
+	}

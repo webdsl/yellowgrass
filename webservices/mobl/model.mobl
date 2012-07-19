@@ -14,40 +14,12 @@ module webservices::mobl::model
     version : Num
     actor : User
     tag : Tag
-    test19 : Collection < Project > ( inverse : generatedPropertyForInverse_TagRemoval_test19 )
-    test17 : Project
-    test16 : Issue
-    test15 : String
-    test14 : String
-    test13 : String
-    test9 : String
-    test7 : String
-    test6 : Num
-    test5 : Num
-    test4 : String
-    test3 : Num
-    test2 : String ( searchable )
-    test : Bool
     moment : DateTime
   }
   entity TagAddition {
     version : Num
     actor : User
     tag : Tag
-    test19 : Collection < Project > ( inverse : generatedPropertyForInverse_TagAddition_test19 )
-    test17 : Project
-    test16 : Issue
-    test15 : String
-    test14 : String
-    test13 : String
-    test9 : String
-    test7 : String
-    test6 : Num
-    test5 : Num
-    test4 : String
-    test3 : Num
-    test2 : String ( searchable )
-    test : Bool
     moment : DateTime
   }
   entity Tag {
@@ -70,53 +42,19 @@ module webservices::mobl::model
     memberRequests : Collection < User > ( inverse : generatedPropertyForInverse_Project_memberRequests )
     followers : Collection < User > ( inverse : generatedPropertyForInverse_Project_followers )
     created : DateTime
-    private : Bool ( searchable )
+    private : Bool
     email : String
-    generatedPropertyForInverse_Comment_test19 : Collection < Comment > ( inverse : test19 )
-    generatedPropertyForInverse_Event_test19 : Collection < Event > ( inverse : test19 )
-    generatedPropertyForInverse_IssueClose_test19 : Collection < IssueClose > ( inverse : test19 )
-    generatedPropertyForInverse_IssueMoved_test19 : Collection < IssueMoved > ( inverse : test19 )
-    generatedPropertyForInverse_IssueReopen_test19 : Collection < IssueReopen > ( inverse : test19 )
-    generatedPropertyForInverse_TagAddition_test19 : Collection < TagAddition > ( inverse : test19 )
-    generatedPropertyForInverse_TagRemoval_test19 : Collection < TagRemoval > ( inverse : test19 )
+    sync : Bool
   }
   entity IssueReopen {
     version : Num
     actor : User
-    test19 : Collection < Project > ( inverse : generatedPropertyForInverse_IssueReopen_test19 )
-    test17 : Project
-    test16 : Issue
-    test15 : String
-    test14 : String
-    test13 : String
-    test9 : String
-    test7 : String
-    test6 : Num
-    test5 : Num
-    test4 : String
-    test3 : Num
-    test2 : String ( searchable )
-    test : Bool
     moment : DateTime
   }
   entity IssueMoved {
     version : Num
     actor : User
     target : Issue
-    test19 : Collection < Project > ( inverse : generatedPropertyForInverse_IssueMoved_test19 )
-    test17 : Project
-    test16 : Issue
-    test15 : String
-    test14 : String
-    test13 : String
-    test9 : String
-    test7 : String
-    test6 : Num
-    test5 : Num
-    test4 : String
-    test3 : Num
-    test2 : String ( searchable )
-    test : Bool
     moment : DateTime
   }
   entity IssueGhost {
@@ -131,33 +69,19 @@ module webservices::mobl::model
   entity IssueClose {
     version : Num
     actor : User
-    test19 : Collection < Project > ( inverse : generatedPropertyForInverse_IssueClose_test19 )
-    test17 : Project
-    test16 : Issue
-    test15 : String
-    test14 : String
-    test13 : String
-    test9 : String
-    test7 : String
-    test6 : Num
-    test5 : Num
-    test4 : String
-    test3 : Num
-    test2 : String ( searchable )
-    test : Bool
     moment : DateTime
   }
   entity Issue {
     version : Num
-    number : Num ( searchable )
+    number : Num
     title : String ( searchable )
     description : String ( searchable )
     submitted : DateTime
-    project : Project ( inverse:issues, searchable )
+    project : Project ( inverse : issues )
     reporter : User
     open : Bool
     log : Collection < Event > ( inverse : generatedPropertyForInverse_Issue_log )
-    tags : Collection < Tag > ( inverse:generatedPropertyForInverse_Issue_tags, searchable )
+    tags : Collection < Tag > ( inverse : generatedPropertyForInverse_Issue_tags )
     email : String
     nrVotes : Num
     attachments : Collection < Attachment > ( inverse : generatedPropertyForInverse_Issue_attachments )
@@ -166,20 +90,6 @@ module webservices::mobl::model
   }
   entity Event {
     version : Num
-    test19 : Collection < Project > ( inverse : generatedPropertyForInverse_Event_test19 )
-    test17 : Project
-    test16 : Issue
-    test15 : String
-    test14 : String
-    test13 : String
-    test9 : String
-    test7 : String
-    test6 : Num
-    test5 : Num
-    test4 : String
-    test3 : Num
-    test2 : String ( searchable )
-    test : Bool
     moment : DateTime
     generatedPropertyForInverse_Issue_log : Issue
   }
@@ -187,20 +97,6 @@ module webservices::mobl::model
     version : Num
     text : String ( searchable )
     author : User
-    test19 : Collection < Project > ( inverse : generatedPropertyForInverse_Comment_test19 )
-    test17 : Project
-    test16 : Issue
-    test15 : String
-    test14 : String
-    test13 : String
-    test9 : String
-    test7 : String
-    test6 : Num
-    test5 : Num
-    test4 : String
-    test3 : Num
-    test2 : String ( searchable )
-    test : Bool
     moment : DateTime
   }
   entity Attachment {

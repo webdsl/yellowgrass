@@ -1,0 +1,86 @@
+module moblapp::simpleView
+
+import webservices::mobl::model
+import mobl::ui::generic
+// import yellowgrassModel
+// 
+// screen showProjectsSimple() {
+// 	header("All Projects") { 
+// 		backButton("back")
+// 	}
+// 		var phrase = ""
+// 		// item{label(checkServiceStatus("getProjects"))}
+// 		searchBox(phrase)
+// 		group {
+// 			list(project in Project.searchPrefix(phrase).order("name", true)) {  
+// 				item(onclick={ return showControl(showProjectSimple, project); }) { label(project.name) }   
+// 			} 
+// 		}    
+// 	}
+// 	
+// screen showControl(viewer : Control1<Entity<?>>, value : Entity<?> ) {
+// 	viewer(value)
+// }
+// 
+// screen showControlList(viewer : Control3<String ,Collection<Entity<?>>, Control1<Dynamic>>,  headerName : String, values : Collection<Entity<?>>,  dviewer : Control1<Dynamic>  ) {
+// 	viewer(headerName, values, dviewer)
+// }
+// 
+// control showProjectSimple(p : Project) {
+// 	header("Project") { 
+// 		backButton("back", onclick={root();})
+// 	} group {
+// 		showField("id", p.id)
+// 		showField("name", p.name)
+// 		showField("email", p.email)
+// 		showField("discription", p.description)
+// 		showField("created", p.created.toDateString())
+// 		showField("private", p.private.toString())	
+// 		showField("url", p.url)
+// 		showField("version", p.version.toString())
+// 		showEntityField("test", p, showProjectSimple )
+// 		showEntitiesField("testList", getCol(p), showProjectSimple)		
+// 	}
+// }
+// 
+// function getCol(p : Project) : Collection<Project> {
+// 	var x = Collection<Project>();
+// 	x.add(p);
+// 	x.add(p);
+// 	return x;
+// }
+// control showField (name : String, value : String){
+// 	item{
+// 			label(name, style=textFieldLabelStyle)
+// 			textField(value, disabled=true)  
+// 		}			
+// }
+
+screen showControl(viewer : Control1<Entity<?>>, value : Entity<?> ) {
+	viewer(value)
+}
+
+screen showControlList(viewer : Control3<String ,Collection<Entity<?>>, Control1<Dynamic>>,  headerName : String, values : Collection<Entity<?>>,  dviewer : Control1<Dynamic>  ) {
+	viewer(headerName, values, dviewer)
+}
+
+control showEntityField (name : String, value : Entity<?>, viewer : Control1<Entity<?>>){
+	when(value){
+		item(onclick={showControl(viewer,  value);}){label(name)}		
+	}			
+}
+
+control showEntitiesField (name : String, values : Collection<Entity<?>>, viewer : Control1<Entity<?>>){
+	when(values){
+		item(onclick={showControlList(showEntitiesList, name, values, viewer);}){label(name)}		
+	}			
+}
+
+control showEntitiesList (headerName : String, values: Collection<Entity<?>>, viewer : Control1<Entity<?>>){
+	header(headerName) { 
+		backButton("back")
+	}
+	list(value in values){
+		item(onclick={showControl(viewer,  value);}){label(value.id)}
+	}	
+}

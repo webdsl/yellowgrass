@@ -1,0 +1,51 @@
+module lib
+
+import mobl::ui::generic
+
+ 
+resource hack.js 
+load hack.js 
+
+
+   
+ 
+var online:Bool = null;   
+
+var lastStatus:Bool = null;
+var currentTab:String = null;
+
+
+external sync function fixDB() : void
+external sync function fixDB2() : void
+
+
+<javascript>    
+__ns.setCacheFunctions = function() { 
+	setCacheFunctions(); 
+};  	   
+</javascript> 
+ 
+<javascript>    
+__ns.fixTablePopulairIssues = function() {
+	fixTablePopulairIssues(); 
+};  	  
+</javascript>
+
+<javascript>
+__ns.log = function(string) {
+	console.log(string); 
+}; 
+</javascript>
+
+<javascript>
+__ns.fixDB = function() {
+	fixDB(); 
+};
+</javascript>   
+
+<javascript>
+__ns.fixDB2 = function() {
+	console.log("FixTables");
+	fixDB2(); 
+};
+</javascript> 

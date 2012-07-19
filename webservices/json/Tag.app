@@ -51,9 +51,9 @@ extend entity Tag {
     else
     {
       var arraytags := JSONArray() ;
-      for ( u_200017 : Tag in this.tags )
+      for ( z_19775 : Tag in this.tags )
       {
-        arraytags.put(u_200017.id);
+        arraytags.put(z_19775.id);
       }
       object.put("tags", arraytags);
     }

@@ -63,9 +63,9 @@ extend entity User {
     else
     {
       var arrayprojects := JSONArray() ;
-      for ( r_200017 : Project in this.projects )
+      for ( y_19775 : Project in this.projects )
       {
-        arrayprojects.put(r_200017.id);
+        arrayprojects.put(y_19775.id);
       }
       object.put("projects", arrayprojects);
     }

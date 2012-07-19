@@ -67,9 +67,9 @@ extend entity IssueGhost {
     else
     {
       var arraytags := JSONArray() ;
-      for ( b_200018 : Tag in this.tags )
+      for ( e_19776 : Tag in this.tags )
       {
-        arraytags.put(b_200018.id);
+        arraytags.put(e_19776.id);
       }
       object.put("tags", arraytags);
     }

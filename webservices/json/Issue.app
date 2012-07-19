@@ -111,9 +111,9 @@ extend entity Issue {
     else
     {
       var arraylog := JSONArray() ;
-      for ( d_200018 : Event in this.log )
+      for ( f_19776 : Event in this.log )
       {
-        arraylog.put(d_200018.id);
+        arraylog.put(f_19776.id);
       }
       object.put("log", arraylog);
     }
@@ -124,9 +124,9 @@ extend entity Issue {
     else
     {
       var arraytags := JSONArray() ;
-      for ( e_200018 : Tag in this.tags )
+      for ( g_19776 : Tag in this.tags )
       {
-        arraytags.put(e_200018.id);
+        arraytags.put(g_19776.id);
       }
       object.put("tags", arraytags);
     }
@@ -153,9 +153,9 @@ extend entity Issue {
     else
     {
       var arrayattachments := JSONArray() ;
-      for ( f_200018 : Attachment in this.attachments )
+      for ( h_19776 : Attachment in this.attachments )
       {
-        arrayattachments.put(f_200018.id);
+        arrayattachments.put(h_19776.id);
       }
       object.put("attachments", arrayattachments);
     }

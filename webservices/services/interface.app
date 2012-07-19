@@ -21,9 +21,9 @@ function getDispatchServletHelper ( ) : DispatchServletHelper
 }
 function getAvialableServices ( ) : Set<String>
 {
-  return {"test", "getTopLevelEntities"};
+  return {"test", "getTopLevelEntities", "syncProjects"};
 }
-service webservices ( service : String )
+service webservice ( service : String )
 {
   if ( service in getAvialableServices() )
   {
@@ -37,4 +37,18 @@ service webservices ( service : String )
     json.put("errors", errors);
     return json;
   }
+}
+
+service webservice_generated_syncProjects ( ) //todo generation
+{
+  var json := JSONObject() ;
+  var errors := JSONArray() ;
+  // var result := "This is a test service" ;
+  var request := JSONArray(readRequestBody());
+  var result := JSONArray();
+  for(count : Int from 0 to request.length() ){ 
+  		result.put((loadEntity("Project", request.getJSONObject(count).getString("id").parseUUID()) as Project).toJSON());
+  }
+  json.put("result", result);
+  return json;
 }

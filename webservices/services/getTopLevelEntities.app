@@ -4,9 +4,9 @@ service webservice_generated_getTopLevelEntities ( )
   var json := JSONObject() ;
   var errors := JSONArray() ;
   var result := JSONArray() ;
-  for ( l_70515 : Project in Project.all() )
+  for ( h_19776 : Project in Project.all() )
   {
-    result.put(l_70515.toSimpleJSON());
+    result.put(h_19776.toSimpleJSON());
   }
   json.put("errors", errors);
   json.put("result", result);

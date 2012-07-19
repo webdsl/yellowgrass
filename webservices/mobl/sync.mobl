@@ -1,10 +1,19 @@
 module webservices::mobl::sync
   import webservices :: mobl :: mapper
+  import webservices :: mobl :: model
   service Sync {
     resource getTopLevelEntities ( ) : void {
-      uri="/webservices/getTopLevelEntities"
+      uri="webservice/getTopLevelEntities"
       method="PUT"
-      data=mobl::JSON()
+      data={}
       mapper=ProjectMapper
     }
+    resource syncProjects (projects : JSON ) : void { //todo generation
+      uri="webservice/syncProjects"
+      method="PUT"
+      data = JSON.stringify(projects)
+      mapper=ProjectMapper
+    }
+    
+     
   }
