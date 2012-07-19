@@ -1,0 +1,10 @@
+module webservices::mobl::sync
+  import webservices :: mobl :: mapper
+  service Sync {
+    resource getTopLevelEntities ( ) : void {
+      uri="/webservices/getTopLevelEntities"
+      method="PUT"
+      data=mobl::JSON()
+      mapper=ProjectMapper
+    }
+  }
