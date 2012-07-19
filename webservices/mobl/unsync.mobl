@@ -1,0 +1,127 @@
+module webservices::mobl::unsync
+  import webservices :: mobl :: model
+  import mobl :: ui :: generic
+  function nrUnsyncedAttachment ( ) : Num {
+    return getUnsyncedAttachment ( ) . count ( );
+  }
+  function nrUnsyncedComment ( ) : Num {
+    return getUnsyncedComment ( ) . count ( );
+  }
+  function nrUnsyncedEvent ( ) : Num {
+    return getUnsyncedEvent ( ) . count ( );
+  }
+  function nrUnsyncedIssue ( ) : Num {
+    return getUnsyncedIssue ( ) . count ( );
+  }
+  function nrUnsyncedIssueClose ( ) : Num {
+    return getUnsyncedIssueClose ( ) . count ( );
+  }
+  function nrUnsyncedIssueGhost ( ) : Num {
+    return getUnsyncedIssueGhost ( ) . count ( );
+  }
+  function nrUnsyncedIssueMoved ( ) : Num {
+    return getUnsyncedIssueMoved ( ) . count ( );
+  }
+  function nrUnsyncedIssueReopen ( ) : Num {
+    return getUnsyncedIssueReopen ( ) . count ( );
+  }
+  function nrUnsyncedProject ( ) : Num {
+    return getUnsyncedProject ( ) . count ( );
+  }
+  function nrUnsyncedTag ( ) : Num {
+    return getUnsyncedTag ( ) . count ( );
+  }
+  function nrUnsyncedTagAddition ( ) : Num {
+    return getUnsyncedTagAddition ( ) . count ( );
+  }
+  function nrUnsyncedTagRemoval ( ) : Num {
+    return getUnsyncedTagRemoval ( ) . count ( );
+  }
+  function nrUnsyncedUser ( ) : Num {
+    return getUnsyncedUser ( ) . count ( );
+  }
+  function getUnsyncedAttachment ( ) : Collection < Attachment > {
+    return Attachment . all ( ) . filter ( "version" , "=" , 0 );
+  }
+  function getUnsyncedComment ( ) : Collection < Comment > {
+    return Comment . all ( ) . filter ( "version" , "=" , 0 );
+  }
+  function getUnsyncedEvent ( ) : Collection < Event > {
+    return Event . all ( ) . filter ( "version" , "=" , 0 );
+  }
+  function getUnsyncedIssue ( ) : Collection < Issue > {
+    return Issue . all ( ) . filter ( "version" , "=" , 0 );
+  }
+  function getUnsyncedIssueClose ( ) : Collection < IssueClose > {
+    return IssueClose . all ( ) . filter ( "version" , "=" , 0 );
+  }
+  function getUnsyncedIssueGhost ( ) : Collection < IssueGhost > {
+    return IssueGhost . all ( ) . filter ( "version" , "=" , 0 );
+  }
+  function getUnsyncedIssueMoved ( ) : Collection < IssueMoved > {
+    return IssueMoved . all ( ) . filter ( "version" , "=" , 0 );
+  }
+  function getUnsyncedIssueReopen ( ) : Collection < IssueReopen > {
+    return IssueReopen . all ( ) . filter ( "version" , "=" , 0 );
+  }
+  function getUnsyncedProject ( ) : Collection < Project > {
+    return Project . all ( ) . filter ( "version" , "=" , 0 ) . filter ( "sync" , "=" , true );
+  }
+  function getUnsyncedTag ( ) : Collection < Tag > {
+    return Tag . all ( ) . filter ( "version" , "=" , 0 );
+  }
+  function getUnsyncedTagAddition ( ) : Collection < TagAddition > {
+    return TagAddition . all ( ) . filter ( "version" , "=" , 0 );
+  }
+  function getUnsyncedTagRemoval ( ) : Collection < TagRemoval > {
+    return TagRemoval . all ( ) . filter ( "version" , "=" , 0 );
+  }
+  function getUnsyncedUser ( ) : Collection < User > {
+    return User . all ( ) . filter ( "version" , "=" , 0 );
+  }
+  control statusUnsyncedEntities ( ) {
+    group {
+      < h3 >
+        "Unsynced" 
+      </ h3 >
+      < p >
+        label ( "Attachment: " + nrUnsyncedAttachment ( ) )
+      </ p >
+      < p >
+        label ( "Comment: " + nrUnsyncedComment ( ) )
+      </ p >
+      < p >
+        label ( "Event: " + nrUnsyncedEvent ( ) )
+      </ p >
+      < p >
+        label ( "Issue: " + nrUnsyncedIssue ( ) )
+      </ p >
+      < p >
+        label ( "IssueClose: " + nrUnsyncedIssueClose ( ) )
+      </ p >
+      < p >
+        label ( "IssueGhost: " + nrUnsyncedIssueGhost ( ) )
+      </ p >
+      < p >
+        label ( "IssueMoved: " + nrUnsyncedIssueMoved ( ) )
+      </ p >
+      < p >
+        label ( "IssueReopen: " + nrUnsyncedIssueReopen ( ) )
+      </ p >
+      < p >
+        label ( "Project: " + nrUnsyncedProject ( ) )
+      </ p >
+      < p >
+        label ( "Tag: " + nrUnsyncedTag ( ) )
+      </ p >
+      < p >
+        label ( "TagAddition: " + nrUnsyncedTagAddition ( ) )
+      </ p >
+      < p >
+        label ( "TagRemoval: " + nrUnsyncedTagRemoval ( ) )
+      </ p >
+      < p >
+        label ( "User: " + nrUnsyncedUser ( ) )
+      </ p >
+    }
+  }

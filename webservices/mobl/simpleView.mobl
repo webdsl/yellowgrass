@@ -225,9 +225,9 @@ module webservices::mobl::simpleView
     }
     var phrase = ""
     searchBox ( phrase )
-    list ( ent in Project . searchPrefix ( phrase ) . order ( "id" , true ) ) {
+    list ( ent in Project . searchPrefix ( phrase ) . order ( "name" , true ) ) {
       item {
-        checkBox ( ent . sync , label = ent . id )
+        checkBox ( ent . sync , label = ent . name )
       }
     }
   }

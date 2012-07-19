@@ -3,17 +3,20 @@ import mobl::ui::generic
 import webservices::mobl::simpleView
 import webservices::mobl::model
 import webservices::mobl::sync
+import webservices::mobl::unsync
 import syncControl
 import lib   
 screen root(){
 	header("root"){
 		button("Sync", onclick={Sync.getTopLevelEntities();}) 
-		button("Sync2", onclick={Sync.syncProjects(Project.all().filter("sync", "=", "true").selectJSON(["id","version"]));}) 
+		button("Sync2", onclick={Sync.syncProject(Project.all().filter("sync", "=", "true").selectJSON(["id","version"]));}) 
 		}
 	group{
 		item(onclick={ showProjectsSimple(); }) { label("Show Projects" ) }
 		item(onclick={ syncSimpleView(); }) {label("Sync Settings")} 
 		item(onclick={ log(Project.all().filter("sync", "=", "true").selectJSON(["id","version"])); }) {label("test")}	}
+	statusUnsyncedEntities()
+	
 }
 
 screen showProjectsSimple() {
@@ -28,3 +31,4 @@ screen showProjectsSimple() {
 			} 
 		}    
 	}
+

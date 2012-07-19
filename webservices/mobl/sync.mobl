@@ -1,19 +1,88 @@
 module webservices::mobl::sync
   import webservices :: mobl :: mapper
-  import webservices :: mobl :: model
   service Sync {
+    resource syncAttachment ( arg : JSON ) : void {
+      uri="webservice/syncAttachment"
+      method="PUT"
+      data=JSON . stringify ( arg )
+      mapper=AttachmentMapper
+    }
+    resource syncComment ( arg : JSON ) : void {
+      uri="webservice/syncComment"
+      method="PUT"
+      data=JSON . stringify ( arg )
+      mapper=CommentMapper
+    }
+    resource syncEvent ( arg : JSON ) : void {
+      uri="webservice/syncEvent"
+      method="PUT"
+      data=JSON . stringify ( arg )
+      mapper=EventMapper
+    }
+    resource syncIssue ( arg : JSON ) : void {
+      uri="webservice/syncIssue"
+      method="PUT"
+      data=JSON . stringify ( arg )
+      mapper=IssueMapper
+    }
+    resource syncIssueClose ( arg : JSON ) : void {
+      uri="webservice/syncIssueClose"
+      method="PUT"
+      data=JSON . stringify ( arg )
+      mapper=IssueCloseMapper
+    }
+    resource syncIssueGhost ( arg : JSON ) : void {
+      uri="webservice/syncIssueGhost"
+      method="PUT"
+      data=JSON . stringify ( arg )
+      mapper=IssueGhostMapper
+    }
+    resource syncIssueMoved ( arg : JSON ) : void {
+      uri="webservice/syncIssueMoved"
+      method="PUT"
+      data=JSON . stringify ( arg )
+      mapper=IssueMovedMapper
+    }
+    resource syncIssueReopen ( arg : JSON ) : void {
+      uri="webservice/syncIssueReopen"
+      method="PUT"
+      data=JSON . stringify ( arg )
+      mapper=IssueReopenMapper
+    }
+    resource syncProject ( arg : JSON ) : void {
+      uri="webservice/syncProject"
+      method="PUT"
+      data=JSON . stringify ( arg )
+      mapper=ProjectMapper
+    }
+    resource syncTag ( arg : JSON ) : void {
+      uri="webservice/syncTag"
+      method="PUT"
+      data=JSON . stringify ( arg )
+      mapper=TagMapper
+    }
+    resource syncTagAddition ( arg : JSON ) : void {
+      uri="webservice/syncTagAddition"
+      method="PUT"
+      data=JSON . stringify ( arg )
+      mapper=TagAdditionMapper
+    }
+    resource syncTagRemoval ( arg : JSON ) : void {
+      uri="webservice/syncTagRemoval"
+      method="PUT"
+      data=JSON . stringify ( arg )
+      mapper=TagRemovalMapper
+    }
+    resource syncUser ( arg : JSON ) : void {
+      uri="webservice/syncUser"
+      method="PUT"
+      data=JSON . stringify ( arg )
+      mapper=UserMapper
+    }
     resource getTopLevelEntities ( ) : void {
       uri="webservice/getTopLevelEntities"
       method="PUT"
       data={}
       mapper=ProjectMapper
     }
-    resource syncProjects (projects : JSON ) : void { //todo generation
-      uri="webservice/syncProjects"
-      method="PUT"
-      data = JSON.stringify(projects)
-      mapper=ProjectMapper
-    }
-    
-     
   }

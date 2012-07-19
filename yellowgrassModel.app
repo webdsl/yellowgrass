@@ -9,12 +9,12 @@ page root() {
 	// 	var x := Issue{};
 	// 	x 
 	// }
-	  
+	   
 }  
  
-derive webservices for Project , with nameproperty id
-service test() { 
-		var event := 
+derive webservices for Project , with nameproperty name
+service test() {  
+		var event :=  
 		Event{
 		// test := true, 
 		// test2 := "test",

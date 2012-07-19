@@ -1,5 +1,18 @@
 module webservices/services/interface
 imports webservices/services/getTopLevelEntities
+imports webservices/services/syncAttachment
+imports webservices/services/syncComment
+imports webservices/services/syncEvent
+imports webservices/services/syncIssue
+imports webservices/services/syncIssueClose
+imports webservices/services/syncIssueGhost
+imports webservices/services/syncIssueMoved
+imports webservices/services/syncIssueReopen
+imports webservices/services/syncProject
+imports webservices/services/syncTag
+imports webservices/services/syncTagAddition
+imports webservices/services/syncTagRemoval
+imports webservices/services/syncUser
 imports webservices/services/test
 native class DispatchServletHelper as DispatchServletHelper : DispatchServlet
 {
@@ -21,7 +34,7 @@ function getDispatchServletHelper ( ) : DispatchServletHelper
 }
 function getAvialableServices ( ) : Set<String>
 {
-  return {"test", "getTopLevelEntities", "syncProjects"};
+  return {"syncAttachment", "syncComment", "syncEvent", "syncIssue", "syncIssueClose", "syncIssueGhost", "syncIssueMoved", "syncIssueReopen", "syncProject", "syncTag", "syncTagAddition", "syncTagRemoval", "syncUser", "test", "getTopLevelEntities"};
 }
 service webservice ( service : String )
 {
@@ -37,18 +50,4 @@ service webservice ( service : String )
     json.put("errors", errors);
     return json;
   }
-}
-
-service webservice_generated_syncProjects ( ) //todo generation
-{
-  var json := JSONObject() ;
-  var errors := JSONArray() ;
-  // var result := "This is a test service" ;
-  var request := JSONArray(readRequestBody());
-  var result := JSONArray();
-  for(count : Int from 0 to request.length() ){ 
-  		result.put((loadEntity("Project", request.getJSONObject(count).getString("id").parseUUID()) as Project).toJSON());
-  }
-  json.put("result", result);
-  return json;
 }
