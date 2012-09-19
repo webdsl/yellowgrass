@@ -22,7 +22,7 @@ extend entity IssueMoved {
     }
     else
     {
-      object.put("actor", this.actor.id);
+      object.put("actor", makeJSONObjectFromEntityRef(this.actor));
     }
     if ( this.target == null )
     {
@@ -30,7 +30,7 @@ extend entity IssueMoved {
     }
     else
     {
-      object.put("target", this.target.id);
+      object.put("target", makeJSONObjectFromEntityRef(this.target));
     }
     if ( this.moment == null )
     {

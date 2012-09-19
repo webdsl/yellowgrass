@@ -22,7 +22,7 @@ extend entity IssueReopen {
     }
     else
     {
-      object.put("actor", this.actor.id);
+      object.put("actor", makeJSONObjectFromEntityRef(this.actor));
     }
     if ( this.moment == null )
     {

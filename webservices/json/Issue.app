@@ -86,7 +86,7 @@ extend entity Issue {
     }
     else
     {
-      object.put("project", this.project.id);
+      object.put("project", makeJSONObjectFromEntityRef(this.project));
     }
     if ( this.reporter == null )
     {
@@ -94,7 +94,7 @@ extend entity Issue {
     }
     else
     {
-      object.put("reporter", this.reporter.id);
+      object.put("reporter", makeJSONObjectFromEntityRef(this.reporter));
     }
     if ( this.open == null )
     {
@@ -111,9 +111,9 @@ extend entity Issue {
     else
     {
       var arraylog := JSONArray() ;
-      for ( f_19776 : Event in this.log )
+      for ( e_94146 : Event in this.log )
       {
-        arraylog.put(f_19776.id);
+        arraylog.put(makeJSONObjectFromEntityRef(e_94146));
       }
       object.put("log", arraylog);
     }
@@ -124,9 +124,9 @@ extend entity Issue {
     else
     {
       var arraytags := JSONArray() ;
-      for ( g_19776 : Tag in this.tags )
+      for ( f_94146 : Tag in this.tags )
       {
-        arraytags.put(g_19776.id);
+        arraytags.put(makeJSONObjectFromEntityRef(f_94146));
       }
       object.put("tags", arraytags);
     }
@@ -153,9 +153,9 @@ extend entity Issue {
     else
     {
       var arrayattachments := JSONArray() ;
-      for ( h_19776 : Attachment in this.attachments )
+      for ( g_94146 : Attachment in this.attachments )
       {
-        arrayattachments.put(h_19776.id);
+        arrayattachments.put(makeJSONObjectFromEntityRef(g_94146));
       }
       object.put("attachments", arrayattachments);
     }

@@ -50,7 +50,7 @@ extend entity IssueGhost {
     }
     else
     {
-      object.put("project", this.project.id);
+      object.put("project", makeJSONObjectFromEntityRef(this.project));
     }
     if ( this.email == null )
     {
@@ -67,9 +67,9 @@ extend entity IssueGhost {
     else
     {
       var arraytags := JSONArray() ;
-      for ( e_19776 : Tag in this.tags )
+      for ( d_94146 : Tag in this.tags )
       {
-        arraytags.put(e_19776.id);
+        arraytags.put(makeJSONObjectFromEntityRef(d_94146));
       }
       object.put("tags", arraytags);
     }

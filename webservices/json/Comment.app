@@ -34,7 +34,7 @@ extend entity Comment {
     }
     else
     {
-      object.put("author", this.author.id);
+      object.put("author", makeJSONObjectFromEntityRef(this.author));
     }
     if ( this.moment == null )
     {

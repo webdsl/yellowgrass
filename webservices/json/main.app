@@ -12,3 +12,9 @@ imports webservices/json/Tag
 imports webservices/json/TagAddition
 imports webservices/json/TagRemoval
 imports webservices/json/User
+function makeJSONObjectFromEntityRef ( ent : Entity ) : JSONObject
+{
+  var json := JSONObject() ;
+  json.put("id", ent.id);
+  return json;
+}

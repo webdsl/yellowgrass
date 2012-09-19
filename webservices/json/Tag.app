@@ -42,7 +42,7 @@ extend entity Tag {
     }
     else
     {
-      object.put("project", this.project.id);
+      object.put("project", makeJSONObjectFromEntityRef(this.project));
     }
     if ( this.tags == null )
     {
@@ -51,9 +51,9 @@ extend entity Tag {
     else
     {
       var arraytags := JSONArray() ;
-      for ( z_19775 : Tag in this.tags )
+      for ( y_94145 : Tag in this.tags )
       {
-        arraytags.put(z_19775.id);
+        arraytags.put(makeJSONObjectFromEntityRef(y_94145));
       }
       object.put("tags", arraytags);
     }

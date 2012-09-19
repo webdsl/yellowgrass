@@ -22,7 +22,7 @@ extend entity TagRemoval {
     }
     else
     {
-      object.put("actor", this.actor.id);
+      object.put("actor", makeJSONObjectFromEntityRef(this.actor));
     }
     if ( this.tag == null )
     {
@@ -30,7 +30,7 @@ extend entity TagRemoval {
     }
     else
     {
-      object.put("tag", this.tag.id);
+      object.put("tag", makeJSONObjectFromEntityRef(this.tag));
     }
     if ( this.moment == null )
     {
