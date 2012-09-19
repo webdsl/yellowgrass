@@ -9,7 +9,7 @@ import lib
 screen root(){
 	header("root"){
 		button("Sync", onclick={Sync.getTopLevelEntities();}) 
-		button("Sync2", onclick={Sync.syncProject(Project.all().filter("sync", "=", "true").selectJSON(["id","version"]));}) 
+		button("Sync2", onclick={syncAll();}) 
 		}
 	group{
 		item(onclick={ showProjectsSimple(); }) { label("Show Projects" ) }
@@ -19,7 +19,23 @@ screen root(){
 	
 }
 
-screen showProjectsSimple() {
+function  test1() {
+	resetDatabase();
+	reload();
+
+}
+
+function test2(){	
+	Sync.getTopLevelEntities();
+	var ent = Project.all().filter("name", "=", "YellowGrass").one();
+	ent.sync = true;
+	sleep(5000);
+	syncAll();
+	sleep(5000);
+	syncAll();
+	}
+
+screen showProjectsSimple() { 
 	header("All Projects") { 
 		backButton("back")
 	}
@@ -28,7 +44,74 @@ screen showProjectsSimple() {
 		group {
 			list(project in Project.searchPrefix(phrase).order("name", true)) {  
 				item(onclick={ return showControl(showProjectSimple, project); }) { label(project.name) }   
-			} 
+			}  
 		}    
 	}
 
+function syncAll2(){
+	var begin = now();
+	syncAllProject();
+	syncAllUser();
+	syncAllIssue();
+	syncAllEvent();
+	syncAllTag();
+	syncAllAttachment();
+	var allsynced = false;
+	while(!allsynced) {
+		allsynced = true;
+		if(nrUnsyncedProject()) {
+			syncUnsyncedProject(); 
+			allsynced = false;
+		}
+		if(nrUnsyncedUser()) {
+			syncUnsyncedUser(); 
+			allsynced = false;
+		}
+		if(nrUnsyncedIssue()) {
+			syncUnsyncedIssue(); 
+			allsynced = false;
+		}
+		if(nrUnsyncedEvent()) {
+			syncUnsyncedEvent(); 
+			allsynced = false;
+		}
+		if(nrUnsyncedTag()) {
+			syncUnsyncedTag(); 
+			allsynced = false;
+		}
+		if(nrUnsyncedAttachment()) {
+			syncUnsyncedAttachment(); 
+			allsynced = false;
+		}
+	}
+	// var tbegin = now();
+	// Sync.syncProject(Project.all().filter("sync", "=", "true").selectJSON(["id","version"]));//syncProjectFunct()
+	// var tend = now();
+	// log( "time needed for syncing projects: " + ((now() - tbegin) / 1000) .toString());
+	// // syncUser
+	// tbegin = now(); 
+	// Sync.syncUser(User.all().selectJSON(["id","version"]));//syncuser
+	// tend = now();
+	// log( "time needed for syncing users: " + ((now() - tbegin) / 1000) .toString());
+	// //syncIssue
+	// tbegin = now(); 
+	// Sync.syncIssue(Issue.all().selectJSON(["id","version"]));
+	// tend = now();
+	// log( "time needed for syncing Issues: " + ((now() - tbegin) / 1000).toString());
+	// // syncEvent
+	// tbegin = now(); 
+	// Sync.syncEvent(Event.all().selectJSON(["id","version"]));
+	// tend = now();
+	// log( "time needed for syncing Events: " + ((now() - tbegin) / 1000).toString());
+	// // syncTag
+	// tbegin = now(); 
+	// Sync.syncTag(Tag.all().selectJSON(["id","version"]));
+	// tend = now();
+	// log( "time needed for syncing Tags: " + ((now() - tbegin) / 1000).toString());
+	// // syncAttachement
+	// tbegin = now(); 
+	// Sync.syncAttachment(Attachment.all().selectJSON(["id","version"]));
+	// log( "time needed for syncing Attachments: " + ((now() - tbegin) / 1000).toString());
+	log("totaltime:" + ((now() - begin) / 1000).toString() );
+	// Sync.syncAttachment(getUnsyncedAttachment().selectJSON(properties));
+}
