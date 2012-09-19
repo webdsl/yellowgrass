@@ -41,7 +41,6 @@ module webservices::mobl::model
     members : Collection < User > ( inverse : projects )
     memberRequests : Collection < User > ( inverse : generatedPropertyForInverse_Project_memberRequests )
     followers : Collection < User > ( inverse : generatedPropertyForInverse_Project_followers )
-    created : DateTime
     private : Bool
     email : String
     sync : Bool

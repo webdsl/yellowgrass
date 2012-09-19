@@ -2,7 +2,7 @@ module model/Project
 entity Project {
   email :: Email
   private :: Bool ( searchable )
-  created :: DateTime
+  // created :: DateTime
   followers -> Set<User>
   memberRequests -> Set<User>
   members -> Set<User>
@@ -72,7 +72,7 @@ entity Project {
   //     }
   //     jsonobject.put("roadmap", jsonmap);
   //   }
-  //   // var jsonoldmembers := toVersionObejcts(old.getJSONArray("members")) ;
+  //   // var jsonoldmembers := toVersionObejcts(old.getJSONArray("members")) ; 
   //   var jsonArrayMembers := JSONArray() ;
   //   // var dirty := false ;
   //   // for ( member : User in members )

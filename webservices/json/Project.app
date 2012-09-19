@@ -3,34 +3,6 @@ extend entity Project {
   function toSimpleJSON ( ) : JSONObject
   {
     var object := JSONObject() ;
-    if ( this.name != null )
-    {
-      object.put("name", name);
-    }
-    if ( this.description != null )
-    {
-      object.put("description", description.format());
-    }
-    if ( this.url != null )
-    {
-      object.put("url", url);
-    }
-    if ( this.created != null )
-    {
-      object.put("created", created.getTime() / 1000L);
-    }
-    if ( this.private != null )
-    {
-      object.put("private", private);
-    }
-    if ( this.email != null )
-    {
-      object.put("email", email);
-    }
-    if ( this.id != null )
-    {
-      object.put("id", id);
-    }
     return object;
   }
   function toJSON ( ) : JSONObject
@@ -38,115 +10,107 @@ extend entity Project {
     var object := JSONObject() ;
     if ( this.name == null )
     {
-      object.put("name", ( null as Object ));
+      object.put("name", ( null as JSONObject ));
     }
     else
     {
       object.put("name", this.name);
     }
-    if ( this.description == null )
+    if ( this.name == null )
     {
-      object.put("description", ( null as Object ));
+      object.put("description", ( null as JSONObject ));
     }
     else
     {
       object.put("description", this.description.format());
     }
-    if ( this.url == null )
+    if ( this.name == null )
     {
-      object.put("url", ( null as Object ));
+      object.put("url", ( null as JSONObject ));
     }
     else
     {
       object.put("url", this.url);
     }
-    if ( this.issues == null )
+    if ( this.name == null )
     {
-      object.put("issues", ( null as Object ));
+      object.put("issues", ( null as JSONObject ));
     }
     else
     {
       var arrayissues := JSONArray() ;
-      for ( v_34343 : Issue in this.issues )
-      {
-        arrayissues.put(makeJSONObjectFromEntityRef(v_34343));
-      }
+      for ( d_15401 : Issue in this.issues )
+        {
+          arrayissues.put(makeJSONObjectFromEntityRef(d_15401));
+        }
       object.put("issues", arrayissues);
     }
-    if ( this.members == null )
+    if ( this.name == null )
     {
-      object.put("members", ( null as Object ));
+      object.put("members", ( null as JSONObject ));
     }
     else
     {
       var arraymembers := JSONArray() ;
-      for ( w_34343 : User in this.members )
-      {
-        arraymembers.put(makeJSONObjectFromEntityRef(w_34343));
-      }
+      for ( e_15401 : User in this.members )
+        {
+          arraymembers.put(makeJSONObjectFromEntityRef(e_15401));
+        }
       object.put("members", arraymembers);
     }
-    if ( this.memberRequests == null )
+    if ( this.name == null )
     {
-      object.put("memberRequests", ( null as Object ));
+      object.put("memberRequests", ( null as JSONObject ));
     }
     else
     {
       var arraymemberRequests := JSONArray() ;
-      for ( x_34343 : User in this.memberRequests )
-      {
-        arraymemberRequests.put(makeJSONObjectFromEntityRef(x_34343));
-      }
+      for ( f_15401 : User in this.memberRequests )
+        {
+          arraymemberRequests.put(makeJSONObjectFromEntityRef(f_15401));
+        }
       object.put("memberRequests", arraymemberRequests);
     }
-    if ( this.followers == null )
+    if ( this.name == null )
     {
-      object.put("followers", ( null as Object ));
+      object.put("followers", ( null as JSONObject ));
     }
     else
     {
       var arrayfollowers := JSONArray() ;
-      for ( y_34343 : User in this.followers )
-      {
-        arrayfollowers.put(makeJSONObjectFromEntityRef(y_34343));
-      }
+      for ( g_15401 : User in this.followers )
+        {
+          arrayfollowers.put(makeJSONObjectFromEntityRef(g_15401));
+        }
       object.put("followers", arrayfollowers);
     }
-    if ( this.created == null )
+    if ( this.name == null )
     {
-      object.put("created", ( null as Object ));
-    }
-    else
-    {
-      object.put("created", this.created.getTime() / 1000L);
-    }
-    if ( this.private == null )
-    {
-      object.put("private", ( null as Object ));
+      object.put("private", ( null as JSONObject ));
     }
     else
     {
       object.put("private", this.private);
     }
-    if ( this.email == null )
+    if ( this.name == null )
     {
-      object.put("email", ( null as Object ));
+      object.put("email", ( null as JSONObject ));
     }
     else
     {
       object.put("email", this.email);
     }
-    if ( this.version == null )
+    if ( this.name == null )
     {
-      object.put("version", ( null as Object ));
+      object.put("version", ( null as JSONObject ));
     }
     else
     {
       object.put("version", this.version);
     }
-    if ( this.id == null )
+    if ( this.name == null )
     {
-      object.put("id", ( null as Object ));
+      object.put("id", ( null as JSONObject ));
     }
     else
     {
@@ -157,14 +121,6 @@ extend entity Project {
   function toMinimalJSON ( ) : JSONObject
   {
     var object := JSONObject() ;
-    if ( this.version != null )
-    {
-      object.put("version", version);
-    }
-    if ( this.id != null )
-    {
-      object.put("id", id);
-    }
     return object;
   }
 }

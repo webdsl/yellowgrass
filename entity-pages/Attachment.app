@@ -7,26 +7,42 @@ title {
   header {
     "Attachment"
   }
-  group("Properties"){par {
-                        "date"
-                        " "
-                        "::"
-                        " "
-                        "DateTime"
-                      } par {
-                          "file"
-                          " "
-                          "::"
-                          " "
-                          "File"
-                        }}
-  group("Functions"){par {
-                       "function toJSON ("
-                       " ) : "
-                       "JSONObject"
-                     } par {
-                         "function toSimpleJSON ("
-                         " ) : "
-                         "JSONObject"
-                       }}
+  group ( "Properties" ) {
+    par {
+      "date"
+      " "
+      "::"
+      " "
+      "DateTime"
+    }
+    par {
+      "file"
+      " "
+      "::"
+      " "
+      "File"
+    }
+  }
+  group ( "Functions" ) {
+    par {
+      "function toMinimalJSON ("
+      " ) : "
+      "JSONObject"
+    }
+    par {
+      "function toJSON ("
+      " ) : "
+      "JSONObject"
+    }
+    par {
+      "function toSimpleJSON ("
+      " ) : "
+      "JSONObject"
+    }
+    par {
+      "function getRelatedEntities ("
+      " ) : "
+      "Set<Entity>"
+    }
+  }
 }

@@ -67,7 +67,9 @@ module webservices::mobl::simpleView
       showField ( "version" , ent . version . toString ( ) )
       showEntityField ( "actor" , ent . actor , showUserSimple )
       showEntityField ( "tag" , ent . tag , showTagSimple )
-      showField ( "moment" , ent . moment . toDateString ( ) )
+      when ( ent . moment ) {
+        showField ( "moment" , ent . moment . toDateString ( ) )
+      }
     }
   }
   control showTagAdditionSimple ( ent : TagAddition ) {
@@ -79,7 +81,9 @@ module webservices::mobl::simpleView
       showField ( "version" , ent . version . toString ( ) )
       showEntityField ( "actor" , ent . actor , showUserSimple )
       showEntityField ( "tag" , ent . tag , showTagSimple )
-      showField ( "moment" , ent . moment . toDateString ( ) )
+      when ( ent . moment ) {
+        showField ( "moment" , ent . moment . toDateString ( ) )
+      }
     }
   }
   control showTagSimple ( ent : Tag ) {
@@ -109,7 +113,6 @@ module webservices::mobl::simpleView
       showEntitiesField ( "members" , ent . members , showUserSimple )
       showEntitiesField ( "memberRequests" , ent . memberRequests , showUserSimple )
       showEntitiesField ( "followers" , ent . followers , showUserSimple )
-      showField ( "created" , ent . created . toDateString ( ) )
       showField ( "private" , ent . private . toString ( ) )
       showField ( "email" , ent . email )
       showField ( "sync" , ent . sync . toString ( ) )
@@ -123,7 +126,9 @@ module webservices::mobl::simpleView
       showField ( "id" , ent . id )
       showField ( "version" , ent . version . toString ( ) )
       showEntityField ( "actor" , ent . actor , showUserSimple )
-      showField ( "moment" , ent . moment . toDateString ( ) )
+      when ( ent . moment ) {
+        showField ( "moment" , ent . moment . toDateString ( ) )
+      }
     }
   }
   control showIssueMovedSimple ( ent : IssueMoved ) {
@@ -135,7 +140,9 @@ module webservices::mobl::simpleView
       showField ( "version" , ent . version . toString ( ) )
       showEntityField ( "actor" , ent . actor , showUserSimple )
       showEntityField ( "target" , ent . target , showIssueSimple )
-      showField ( "moment" , ent . moment . toDateString ( ) )
+      when ( ent . moment ) {
+        showField ( "moment" , ent . moment . toDateString ( ) )
+      }
     }
   }
   control showIssueGhostSimple ( ent : IssueGhost ) {
@@ -161,7 +168,9 @@ module webservices::mobl::simpleView
       showField ( "id" , ent . id )
       showField ( "version" , ent . version . toString ( ) )
       showEntityField ( "actor" , ent . actor , showUserSimple )
-      showField ( "moment" , ent . moment . toDateString ( ) )
+      when ( ent . moment ) {
+        showField ( "moment" , ent . moment . toDateString ( ) )
+      }
     }
   }
   control showIssueSimple ( ent : Issue ) {
@@ -174,7 +183,9 @@ module webservices::mobl::simpleView
       showField ( "number" , ent . number . toString ( ) )
       showField ( "title" , ent . title )
       showField ( "description" , ent . description )
-      when(ent . submitted){showField ( "submitted" , ent . submitted . toDateString ( ) )}
+      when ( ent . submitted ) {
+        showField ( "submitted" , ent . submitted . toDateString ( ) )
+      }
       showEntityField ( "project" , ent . project , showProjectSimple )
       showEntityField ( "reporter" , ent . reporter , showUserSimple )
       showField ( "open" , ent . open . toString ( ) )
@@ -194,7 +205,9 @@ module webservices::mobl::simpleView
     group {
       showField ( "id" , ent . id )
       showField ( "version" , ent . version . toString ( ) )
-      showField ( "moment" , ent . moment . toDateString ( ) )
+      when ( ent . moment ) {
+        showField ( "moment" , ent . moment . toDateString ( ) )
+      }
     }
   }
   control showCommentSimple ( ent : Comment ) {
@@ -206,7 +219,9 @@ module webservices::mobl::simpleView
       showField ( "version" , ent . version . toString ( ) )
       showField ( "text" , ent . text )
       showEntityField ( "author" , ent . author , showUserSimple )
-      showField ( "moment" , ent . moment . toDateString ( ) )
+      when ( ent . moment ) {
+        showField ( "moment" , ent . moment . toDateString ( ) )
+      }
     }
   }
   control showAttachmentSimple ( ent : Attachment ) {
@@ -216,7 +231,9 @@ module webservices::mobl::simpleView
     group {
       showField ( "id" , ent . id )
       showField ( "version" , ent . version . toString ( ) )
-      showField ( "date" , ent . date . toDateString ( ) )
+      when ( ent . date ) {
+        showField ( "date" , ent . date . toDateString ( ) )
+      }
     }
   }
   screen syncSimpleView ( ) {

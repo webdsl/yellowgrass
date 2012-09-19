@@ -3,18 +3,6 @@ extend entity Tag {
   function toSimpleJSON ( ) : JSONObject
   {
     var object := JSONObject() ;
-    if ( this.name != null )
-    {
-      object.put("name", name);
-    }
-    if ( this.description != null )
-    {
-      object.put("description", description);
-    }
-    if ( this.id != null )
-    {
-      object.put("id", id);
-    }
     return object;
   }
   function toJSON ( ) : JSONObject
@@ -22,52 +10,52 @@ extend entity Tag {
     var object := JSONObject() ;
     if ( this.name == null )
     {
-      object.put("name", ( null as Object ));
+      object.put("name", ( null as JSONObject ));
     }
     else
     {
       object.put("name", this.name);
     }
-    if ( this.description == null )
+    if ( this.name == null )
     {
-      object.put("description", ( null as Object ));
+      object.put("description", ( null as JSONObject ));
     }
     else
     {
       object.put("description", this.description);
     }
-    if ( this.project == null )
+    if ( this.name == null )
     {
-      object.put("project", ( null as Object ));
+      object.put("project", ( null as JSONObject ));
     }
     else
     {
       object.put("project", makeJSONObjectFromEntityRef(this.project));
     }
-    if ( this.tags == null )
+    if ( this.name == null )
     {
-      object.put("tags", ( null as Object ));
+      object.put("tags", ( null as JSONObject ));
     }
     else
     {
       var arraytags := JSONArray() ;
-      for ( u_34343 : Tag in this.tags )
-      {
-        arraytags.put(makeJSONObjectFromEntityRef(u_34343));
-      }
+      for ( c_15401 : Tag in this.tags )
+        {
+          arraytags.put(makeJSONObjectFromEntityRef(c_15401));
+        }
       object.put("tags", arraytags);
     }
-    if ( this.version == null )
+    if ( this.name == null )
     {
-      object.put("version", ( null as Object ));
+      object.put("version", ( null as JSONObject ));
     }
     else
     {
       object.put("version", this.version);
     }
-    if ( this.id == null )
+    if ( this.name == null )
     {
-      object.put("id", ( null as Object ));
+      object.put("id", ( null as JSONObject ));
     }
     else
     {
@@ -78,14 +66,6 @@ extend entity Tag {
   function toMinimalJSON ( ) : JSONObject
   {
     var object := JSONObject() ;
-    if ( this.version != null )
-    {
-      object.put("version", version);
-    }
-    if ( this.id != null )
-    {
-      object.put("id", id);
-    }
     return object;
   }
 }

@@ -14,6 +14,7 @@ imports webservices/services/syncTagAddition
 imports webservices/services/syncTagRemoval
 imports webservices/services/syncUser
 imports webservices/services/test
+imports  webservices/related-entities/main
 native class DispatchServletHelper as DispatchServletHelper : DispatchServlet
 {
 getResponse ( ) : HttpServletResponse
@@ -32,13 +33,13 @@ function getDispatchServletHelper ( ) : DispatchServletHelper
     return null;
   }
 }
-function getAvialableServices ( ) : Set<String>
+function getAvailableServices ( ) : Set<String>
 {
   return {"syncAttachment", "syncComment", "syncEvent", "syncIssue", "syncIssueClose", "syncIssueGhost", "syncIssueMoved", "syncIssueReopen", "syncProject", "syncTag", "syncTagAddition", "syncTagRemoval", "syncUser", "test", "getTopLevelEntities"};
 }
 service webservice ( service : String )
 {
-  if ( service in getAvialableServices() )
+  if ( service in getAvailableServices() )
   {
     getDispatchServletHelper().forwardRequest("/webservice_generated_" + service + "/");
   }

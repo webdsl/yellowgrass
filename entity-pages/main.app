@@ -1,4 +1,4 @@
-module entity-pages
+module entity-pages/main
 imports entity-pages/Attachment
 imports entity-pages/Comment
 imports entity-pages/Event
@@ -17,109 +17,45 @@ page showEntities ( )
 title {
   "Entities"
 }
-  group("Entities"){par {
-                      navigate
-                      showEntityAttachment()
-                      [
-                      ]
-                      {
-                      "Attachment"
-                      }
-                    } par {
-                        navigate
-                        showEntityComment()
-                        [
-                        ]
-                        {
-                        "Comment"
-                        }
-                      } par {
-                          navigate
-                          showEntityEvent()
-                          [
-                          ]
-                          {
-                          "Event"
-                          }
-                        } par {
-                            navigate
-                            showEntityIssue()
-                            [
-                            ]
-                            {
-                            "Issue"
-                            }
-                          } par {
-                              navigate
-                              showEntityIssueClose()
-                              [
-                              ]
-                              {
-                              "IssueClose"
-                              }
-                            } par {
-                                navigate
-                                showEntityIssueGhost()
-                                [
-                                ]
-                                {
-                                "IssueGhost"
-                                }
-                              } par {
-                                  navigate
-                                  showEntityIssueMoved()
-                                  [
-                                  ]
-                                  {
-                                  "IssueMoved"
-                                  }
-                                } par {
-                                    navigate
-                                    showEntityIssueReopen()
-                                    [
-                                    ]
-                                    {
-                                    "IssueReopen"
-                                    }
-                                  } par {
-                                      navigate
-                                      showEntityProject()
-                                      [
-                                      ]
-                                      {
-                                      "Project"
-                                      }
-                                    } par {
-                                        navigate
-                                        showEntityTag()
-                                        [
-                                        ]
-                                        {
-                                        "Tag"
-                                        }
-                                      } par {
-                                          navigate
-                                          showEntityTagAddition()
-                                          [
-                                          ]
-                                          {
-                                          "TagAddition"
-                                          }
-                                        } par {
-                                            navigate
-                                            showEntityTagRemoval()
-                                            [
-                                            ]
-                                            {
-                                            "TagRemoval"
-                                            }
-                                          } par {
-                                              navigate
-                                              showEntityUser()
-                                              [
-                                              ]
-                                              {
-                                              "User"
-                                              }
-                                            }}
+  group ( "Entities" ) {
+    par {
+      navigate showEntityAttachment() [ ] { "Attachment" }
+    }
+    par {
+      navigate showEntityComment() [ ] { "Comment" }
+    }
+    par {
+      navigate showEntityEvent() [ ] { "Event" }
+    }
+    par {
+      navigate showEntityIssue() [ ] { "Issue" }
+    }
+    par {
+      navigate showEntityIssueClose() [ ] { "IssueClose" }
+    }
+    par {
+      navigate showEntityIssueGhost() [ ] { "IssueGhost" }
+    }
+    par {
+      navigate showEntityIssueMoved() [ ] { "IssueMoved" }
+    }
+    par {
+      navigate showEntityIssueReopen() [ ] { "IssueReopen" }
+    }
+    par {
+      navigate showEntityProject() [ ] { "Project" }
+    }
+    par {
+      navigate showEntityTag() [ ] { "Tag" }
+    }
+    par {
+      navigate showEntityTagAddition() [ ] { "TagAddition" }
+    }
+    par {
+      navigate showEntityTagRemoval() [ ] { "TagRemoval" }
+    }
+    par {
+      navigate showEntityUser() [ ] { "User" }
+    }
+  }
 }

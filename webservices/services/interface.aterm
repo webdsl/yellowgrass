@@ -1,55 +1,7 @@
-ServiceFunction(
-  "webservice_generated_syncProjects"
-, []
-, Block(
-    [ VarDeclInitInferred("json", ThisCall("JSONObject", []))
-    , VarDeclInitInferred("errors", ThisCall("JSONArray", []))
-    , VarDeclInitInferred("request", ThisCall("JSONArray", [ThisCall("readRequestBody", [])]))
-    , VarDeclInitInferred("result", ThisCall("JSONArray", []))
-    , ForCountStmt(
-        "count"
-      , Int("0")
-      , Call(Var("request"), "length", [])
-      , Block(
-          [ Stat(
-              Call(
-                Var("result")
-              , "put"
-              , [ Call(
-                    Cast(
-                      ThisCall(
-                        "loadEntity"
-                      , [ String("\"Project\"")
-                        , Call(
-                            Call(
-                              Call(Var("request"), "getJSONObject", [Var("count")])
-                            , "getString"
-                            , [String("\"id\"")]
-                            )
-                          , "parseUUID"
-                          , []
-                          )
-                        ]
-                      )
-                    , SimpleSort("Project")
-                    )
-                  , "toJSON"
-                  , []
-                  )
-                ]
-              )
-            )
-          ]
-        )
-      )
-    , Stat(
-        Call(
-          Var("json")
-        , "put"
-        , [String("\"result\""), Var("result")]
-        )
-      )
-    , Return(Var("json"))
-    ]
+Stat(
+  Call(
+    Var("set")
+  , "add"
+  , [FieldAccess(Var("this"), "issues")]
   )
 )

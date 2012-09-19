@@ -110,7 +110,7 @@ module webservices::mobl::sync
   }
   function syncAllProject ( ) {
     var begin = now ( ) ;
-    Sync . syncProject ( Project . all ( ) . filter ( "sync" , "=" , "true" ) . selectJSON ( [ "id" , "version" ] ) );
+    Sync . syncProject ( Project . all ( ) . filter ( "sync" , "=" , true ) . selectJSON ( [ "id" , "version" ] ) );
     log("time needed for syncing Project: "+( ( now ( ) - begin ) / 1000 ) . toString ( ));
   }
   function syncAllIssueReopen ( ) {

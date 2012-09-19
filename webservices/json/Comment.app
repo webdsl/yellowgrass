@@ -3,58 +3,46 @@ extend entity Comment {
   function toSimpleJSON ( ) : JSONObject
   {
     var object := JSONObject() ;
-    if ( this.text != null )
-    {
-      object.put("text", text.format());
-    }
-    if ( this.moment != null )
-    {
-      object.put("moment", moment.getTime() / 1000L);
-    }
-    if ( this.id != null )
-    {
-      object.put("id", id);
-    }
     return object;
   }
   function toJSON ( ) : JSONObject
   {
     var object := JSONObject() ;
-    if ( this.text == null )
+    if ( this.name == null )
     {
-      object.put("text", ( null as Object ));
+      object.put("text", ( null as JSONObject ));
     }
     else
     {
       object.put("text", this.text.format());
     }
-    if ( this.author == null )
+    if ( this.name == null )
     {
-      object.put("author", ( null as Object ));
+      object.put("author", ( null as JSONObject ));
     }
     else
     {
       object.put("author", makeJSONObjectFromEntityRef(this.author));
     }
-    if ( this.moment == null )
+    if ( this.name == null )
     {
-      object.put("moment", ( null as Object ));
+      object.put("moment", ( null as JSONObject ));
     }
     else
     {
       object.put("moment", this.moment.getTime() / 1000L);
     }
-    if ( this.version == null )
+    if ( this.name == null )
     {
-      object.put("version", ( null as Object ));
+      object.put("version", ( null as JSONObject ));
     }
     else
     {
       object.put("version", this.version);
     }
-    if ( this.id == null )
+    if ( this.name == null )
     {
-      object.put("id", ( null as Object ));
+      object.put("id", ( null as JSONObject ));
     }
     else
     {
@@ -62,7 +50,7 @@ extend entity Comment {
     }
     if ( this.name == null )
     {
-      object.put("name", ( null as Object ));
+      object.put("name", ( null as JSONObject ));
     }
     else
     {
@@ -73,18 +61,6 @@ extend entity Comment {
   function toMinimalJSON ( ) : JSONObject
   {
     var object := JSONObject() ;
-    if ( this.version != null )
-    {
-      object.put("version", version);
-    }
-    if ( this.id != null )
-    {
-      object.put("id", id);
-    }
-    if ( this.name != null )
-    {
-      object.put("name", name);
-    }
     return object;
   }
 }

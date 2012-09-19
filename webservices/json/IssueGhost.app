@@ -3,95 +3,75 @@ extend entity IssueGhost {
   function toSimpleJSON ( ) : JSONObject
   {
     var object := JSONObject() ;
-    if ( this.title != null )
-    {
-      object.put("title", title);
-    }
-    if ( this.description != null )
-    {
-      object.put("description", description.format());
-    }
-    if ( this.email != null )
-    {
-      object.put("email", email);
-    }
-    if ( this.alive != null )
-    {
-      object.put("alive", alive);
-    }
-    if ( this.id != null )
-    {
-      object.put("id", id);
-    }
     return object;
   }
   function toJSON ( ) : JSONObject
   {
     var object := JSONObject() ;
-    if ( this.title == null )
+    if ( this.name == null )
     {
-      object.put("title", ( null as Object ));
+      object.put("title", ( null as JSONObject ));
     }
     else
     {
       object.put("title", this.title);
     }
-    if ( this.description == null )
+    if ( this.name == null )
     {
-      object.put("description", ( null as Object ));
+      object.put("description", ( null as JSONObject ));
     }
     else
     {
       object.put("description", this.description.format());
     }
-    if ( this.project == null )
+    if ( this.name == null )
     {
-      object.put("project", ( null as Object ));
+      object.put("project", ( null as JSONObject ));
     }
     else
     {
       object.put("project", makeJSONObjectFromEntityRef(this.project));
     }
-    if ( this.email == null )
+    if ( this.name == null )
     {
-      object.put("email", ( null as Object ));
+      object.put("email", ( null as JSONObject ));
     }
     else
     {
       object.put("email", this.email);
     }
-    if ( this.tags == null )
+    if ( this.name == null )
     {
-      object.put("tags", ( null as Object ));
+      object.put("tags", ( null as JSONObject ));
     }
     else
     {
       var arraytags := JSONArray() ;
-      for ( y_34343 : Tag in this.tags )
-      {
-        arraytags.put(makeJSONObjectFromEntityRef(y_34343));
-      }
+      for ( h_15401 : Tag in this.tags )
+        {
+          arraytags.put(makeJSONObjectFromEntityRef(h_15401));
+        }
       object.put("tags", arraytags);
     }
-    if ( this.alive == null )
+    if ( this.name == null )
     {
-      object.put("alive", ( null as Object ));
+      object.put("alive", ( null as JSONObject ));
     }
     else
     {
       object.put("alive", this.alive);
     }
-    if ( this.version == null )
+    if ( this.name == null )
     {
-      object.put("version", ( null as Object ));
+      object.put("version", ( null as JSONObject ));
     }
     else
     {
       object.put("version", this.version);
     }
-    if ( this.id == null )
+    if ( this.name == null )
     {
-      object.put("id", ( null as Object ));
+      object.put("id", ( null as JSONObject ));
     }
     else
     {
@@ -99,7 +79,7 @@ extend entity IssueGhost {
     }
     if ( this.name == null )
     {
-      object.put("name", ( null as Object ));
+      object.put("name", ( null as JSONObject ));
     }
     else
     {
@@ -110,18 +90,6 @@ extend entity IssueGhost {
   function toMinimalJSON ( ) : JSONObject
   {
     var object := JSONObject() ;
-    if ( this.version != null )
-    {
-      object.put("version", version);
-    }
-    if ( this.id != null )
-    {
-      object.put("id", id);
-    }
-    if ( this.name != null )
-    {
-      object.put("name", name);
-    }
     return object;
   }
 }
