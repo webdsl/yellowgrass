@@ -7,7 +7,15 @@ service webservice_generated_syncIssueMoved ( )
   var result := JSONArray() ;
   for ( count : Int from 0 to request.length() )
   {
-    result.put(( loadEntity("IssueMoved", request.getJSONObject(count).getString("id").parseUUID()) as IssueMoved ).toJSON());
+    var entity := ( loadEntity("IssueMoved", request.getJSONObject(count).getString("id").parseUUID()) as Issue ) ;
+    if ( entity.version > request.getJSONObject(count).getString("version").parseInt() )
+    {
+      result.put(entity.toJSON());
+    }
+    else
+    {
+      result.put(entity.toMinimalJSON());
+    }
   }
   json.put("errors", errors);
   json.put("result", result);

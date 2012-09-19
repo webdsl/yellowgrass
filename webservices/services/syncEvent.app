@@ -7,7 +7,15 @@ service webservice_generated_syncEvent ( )
   var result := JSONArray() ;
   for ( count : Int from 0 to request.length() )
   {
-    result.put(( loadEntity("Event", request.getJSONObject(count).getString("id").parseUUID()) as Event ).toJSON());
+    var entity := ( loadEntity("Event", request.getJSONObject(count).getString("id").parseUUID()) as Issue ) ;
+    if ( entity.version > request.getJSONObject(count).getString("version").parseInt() )
+    {
+      result.put(entity.toJSON());
+    }
+    else
+    {
+      result.put(entity.toMinimalJSON());
+    }
   }
   json.put("errors", errors);
   json.put("result", result);
