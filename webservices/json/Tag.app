@@ -51,9 +51,9 @@ extend entity Tag {
     else
     {
       var arraytags := JSONArray() ;
-      for ( y_94145 : Tag in this.tags )
+      for ( u_34343 : Tag in this.tags )
       {
-        arraytags.put(makeJSONObjectFromEntityRef(y_94145));
+        arraytags.put(makeJSONObjectFromEntityRef(u_34343));
       }
       object.put("tags", arraytags);
     }
@@ -72,6 +72,19 @@ extend entity Tag {
     else
     {
       object.put("id", this.id);
+    }
+    return object;
+  }
+  function toMinimalJSON ( ) : JSONObject
+  {
+    var object := JSONObject() ;
+    if ( this.version != null )
+    {
+      object.put("version", version);
+    }
+    if ( this.id != null )
+    {
+      object.put("id", id);
     }
     return object;
   }

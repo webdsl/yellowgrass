@@ -67,9 +67,9 @@ extend entity IssueGhost {
     else
     {
       var arraytags := JSONArray() ;
-      for ( d_94146 : Tag in this.tags )
+      for ( y_34343 : Tag in this.tags )
       {
-        arraytags.put(makeJSONObjectFromEntityRef(d_94146));
+        arraytags.put(makeJSONObjectFromEntityRef(y_34343));
       }
       object.put("tags", arraytags);
     }
@@ -104,6 +104,23 @@ extend entity IssueGhost {
     else
     {
       object.put("name", this.name);
+    }
+    return object;
+  }
+  function toMinimalJSON ( ) : JSONObject
+  {
+    var object := JSONObject() ;
+    if ( this.version != null )
+    {
+      object.put("version", version);
+    }
+    if ( this.id != null )
+    {
+      object.put("id", id);
+    }
+    if ( this.name != null )
+    {
+      object.put("name", name);
     }
     return object;
   }

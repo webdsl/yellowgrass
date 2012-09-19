@@ -67,9 +67,9 @@ extend entity Project {
     else
     {
       var arrayissues := JSONArray() ;
-      for ( z_94145 : Issue in this.issues )
+      for ( v_34343 : Issue in this.issues )
       {
-        arrayissues.put(makeJSONObjectFromEntityRef(z_94145));
+        arrayissues.put(makeJSONObjectFromEntityRef(v_34343));
       }
       object.put("issues", arrayissues);
     }
@@ -80,9 +80,9 @@ extend entity Project {
     else
     {
       var arraymembers := JSONArray() ;
-      for ( a_94146 : User in this.members )
+      for ( w_34343 : User in this.members )
       {
-        arraymembers.put(makeJSONObjectFromEntityRef(a_94146));
+        arraymembers.put(makeJSONObjectFromEntityRef(w_34343));
       }
       object.put("members", arraymembers);
     }
@@ -93,9 +93,9 @@ extend entity Project {
     else
     {
       var arraymemberRequests := JSONArray() ;
-      for ( b_94146 : User in this.memberRequests )
+      for ( x_34343 : User in this.memberRequests )
       {
-        arraymemberRequests.put(makeJSONObjectFromEntityRef(b_94146));
+        arraymemberRequests.put(makeJSONObjectFromEntityRef(x_34343));
       }
       object.put("memberRequests", arraymemberRequests);
     }
@@ -106,9 +106,9 @@ extend entity Project {
     else
     {
       var arrayfollowers := JSONArray() ;
-      for ( c_94146 : User in this.followers )
+      for ( y_34343 : User in this.followers )
       {
-        arrayfollowers.put(makeJSONObjectFromEntityRef(c_94146));
+        arrayfollowers.put(makeJSONObjectFromEntityRef(y_34343));
       }
       object.put("followers", arrayfollowers);
     }
@@ -151,6 +151,19 @@ extend entity Project {
     else
     {
       object.put("id", this.id);
+    }
+    return object;
+  }
+  function toMinimalJSON ( ) : JSONObject
+  {
+    var object := JSONObject() ;
+    if ( this.version != null )
+    {
+      object.put("version", version);
+    }
+    if ( this.id != null )
+    {
+      object.put("id", id);
     }
     return object;
   }

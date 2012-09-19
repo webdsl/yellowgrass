@@ -63,9 +63,9 @@ extend entity User {
     else
     {
       var arrayprojects := JSONArray() ;
-      for ( x_94145 : Project in this.projects )
+      for ( t_34343 : Project in this.projects )
       {
-        arrayprojects.put(makeJSONObjectFromEntityRef(x_94145));
+        arrayprojects.put(makeJSONObjectFromEntityRef(t_34343));
       }
       object.put("projects", arrayprojects);
     }
@@ -100,6 +100,19 @@ extend entity User {
     else
     {
       object.put("id", this.id);
+    }
+    return object;
+  }
+  function toMinimalJSON ( ) : JSONObject
+  {
+    var object := JSONObject() ;
+    if ( this.version != null )
+    {
+      object.put("version", version);
+    }
+    if ( this.id != null )
+    {
+      object.put("id", id);
     }
     return object;
   }

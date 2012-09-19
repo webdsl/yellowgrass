@@ -58,4 +58,21 @@ extend entity IssueClose {
     }
     return object;
   }
+  function toMinimalJSON ( ) : JSONObject
+  {
+    var object := JSONObject() ;
+    if ( this.version != null )
+    {
+      object.put("version", version);
+    }
+    if ( this.id != null )
+    {
+      object.put("id", id);
+    }
+    if ( this.name != null )
+    {
+      object.put("name", name);
+    }
+    return object;
+  }
 }

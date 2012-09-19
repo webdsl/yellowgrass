@@ -111,9 +111,9 @@ extend entity Issue {
     else
     {
       var arraylog := JSONArray() ;
-      for ( e_94146 : Event in this.log )
+      for ( z_34343 : Event in this.log )
       {
-        arraylog.put(makeJSONObjectFromEntityRef(e_94146));
+        arraylog.put(makeJSONObjectFromEntityRef(z_34343));
       }
       object.put("log", arraylog);
     }
@@ -124,9 +124,9 @@ extend entity Issue {
     else
     {
       var arraytags := JSONArray() ;
-      for ( f_94146 : Tag in this.tags )
+      for ( a_34344 : Tag in this.tags )
       {
-        arraytags.put(makeJSONObjectFromEntityRef(f_94146));
+        arraytags.put(makeJSONObjectFromEntityRef(a_34344));
       }
       object.put("tags", arraytags);
     }
@@ -153,9 +153,9 @@ extend entity Issue {
     else
     {
       var arrayattachments := JSONArray() ;
-      for ( g_94146 : Attachment in this.attachments )
+      for ( b_34344 : Attachment in this.attachments )
       {
-        arrayattachments.put(makeJSONObjectFromEntityRef(g_94146));
+        arrayattachments.put(makeJSONObjectFromEntityRef(b_34344));
       }
       object.put("attachments", arrayattachments);
     }
@@ -198,6 +198,35 @@ extend entity Issue {
     else
     {
       object.put("name", this.name);
+    }
+    return object;
+  }
+  function toMinimalJSON ( ) : JSONObject
+  {
+    var object := JSONObject() ;
+    if ( this.nrVotes != null )
+    {
+      object.put("nrVotes", nrVotes);
+    }
+    if ( this.projectName != null )
+    {
+      object.put("projectName", projectName);
+    }
+    if ( this.reporterName != null )
+    {
+      object.put("reporterName", reporterName);
+    }
+    if ( this.version != null )
+    {
+      object.put("version", version);
+    }
+    if ( this.id != null )
+    {
+      object.put("id", id);
+    }
+    if ( this.name != null )
+    {
+      object.put("name", name);
     }
     return object;
   }
