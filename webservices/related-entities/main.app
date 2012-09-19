@@ -1,0 +1,14 @@
+module webservices/related-entities/main
+imports webservices/related-entities/Attachment
+imports webservices/related-entities/Comment
+imports webservices/related-entities/Event
+imports webservices/related-entities/Issue
+imports webservices/related-entities/IssueClose
+imports webservices/related-entities/IssueGhost
+imports webservices/related-entities/IssueMoved
+imports webservices/related-entities/IssueReopen
+imports webservices/related-entities/Project
+imports webservices/related-entities/Tag
+imports webservices/related-entities/TagAddition
+imports webservices/related-entities/TagRemoval
+imports webservices/related-entities/User
