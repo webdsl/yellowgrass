@@ -174,7 +174,7 @@ module webservices::mobl::simpleView
       showField ( "number" , ent . number . toString ( ) )
       showField ( "title" , ent . title )
       showField ( "description" , ent . description )
-      showField ( "submitted" , ent . submitted . toDateString ( ) )
+      when(ent . submitted){showField ( "submitted" , ent . submitted . toDateString ( ) )}
       showEntityField ( "project" , ent . project , showProjectSimple )
       showEntityField ( "reporter" , ent . reporter , showUserSimple )
       showField ( "open" , ent . open . toString ( ) )

@@ -1,5 +1,7 @@
 module webservices::mobl::sync
   import webservices :: mobl :: mapper
+  import webservices :: mobl :: model
+  import webservices :: mobl :: unsync
   service Sync {
     resource syncAttachment ( arg : JSON ) : void {
       uri="webservice/syncAttachment"
@@ -85,4 +87,113 @@ module webservices::mobl::sync
       data={}
       mapper=ProjectMapper
     }
+  }
+  function syncAllUser ( ) {
+    var begin = now ( ) ;
+    Sync . syncUser ( User . all ( ) . selectJSON ( [ "id" , "version" ] ) );
+    log("time needed for syncing User: "+( ( now ( ) - begin ) / 1000 ) . toString ( ));
+  }
+  function syncAllTagRemoval ( ) {
+    var begin = now ( ) ;
+    Sync . syncTagRemoval ( TagRemoval . all ( ) . selectJSON ( [ "id" , "version" ] ) );
+    log("time needed for syncing TagRemoval: "+( ( now ( ) - begin ) / 1000 ) . toString ( ));
+  }
+  function syncAllTagAddition ( ) {
+    var begin = now ( ) ;
+    Sync . syncTagAddition ( TagAddition . all ( ) . selectJSON ( [ "id" , "version" ] ) );
+    log("time needed for syncing TagAddition: "+( ( now ( ) - begin ) / 1000 ) . toString ( ));
+  }
+  function syncAllTag ( ) {
+    var begin = now ( ) ;
+    Sync . syncTag ( Tag . all ( ) . selectJSON ( [ "id" , "version" ] ) );
+    log("time needed for syncing Tag: "+( ( now ( ) - begin ) / 1000 ) . toString ( ));
+  }
+  function syncAllProject ( ) {
+    var begin = now ( ) ;
+    Sync . syncProject ( Project . all ( ) . filter ( "sync" , "=" , "true" ) . selectJSON ( [ "id" , "version" ] ) );
+    log("time needed for syncing Project: "+( ( now ( ) - begin ) / 1000 ) . toString ( ));
+  }
+  function syncAllIssueReopen ( ) {
+    var begin = now ( ) ;
+    Sync . syncIssueReopen ( IssueReopen . all ( ) . selectJSON ( [ "id" , "version" ] ) );
+    log("time needed for syncing IssueReopen: "+( ( now ( ) - begin ) / 1000 ) . toString ( ));
+  }
+  function syncAllIssueMoved ( ) {
+    var begin = now ( ) ;
+    Sync . syncIssueMoved ( IssueMoved . all ( ) . selectJSON ( [ "id" , "version" ] ) );
+    log("time needed for syncing IssueMoved: "+( ( now ( ) - begin ) / 1000 ) . toString ( ));
+  }
+  function syncAllIssueGhost ( ) {
+    var begin = now ( ) ;
+    Sync . syncIssueGhost ( IssueGhost . all ( ) . selectJSON ( [ "id" , "version" ] ) );
+    log("time needed for syncing IssueGhost: "+( ( now ( ) - begin ) / 1000 ) . toString ( ));
+  }
+  function syncAllIssueClose ( ) {
+    var begin = now ( ) ;
+    Sync . syncIssueClose ( IssueClose . all ( ) . selectJSON ( [ "id" , "version" ] ) );
+    log("time needed for syncing IssueClose: "+( ( now ( ) - begin ) / 1000 ) . toString ( ));
+  }
+  function syncAllIssue ( ) {
+    var begin = now ( ) ;
+    Sync . syncIssue ( Issue . all ( ) . selectJSON ( [ "id" , "version" ] ) );
+    log("time needed for syncing Issue: "+( ( now ( ) - begin ) / 1000 ) . toString ( ));
+  }
+  function syncAllEvent ( ) {
+    var begin = now ( ) ;
+    Sync . syncEvent ( Event . all ( ) . selectJSON ( [ "id" , "version" ] ) );
+    log("time needed for syncing Event: "+( ( now ( ) - begin ) / 1000 ) . toString ( ));
+  }
+  function syncAllComment ( ) {
+    var begin = now ( ) ;
+    Sync . syncComment ( Comment . all ( ) . selectJSON ( [ "id" , "version" ] ) );
+    log("time needed for syncing Comment: "+( ( now ( ) - begin ) / 1000 ) . toString ( ));
+  }
+  function syncAllAttachment ( ) {
+    var begin = now ( ) ;
+    Sync . syncAttachment ( Attachment . all ( ) . selectJSON ( [ "id" , "version" ] ) );
+    log("time needed for syncing Attachment: "+( ( now ( ) - begin ) / 1000 ) . toString ( ));
+  }
+  function syncAll ( ) {
+    var begin = now ( ) ;
+    syncAllProject();
+    syncAllIssue();
+    syncAllUser();
+    syncAllEvent();
+    syncAllTag();
+    syncAllAttachment();
+    var allsynced = false ;
+    while ( ! allsynced ) {
+      allsynced = true ;
+      if ( nrUnsyncedProject ( ) )
+      {
+        syncUnsyncedProject();
+        allsynced = false ;
+      }
+      if ( nrUnsyncedIssue ( ) )
+      {
+        syncUnsyncedIssue();
+        allsynced = false ;
+      }
+      if ( nrUnsyncedUser ( ) )
+      {
+        syncUnsyncedUser();
+        allsynced = false ;
+      }
+      if ( nrUnsyncedEvent ( ) )
+      {
+        syncUnsyncedEvent();
+        allsynced = false ;
+      }
+      if ( nrUnsyncedTag ( ) )
+      {
+        syncUnsyncedTag();
+        allsynced = false ;
+      }
+      if ( nrUnsyncedAttachment ( ) )
+      {
+        syncUnsyncedAttachment();
+        allsynced = false ;
+      }
+    }
+    log("totaltime:"+( ( now ( ) - begin ) / 1000 ) . toString ( ));
   }

@@ -1,5 +1,6 @@
 module webservices::mobl::unsync
   import webservices :: mobl :: model
+  import webservices :: mobl :: sync
   import mobl :: ui :: generic
   function nrUnsyncedAttachment ( ) : Num {
     return getUnsyncedAttachment ( ) . count ( );
@@ -79,10 +80,75 @@ module webservices::mobl::unsync
   function getUnsyncedUser ( ) : Collection < User > {
     return User . all ( ) . filter ( "version" , "=" , 0 );
   }
+  function syncUnsyncedAttachment ( ) {
+    var begin = now ( ) ;
+    Sync . syncAttachment ( getUnsyncedAttachment ( ) . selectJSON ( [ "id" , "version" ] ) );
+    log("time needed for syncing unsynced Attachment: "+( ( now ( ) - begin ) / 1000 ) . toString ( ));
+  }
+  function syncUnsyncedComment ( ) {
+    var begin = now ( ) ;
+    Sync . syncComment ( getUnsyncedComment ( ) . selectJSON ( [ "id" , "version" ] ) );
+    log("time needed for syncing unsynced Comment: "+( ( now ( ) - begin ) / 1000 ) . toString ( ));
+  }
+  function syncUnsyncedEvent ( ) {
+    var begin = now ( ) ;
+    Sync . syncEvent ( getUnsyncedEvent ( ) . selectJSON ( [ "id" , "version" ] ) );
+    log("time needed for syncing unsynced Event: "+( ( now ( ) - begin ) / 1000 ) . toString ( ));
+  }
+  function syncUnsyncedIssue ( ) {
+    var begin = now ( ) ;
+    Sync . syncIssue ( getUnsyncedIssue ( ) . selectJSON ( [ "id" , "version" ] ) );
+    log("time needed for syncing unsynced Issue: "+( ( now ( ) - begin ) / 1000 ) . toString ( ));
+  }
+  function syncUnsyncedIssueClose ( ) {
+    var begin = now ( ) ;
+    Sync . syncIssueClose ( getUnsyncedIssueClose ( ) . selectJSON ( [ "id" , "version" ] ) );
+    log("time needed for syncing unsynced IssueClose: "+( ( now ( ) - begin ) / 1000 ) . toString ( ));
+  }
+  function syncUnsyncedIssueGhost ( ) {
+    var begin = now ( ) ;
+    Sync . syncIssueGhost ( getUnsyncedIssueGhost ( ) . selectJSON ( [ "id" , "version" ] ) );
+    log("time needed for syncing unsynced IssueGhost: "+( ( now ( ) - begin ) / 1000 ) . toString ( ));
+  }
+  function syncUnsyncedIssueMoved ( ) {
+    var begin = now ( ) ;
+    Sync . syncIssueMoved ( getUnsyncedIssueMoved ( ) . selectJSON ( [ "id" , "version" ] ) );
+    log("time needed for syncing unsynced IssueMoved: "+( ( now ( ) - begin ) / 1000 ) . toString ( ));
+  }
+  function syncUnsyncedIssueReopen ( ) {
+    var begin = now ( ) ;
+    Sync . syncIssueReopen ( getUnsyncedIssueReopen ( ) . selectJSON ( [ "id" , "version" ] ) );
+    log("time needed for syncing unsynced IssueReopen: "+( ( now ( ) - begin ) / 1000 ) . toString ( ));
+  }
+  function syncUnsyncedProject ( ) {
+    var begin = now ( ) ;
+    Sync . syncProject ( getUnsyncedProject ( ) . selectJSON ( [ "id" , "version" ] ) );
+    log("time needed for syncing unsynced Project: "+( ( now ( ) - begin ) / 1000 ) . toString ( ));
+  }
+  function syncUnsyncedTag ( ) {
+    var begin = now ( ) ;
+    Sync . syncTag ( getUnsyncedTag ( ) . selectJSON ( [ "id" , "version" ] ) );
+    log("time needed for syncing unsynced Tag: "+( ( now ( ) - begin ) / 1000 ) . toString ( ));
+  }
+  function syncUnsyncedTagAddition ( ) {
+    var begin = now ( ) ;
+    Sync . syncTagAddition ( getUnsyncedTagAddition ( ) . selectJSON ( [ "id" , "version" ] ) );
+    log("time needed for syncing unsynced TagAddition: "+( ( now ( ) - begin ) / 1000 ) . toString ( ));
+  }
+  function syncUnsyncedTagRemoval ( ) {
+    var begin = now ( ) ;
+    Sync . syncTagRemoval ( getUnsyncedTagRemoval ( ) . selectJSON ( [ "id" , "version" ] ) );
+    log("time needed for syncing unsynced TagRemoval: "+( ( now ( ) - begin ) / 1000 ) . toString ( ));
+  }
+  function syncUnsyncedUser ( ) {
+    var begin = now ( ) ;
+    Sync . syncUser ( getUnsyncedUser ( ) . selectJSON ( [ "id" , "version" ] ) );
+    log("time needed for syncing unsynced User: "+( ( now ( ) - begin ) / 1000 ) . toString ( ));
+  }
   control statusUnsyncedEntities ( ) {
     group {
       < h3 >
-        "Unsynced" 
+        "Unsynced"
       </ h3 >
       < p >
         label ( "Attachment: " + nrUnsyncedAttachment ( ) )
