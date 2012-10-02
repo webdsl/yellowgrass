@@ -5,17 +5,15 @@ service webservice_generated_syncAttachment ( )
   var errors := JSONArray() ;
   var request := JSONArray(readRequestBody()) ;
   var result := JSONArray() ;
+  var tls := Set<Project>() ;
   for ( count : Int from 0 to request.length() )
     {
-      var entity := ( loadEntity("Attachment", request.getJSONObject(count).getString("id").parseUUID()) as Attachment ) ;
-      if ( entity.version > request.getJSONObject(count).getString("version").parseInt() )
-      {
-        result.put(entity.toJSON());
-      }
-      else
-      {
-        result.put(entity.toMinimalJSON());
-      }
+      var entity := ( loadEntity("Project", request.getJSONObject(count).getString("id").parseUUID()) as Project ) ;
+      tls.add(entity);
+    }
+  for ( ent : Attachment in getAllAttachmentForProject(tls) )
+    {
+      result.put(ent.toJSON());
     }
   json.put("errors", errors);
   json.put("result", result);
