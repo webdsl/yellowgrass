@@ -3,7 +3,10 @@ extend entity Comment {
   function getRelatedEntities ( ) : Set<Entity>
   {
     var set := Set<Entity>() ;
-    set.add(this.author);
+    if ( this.author != null )
+    {
+      set.add(this.author);
+    }
     return set;
   }
 }

@@ -3,7 +3,10 @@ extend entity IssueReopen {
   function getRelatedEntities ( ) : Set<Entity>
   {
     var set := Set<Entity>() ;
-    set.add(this.actor);
+    if ( this.actor != null )
+    {
+      set.add(this.actor);
+    }
     return set;
   }
 }

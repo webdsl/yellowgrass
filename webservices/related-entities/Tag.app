@@ -3,8 +3,14 @@ extend entity Tag {
   function getRelatedEntities ( ) : Set<Entity>
   {
     var set := Set<Entity>() ;
-    set.add(this.project);
-    set.addAll(this.tags);
+    if ( this.project != null )
+    {
+      set.add(this.project);
+    }
+    if ( this.tags != null )
+    {
+      set.addAll(this.tags);
+    }
     return set;
   }
 }

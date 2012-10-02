@@ -3,11 +3,26 @@ extend entity Issue {
   function getRelatedEntities ( ) : Set<Entity>
   {
     var set := Set<Entity>() ;
-    set.add(this.project);
-    set.add(this.reporter);
-    set.addAll(this.log);
-    set.addAll(this.tags);
-    set.addAll(this.attachments);
+    if ( this.project != null )
+    {
+      set.add(this.project);
+    }
+    if ( this.reporter != null )
+    {
+      set.add(this.reporter);
+    }
+    if ( this.log != null )
+    {
+      set.addAll(this.log);
+    }
+    if ( this.tags != null )
+    {
+      set.addAll(this.tags);
+    }
+    if ( this.attachments != null )
+    {
+      set.addAll(this.attachments);
+    }
     return set;
   }
 }

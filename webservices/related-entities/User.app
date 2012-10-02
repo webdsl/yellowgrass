@@ -3,7 +3,10 @@ extend entity User {
   function getRelatedEntities ( ) : Set<Entity>
   {
     var set := Set<Entity>() ;
-    set.addAll(this.projects);
+    if ( this.projects != null )
+    {
+      set.addAll(this.projects);
+    }
     return set;
   }
 }
