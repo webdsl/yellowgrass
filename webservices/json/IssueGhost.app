@@ -67,9 +67,9 @@ extend entity IssueGhost {
     else
     {
       var arraytags := JSONArray() ;
-      for ( y_1129 : Tag in this.tags )
+      for ( r_4612 : Tag in this.tags )
         {
-          arraytags.put(makeJSONObjectFromEntityRef(y_1129));
+          arraytags.put(makeJSONObjectFromEntityRef(r_4612));
         }
       object.put("tags", arraytags);
     }

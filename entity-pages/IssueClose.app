@@ -19,6 +19,11 @@ title {
   }
   group ( "Functions" ) {
     par {
+      "function toJSONFromSuperEvent ("
+      " ) : "
+      "JSONObject"
+    }
+    par {
       "function toMinimalJSON ("
       " ) : "
       "JSONObject"
