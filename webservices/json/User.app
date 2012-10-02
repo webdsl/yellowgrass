@@ -3,6 +3,30 @@ extend entity User {
   function toSimpleJSON ( ) : JSONObject
   {
     var object := JSONObject() ;
+    if ( this.name != null )
+    {
+      object.put("name", name);
+    }
+    if ( this.email != null )
+    {
+      object.put("email", email);
+    }
+    if ( this.notifications != null )
+    {
+      object.put("notifications", notifications);
+    }
+    if ( this.url != null )
+    {
+      object.put("url", url);
+    }
+    if ( this.tag != null )
+    {
+      object.put("tag", tag);
+    }
+    if ( this.id != null )
+    {
+      object.put("id", id);
+    }
     return object;
   }
   function toJSON ( ) : JSONObject
@@ -16,7 +40,7 @@ extend entity User {
     {
       object.put("name", this.name);
     }
-    if ( this.name == null )
+    if ( this.email == null )
     {
       object.put("email", ( null as JSONObject ));
     }
@@ -24,7 +48,7 @@ extend entity User {
     {
       object.put("email", this.email);
     }
-    if ( this.name == null )
+    if ( this.notifications == null )
     {
       object.put("notifications", ( null as JSONObject ));
     }
@@ -32,20 +56,20 @@ extend entity User {
     {
       object.put("notifications", this.notifications);
     }
-    if ( this.name == null )
+    if ( this.projects == null )
     {
       object.put("projects", ( null as JSONObject ));
     }
     else
     {
       var arrayprojects := JSONArray() ;
-      for ( b_15401 : Project in this.projects )
+      for ( t_1129 : Project in this.projects )
         {
-          arrayprojects.put(makeJSONObjectFromEntityRef(b_15401));
+          arrayprojects.put(makeJSONObjectFromEntityRef(t_1129));
         }
       object.put("projects", arrayprojects);
     }
-    if ( this.name == null )
+    if ( this.url == null )
     {
       object.put("url", ( null as JSONObject ));
     }
@@ -53,7 +77,7 @@ extend entity User {
     {
       object.put("url", this.url);
     }
-    if ( this.name == null )
+    if ( this.tag == null )
     {
       object.put("tag", ( null as JSONObject ));
     }
@@ -61,7 +85,7 @@ extend entity User {
     {
       object.put("tag", this.tag);
     }
-    if ( this.name == null )
+    if ( this.version == null )
     {
       object.put("version", ( null as JSONObject ));
     }
@@ -69,7 +93,7 @@ extend entity User {
     {
       object.put("version", this.version);
     }
-    if ( this.name == null )
+    if ( this.id == null )
     {
       object.put("id", ( null as JSONObject ));
     }
@@ -82,6 +106,14 @@ extend entity User {
   function toMinimalJSON ( ) : JSONObject
   {
     var object := JSONObject() ;
+    if ( this.version != null )
+    {
+      object.put("version", version);
+    }
+    if ( this.id != null )
+    {
+      object.put("id", id);
+    }
     return object;
   }
 }

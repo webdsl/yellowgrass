@@ -3,12 +3,32 @@ extend entity IssueGhost {
   function toSimpleJSON ( ) : JSONObject
   {
     var object := JSONObject() ;
+    if ( this.title != null )
+    {
+      object.put("title", title);
+    }
+    if ( this.description != null )
+    {
+      object.put("description", description.format());
+    }
+    if ( this.email != null )
+    {
+      object.put("email", email);
+    }
+    if ( this.alive != null )
+    {
+      object.put("alive", alive);
+    }
+    if ( this.id != null )
+    {
+      object.put("id", id);
+    }
     return object;
   }
   function toJSON ( ) : JSONObject
   {
     var object := JSONObject() ;
-    if ( this.name == null )
+    if ( this.title == null )
     {
       object.put("title", ( null as JSONObject ));
     }
@@ -16,7 +36,7 @@ extend entity IssueGhost {
     {
       object.put("title", this.title);
     }
-    if ( this.name == null )
+    if ( this.description == null )
     {
       object.put("description", ( null as JSONObject ));
     }
@@ -24,7 +44,7 @@ extend entity IssueGhost {
     {
       object.put("description", this.description.format());
     }
-    if ( this.name == null )
+    if ( this.project == null )
     {
       object.put("project", ( null as JSONObject ));
     }
@@ -32,7 +52,7 @@ extend entity IssueGhost {
     {
       object.put("project", makeJSONObjectFromEntityRef(this.project));
     }
-    if ( this.name == null )
+    if ( this.email == null )
     {
       object.put("email", ( null as JSONObject ));
     }
@@ -40,20 +60,20 @@ extend entity IssueGhost {
     {
       object.put("email", this.email);
     }
-    if ( this.name == null )
+    if ( this.tags == null )
     {
       object.put("tags", ( null as JSONObject ));
     }
     else
     {
       var arraytags := JSONArray() ;
-      for ( h_15401 : Tag in this.tags )
+      for ( y_1129 : Tag in this.tags )
         {
-          arraytags.put(makeJSONObjectFromEntityRef(h_15401));
+          arraytags.put(makeJSONObjectFromEntityRef(y_1129));
         }
       object.put("tags", arraytags);
     }
-    if ( this.name == null )
+    if ( this.alive == null )
     {
       object.put("alive", ( null as JSONObject ));
     }
@@ -61,7 +81,7 @@ extend entity IssueGhost {
     {
       object.put("alive", this.alive);
     }
-    if ( this.name == null )
+    if ( this.version == null )
     {
       object.put("version", ( null as JSONObject ));
     }
@@ -69,7 +89,7 @@ extend entity IssueGhost {
     {
       object.put("version", this.version);
     }
-    if ( this.name == null )
+    if ( this.id == null )
     {
       object.put("id", ( null as JSONObject ));
     }
@@ -77,19 +97,19 @@ extend entity IssueGhost {
     {
       object.put("id", this.id);
     }
-    if ( this.name == null )
-    {
-      object.put("name", ( null as JSONObject ));
-    }
-    else
-    {
-      object.put("name", this.name);
-    }
     return object;
   }
   function toMinimalJSON ( ) : JSONObject
   {
     var object := JSONObject() ;
+    if ( this.version != null )
+    {
+      object.put("version", version);
+    }
+    if ( this.id != null )
+    {
+      object.put("id", id);
+    }
     return object;
   }
 }

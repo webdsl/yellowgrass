@@ -3,12 +3,52 @@ extend entity Issue {
   function toSimpleJSON ( ) : JSONObject
   {
     var object := JSONObject() ;
+    if ( this.number != null )
+    {
+      object.put("number", number);
+    }
+    if ( this.title != null )
+    {
+      object.put("title", title);
+    }
+    if ( this.description != null )
+    {
+      object.put("description", description.format());
+    }
+    if ( this.submitted != null )
+    {
+      object.put("submitted", submitted.getTime() / 1000L);
+    }
+    if ( this.open != null )
+    {
+      object.put("open", open);
+    }
+    if ( this.email != null )
+    {
+      object.put("email", email);
+    }
+    if ( this.nrVotes != null )
+    {
+      object.put("nrVotes", nrVotes);
+    }
+    if ( this.projectName != null )
+    {
+      object.put("projectName", projectName);
+    }
+    if ( this.reporterName != null )
+    {
+      object.put("reporterName", reporterName);
+    }
+    if ( this.id != null )
+    {
+      object.put("id", id);
+    }
     return object;
   }
   function toJSON ( ) : JSONObject
   {
     var object := JSONObject() ;
-    if ( this.name == null )
+    if ( this.number == null )
     {
       object.put("number", ( null as JSONObject ));
     }
@@ -16,7 +56,7 @@ extend entity Issue {
     {
       object.put("number", this.number);
     }
-    if ( this.name == null )
+    if ( this.title == null )
     {
       object.put("title", ( null as JSONObject ));
     }
@@ -24,7 +64,7 @@ extend entity Issue {
     {
       object.put("title", this.title);
     }
-    if ( this.name == null )
+    if ( this.description == null )
     {
       object.put("description", ( null as JSONObject ));
     }
@@ -32,7 +72,7 @@ extend entity Issue {
     {
       object.put("description", this.description.format());
     }
-    if ( this.name == null )
+    if ( this.submitted == null )
     {
       object.put("submitted", ( null as JSONObject ));
     }
@@ -40,7 +80,7 @@ extend entity Issue {
     {
       object.put("submitted", this.submitted.getTime() / 1000L);
     }
-    if ( this.name == null )
+    if ( this.project == null )
     {
       object.put("project", ( null as JSONObject ));
     }
@@ -48,7 +88,7 @@ extend entity Issue {
     {
       object.put("project", makeJSONObjectFromEntityRef(this.project));
     }
-    if ( this.name == null )
+    if ( this.reporter == null )
     {
       object.put("reporter", ( null as JSONObject ));
     }
@@ -56,7 +96,7 @@ extend entity Issue {
     {
       object.put("reporter", makeJSONObjectFromEntityRef(this.reporter));
     }
-    if ( this.name == null )
+    if ( this.open == null )
     {
       object.put("open", ( null as JSONObject ));
     }
@@ -64,33 +104,33 @@ extend entity Issue {
     {
       object.put("open", this.open);
     }
-    if ( this.name == null )
+    if ( this.log == null )
     {
       object.put("log", ( null as JSONObject ));
     }
     else
     {
       var arraylog := JSONArray() ;
-      for ( h_15401 : Event in this.log )
+      for ( z_1129 : Event in this.log )
         {
-          arraylog.put(makeJSONObjectFromEntityRef(h_15401));
+          arraylog.put(makeJSONObjectFromEntityRef(z_1129));
         }
       object.put("log", arraylog);
     }
-    if ( this.name == null )
+    if ( this.tags == null )
     {
       object.put("tags", ( null as JSONObject ));
     }
     else
     {
       var arraytags := JSONArray() ;
-      for ( i_15401 : Tag in this.tags )
+      for ( a_1130 : Tag in this.tags )
         {
-          arraytags.put(makeJSONObjectFromEntityRef(i_15401));
+          arraytags.put(makeJSONObjectFromEntityRef(a_1130));
         }
       object.put("tags", arraytags);
     }
-    if ( this.name == null )
+    if ( this.email == null )
     {
       object.put("email", ( null as JSONObject ));
     }
@@ -98,7 +138,7 @@ extend entity Issue {
     {
       object.put("email", this.email);
     }
-    if ( this.name == null )
+    if ( this.nrVotes == null )
     {
       object.put("nrVotes", ( null as JSONObject ));
     }
@@ -106,20 +146,20 @@ extend entity Issue {
     {
       object.put("nrVotes", this.nrVotes);
     }
-    if ( this.name == null )
+    if ( this.attachments == null )
     {
       object.put("attachments", ( null as JSONObject ));
     }
     else
     {
       var arrayattachments := JSONArray() ;
-      for ( j_15401 : Attachment in this.attachments )
+      for ( b_1130 : Attachment in this.attachments )
         {
-          arrayattachments.put(makeJSONObjectFromEntityRef(j_15401));
+          arrayattachments.put(makeJSONObjectFromEntityRef(b_1130));
         }
       object.put("attachments", arrayattachments);
     }
-    if ( this.name == null )
+    if ( this.projectName == null )
     {
       object.put("projectName", ( null as JSONObject ));
     }
@@ -127,7 +167,7 @@ extend entity Issue {
     {
       object.put("projectName", this.projectName);
     }
-    if ( this.name == null )
+    if ( this.reporterName == null )
     {
       object.put("reporterName", ( null as JSONObject ));
     }
@@ -135,7 +175,7 @@ extend entity Issue {
     {
       object.put("reporterName", this.reporterName);
     }
-    if ( this.name == null )
+    if ( this.version == null )
     {
       object.put("version", ( null as JSONObject ));
     }
@@ -143,7 +183,7 @@ extend entity Issue {
     {
       object.put("version", this.version);
     }
-    if ( this.name == null )
+    if ( this.id == null )
     {
       object.put("id", ( null as JSONObject ));
     }
@@ -151,19 +191,31 @@ extend entity Issue {
     {
       object.put("id", this.id);
     }
-    if ( this.name == null )
-    {
-      object.put("name", ( null as JSONObject ));
-    }
-    else
-    {
-      object.put("name", this.name);
-    }
     return object;
   }
   function toMinimalJSON ( ) : JSONObject
   {
     var object := JSONObject() ;
+    if ( this.nrVotes != null )
+    {
+      object.put("nrVotes", nrVotes);
+    }
+    if ( this.projectName != null )
+    {
+      object.put("projectName", projectName);
+    }
+    if ( this.reporterName != null )
+    {
+      object.put("reporterName", reporterName);
+    }
+    if ( this.version != null )
+    {
+      object.put("version", version);
+    }
+    if ( this.id != null )
+    {
+      object.put("id", id);
+    }
     return object;
   }
 }

@@ -3,12 +3,20 @@ extend entity Attachment {
   function toSimpleJSON ( ) : JSONObject
   {
     var object := JSONObject() ;
+    if ( this.date != null )
+    {
+      object.put("date", date.getTime() / 1000L);
+    }
+    if ( this.id != null )
+    {
+      object.put("id", id);
+    }
     return object;
   }
   function toJSON ( ) : JSONObject
   {
     var object := JSONObject() ;
-    if ( this.name == null )
+    if ( this.date == null )
     {
       object.put("date", ( null as JSONObject ));
     }
@@ -16,7 +24,7 @@ extend entity Attachment {
     {
       object.put("date", this.date.getTime() / 1000L);
     }
-    if ( this.name == null )
+    if ( this.version == null )
     {
       object.put("version", ( null as JSONObject ));
     }
@@ -24,7 +32,7 @@ extend entity Attachment {
     {
       object.put("version", this.version);
     }
-    if ( this.name == null )
+    if ( this.id == null )
     {
       object.put("id", ( null as JSONObject ));
     }
@@ -32,19 +40,19 @@ extend entity Attachment {
     {
       object.put("id", this.id);
     }
-    if ( this.name == null )
-    {
-      object.put("name", ( null as JSONObject ));
-    }
-    else
-    {
-      object.put("name", this.name);
-    }
     return object;
   }
   function toMinimalJSON ( ) : JSONObject
   {
     var object := JSONObject() ;
+    if ( this.version != null )
+    {
+      object.put("version", version);
+    }
+    if ( this.id != null )
+    {
+      object.put("id", id);
+    }
     return object;
   }
 }

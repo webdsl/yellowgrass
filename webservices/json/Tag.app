@@ -3,6 +3,18 @@ extend entity Tag {
   function toSimpleJSON ( ) : JSONObject
   {
     var object := JSONObject() ;
+    if ( this.name != null )
+    {
+      object.put("name", name);
+    }
+    if ( this.description != null )
+    {
+      object.put("description", description);
+    }
+    if ( this.id != null )
+    {
+      object.put("id", id);
+    }
     return object;
   }
   function toJSON ( ) : JSONObject
@@ -16,7 +28,7 @@ extend entity Tag {
     {
       object.put("name", this.name);
     }
-    if ( this.name == null )
+    if ( this.description == null )
     {
       object.put("description", ( null as JSONObject ));
     }
@@ -24,7 +36,7 @@ extend entity Tag {
     {
       object.put("description", this.description);
     }
-    if ( this.name == null )
+    if ( this.project == null )
     {
       object.put("project", ( null as JSONObject ));
     }
@@ -32,20 +44,20 @@ extend entity Tag {
     {
       object.put("project", makeJSONObjectFromEntityRef(this.project));
     }
-    if ( this.name == null )
+    if ( this.tags == null )
     {
       object.put("tags", ( null as JSONObject ));
     }
     else
     {
       var arraytags := JSONArray() ;
-      for ( c_15401 : Tag in this.tags )
+      for ( u_1129 : Tag in this.tags )
         {
-          arraytags.put(makeJSONObjectFromEntityRef(c_15401));
+          arraytags.put(makeJSONObjectFromEntityRef(u_1129));
         }
       object.put("tags", arraytags);
     }
-    if ( this.name == null )
+    if ( this.version == null )
     {
       object.put("version", ( null as JSONObject ));
     }
@@ -53,7 +65,7 @@ extend entity Tag {
     {
       object.put("version", this.version);
     }
-    if ( this.name == null )
+    if ( this.id == null )
     {
       object.put("id", ( null as JSONObject ));
     }
@@ -66,6 +78,14 @@ extend entity Tag {
   function toMinimalJSON ( ) : JSONObject
   {
     var object := JSONObject() ;
+    if ( this.version != null )
+    {
+      object.put("version", version);
+    }
+    if ( this.id != null )
+    {
+      object.put("id", id);
+    }
     return object;
   }
 }
