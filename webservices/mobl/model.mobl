@@ -7,8 +7,8 @@ module webservices::mobl::model
     projects : Collection < Project > ( inverse : members )
     url : String
     tag : String
-    generatedPropertyForInverse_Project_followers : Project
-    generatedPropertyForInverse_Project_memberRequests : Project
+    generatedPropertyForInverse_Project_followers : Collection < Project > ( inverse : followers )
+    generatedPropertyForInverse_Project_memberRequests : Collection < Project > ( inverse : memberRequests )
   }
   entity TagRemoval {
     version : Num
@@ -28,9 +28,9 @@ module webservices::mobl::model
     description : String
     project : Project
     tags : Collection < Tag > ( inverse : generatedPropertyForInverse_Tag_tags )
-    generatedPropertyForInverse_Issue_tags : Issue
-    generatedPropertyForInverse_IssueGhost_tags : IssueGhost
-    generatedPropertyForInverse_Tag_tags : Tag
+    generatedPropertyForInverse_Issue_tags : Collection < Issue > ( inverse : tags )
+    generatedPropertyForInverse_IssueGhost_tags : Collection < IssueGhost > ( inverse : tags )
+    generatedPropertyForInverse_Tag_tags : Collection < Tag > ( inverse : tags )
   }
   entity Project {
     version : Num
@@ -90,7 +90,7 @@ module webservices::mobl::model
   entity Event {
     version : Num
     moment : DateTime
-    generatedPropertyForInverse_Issue_log : Issue
+    generatedPropertyForInverse_Issue_log : Collection < Issue > ( inverse : log )
   }
   entity Comment {
     version : Num
@@ -101,5 +101,5 @@ module webservices::mobl::model
   entity Attachment {
     version : Num
     date : DateTime
-    generatedPropertyForInverse_Issue_attachments : Issue
+    generatedPropertyForInverse_Issue_attachments : Collection < Issue > ( inverse : attachments )
   }

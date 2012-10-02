@@ -1,5 +1,15 @@
 module webservices::mobl::mapper
   import webservices :: mobl :: model
+  function timeStampMapper ( json : JSON ) : Num {
+    if ( json . errors && json . errors . length > 0 )
+    {
+      log(json.errors);
+    }
+    else
+    {
+      return json . result;
+    }
+  }
   function UserMapper ( json : JSON ) {
     if ( json . errors && json . errors . length > 0 )
     {

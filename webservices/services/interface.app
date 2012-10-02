@@ -1,4 +1,5 @@
 module webservices/services/interface
+imports webservices/services/getTimeStamp
 imports webservices/services/getTopLevelEntities
 imports webservices/services/syncAttachment
 imports webservices/services/syncComment
@@ -35,7 +36,7 @@ function getDispatchServletHelper ( ) : DispatchServletHelper
 }
 function getAvailableServices ( ) : Set<String>
 {
-  return {"syncAttachment", "syncComment", "syncEvent", "syncIssue", "syncIssueClose", "syncIssueGhost", "syncIssueMoved", "syncIssueReopen", "syncProject", "syncTag", "syncTagAddition", "syncTagRemoval", "syncUser", "test", "getTopLevelEntities"};
+  return {"syncAttachment", "syncComment", "syncEvent", "syncIssue", "syncIssueClose", "syncIssueGhost", "syncIssueMoved", "syncIssueReopen", "syncProject", "syncTag", "syncTagAddition", "syncTagRemoval", "syncUser", "getTimeStamp", "test", "getTopLevelEntities"};
 }
 service webservice ( service : String )
 {
