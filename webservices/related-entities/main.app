@@ -83,15 +83,12 @@ function getRelatedEntities ( ent : Entity ) : Set<Entity>
   }
   return Set<Entity>();
 }
-function getAllUserForProject ( tls : Set<Project> ) : Set<User>
+function getAllUserForProject ( tl : Project ) : Set<User>
 {
   var todo := Set<Entity>() ;
   var seen := Set<UUID>() ;
   var found := Set<User>() ;
-  for ( tl : Project in tls )
-    {
-      todo.addAll(getSetWhereNotSeen(todo, seen, tl.getRelatedEntities()));
-    }
+  todo.addAll(getSetWhereNotSeen(todo, seen, tl.getRelatedEntities()));
   while ( todo.length > 0 )
     {
       var newTodo := Set<Entity>() ;
@@ -112,15 +109,12 @@ function getAllUserForProject ( tls : Set<Project> ) : Set<User>
     }
   return found;
 }
-function getAllTagRemovalForProject ( tls : Set<Project> ) : Set<TagRemoval>
+function getAllTagRemovalForProject ( tl : Project ) : Set<TagRemoval>
 {
   var todo := Set<Entity>() ;
   var seen := Set<UUID>() ;
   var found := Set<TagRemoval>() ;
-  for ( tl : Project in tls )
-    {
-      todo.addAll(getSetWhereNotSeen(todo, seen, tl.getRelatedEntities()));
-    }
+  todo.addAll(getSetWhereNotSeen(todo, seen, tl.getRelatedEntities()));
   while ( todo.length > 0 )
     {
       var newTodo := Set<Entity>() ;
@@ -141,15 +135,12 @@ function getAllTagRemovalForProject ( tls : Set<Project> ) : Set<TagRemoval>
     }
   return found;
 }
-function getAllTagAdditionForProject ( tls : Set<Project> ) : Set<TagAddition>
+function getAllTagAdditionForProject ( tl : Project ) : Set<TagAddition>
 {
   var todo := Set<Entity>() ;
   var seen := Set<UUID>() ;
   var found := Set<TagAddition>() ;
-  for ( tl : Project in tls )
-    {
-      todo.addAll(getSetWhereNotSeen(todo, seen, tl.getRelatedEntities()));
-    }
+  todo.addAll(getSetWhereNotSeen(todo, seen, tl.getRelatedEntities()));
   while ( todo.length > 0 )
     {
       var newTodo := Set<Entity>() ;
@@ -170,15 +161,12 @@ function getAllTagAdditionForProject ( tls : Set<Project> ) : Set<TagAddition>
     }
   return found;
 }
-function getAllTagForProject ( tls : Set<Project> ) : Set<Tag>
+function getAllTagForProject ( tl : Project ) : Set<Tag>
 {
   var todo := Set<Entity>() ;
   var seen := Set<UUID>() ;
   var found := Set<Tag>() ;
-  for ( tl : Project in tls )
-    {
-      todo.addAll(getSetWhereNotSeen(todo, seen, tl.getRelatedEntities()));
-    }
+  todo.addAll(getSetWhereNotSeen(todo, seen, tl.getRelatedEntities()));
   while ( todo.length > 0 )
     {
       var newTodo := Set<Entity>() ;
@@ -199,19 +187,16 @@ function getAllTagForProject ( tls : Set<Project> ) : Set<Tag>
     }
   return found;
 }
-function getAllProjectForProject ( tls : Set<Project> ) : Set<Project>
+function getAllProjectForProject ( tl : Project ) : Set<Project>
 {
-  return tls;
+  return {tl};
 }
-function getAllIssueReopenForProject ( tls : Set<Project> ) : Set<IssueReopen>
+function getAllIssueReopenForProject ( tl : Project ) : Set<IssueReopen>
 {
   var todo := Set<Entity>() ;
   var seen := Set<UUID>() ;
   var found := Set<IssueReopen>() ;
-  for ( tl : Project in tls )
-    {
-      todo.addAll(getSetWhereNotSeen(todo, seen, tl.getRelatedEntities()));
-    }
+  todo.addAll(getSetWhereNotSeen(todo, seen, tl.getRelatedEntities()));
   while ( todo.length > 0 )
     {
       var newTodo := Set<Entity>() ;
@@ -232,15 +217,12 @@ function getAllIssueReopenForProject ( tls : Set<Project> ) : Set<IssueReopen>
     }
   return found;
 }
-function getAllIssueMovedForProject ( tls : Set<Project> ) : Set<IssueMoved>
+function getAllIssueMovedForProject ( tl : Project ) : Set<IssueMoved>
 {
   var todo := Set<Entity>() ;
   var seen := Set<UUID>() ;
   var found := Set<IssueMoved>() ;
-  for ( tl : Project in tls )
-    {
-      todo.addAll(getSetWhereNotSeen(todo, seen, tl.getRelatedEntities()));
-    }
+  todo.addAll(getSetWhereNotSeen(todo, seen, tl.getRelatedEntities()));
   while ( todo.length > 0 )
     {
       var newTodo := Set<Entity>() ;
@@ -261,15 +243,12 @@ function getAllIssueMovedForProject ( tls : Set<Project> ) : Set<IssueMoved>
     }
   return found;
 }
-function getAllIssueGhostForProject ( tls : Set<Project> ) : Set<IssueGhost>
+function getAllIssueGhostForProject ( tl : Project ) : Set<IssueGhost>
 {
   var todo := Set<Entity>() ;
   var seen := Set<UUID>() ;
   var found := Set<IssueGhost>() ;
-  for ( tl : Project in tls )
-    {
-      todo.addAll(getSetWhereNotSeen(todo, seen, tl.getRelatedEntities()));
-    }
+  todo.addAll(getSetWhereNotSeen(todo, seen, tl.getRelatedEntities()));
   while ( todo.length > 0 )
     {
       var newTodo := Set<Entity>() ;
@@ -290,15 +269,12 @@ function getAllIssueGhostForProject ( tls : Set<Project> ) : Set<IssueGhost>
     }
   return found;
 }
-function getAllIssueCloseForProject ( tls : Set<Project> ) : Set<IssueClose>
+function getAllIssueCloseForProject ( tl : Project ) : Set<IssueClose>
 {
   var todo := Set<Entity>() ;
   var seen := Set<UUID>() ;
   var found := Set<IssueClose>() ;
-  for ( tl : Project in tls )
-    {
-      todo.addAll(getSetWhereNotSeen(todo, seen, tl.getRelatedEntities()));
-    }
+  todo.addAll(getSetWhereNotSeen(todo, seen, tl.getRelatedEntities()));
   while ( todo.length > 0 )
     {
       var newTodo := Set<Entity>() ;
@@ -319,15 +295,12 @@ function getAllIssueCloseForProject ( tls : Set<Project> ) : Set<IssueClose>
     }
   return found;
 }
-function getAllIssueForProject ( tls : Set<Project> ) : Set<Issue>
+function getAllIssueForProject ( tl : Project ) : Set<Issue>
 {
   var todo := Set<Entity>() ;
   var seen := Set<UUID>() ;
   var found := Set<Issue>() ;
-  for ( tl : Project in tls )
-    {
-      todo.addAll(getSetWhereNotSeen(todo, seen, tl.getRelatedEntities()));
-    }
+  todo.addAll(getSetWhereNotSeen(todo, seen, tl.getRelatedEntities()));
   while ( todo.length > 0 )
     {
       var newTodo := Set<Entity>() ;
@@ -348,15 +321,12 @@ function getAllIssueForProject ( tls : Set<Project> ) : Set<Issue>
     }
   return found;
 }
-function getAllEventForProject ( tls : Set<Project> ) : Set<Event>
+function getAllEventForProject ( tl : Project ) : Set<Event>
 {
   var todo := Set<Entity>() ;
   var seen := Set<UUID>() ;
   var found := Set<Event>() ;
-  for ( tl : Project in tls )
-    {
-      todo.addAll(getSetWhereNotSeen(todo, seen, tl.getRelatedEntities()));
-    }
+  todo.addAll(getSetWhereNotSeen(todo, seen, tl.getRelatedEntities()));
   while ( todo.length > 0 )
     {
       var newTodo := Set<Entity>() ;
@@ -377,15 +347,12 @@ function getAllEventForProject ( tls : Set<Project> ) : Set<Event>
     }
   return found;
 }
-function getAllCommentForProject ( tls : Set<Project> ) : Set<Comment>
+function getAllCommentForProject ( tl : Project ) : Set<Comment>
 {
   var todo := Set<Entity>() ;
   var seen := Set<UUID>() ;
   var found := Set<Comment>() ;
-  for ( tl : Project in tls )
-    {
-      todo.addAll(getSetWhereNotSeen(todo, seen, tl.getRelatedEntities()));
-    }
+  todo.addAll(getSetWhereNotSeen(todo, seen, tl.getRelatedEntities()));
   while ( todo.length > 0 )
     {
       var newTodo := Set<Entity>() ;
@@ -406,15 +373,12 @@ function getAllCommentForProject ( tls : Set<Project> ) : Set<Comment>
     }
   return found;
 }
-function getAllAttachmentForProject ( tls : Set<Project> ) : Set<Attachment>
+function getAllAttachmentForProject ( tl : Project ) : Set<Attachment>
 {
   var todo := Set<Entity>() ;
   var seen := Set<UUID>() ;
   var found := Set<Attachment>() ;
-  for ( tl : Project in tls )
-    {
-      todo.addAll(getSetWhereNotSeen(todo, seen, tl.getRelatedEntities()));
-    }
+  todo.addAll(getSetWhereNotSeen(todo, seen, tl.getRelatedEntities()));
   while ( todo.length > 0 )
     {
       var newTodo := Set<Entity>() ;
