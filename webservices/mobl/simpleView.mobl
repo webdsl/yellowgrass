@@ -13,6 +13,24 @@ module webservices::mobl::simpleView
       textField ( value , disabled = true )
     }
   }
+  control showTextField ( name : String , value : String ) {
+    item {
+      label ( name , style = textFieldLabelStyle )
+      textField ( value )
+    }
+  }
+  control showBoolField ( name : String , value : Bool ) {
+    item {
+      label ( name , style = textFieldLabelStyle )
+      checkBox ( value )
+    }
+  }
+  control showNumField ( name : String , value : Num ) {
+    item {
+      label ( name , style = textFieldLabelStyle )
+      numField ( value )
+    }
+  }
   control showEntityField ( name : String , value : Entity < ? > , viewer : Control1 < Entity < ? > > ) {
     when ( value ) {
       item ( onclick = { showControl(viewer,value); } ) {
@@ -48,14 +66,14 @@ module webservices::mobl::simpleView
       backButton ( "back" , onclick = { back(); } )
     }
     group {
-      showField ( "id" , ent . id )
-      showField ( "version" , ent . version . toString ( ) )
-      showField ( "name" , ent . name )
-      showField ( "email" , ent . email )
-      showField ( "notifications" , ent . notifications . toString ( ) )
+      showTextField ( "id" , ent . id )
+      showNumField ( "version" , ent . version )
+      showTextField ( "name" , ent . name )
+      showTextField ( "email" , ent . email )
+      showBoolField ( "notifications" , ent . notifications )
       showEntitiesField ( "projects" , ent . projects , showProjectSimple )
-      showField ( "url" , ent . url )
-      showField ( "tag" , ent . tag )
+      showTextField ( "url" , ent . url )
+      showTextField ( "tag" , ent . tag )
     }
   }
   control showTagRemovalSimple ( ent : TagRemoval ) {
@@ -63,8 +81,8 @@ module webservices::mobl::simpleView
       backButton ( "back" , onclick = { back(); } )
     }
     group {
-      showField ( "id" , ent . id )
-      showField ( "version" , ent . version . toString ( ) )
+      showTextField ( "id" , ent . id )
+      showNumField ( "version" , ent . version )
       showEntityField ( "actor" , ent . actor , showUserSimple )
       showEntityField ( "tag" , ent . tag , showTagSimple )
       when ( ent . moment ) {
@@ -77,8 +95,8 @@ module webservices::mobl::simpleView
       backButton ( "back" , onclick = { back(); } )
     }
     group {
-      showField ( "id" , ent . id )
-      showField ( "version" , ent . version . toString ( ) )
+      showTextField ( "id" , ent . id )
+      showNumField ( "version" , ent . version )
       showEntityField ( "actor" , ent . actor , showUserSimple )
       showEntityField ( "tag" , ent . tag , showTagSimple )
       when ( ent . moment ) {
@@ -91,10 +109,10 @@ module webservices::mobl::simpleView
       backButton ( "back" , onclick = { back(); } )
     }
     group {
-      showField ( "id" , ent . id )
-      showField ( "version" , ent . version . toString ( ) )
-      showField ( "name" , ent . name )
-      showField ( "description" , ent . description )
+      showTextField ( "id" , ent . id )
+      showNumField ( "version" , ent . version )
+      showTextField ( "name" , ent . name )
+      showTextField ( "description" , ent . description )
       showEntityField ( "project" , ent . project , showProjectSimple )
       showEntitiesField ( "tags" , ent . tags , showTagSimple )
     }
@@ -104,18 +122,19 @@ module webservices::mobl::simpleView
       backButton ( "back" , onclick = { back(); } )
     }
     group {
-      showField ( "id" , ent . id )
-      showField ( "version" , ent . version . toString ( ) )
-      showField ( "name" , ent . name )
-      showField ( "description" , ent . description )
-      showField ( "url" , ent . url )
+      showTextField ( "id" , ent . id )
+      showNumField ( "version" , ent . version )
+      showTextField ( "name" , ent . name )
+      showTextField ( "description" , ent . description )
+      showTextField ( "url" , ent . url )
       showEntitiesField ( "issues" , ent . issues , showIssueSimple )
       showEntitiesField ( "members" , ent . members , showUserSimple )
       showEntitiesField ( "memberRequests" , ent . memberRequests , showUserSimple )
       showEntitiesField ( "followers" , ent . followers , showUserSimple )
-      showField ( "private" , ent . private . toString ( ) )
-      showField ( "email" , ent . email )
-      showField ( "sync" , ent . sync . toString ( ) )
+      showBoolField ( "private" , ent . private )
+      showTextField ( "email" , ent . email )
+      showNumField ( "lastSynced" , ent . lastSynced )
+      showBoolField ( "sync" , ent . sync )
     }
   }
   control showIssueReopenSimple ( ent : IssueReopen ) {
@@ -123,8 +142,8 @@ module webservices::mobl::simpleView
       backButton ( "back" , onclick = { back(); } )
     }
     group {
-      showField ( "id" , ent . id )
-      showField ( "version" , ent . version . toString ( ) )
+      showTextField ( "id" , ent . id )
+      showNumField ( "version" , ent . version )
       showEntityField ( "actor" , ent . actor , showUserSimple )
       when ( ent . moment ) {
         showField ( "moment" , ent . moment . toDateString ( ) )
@@ -136,8 +155,8 @@ module webservices::mobl::simpleView
       backButton ( "back" , onclick = { back(); } )
     }
     group {
-      showField ( "id" , ent . id )
-      showField ( "version" , ent . version . toString ( ) )
+      showTextField ( "id" , ent . id )
+      showNumField ( "version" , ent . version )
       showEntityField ( "actor" , ent . actor , showUserSimple )
       showEntityField ( "target" , ent . target , showIssueSimple )
       when ( ent . moment ) {
@@ -150,14 +169,14 @@ module webservices::mobl::simpleView
       backButton ( "back" , onclick = { back(); } )
     }
     group {
-      showField ( "id" , ent . id )
-      showField ( "version" , ent . version . toString ( ) )
-      showField ( "title" , ent . title )
-      showField ( "description" , ent . description )
+      showTextField ( "id" , ent . id )
+      showNumField ( "version" , ent . version )
+      showTextField ( "title" , ent . title )
+      showTextField ( "description" , ent . description )
       showEntityField ( "project" , ent . project , showProjectSimple )
-      showField ( "email" , ent . email )
+      showTextField ( "email" , ent . email )
       showEntitiesField ( "tags" , ent . tags , showTagSimple )
-      showField ( "alive" , ent . alive . toString ( ) )
+      showBoolField ( "alive" , ent . alive )
     }
   }
   control showIssueCloseSimple ( ent : IssueClose ) {
@@ -165,8 +184,8 @@ module webservices::mobl::simpleView
       backButton ( "back" , onclick = { back(); } )
     }
     group {
-      showField ( "id" , ent . id )
-      showField ( "version" , ent . version . toString ( ) )
+      showTextField ( "id" , ent . id )
+      showNumField ( "version" , ent . version )
       showEntityField ( "actor" , ent . actor , showUserSimple )
       when ( ent . moment ) {
         showField ( "moment" , ent . moment . toDateString ( ) )
@@ -178,24 +197,24 @@ module webservices::mobl::simpleView
       backButton ( "back" , onclick = { back(); } )
     }
     group {
-      showField ( "id" , ent . id )
-      showField ( "version" , ent . version . toString ( ) )
-      showField ( "number" , ent . number . toString ( ) )
-      showField ( "title" , ent . title )
-      showField ( "description" , ent . description )
+      showTextField ( "id" , ent . id )
+      showNumField ( "version" , ent . version )
+      showNumField ( "number" , ent . number )
+      showTextField ( "title" , ent . title )
+      showTextField ( "description" , ent . description )
       when ( ent . submitted ) {
         showField ( "submitted" , ent . submitted . toDateString ( ) )
       }
       showEntityField ( "project" , ent . project , showProjectSimple )
       showEntityField ( "reporter" , ent . reporter , showUserSimple )
-      showField ( "open" , ent . open . toString ( ) )
+      showBoolField ( "open" , ent . open )
       showEntitiesField ( "log" , ent . log , showEventSimple )
       showEntitiesField ( "tags" , ent . tags , showTagSimple )
-      showField ( "email" , ent . email )
-      showField ( "nrVotes" , ent . nrVotes . toString ( ) )
+      showTextField ( "email" , ent . email )
+      showNumField ( "nrVotes" , ent . nrVotes )
       showEntitiesField ( "attachments" , ent . attachments , showAttachmentSimple )
-      showField ( "projectName" , ent . projectName )
-      showField ( "reporterName" , ent . reporterName )
+      showTextField ( "projectName" , ent . projectName )
+      showTextField ( "reporterName" , ent . reporterName )
     }
   }
   control showEventSimple ( ent : Event ) {
@@ -203,8 +222,8 @@ module webservices::mobl::simpleView
       backButton ( "back" , onclick = { back(); } )
     }
     group {
-      showField ( "id" , ent . id )
-      showField ( "version" , ent . version . toString ( ) )
+      showTextField ( "id" , ent . id )
+      showNumField ( "version" , ent . version )
       when ( ent . moment ) {
         showField ( "moment" , ent . moment . toDateString ( ) )
       }
@@ -215,9 +234,9 @@ module webservices::mobl::simpleView
       backButton ( "back" , onclick = { back(); } )
     }
     group {
-      showField ( "id" , ent . id )
-      showField ( "version" , ent . version . toString ( ) )
-      showField ( "text" , ent . text )
+      showTextField ( "id" , ent . id )
+      showNumField ( "version" , ent . version )
+      showTextField ( "text" , ent . text )
       showEntityField ( "author" , ent . author , showUserSimple )
       when ( ent . moment ) {
         showField ( "moment" , ent . moment . toDateString ( ) )
@@ -229,8 +248,8 @@ module webservices::mobl::simpleView
       backButton ( "back" , onclick = { back(); } )
     }
     group {
-      showField ( "id" , ent . id )
-      showField ( "version" , ent . version . toString ( ) )
+      showTextField ( "id" , ent . id )
+      showNumField ( "version" , ent . version )
       when ( ent . date ) {
         showField ( "date" , ent . date . toDateString ( ) )
       }
