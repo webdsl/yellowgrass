@@ -5,15 +5,14 @@ service webservice_generated_syncProject ( )
   var errors := JSONArray() ;
   var request := JSONArray(readRequestBody()) ;
   var result := JSONArray() ;
-  var tls := Set<Project>() ;
   for ( count : Int from 0 to request.length() )
     {
-      var entity := ( loadEntity("Project", request.getJSONObject(count).getString("id").parseUUID()) as Project ) ;
-      tls.add(entity);
-    }
-  for ( ent : Project in getAllProjectForProject(tls) )
-    {
-      result.put(ent.toJSON());
+      var tl := ( loadEntity("Project", request.getJSONObject(count).getString("id").parseUUID()) as Project ) ;
+      var timestamp := request.getJSONObject(count).getLong("lastSynced") ;
+      for ( ent : Project in getAllProjectForProject(tl) where timestamp == 0 || ent.modified != null && ent.modified.getTime() > timestamp )
+        {
+          result.put(ent.toJSON());
+        }
     }
   json.put("errors", errors);
   json.put("result", result);
