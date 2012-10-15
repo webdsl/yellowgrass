@@ -43,6 +43,7 @@ module webservices::mobl::model
     followers : Collection < User > ( inverse : generatedPropertyForInverse_Project_followers )
     private : Bool
     email : String
+    lastSynced : Num
     sync : Bool
   }
   entity IssueReopen {

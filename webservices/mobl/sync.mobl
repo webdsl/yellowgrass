@@ -95,110 +95,86 @@ module webservices::mobl::sync
   }
   function syncAllUser ( ) {
     var begin = now ( ) ;
-    Sync . syncUser ( Project . all ( ) . filter ( "sync" , "=" , true ) . selectJSON ( [ "id" ] ) );
+    Sync . syncUser ( Project . all ( ) . filter ( "sync" , "=" , true ) . selectJSON ( [ "id" , "lastSynced" ] ) );
     log("time needed for syncing User: "+( ( now ( ) - begin ) / 1000 ) . toString ( ));
   }
   function syncAllTagRemoval ( ) {
     var begin = now ( ) ;
-    Sync . syncTagRemoval ( Project . all ( ) . filter ( "sync" , "=" , true ) . selectJSON ( [ "id" ] ) );
+    Sync . syncTagRemoval ( Project . all ( ) . filter ( "sync" , "=" , true ) . selectJSON ( [ "id" , "lastSynced" ] ) );
     log("time needed for syncing TagRemoval: "+( ( now ( ) - begin ) / 1000 ) . toString ( ));
   }
   function syncAllTagAddition ( ) {
     var begin = now ( ) ;
-    Sync . syncTagAddition ( Project . all ( ) . filter ( "sync" , "=" , true ) . selectJSON ( [ "id" ] ) );
+    Sync . syncTagAddition ( Project . all ( ) . filter ( "sync" , "=" , true ) . selectJSON ( [ "id" , "lastSynced" ] ) );
     log("time needed for syncing TagAddition: "+( ( now ( ) - begin ) / 1000 ) . toString ( ));
   }
   function syncAllTag ( ) {
     var begin = now ( ) ;
-    Sync . syncTag ( Project . all ( ) . filter ( "sync" , "=" , true ) . selectJSON ( [ "id" ] ) );
+    Sync . syncTag ( Project . all ( ) . filter ( "sync" , "=" , true ) . selectJSON ( [ "id" , "lastSynced" ] ) );
     log("time needed for syncing Tag: "+( ( now ( ) - begin ) / 1000 ) . toString ( ));
   }
   function syncAllProject ( ) {
     var begin = now ( ) ;
-    Sync . syncProject ( Project . all ( ) . filter ( "sync" , "=" , true ) . selectJSON ( [ "id" ] ) );
+    Sync . syncProject ( Project . all ( ) . filter ( "sync" , "=" , true ) . selectJSON ( [ "id" , "lastSynced" ] ) );
     log("time needed for syncing Project: "+( ( now ( ) - begin ) / 1000 ) . toString ( ));
   }
   function syncAllIssueReopen ( ) {
     var begin = now ( ) ;
-    Sync . syncIssueReopen ( Project . all ( ) . filter ( "sync" , "=" , true ) . selectJSON ( [ "id" ] ) );
+    Sync . syncIssueReopen ( Project . all ( ) . filter ( "sync" , "=" , true ) . selectJSON ( [ "id" , "lastSynced" ] ) );
     log("time needed for syncing IssueReopen: "+( ( now ( ) - begin ) / 1000 ) . toString ( ));
   }
   function syncAllIssueMoved ( ) {
     var begin = now ( ) ;
-    Sync . syncIssueMoved ( Project . all ( ) . filter ( "sync" , "=" , true ) . selectJSON ( [ "id" ] ) );
+    Sync . syncIssueMoved ( Project . all ( ) . filter ( "sync" , "=" , true ) . selectJSON ( [ "id" , "lastSynced" ] ) );
     log("time needed for syncing IssueMoved: "+( ( now ( ) - begin ) / 1000 ) . toString ( ));
   }
   function syncAllIssueGhost ( ) {
     var begin = now ( ) ;
-    Sync . syncIssueGhost ( Project . all ( ) . filter ( "sync" , "=" , true ) . selectJSON ( [ "id" ] ) );
+    Sync . syncIssueGhost ( Project . all ( ) . filter ( "sync" , "=" , true ) . selectJSON ( [ "id" , "lastSynced" ] ) );
     log("time needed for syncing IssueGhost: "+( ( now ( ) - begin ) / 1000 ) . toString ( ));
   }
   function syncAllIssueClose ( ) {
     var begin = now ( ) ;
-    Sync . syncIssueClose ( Project . all ( ) . filter ( "sync" , "=" , true ) . selectJSON ( [ "id" ] ) );
+    Sync . syncIssueClose ( Project . all ( ) . filter ( "sync" , "=" , true ) . selectJSON ( [ "id" , "lastSynced" ] ) );
     log("time needed for syncing IssueClose: "+( ( now ( ) - begin ) / 1000 ) . toString ( ));
   }
   function syncAllIssue ( ) {
     var begin = now ( ) ;
-    Sync . syncIssue ( Project . all ( ) . filter ( "sync" , "=" , true ) . selectJSON ( [ "id" ] ) );
+    Sync . syncIssue ( Project . all ( ) . filter ( "sync" , "=" , true ) . selectJSON ( [ "id" , "lastSynced" ] ) );
     log("time needed for syncing Issue: "+( ( now ( ) - begin ) / 1000 ) . toString ( ));
   }
   function syncAllEvent ( ) {
     var begin = now ( ) ;
-    Sync . syncEvent ( Project . all ( ) . filter ( "sync" , "=" , true ) . selectJSON ( [ "id" ] ) );
+    Sync . syncEvent ( Project . all ( ) . filter ( "sync" , "=" , true ) . selectJSON ( [ "id" , "lastSynced" ] ) );
     log("time needed for syncing Event: "+( ( now ( ) - begin ) / 1000 ) . toString ( ));
   }
   function syncAllComment ( ) {
     var begin = now ( ) ;
-    Sync . syncComment ( Project . all ( ) . filter ( "sync" , "=" , true ) . selectJSON ( [ "id" ] ) );
+    Sync . syncComment ( Project . all ( ) . filter ( "sync" , "=" , true ) . selectJSON ( [ "id" , "lastSynced" ] ) );
     log("time needed for syncing Comment: "+( ( now ( ) - begin ) / 1000 ) . toString ( ));
   }
   function syncAllAttachment ( ) {
     var begin = now ( ) ;
-    Sync . syncAttachment ( Project . all ( ) . filter ( "sync" , "=" , true ) . selectJSON ( [ "id" ] ) );
+    Sync . syncAttachment ( Project . all ( ) . filter ( "sync" , "=" , true ) . selectJSON ( [ "id" , "lastSynced" ] ) );
     log("time needed for syncing Attachment: "+( ( now ( ) - begin ) / 1000 ) . toString ( ));
   }
   function syncAll ( ) {
     var begin = now ( ) ;
+    var time = Sync . getTimeStamp ( ) ;
     syncAllProject();
     syncAllIssue();
     syncAllUser();
     syncAllEvent();
     syncAllTag();
     syncAllAttachment();
-    var allsynced = false ;
-    while ( ! allsynced ) {
-      allsynced = true ;
-      if ( nrUnsyncedProject ( ) )
-      {
-        syncUnsyncedProject();
-        allsynced = false ;
-      }
-      if ( nrUnsyncedIssue ( ) )
-      {
-        syncUnsyncedIssue();
-        allsynced = false ;
-      }
-      if ( nrUnsyncedUser ( ) )
-      {
-        syncUnsyncedUser();
-        allsynced = false ;
-      }
-      if ( nrUnsyncedEvent ( ) )
-      {
-        syncUnsyncedEvent();
-        allsynced = false ;
-      }
-      if ( nrUnsyncedTag ( ) )
-      {
-        syncUnsyncedTag();
-        allsynced = false ;
-      }
-      if ( nrUnsyncedAttachment ( ) )
-      {
-        syncUnsyncedAttachment();
-        allsynced = false ;
-      }
+    foreach
+    (
+    tl
+    in
+    Project . all ( ) . filter ( "sync" , "=" , true )
+    )
+    {
+    tl . lastSynced = time ;
     }
     log("totaltime:"+( ( now ( ) - begin ) / 1000 ) . toString ( ));
   }
