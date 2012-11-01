@@ -1,0 +1,14 @@
+module webservices/mappers/main
+imports webservices/mappers/Attachment
+imports webservices/mappers/Comment
+imports webservices/mappers/Event
+imports webservices/mappers/Issue
+imports webservices/mappers/IssueClose
+imports webservices/mappers/IssueGhost
+imports webservices/mappers/IssueMoved
+imports webservices/mappers/IssueReopen
+imports webservices/mappers/Project
+imports webservices/mappers/Tag
+imports webservices/mappers/TagAddition
+imports webservices/mappers/TagRemoval
+imports webservices/mappers/User
