@@ -11,7 +11,7 @@ service webservice_generated_syncProject ( )
       var timestamp := request.getJSONObject(count).getLong("lastSynced") ;
       for ( ent : Project in getAllProjectForProject(tl) where timestamp == 0 || ent.modified != null && ent.modified.getTime() > timestamp )
         {
-          result.put(ent.toJSON());
+          result.put(addDirtyFalse(ent.toJSON()));
         }
     }
   json.put("errors", errors);

@@ -11,31 +11,31 @@ service webservice_generated_syncEvent ( )
       var timestamp := request.getJSONObject(count).getLong("lastSynced") ;
       for ( ent : Event in getAllEventForProject(tl) where timestamp == 0 || ent.modified != null && ent.modified.getTime() > timestamp )
         {
-          result.put(ent.toJSON());
+          result.put(addDirtyFalse(ent.toJSON()));
         }
       for ( ent : Comment in getAllCommentForProject(tl) where timestamp == 0 || ent.modified != null && ent.modified.getTime() > timestamp )
         {
-          result.put(ent.toJSONFromSuperEvent());
+          result.put(addDirtyFalse(ent.toJSONFromSuperEvent()));
         }
       for ( ent : IssueClose in getAllIssueCloseForProject(tl) where timestamp == 0 || ent.modified != null && ent.modified.getTime() > timestamp )
         {
-          result.put(ent.toJSONFromSuperEvent());
+          result.put(addDirtyFalse(ent.toJSONFromSuperEvent()));
         }
       for ( ent : IssueMoved in getAllIssueMovedForProject(tl) where timestamp == 0 || ent.modified != null && ent.modified.getTime() > timestamp )
         {
-          result.put(ent.toJSONFromSuperEvent());
+          result.put(addDirtyFalse(ent.toJSONFromSuperEvent()));
         }
       for ( ent : IssueReopen in getAllIssueReopenForProject(tl) where timestamp == 0 || ent.modified != null && ent.modified.getTime() > timestamp )
         {
-          result.put(ent.toJSONFromSuperEvent());
+          result.put(addDirtyFalse(ent.toJSONFromSuperEvent()));
         }
       for ( ent : TagAddition in getAllTagAdditionForProject(tl) where timestamp == 0 || ent.modified != null && ent.modified.getTime() > timestamp )
         {
-          result.put(ent.toJSONFromSuperEvent());
+          result.put(addDirtyFalse(ent.toJSONFromSuperEvent()));
         }
       for ( ent : TagRemoval in getAllTagRemovalForProject(tl) where timestamp == 0 || ent.modified != null && ent.modified.getTime() > timestamp )
         {
-          result.put(ent.toJSONFromSuperEvent());
+          result.put(addDirtyFalse(ent.toJSONFromSuperEvent()));
         }
     }
   json.put("errors", errors);

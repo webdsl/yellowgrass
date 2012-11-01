@@ -11,7 +11,7 @@ service webservice_generated_syncAttachment ( )
       var timestamp := request.getJSONObject(count).getLong("lastSynced") ;
       for ( ent : Attachment in getAllAttachmentForProject(tl) where timestamp == 0 || ent.modified != null && ent.modified.getTime() > timestamp )
         {
-          result.put(ent.toJSON());
+          result.put(addDirtyFalse(ent.toJSON()));
         }
     }
   json.put("errors", errors);

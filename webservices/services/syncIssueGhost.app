@@ -11,7 +11,7 @@ service webservice_generated_syncIssueGhost ( )
       var timestamp := request.getJSONObject(count).getLong("lastSynced") ;
       for ( ent : IssueGhost in getAllIssueGhostForProject(tl) where timestamp == 0 || ent.modified != null && ent.modified.getTime() > timestamp )
         {
-          result.put(ent.toJSON());
+          result.put(addDirtyFalse(ent.toJSON()));
         }
     }
   json.put("errors", errors);
