@@ -1,6 +1,7 @@
 module webservices::mobl::simpleView
   import webservices :: mobl :: model
   import mobl :: ui :: generic
+  import mobl :: ui :: generic :: datepicker
   screen showControl ( viewer : Control1 < Entity < ? > > , value : Entity < ? > ) {
     viewer ( value )
   }
@@ -29,6 +30,24 @@ module webservices::mobl::simpleView
     item {
       label ( name , style = textFieldLabelStyle )
       numField ( value )
+    }
+  }
+  control showDateTimeField ( name : String , value : DateTime ) {
+    item {
+      label ( name , style = textFieldLabelStyle )
+      dateTimePicker ( value )
+    }
+  }
+  control showTimeField ( name : String , value : DateTime ) {
+    item {
+      label ( name , style = textFieldLabelStyle )
+      timePicker ( value )
+    }
+  }
+  control showDateField ( name : String , value : DateTime ) {
+    item {
+      label ( name , style = textFieldLabelStyle )
+      datePicker ( value )
     }
   }
   control showEntityField ( name : String , value : Entity < ? > , viewer : Control1 < Entity < ? > > ) {
@@ -61,6 +80,52 @@ module webservices::mobl::simpleView
               };
   </javascript>
   external function back ( ) : void
+  screen showObjectEmptyScreen ( type : String , id : String , entityCTRL : Control2 < String , String > ) {
+    entityCTRL ( type , id )
+  }
+  style
+  customWarningItemStyle
+  {
+  itemMixin
+  (
+  #000
+  ,
+  #ff5
+  )
+  ;
+  }
+  style
+  customErrorItemStyle
+  {
+  itemMixin
+  (
+  #000
+  ,
+  #f1
+  )
+  ;
+  }
+  control showErrors ( errors : JSON , detailview : Control2 < String , String > = showObject ) {
+    header ( "Errors" )
+    list ( error in errors ) {
+      when ( error . type == "warning" ) {
+        item ( style = customWarningItemStyle , onclick = { if ( detailview != null )
+                                                            {
+                                                              showObjectEmptyScreen(error.ent,error.id,detailview);
+                                                            } } ) {
+          label ( error . message )
+        }
+      }
+      when ( error . type == "error" ) {
+        item ( style = customErrorItemStyle , onclick = { if ( detailview != null )
+                                                          {
+                                                            showObjectEmptyScreen(error.ent,error.id,detailview);
+                                                          } } ) {
+          label ( error . message )
+        }
+      }
+    }
+  }
   control showUserSimple ( ent : User ) {
     header ( "User" ) {
       backButton ( "back" , onclick = { back(); } )
@@ -85,9 +150,7 @@ module webservices::mobl::simpleView
       showNumField ( "version" , ent . version )
       showEntityField ( "actor" , ent . actor , showUserSimple )
       showEntityField ( "tag" , ent . tag , showTagSimple )
-      when ( ent . moment ) {
-        showField ( "moment" , ent . moment . toDateString ( ) )
-      }
+      showDateTimeField ( "moment" , ent . moment )
     }
   }
   control showTagAdditionSimple ( ent : TagAddition ) {
@@ -99,9 +162,7 @@ module webservices::mobl::simpleView
       showNumField ( "version" , ent . version )
       showEntityField ( "actor" , ent . actor , showUserSimple )
       showEntityField ( "tag" , ent . tag , showTagSimple )
-      when ( ent . moment ) {
-        showField ( "moment" , ent . moment . toDateString ( ) )
-      }
+      showDateTimeField ( "moment" , ent . moment )
     }
   }
   control showTagSimple ( ent : Tag ) {
@@ -124,6 +185,18 @@ module webservices::mobl::simpleView
     group {
       showTextField ( "id" , ent . id )
       showNumField ( "version" , ent . version )
+      showEntitiesField ( "test13" , ent . test13 , showProjectSimple )
+      showEntityField ( "test12" , ent . test12 , showProjectSimple )
+      showDateTimeField ( "test11" , ent . test11 )
+      showDateTimeField ( "test10" , ent . test10 )
+      showDateTimeField ( "test9" , ent . test9 )
+      showNumField ( "test8" , ent . test8 )
+      showNumField ( "test7" , ent . test7 )
+      showNumField ( "test6" , ent . test6 )
+      showTextField ( "test4" , ent . test4 )
+      showTextField ( "test3" , ent . test3 )
+      showTextField ( "test2" , ent . test2 )
+      showTextField ( "test1" , ent . test1 )
       showTextField ( "name" , ent . name )
       showTextField ( "description" , ent . description )
       showTextField ( "url" , ent . url )
@@ -145,9 +218,7 @@ module webservices::mobl::simpleView
       showTextField ( "id" , ent . id )
       showNumField ( "version" , ent . version )
       showEntityField ( "actor" , ent . actor , showUserSimple )
-      when ( ent . moment ) {
-        showField ( "moment" , ent . moment . toDateString ( ) )
-      }
+      showDateTimeField ( "moment" , ent . moment )
     }
   }
   control showIssueMovedSimple ( ent : IssueMoved ) {
@@ -159,9 +230,7 @@ module webservices::mobl::simpleView
       showNumField ( "version" , ent . version )
       showEntityField ( "actor" , ent . actor , showUserSimple )
       showEntityField ( "target" , ent . target , showIssueSimple )
-      when ( ent . moment ) {
-        showField ( "moment" , ent . moment . toDateString ( ) )
-      }
+      showDateTimeField ( "moment" , ent . moment )
     }
   }
   control showIssueGhostSimple ( ent : IssueGhost ) {
@@ -187,9 +256,7 @@ module webservices::mobl::simpleView
       showTextField ( "id" , ent . id )
       showNumField ( "version" , ent . version )
       showEntityField ( "actor" , ent . actor , showUserSimple )
-      when ( ent . moment ) {
-        showField ( "moment" , ent . moment . toDateString ( ) )
-      }
+      showDateTimeField ( "moment" , ent . moment )
     }
   }
   control showIssueSimple ( ent : Issue ) {
@@ -202,9 +269,7 @@ module webservices::mobl::simpleView
       showNumField ( "number" , ent . number )
       showTextField ( "title" , ent . title )
       showTextField ( "description" , ent . description )
-      when ( ent . submitted ) {
-        showField ( "submitted" , ent . submitted . toDateString ( ) )
-      }
+      showDateTimeField ( "submitted" , ent . submitted )
       showEntityField ( "project" , ent . project , showProjectSimple )
       showEntityField ( "reporter" , ent . reporter , showUserSimple )
       showBoolField ( "open" , ent . open )
@@ -224,9 +289,7 @@ module webservices::mobl::simpleView
     group {
       showTextField ( "id" , ent . id )
       showNumField ( "version" , ent . version )
-      when ( ent . moment ) {
-        showField ( "moment" , ent . moment . toDateString ( ) )
-      }
+      showDateTimeField ( "moment" , ent . moment )
     }
   }
   control showCommentSimple ( ent : Comment ) {
@@ -238,9 +301,7 @@ module webservices::mobl::simpleView
       showNumField ( "version" , ent . version )
       showTextField ( "text" , ent . text )
       showEntityField ( "author" , ent . author , showUserSimple )
-      when ( ent . moment ) {
-        showField ( "moment" , ent . moment . toDateString ( ) )
-      }
+      showDateTimeField ( "moment" , ent . moment )
     }
   }
   control showAttachmentSimple ( ent : Attachment ) {
@@ -250,9 +311,7 @@ module webservices::mobl::simpleView
     group {
       showTextField ( "id" , ent . id )
       showNumField ( "version" , ent . version )
-      when ( ent . date ) {
-        showField ( "date" , ent . date . toDateString ( ) )
-      }
+      showDateTimeField ( "date" , ent . date )
     }
   }
   screen syncSimpleView ( ) {
@@ -265,5 +324,46 @@ module webservices::mobl::simpleView
       item {
         checkBox ( ent . sync , label = ent . name )
       }
+    }
+  }
+  control showObject ( type : String , id : String ) {
+    when ( type == "User" ) {
+      showUserSimple ( User . load ( id ) )
+    }
+    when ( type == "TagRemoval" ) {
+      showTagRemovalSimple ( TagRemoval . load ( id ) )
+    }
+    when ( type == "TagAddition" ) {
+      showTagAdditionSimple ( TagAddition . load ( id ) )
+    }
+    when ( type == "Tag" ) {
+      showTagSimple ( Tag . load ( id ) )
+    }
+    when ( type == "Project" ) {
+      showProjectSimple ( Project . load ( id ) )
+    }
+    when ( type == "IssueReopen" ) {
+      showIssueReopenSimple ( IssueReopen . load ( id ) )
+    }
+    when ( type == "IssueMoved" ) {
+      showIssueMovedSimple ( IssueMoved . load ( id ) )
+    }
+    when ( type == "IssueGhost" ) {
+      showIssueGhostSimple ( IssueGhost . load ( id ) )
+    }
+    when ( type == "IssueClose" ) {
+      showIssueCloseSimple ( IssueClose . load ( id ) )
+    }
+    when ( type == "Issue" ) {
+      showIssueSimple ( Issue . load ( id ) )
+    }
+    when ( type == "Event" ) {
+      showEventSimple ( Event . load ( id ) )
+    }
+    when ( type == "Comment" ) {
+      showCommentSimple ( Comment . load ( id ) )
+    }
+    when ( type == "Attachment" ) {
+      showAttachmentSimple ( Attachment . load ( id ) )
     }
   }

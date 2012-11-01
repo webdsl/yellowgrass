@@ -1,5 +1,11 @@
 module webservices::mobl::mapper
   import webservices :: mobl :: model
+  function errorMapper ( json : JSON ) : JSON {
+    if ( json . errors )
+    {
+      return json . errors;
+    }
+  }
   function timeStampMapper ( json : JSON ) : Num {
     if ( json . errors && json . errors . length > 0 )
     {
@@ -8,6 +14,12 @@ module webservices::mobl::mapper
     else
     {
       return json . result;
+    }
+  }
+  function voidMapper ( json : JSON ) : void {
+    if ( json . errors && json . errors . length > 0 )
+    {
+      log(json.errors);
     }
   }
   function UserMapper ( json : JSON ) {

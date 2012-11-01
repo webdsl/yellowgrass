@@ -3,6 +3,12 @@ module webservices::mobl::sync
   import webservices :: mobl :: model
   import webservices :: mobl :: unsync
   service Sync {
+    resource sendEdits ( arg : [ JSON ] ) : JSON {
+      uri="webservice/syncDirtyObjects"
+      method="PUT"
+      data=JSON . stringify ( arg )
+      mapper=errorMapper
+    }
     resource getTimeStamp ( ) : Num {
       uri="webservice/getTimeStamp"
       method="PUT"
@@ -159,6 +165,7 @@ module webservices::mobl::sync
     log("time needed for syncing Attachment: "+( ( now ( ) - begin ) / 1000 ) . toString ( ));
   }
   function syncAll ( ) {
+    setSyncFlag(true);
     var begin = now ( ) ;
     var time = Sync . getTimeStamp ( ) ;
     syncAllProject();
@@ -167,14 +174,55 @@ module webservices::mobl::sync
     syncAllEvent();
     syncAllTag();
     syncAllAttachment();
-    foreach
-    (
-    tl
-    in
-    Project . all ( ) . filter ( "sync" , "=" , true )
-    )
-    {
-    tl . lastSynced = time ;
+    foreach ( tl in Project . all ( ) . filter ( "sync" , "=" , true ) ) {
+      tl . lastSynced = time ;
     }
     log("totaltime:"+( ( now ( ) - begin ) / 1000 ) . toString ( ));
+    setSyncFlag(false);
+  }
+  function syncEdits ( ) : JSON {
+    setSyncFlag(true);
+    var array : [ JSON ] = [ ] ;
+    var value = User . all ( ) . filter ( "dirty" , "=" , true ) . selectJSON ( [ "*" ] ) ;
+    var json = Dynamic ( name = "User" , value = value ) ;
+    array . push ( json );
+    var value = TagRemoval . all ( ) . filter ( "dirty" , "=" , true ) . selectJSON ( [ "*" ] ) ;
+    var json = Dynamic ( name = "TagRemoval" , value = value ) ;
+    array . push ( json );
+    var value = TagAddition . all ( ) . filter ( "dirty" , "=" , true ) . selectJSON ( [ "*" ] ) ;
+    var json = Dynamic ( name = "TagAddition" , value = value ) ;
+    array . push ( json );
+    var value = Tag . all ( ) . filter ( "dirty" , "=" , true ) . selectJSON ( [ "*" ] ) ;
+    var json = Dynamic ( name = "Tag" , value = value ) ;
+    array . push ( json );
+    var value = Project . all ( ) . filter ( "sync" , "=" , true ) . filter ( "dirty" , "=" , true ) . selectJSON ( [ "*" ] ) ;
+    var json = Dynamic ( name = "Project" , value = value ) ;
+    array . push ( json );
+    var value = IssueReopen . all ( ) . filter ( "dirty" , "=" , true ) . selectJSON ( [ "*" ] ) ;
+    var json = Dynamic ( name = "IssueReopen" , value = value ) ;
+    array . push ( json );
+    var value = IssueMoved . all ( ) . filter ( "dirty" , "=" , true ) . selectJSON ( [ "*" ] ) ;
+    var json = Dynamic ( name = "IssueMoved" , value = value ) ;
+    array . push ( json );
+    var value = IssueGhost . all ( ) . filter ( "dirty" , "=" , true ) . selectJSON ( [ "*" ] ) ;
+    var json = Dynamic ( name = "IssueGhost" , value = value ) ;
+    array . push ( json );
+    var value = IssueClose . all ( ) . filter ( "dirty" , "=" , true ) . selectJSON ( [ "*" ] ) ;
+    var json = Dynamic ( name = "IssueClose" , value = value ) ;
+    array . push ( json );
+    var value = Issue . all ( ) . filter ( "dirty" , "=" , true ) . selectJSON ( [ "*" ] ) ;
+    var json = Dynamic ( name = "Issue" , value = value ) ;
+    array . push ( json );
+    var value = Event . all ( ) . filter ( "dirty" , "=" , true ) . selectJSON ( [ "*" ] ) ;
+    var json = Dynamic ( name = "Event" , value = value ) ;
+    array . push ( json );
+    var value = Comment . all ( ) . filter ( "dirty" , "=" , true ) . selectJSON ( [ "*" ] ) ;
+    var json = Dynamic ( name = "Comment" , value = value ) ;
+    array . push ( json );
+    var value = Attachment . all ( ) . filter ( "dirty" , "=" , true ) . selectJSON ( [ "*" ] ) ;
+    var json = Dynamic ( name = "Attachment" , value = value ) ;
+    array . push ( json );
+    var errors = Sync . sendEdits ( array ) ;
+    setSyncFlag(false);
+    return errors;
   }
