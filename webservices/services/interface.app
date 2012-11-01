@@ -3,6 +3,7 @@ imports webservices/services/getTimeStamp
 imports webservices/services/getTopLevelEntities
 imports webservices/services/syncAttachment
 imports webservices/services/syncComment
+imports webservices/services/syncDirtyObjects
 imports webservices/services/syncEvent
 imports webservices/services/syncIssue
 imports webservices/services/syncIssueClose
@@ -15,7 +16,8 @@ imports webservices/services/syncTagAddition
 imports webservices/services/syncTagRemoval
 imports webservices/services/syncUser
 imports webservices/services/test
-imports  webservices/related-entities/main
+imports webservices/related-entities/main
+imports webservices/mappers/main
 native class DispatchServletHelper as DispatchServletHelper : DispatchServlet
 {
 getResponse ( ) : HttpServletResponse
@@ -36,7 +38,7 @@ function getDispatchServletHelper ( ) : DispatchServletHelper
 }
 function getAvailableServices ( ) : Set<String>
 {
-  return {"syncAttachment", "syncComment", "syncEvent", "syncIssue", "syncIssueClose", "syncIssueGhost", "syncIssueMoved", "syncIssueReopen", "syncProject", "syncTag", "syncTagAddition", "syncTagRemoval", "syncUser", "getTimeStamp", "test", "getTopLevelEntities"};
+  return {"syncDirtyObjects", "syncAttachment", "syncComment", "syncEvent", "syncIssue", "syncIssueClose", "syncIssueGhost", "syncIssueMoved", "syncIssueReopen", "syncProject", "syncTag", "syncTagAddition", "syncTagRemoval", "syncUser", "getTimeStamp", "test", "getTopLevelEntities"};
 }
 service webservice ( service : String )
 {
@@ -52,4 +54,18 @@ service webservice ( service : String )
     json.put("errors", errors);
     return json;
   }
+}
+function addDirtyFalse ( json : JSONObject ) : JSONObject
+{
+  json.put("dirty", "false");
+  return json;
+}
+function makeJSONErrorObject ( message : String , type : String , ent : String , id : UUID ) : JSONObject
+{
+  var json := JSONObject() ;
+  json.put("message", message);
+  json.put("type", type);
+  json.put("id", id);
+  json.put("ent", ent);
+  return json;
 }
