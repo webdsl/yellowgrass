@@ -17,7 +17,10 @@ module ac
 	rule page search(p: Project, q : String) {
 		mayAccess(p)
 	}
-	
+	rule page searchAllProjects(q : String){
+		true
+	}
+
 	 rule page features() {
 	 	true
 	 }
@@ -26,10 +29,52 @@ module ac
 	 	true
 	 }
 	 
-	 rule ajaxtemplate empty() {
+	 rule ajaxtemplate empty() { 
 	 	true
 	 }
 	 
+	rule page getProjects(){
+	 	true
+	}
+	
+	rule page getMyProjects() {
+	 	securityContext.loggedIn
+	}
+	 
+	rule page getPopularProjects() {
+	 	true
+	}
+	 
+	rule page getProject() {
+	 	true
+	}
+	 
+	rule page createIssueService() {
+	 	true
+	}
+	 
+	rule page getIssues() {
+	 	true
+	}
+	 
+	rule page getRoadmap() {
+	 	true
+	}
+	 
+	rule page getIssuesDetails() { 
+	 	true
+	}
+	 
+	rule page authenticate() {
+		true
+	}
+	
+	rule page checkAuthenticate() {
+		true
+	}
+	rule page logoutDevice() {
+		true
+	} 
 	 rule logsql {
 	 	loggedIn && principal.email=="sandervermolen@gmail.com"
 	 }

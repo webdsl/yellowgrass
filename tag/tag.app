@@ -4,13 +4,13 @@ imports tag/ac
 imports tag/sidebar
 imports tag/manual
 imports user/user
-imports issue/issue
+// imports issue/issue
 imports project/roadmap
 imports comment/tagControl
 
 entity Tag {
 	name 		:: String	(validate(name.length() > 1, "Tags need to have at least 2 characters"),
-							 validate(/[a-z0-9\.-_@!]*/.match(name),"Tags may consist of: a-z 0-9 . _ @ ! -"))
+							 validate(/[a-z0-9\.\-_@!]*/.match(name),"Tags may consist of: a-z 0-9 . _ @ ! -"))
 	description :: String
 	project 	-> Project
 	tags		-> Set<Tag>
@@ -22,6 +22,35 @@ entity Tag {
 			}
 		}
 		return false;
+	}
+	
+	function toJSON():JSONObject{
+		
+		var json := JSONObject();
+		json.put("id",id);
+		json.put("name",name);
+		// json.put("project",project.toSimpleJSON());
+		json.put("color",getColor());
+		return json;
+		
+		
+	}
+	
+	function getColor() : String{
+		 if(hasTag("release")){
+		 	return "blue";
+		 }
+		 if(hasTag("red")) {
+			return "red";
+		} if(hasTag("green")) {
+			return "green";
+		} if(hasTag("grey")||hasTag(ISSUE_TYPE_TAG())) {
+			return "black";
+		} if(hasTag("purple")) {
+			return "purple";
+		}else{
+			return "yellow";
+			}
 	}
 	
 	function getStylingClass() : String{

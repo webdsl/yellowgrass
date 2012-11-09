@@ -7,7 +7,7 @@ imports project/members
 imports project/sidebar
 imports project/settings
 imports project/statistics
-imports issue/issue
+// imports issue/issue
 imports tag/tag
 imports user/user
 
@@ -40,6 +40,20 @@ entity Project {
 				limit ~nr
 			) as List<Tag>;
 		return result;
+	}
+	
+	function getIssueTypeTags():List<Tag>{
+		var issuetypes : List<Tag> := 
+		select t1
+		from Tag as t1 left join t1.tags as t2
+		where 
+			t1.project = ~this and
+			t2.project = ~this and
+			t2.name = ~ISSUE_TYPE_TAG()
+		group by t1.name
+		order by t1.name;
+
+	return 	issuetypes;	
 	}
 	
 	function getOrderedIssues(filterOpen : Bool) : List<Issue> {
@@ -105,6 +119,107 @@ entity Project {
 		url.add(stats.get(stats.length - 1).toString());
 		
 		return url.concat();
+	}
+	function toJSON(old : JSONObject) : JSONObject {
+		if(private && !(securityContext.principal in members)) { 
+			return null;
+		}
+		var jsonobject := JSONObject();
+		jsonobject.put("id", id);
+		var version := old.getInt("version");
+		if(version < this.version) {
+			jsonobject.put("name", name);
+			jsonobject.put("description", description.format());
+			jsonobject.put("url", url);
+			jsonobject.put("version", this.version);
+		}
+		jsonobject.put("weeklyStatsGraph", this.getWeeklyStatsGraph());
+		if(version == 0) {
+			var jsonArrayIssues := JSONArray();
+			for (issue : Issue in issues order by issue.number desc limit 10) {
+				jsonArrayIssues.put(issue.toJSON());
+			}
+			jsonobject.put("issues", jsonArrayIssues);
+			var releases := generateRoadmap(this);
+			var jsonmap := JSONArray();
+			for(release : Release in releases order by release.name desc) {
+				if(jsonmap.length() == 0) { 
+					jsonmap.put(release.toJSON());
+				} else {
+					jsonmap.put(release.toJSONSimple());
+				}
+			}
+			jsonobject.put("roadmap", jsonmap);
+		}
+		var jsonoldmembers := toVersionObejcts( old.getJSONArray("members"));
+		var jsonArrayMembers := JSONArray();
+		var dirty := false;
+		for (member : User in members) {
+			var vobject := VersionObject{
+				id := member.id
+			};
+			var index := jsonoldmembers.indexOf(vobject);
+			if(index == -1 || jsonoldmembers.get(index).version != member.version) {
+				log(member.name + "is out dated");
+				jsonArrayMembers.put(member.toJSON());
+				dirty := true;
+			} else {
+				//var x := jsonoldmembers.toString();
+				log(member.name + "(" + member.id + ")" + ":" + member.version + "is in ");
+				for(object : VersionObject in jsonoldmembers) {
+					log(object.toString2());
+				}
+				jsonArrayMembers.put(member.toSimpleJSON()); 
+			}
+		}
+		
+		if(dirty || (version < this.version)) {
+			jsonobject.put("members", jsonArrayMembers);
+		}
+		var jsonoldfollowers := toVersionObejcts( old.getJSONArray("followers"));
+		dirty := false;
+		var jsonArrayFollowers := JSONArray();
+		for (follower : User in followers) {
+			var vobject := VersionObject{
+				id := follower.id
+			};
+			var index := jsonoldfollowers.indexOf(vobject);
+			if(index == -1 || jsonoldmembers.get(index).version != follower.version) {
+				jsonArrayMembers.put(follower.toJSON());
+				dirty := true;
+			} else {
+				jsonArrayMembers.put(follower.toSimpleJSON());
+			}
+		} 
+		if(dirty|| (version < this.version)) {
+			jsonobject.put("followers", jsonArrayFollowers);
+		}
+		var issuetags := JSONArray();
+		for(tag : Tag in getIssueTypeTags()) {
+			issuetags.put(tag.toJSON());
+		}
+		jsonobject.put("issueTypes", issuetags);
+		return jsonobject;
+	}
+	
+	function toSimpleJSON() : JSONObject {
+		if(private && !(securityContext.principal in members)) { 
+			return null;
+		}
+		var jsonobject := JSONObject();
+		jsonobject.put("id", id);
+		jsonobject.put("name", name);
+		jsonobject.put("version", version); 
+		return jsonobject;
+	}
+	
+	function toJSONRef() : JSONObject{
+		if(private && !(securityContext.principal in members)) { 
+			return null;
+		}
+		var jsonobject := JSONObject();
+		jsonobject.put("id", id);
+		return jsonobject;
 	}
 }
 
@@ -209,6 +324,7 @@ define page projectList() {
 			from Project
 			where _private=false
 			order by _name;
+			
 		block [class := "Listing"] {
 			projects(projectList)
 		}

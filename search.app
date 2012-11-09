@@ -1,11 +1,29 @@
 module search
 
 define page search(p: Project, q : String) {
-	var issueSearcher := 
-		IssueSearcher()
-		.filterByField("project.name",p.name)
-		.filterByField("project.private", "false")
-	var issues := issueSearcher.query(q).maxResults(50).list()
+	searchtmpl(p ,q)
+}
+define page searchAllProjects(q : String) {
+	var p : Project := null;
+	searchtmpl(p ,q)
+}                        
+
+define searchtmpl(p : Project, q : String) {
+	var issues : List<Issue>;
+	var issueSearcher := search Issue
+	 matching q
+	 limit 50;
+ 
+			
+	init{
+		if (p != null) {
+			~issueSearcher with filters project.name : p.name;
+			
+		} else {
+			~issueSearcher with filters project.private : false;
+		}
+		issues := issueSearcher.results();
+	}	
 	
 	title{"YellowGrass.org - Search"}
 	main(p)
@@ -15,6 +33,6 @@ define page search(p: Project, q : String) {
 			table {
 				issues(issues, true, true, false, 80, true, true)
 			}
-		}
+		}	
 	}
 }

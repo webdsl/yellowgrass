@@ -1,9 +1,10 @@
-application yellowgrass
+application yellowgrass 
 
 imports templates
-imports ac
+imports webservices
+imports ac 
 imports auxiliary
-imports features
+imports features 
 imports issue/issue
 imports user/user
 imports project/project
@@ -29,7 +30,7 @@ define page root() {
 			order by _submitted desc
 			limit 27;
 		
-		table [class = "columns"] { row { 
+		table [class = "columns"] { row {  
 			column [class = "column1"] {
 				par { <h2>"About YellowGrass"</h2> }
 				par {
@@ -58,7 +59,7 @@ define page root() {
 				par { <h2>"Recent Issues"</h2> }
 				par { issues(recentIssues.set(), true, false, false, 40) }
 			}
-		}}
+		}} 
 	}
 }
 

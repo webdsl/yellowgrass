@@ -5,7 +5,7 @@
 		<delete dir="${basedir}/.servletapp" />
 		<delete dir="${basedir}/.webdsl-fragment-cache" />
 		<delete file="${basedir}/.dependencies.webdsl" />
-		<delete includeemptydirs="true">
+		<delete includeemptydirs="true" quiet="true">
 			<fileset dir="${basedir}/WebContent" includes="**/*"/>
 		</delete>
 		<echo file=".saved-but-not-built"/>

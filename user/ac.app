@@ -21,8 +21,12 @@ access control rules
 		principal == u
 	}
 	
-	rule page editUserPassword(u : User){
+	rule page editUserPassword(u : User) {
 		principal == u
+	}
+	
+	rule page manageDevices(u : User) {
+		principal == u 
 	}
 	
 	rule page resetUserPassword() {

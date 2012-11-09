@@ -20,12 +20,35 @@ entity User {
 	
 	function userEmailTaken() : Bool {
 		var users := findUserByEmail(email);
-		return users.length > 1;	// Database view may be inconsistent, as queries in transaction are take into account
+		return users.length > 1 || (users.length == 1 && users[0] != this);	// Database view may be inconsistent, as queries in transaction are take into account
 	}
 	
 	function userTagTaken() : Bool {
 		var users := findUserByTag(tag);
 		return users.length > 1;	// Database view may be inconsistent, as queries in transaction are take into account
+	}
+	function toJSON() : JSONObject {
+		var jsonobject := JSONObject();
+		jsonobject.put("id", id);
+		jsonobject.put("name", name);
+		jsonobject.put("tag", tag);
+		jsonobject.put("url", url);
+		jsonobject.put("version", version);
+		var jsonarray:= JSONArray();
+		for (project : Project in projects) {
+			if(project.toSimpleJSON() != null) {
+				jsonarray.put(project.toJSONRef());
+			}
+		} 
+		jsonobject.put("projects", jsonarray);
+		return jsonobject;
+	}
+	function toSimpleJSON() : JSONObject{
+		var jsonobject := JSONObject();
+		jsonobject.put("id", id);
+		jsonobject.put("name", name);
+		jsonobject.put("version", version);	
+		return jsonobject;
 	}
 }
 
@@ -115,6 +138,43 @@ define page editUser(u : User) {
 				navigate(home()) {"Cancel"}
 				" "	
 				submit("Save",save())
+			}
+		}
+	}
+	action save(){
+		u.save();
+		//message("Profile saved");
+		return home();
+	}
+}
+
+define page manageDevices(u : User) {
+	title{output(u.name) " on YellowGrass.org [Editing]"}
+	main()
+	define body(){
+		<h1> "Manage Devices" </h1>
+		form {
+			par {
+				block [class := "Listing"] {
+					table {
+						row {
+							column{ <b> "Device Description" </b> }
+							column{ <b> "Key" </b> }
+							column{ empty() }
+						}
+						for(device : AuthenticationKey in u.deviceKeySet ) {
+							row { 
+								column{ output(device.deviceDescription) } 
+								column{ output(device.id) }
+								column{ submit action{u.deviceKeySet.remove(device);} { "x" } }
+							}
+						}
+							
+					}
+				}
+			}
+			par {
+				navigate(home()) {"Back"}
 			}
 		}
 	}

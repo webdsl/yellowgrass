@@ -22,11 +22,12 @@ entity Issue {
 	project		-> Project	(searchable, inverse = Project.issues)
 	reporter	-> User
 	open		:: Bool
-	log			-> Set<Event> (searchable(name=comments, subclass=Comment))
-	tags		-> Set<Tag>
+	log			-> Set<Event>
+	tags		-> Set<Tag>(searchable)
 	email		:: Email // Only when reporter == null
 	nrVotes		:: Int := [ t | t : Tag in tags where /!.*/.match(t.name)].length
 	attachments -> Set<Attachment>
+	// comments -> Set<Comment>(searchable) := getComments()
 	
 	projectName  :: String (searchable) := project.name
 	reporterName :: String (searchable) := 
@@ -42,6 +43,14 @@ entity Issue {
 		} else {
 			return "";
 		}
+	}
+	function getComments():Set<Comment>{
+		var set : Set<Comment>;
+		log("getComments");
+		for(e:Event in log where e is a Comment){
+			set.add(e as Comment);
+		}
+		return set;
 	}
 	
 	function getTitle() : String {
@@ -119,7 +128,121 @@ entity Issue {
 			tags.add(tag("@"+project.members.list().get(0).tag, project));
 		}
 	}
+	
+	function toJSON() : JSONObject {
+		
+		var json := JSONObject();
+		json.put("id", id);
+		json.put("number", number);
+		json.put("title", title);
+		// json.put("description",description.format());
+		json.put("submitted", submitted.getTime()/1000L);
+
+		json.put("nrVotes", nrVotes);
+		json.put("project", project.toSimpleJSON());
+		if(reporter != null) { 
+			json.put("reporter", reporter.toSimpleJSON()); 
+		}
+		json.put("open", open);
+		// var jsonArray := JSONArray();
+		// for(event: Event in log){
+		// 	if(event.toJSON()!=null){
+		// 		jsonArray.put(event.toJSON());
+		// 		}
+		// 	
+		// } 
+		// json.put("comments",jsonArray);
+		// var jsonArrayTags := JSONArray();
+		// for(tag: Tag in tags){
+		// 	jsonArrayTags.put(tag.toJSON());
+		// }
+		// json.put("tags",jsonArrayTags);
+		return json;
+	}
+	function toSimpleJSON() : JSONObject {
+		var json := JSONObject();
+		json.put("id", id);
+		json.put("version", version); 
+		return json;
+	}
+	
+	function toExtendedJSON() : JSONObject{
+		var json := JSONObject();
+		json.put("id", id);
+		json.put("number", number);
+		json.put("title", title);
+		json.put("description", description.format());
+		json.put("submitted", submitted.getTime()/1000L);
+		json.put("nrVotes", nrVotes);
+		json.put("project", project.toSimpleJSON());
+		if(reporter != null) {
+			json.put("reporter", reporter.toJSON());
+		}
+		json.put("open", open);
+		var jsonArray := JSONArray();
+		for(event : Event in log) {
+			if(event.toJSON()!= null) {
+				jsonArray.put(event.toJSON());
+			}
+		} 
+		json.put("comments", jsonArray);
+		var jsonArrayTags := JSONArray();
+		for(tag : Tag in tags) {
+			jsonArrayTags.put(tag.toJSON());
+		}
+		json.put("tags", jsonArrayTags);
+		json.put("version", version);
+		return json;
+	}
+	
 }
+
+function checkNewIssueObjects(json : JSONArray) {
+		for(i : Int from 0 to json.length()) {
+			var object := json.getJSONObject(i);
+			if(object.has("new") && object.getBoolean("new")) {
+				var project := loadEntity("Project", object.getJSONObject("project").getString("id").parseUUID()) as Project;
+				var newObject :=  Issue {
+
+					title := object.getString("title")
+					
+					description := object.getString("description")
+					open := object.getBoolean("open")
+					project := project
+					reporter := loadUser(object.getJSONObject("reporter").getString("id").parseUUID())
+					
+					//special cases
+					submitted := now()
+					number := newIssueNumber(project)
+				};
+				var tags := object.getJSONArray("tags");
+				for(i : Int from 0 to tags.length()) {
+					newObject.tags.add(loadTag(tags.getJSONObject(i).getString("id").parseUUID()));
+				}
+				var newComments := checkNewCommentObjects(object.getJSONArray("comments"));
+				for(comment : Comment in newComments) {
+					newObject.log.add(comment);
+				}
+				newObject.save();
+			}
+		}
+	}
+	
+function checkDirtyIssueObjects(json : JSONArray) {
+		for(i : Int from 0 to json.length()) {
+			var object := json.getJSONObject(i);
+			if(!(object.has("new") && object.getBoolean("new")) && object.has("dirty") && object.getBoolean("dirty")) {
+				var issue := loadIssue(object.getString("id").parseUUID());
+				var newComments := checkNewCommentObjects(object.getJSONArray("comments"));
+				for(comment : Comment in newComments) {
+					issue.log.add(comment);
+				}
+				
+			}
+		}
+		flush();
+	}
+
 
 function getIssue(p : Project, issueNumber : Int) : Issue {
 	var issuesWithNumber : List<Issue> := 
