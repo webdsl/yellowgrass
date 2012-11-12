@@ -20,10 +20,9 @@ define override template login(){
 	action login(){
 		securityContext.principal := null;
 		if(authenticate(email,pass)) {
-			return home();
+			message("Login successful");
 		} else {
 			message("Incorrect email address or incorrect password");
-			return root();
 		}
 		/*
 		securityContext.principal := null;
