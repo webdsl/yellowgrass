@@ -1,5 +1,11 @@
 module user/access
 
+extend session securityContext {
+	newIssueDesc :: WikiText
+	newIssueTitle :: String
+	newIssueType :: String
+}
+
 define override template login(){
 	var email : Email;
 	var pass : Secret;
@@ -10,7 +16,17 @@ define override template login(){
 			label("Pass ") {input(pass)}
 			" "
 			block [class := "LoginButton"] {
+				// Workaround for reconstrucing the input data of a new issue when logging in on the create issue page.
+				// As part of the login form submit the create issue information is gathered, 
+				// and the action stores this data temporarily in the securityContext session entity.
+				// The new issue data is requested on the create issue page in issue/register.app.
+				<input type="hidden" id="keep-issue-desc" name="issue-desc"/>
+				<input type="hidden" id="keep-issue-title" name="issue-title"/>
+				<input type="hidden" id="keep-issue-type" name="issue-type"/>
 				action("Log In", login())
+				  [onclick="javascript:$('#keep-issue-desc').attr('value',$('p#new-issue-desc textarea').val());"+
+				                      "$('#keep-issue-title').attr('value',$('p#new-issue-title input').val());"+
+				                      "$('#keep-issue-type').attr('value',$('p#new-issue-type select').val());"]
 			}
 		}
 		navigate(registerUser()) {"Register"}
@@ -18,6 +34,9 @@ define override template login(){
 		navigate(resetUserPassword()) {"Reset Pass"}
 	}
 	action login(){
+		securityContext.newIssueDesc := getRequestParameter("issue-desc"); 
+		securityContext.newIssueTitle := getRequestParameter("issue-title"); 
+		securityContext.newIssueType := getRequestParameter("issue-type"); 
 		securityContext.principal := null;
 		if(authenticate(email,pass)) {
 			message("Login successful");

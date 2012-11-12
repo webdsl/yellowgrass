@@ -21,30 +21,46 @@ define template createIssue(p : Project, initialTag : Tag) {
 	title{output(p.name) " - Create new issue on YellowGrass.org"}
 	main(p)
 	define body(){
-		var ig := IssueGhost{ alive := false };
+		var ig := IssueGhost{ 
+			alive := false 
+	  }; 
 		var type : Tag;
+		init{
+			// reconstruct the input data for a new issue after a login without requiring ajax style page updates 
+			// the securityContext properties are set when logging in on the create issue page, 
+			// see user/access.app for the login action  
+			ig.description := securityContext.newIssueDesc;
+			ig.title := securityContext.newIssueTitle; 
+			var selectedtypes := [t | t:Tag in issuetypes where t.id.toString() == securityContext.newIssueType];
+			if(selectedtypes.length>0){
+			  type := selectedtypes[0];
+      }			 			
+			securityContext.newIssueDesc := "";
+			securityContext.newIssueType := "";
+			securityContext.newIssueTitle := "";
+		}
 		
 		block [class := "main"] {
 			<h1> "Post New " output(p.name) " Issue" </h1>
 			
 			form {
 			
-				par { label("Title") {
+				par[id="new-issue-title"] { label("Title") {
 					input (ig.title) [onkeyup := updateIssueSuggestions(ig.title, p), autocomplete:="off"]
 				}}
 				par [class := "IssueSuggestions"] {
 					placeholder issueSuggestionsBox {} 
 				}
 				if(issuetypes.length > 0) {
-					par {
+					par[id="new-issue-type"] {
 						label("Type") {
 							select(type from issuetypes)
 						}
 					}
 				}
-				par { 
+				par[id="new-issue-desc"] { 
 					label("Description") {
-						input(ig.description) 
+						input(ig.description)
 						[onkeyup := updateIssuePreview(ig.description)]
 					} 
 				}
