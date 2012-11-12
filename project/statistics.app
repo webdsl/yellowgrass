@@ -43,20 +43,19 @@ function obtainPageViewStatisticsGraph(projects : List<Project>) : String {
 	return url.concat();
 }
 
-native class org.yellowgrass.utils.ProjectIntTuple as ProjectIntTuple {
-	p : Project
-	i : Int
-	constructor(Project, Int)
-}
+  native class org.yellowgrass.utils.ProjectIntTuple as ProjectIntTuple {
+	  p : Project
+	  i : Int
+	  constructor(Project, Int)
+  }
 
-define page statistics() {
-	var projects : List<Project> := 
-		from Project;
-	var url := obtainPageViewStatisticsGraph(projects);
-	title{"YellowGrass.org - Statistics"}
-	main()
-	define body(){
-		<h1> "Last Month's Page Views" </h1>
-		<img src=url/>
-	}
-}
+  page statistics() {
+	  var projects : List<Project> := from Project;
+	  var url := obtainPageViewStatisticsGraph(projects);
+	  title{"YellowGrass.org - Statistics"}
+	  bmain{
+		  pageHeader2{ "Last Month's Page Views" }
+		  <img src=url/>
+	  }
+  }
+  

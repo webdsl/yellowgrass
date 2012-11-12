@@ -38,10 +38,14 @@ access control rules
 	
 	rule template tags(t : Tag, editing : Bool) {
 		mayAccess(t.project)
-		rule action deleteTag(tagToRemoveFrom : Tag, tagToRemove : Tag) {
-			principal in tagToRemoveFrom.project.members
-		}
 	}
+	
+  rule template showTag(owner : Tag, t : Tag, editing : Bool) {
+    mayAccess(owner.project)
+    rule action deleteTag(tagToRemoveFrom : Tag, tagToRemove : Tag) {
+      principal in tagToRemoveFrom.project.members
+    }
+  }
 	
 	rule template tags(ts : List<Tag>, p : Project) {
 		mayAccess(p)

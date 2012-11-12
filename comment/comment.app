@@ -48,83 +48,77 @@ function createComment(t : WikiText) : Comment {
 	return c;
 }
 
-define template comment(c : Comment) {
-	block [class := "CommentHeader"] {
-		"On " output(format(c.moment)) " " output(c.author.name) " wrote: "
-		navigate(editComment(c)){"edit"}
-	}
-	block [class := "CommentText"] {
-		output(c.text)
-	}
-}
+  template comment(c : Comment) {
+	  block [class := "CommentHeader"] {
+		  "On " output(format(c.moment)) " " output(c.author.name) " wrote: "
+		  navigate editComment(c) [class="btn"] { iPencil "Edit" }
+	  }
+	  block [class := "CommentText"] {
+		  output(c.text)
+	  }
+  }
 
-define template commentAddition(i : Issue) {
-	placeholder commentAdditionBox {
-		par { actionLink("New Comment", showCommentAdditionInput(i)) [ajax] }
-	}
-	action showCommentAdditionInput( i : Issue ) {
-		replace(commentAdditionBox, commentAdditionInput(i));
-	}
-}
+  template commentAddition(i : Issue) {
+	  placeholder commentAdditionBox {
+		  par { submitlink showCommentAdditionInput(i) [class="btn"] { iPlus " New Comment" } }
+	  }
+	  action showCommentAdditionInput( i : Issue ) {
+		  replace(commentAdditionBox, commentAdditionInput(i));
+	  }
+  }
 
-define ajax template commentAdditionInput(i : Issue) {
-	var newCommentText : WikiText := "";
-	par { <h2> "New Comment" </h2> }
-	block [class := "CommentAdd"] {
-		form {
+  ajax template commentAdditionInput(i : Issue) {
+	  var newCommentText : WikiText := "";
+	  pageHeader3 { "New Comment" }
+	  horizontalForm {
 			par { input(newCommentText) }
 			if(!i.open) {
 				par { "This issue is closed! Are you sure you want to add a comment?" }
 			}
-			par { 
-				action("Post Comment", comment(newCommentText, i))  [ajax]
+			formActions { 
+				submitlink comment(newCommentText, i) [class="btn"] { "Post Comment" }
 				" "
-				action("Post Comment & Close", commentClose(newCommentText, i)) [ajax]
+				submitlink commentClose(newCommentText, i) [class="btn"] { "Post Comment & Close" }
 			}
 		}
-	}
 	
-	action comment(text : WikiText, issue : Issue) {
-		var comment := createComment(text);
-		issue.addComment(comment);
-		return issue(issue.project, issue.number);
-	}
-	action commentClose(text : WikiText, issue : Issue) {
-		var comment := createComment(text);
-		issue.commentClose(comment);
-		return issue(issue.project, issue.number);
-	}
-}
+	  action comment(text : WikiText, issue : Issue) {
+		  var comment := createComment(text);
+		  issue.addComment(comment);
+		  return issue(issue.project, issue.number);
+	  }
+	  action commentClose(text : WikiText, issue : Issue) {
+		  var comment := createComment(text);
+		  issue.commentClose(comment);
+		  return issue(issue.project, issue.number);
+	  }
+  }
 
-define template noCommentAddition() {
-	par { <i> "Log in to post comments" </i> }
-}
+  template noCommentAddition() {
+	  par { <i> "Log in to post comments" </i> }
+  }
 
-define page editComment(c : Comment) {
-	var is := 
-			select i
+  page editComment(c : Comment) {
+    title{"YellowGrass.org - Edit Comment"}
+	  var is := 
+		 	select i
 			from Issue as i
 			left join i.log as l
 			where ~c = l
 			limit 1
 		var i := is.get(0);
-	title{"YellowGrass.org - Edit Comment"}
-	main(i.project)
-	define body(){
-		<h1> "Edit Comment" </h1>
-		form {
-			par {
-				label("Comment") { input(c.text) }
+	  action save(){
+      c.save();
+      return issue(i.project, i.number);
+    }
+	  bmain(i.project){
+		  pageHeader4{ "Edit Comment" }
+	    horizontalForm {
+			   controlGroup("Comment") { input(c.text) }
+			   formActions {
+			     submitlink save() [class="btn btn-primary"] { "Save" } " "
+				   navigate issue(i.project, i.number) [class="btn"] {"Cancel"}
+				 }
 			}
-			par {
-				navigate(issue(i.project, i.number)) {"Cancel"}
-				" "	
-				submit("Save",save())
-			}
-		}
-		action save(){
-			c.save();
-			return issue(i.project, i.number);
 		}
 	}
-}

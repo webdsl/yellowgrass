@@ -1,28 +1,27 @@
 module project/register
 
-define page registerProject(){
-	var p := Project{};
-
-	title{"YellowGrass.org - Project Registration"}
-	main()
-	define body(){
-		<h1> "Create New Project" </h1>
-		form { 
-			par { label("Project name") { input(p.name) } }
-			par {
-				navigate(home()) {"Cancel"}
-					" "	
-				action("Create",create())
-			}
-		}
-	}
-	action create(){
-		p.members.add(securityContext.principal);
-		// p.created := now();
-		p.private := false;
-		p.email := "";
-		p.save();
-		createIssueTypes(p);
-		return edit(p);
-	}
-}
+  page registerProject(){
+	  var p := Project{};
+	  	  
+    action create(){
+      p.members.add(securityContext.principal);
+      p.created := now();
+      p.private := false;
+      p.email := "";
+      p.save();
+      createIssueTypes(p);
+      return edit(p);
+    }
+	  title{"YellowGrass.org - Project Registration"}
+	  bmain{
+		  pageHeader{ "Create New Project" }
+		  horizontalForm { 
+			  controlGroup("Project name") { input(p.name) }
+			  formActions {
+          submitlink create() [class="btn btn-primary"] { "Create" } " "
+				  navigate home() [class="btn"] {"Cancel"}
+			  }
+		  }
+	  }
+  }
+  

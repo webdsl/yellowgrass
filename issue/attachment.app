@@ -5,7 +5,7 @@ entity Attachment {
 	file :: File
 }
 
-define template attachmentAddition(i : Issue) {
+template attachmentAddition(i : Issue) {
 	block [id="attOpener"] {
 		par { 
 			<a href="javascript:void(0)" onCLick="javascript:document.getElementById('attachmentAdditionBox').style.display='block';document.getElementById('attOpener').style.display='none'">
@@ -18,12 +18,12 @@ define template attachmentAddition(i : Issue) {
 	}
 }
 
-define template attachmentAdditionInput(i : Issue) {
+template attachmentAdditionInput(i : Issue) {
 	var newFile : File;
 	form {
 		par { 
 			input(newFile) {validate(newFile != null && newFile.fileName() != "", "")}
-			action("Add", addAttachment(newFile, i)) 
+			submitlink addAttachment(newFile, i) [class="btn"] { iPlus " Add" }
 		}
 	}
 	
@@ -37,14 +37,14 @@ define template attachmentAdditionInput(i : Issue) {
 	}
 }
 
-define ajax template attachmentList(i : Issue) {
+ajax template attachmentList(i : Issue) {
 	if(i.attachments.length > 0) {
-		table  {
+		tableBordered  {
 			for(a : Attachment in i.attachments order by a.date desc) {
 				form {row { 
 					column{ output(a.file) } 
 					column{ output(a.date.format("MMM d")) }
-					column{ actionLink("x", deleteAttachment(a))[ajax] } 
+					column{ submitlink deleteAttachment(a) [class="btn"] { iRemove } }
 				}}
 			}
 		}

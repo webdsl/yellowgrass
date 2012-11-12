@@ -1,43 +1,45 @@
 module user/register
 
-define page registerUser(){
+page registerUser(){
 	var u := User{};
 	var temp : Secret := "";
+	 
+	action register(){
+    u.password := u.password.digest();
+    u.notifications := true;
+    u.save();
+    securityContext.principal := u;
+    email(registerUserEmail(u));
+    // message("Registration completed");
+    return home();
+  }
 		
 	title{"YellowGrass.org - User Registration"} 
-	main()
-	define body(){
-		<h1> "User Registration" </h1>
-		
-		form { 
-			par{ label("Name") { input(u.name) } }
-			par{ label("User Name") { input(u.tag) } }
-			par{ "User names are used for tags (e.g. @johnsmith). Preferably choose a user name, which is easy to remember"} 
-			
-			par{ label("Email") { input(u.email) } }
-			par{ label("Password") { input(u.password) } }
-			par{ label("Repeat Password") { 
-				input(temp){ validate(u.password == temp, "Passwords do not match") } } }
-			par{ block [class:="Error"]{ captcha() }}			
-			par {
-				navigate(root()) {"Cancel"}
-				" "
-				action("Register",register())
+	bmain{
+		pageHeader{ "User Registration" }	
+		horizontalForm { 
+			controlGroup("Name") { input(u.name) }
+			controlGroup("User Name") { 
+			  input(u.tag) 
+			  par{ "User names are used for tags (e.g. @johnsmith). Preferably choose a user name, which is easy to remember"} 
+			}
+			controlGroup("Email") { input(u.email) }
+			controlGroup("Password") { input(u.password) }
+			controlGroup("Repeat Password") { 
+				input(temp){ validate(u.password == temp, "Passwords do not match") } 
+		  }
+			controlGroup("Are you human?"){
+			  captcha() 
+			}	
+			formActions {
+        submitlink register() [class="btn btn-primary"] { "Register" } " "
+				navigate root() [class="btn"] {"Cancel"}
 			}
 		}
 	}
-	action register(){
-		u.password := u.password.digest();
-		u.notifications := true;
-		u.save();
-		securityContext.principal := u;
-		email(registerUserEmail(u));
-		// message("Registration completed");
-		return home();
-	}
 }
 
-define email registerUserEmail(u : User) {
+email template registerUserEmail(u : User) {
 	to(u.email)
 	from(EMAIL_FROM())
 	subject("Welcome to YellowGrass")

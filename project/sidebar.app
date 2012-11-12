@@ -1,39 +1,45 @@
 module project/sidebar
 
-define template projectSideBar(p : Project) {
-	block [class := "sidebar"] {
-		projectCommands(p)
-		sidebarSeparator()
-		par { output( p.description + " " + p.url ) }
-		par { image(p.getWeeklyStatsGraph()) }
-		par { <i> "Weekly Issue Count" </i> }
-	}
-}
+  template projectSideBar(p : Project) {
+  	div[class="sidebar"]{
+		  projectCommands(p)
+		  // par { image(p.getWeeklyStatsGraph()) }
+		  // par { <i> "Weekly Issue Count" </i> }
+      hrule
+		  par{ tags(p.getCommonTags(80), p) }
+		}
+  }
 
-define template projectCommands(p : Project) {
-	par { navigate(project(p))  {<h1> output(p.name) </h1>} } 
-	par { navigate(createIssue(p))	{"New Issue"} }
-	par { navigate(edit(p))			{"Project Settings"} }
-	par { navigate(roadmap(p)) 		{"Project Roadmap"} }
-	par { actionLink("Follow Project", followProject(p)) }
-	par { actionLink("Stop Following Project", unfollowProject(p)) }
-	par { actionLink("Request Project Membership", requestJoinProject(p)) }
+  template projectCommands(p : Project) {
+    
+    action followProject(p : Project) {
+      p.followers.add(securityContext.principal);
+      message("You will now receive email updates upon events in this project");
+      return project(p);
+    }
+  
+    action unfollowProject(p : Project) {
+      p.followers.remove(securityContext.principal);
+      message("You will no longer receive email updates upon events in this project");
+      return project(p);
+    }
+  
+    action requestJoinProject(p : Project) {
+      p.memberRequests.add(securityContext.principal);
+      message("Project membership requested, awaiting project member approval...");
+      return project(p);
+    }
+      
+    pageHeader4{ navigate project(p) { output(abbreviateNE(p.name,12)) } }
+    par {  navigate createIssue(p)          { iPlus " New Issue" } }        
+    par {  navigate roadmap(p)              { iRoad " Roadmap"} }   
+    par {  navigate projectIssues(p, true)  { iList " Open issues"} } 
+    par {  navigate projectIssues(p, false) { iList " All issues"} } 	  
+	  par { navigate edit(p) 			           { iWrench " Project Settings"} }
+	  	  
+	  par { submitlink followProject(p)      { "Follow Project" } }
+	  par { submitlink unfollowProject(p)    { "Unfollow Project" } }
+	  par { submitlink requestJoinProject(p) { "Request Project Membership" } }
 	
-	action followProject(p : Project) {
-		p.followers.add(securityContext.principal);
-		message("You will now receive email updates upon events in this project");
-		return project(p);
-	}
-	
-	action unfollowProject(p : Project) {
-		p.followers.remove(securityContext.principal);
-		message("You will no longer receive email updates upon events in this project");
-		return project(p);
-	}
-	
-	action requestJoinProject(p : Project) {
-		p.memberRequests.add(securityContext.principal);
-		message("Project membership requested, awaiting project member approval...");
-		return project(p);
-	}
-}
+  }
+  

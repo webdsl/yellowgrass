@@ -1,78 +1,114 @@
 module user/access
 
+  page signin() {
+    mainResponsive{
+      gridRow{ gridSpan(12){ login } }
+    }
+  }
+
+  template signInOut() {
+    navItems{
+	    if(loggedIn()) {
+		    logout
+	    } else {
+		    navItem{
+			    navigate signin() { "Sign In" } 
+        }
+        navItem{
+    	    navigate registerUser() { "Sign Up" }
+        }
+	    }
+	  }
+  }
+
 extend session securityContext {
 	newIssueDesc :: WikiText
 	newIssueTitle :: String
 	newIssueType :: String
 }
 
-define override template login(){
-	var email : Email;
-	var pass : Secret;
-	form{
-		block {
-			label("Email ") {input(email)}
-			" "
-			label("Pass ") {input(pass)}
-			" "
-			block [class := "LoginButton"] {
-				// Workaround for reconstrucing the input data of a new issue when logging in on the create issue page.
-				// As part of the login form submit the create issue information is gathered, 
-				// and the action stores this data temporarily in the securityContext session entity.
-				// The new issue data is requested on the create issue page in issue/register.app.
-				<input type="hidden" id="keep-issue-desc" name="issue-desc"/>
-				<input type="hidden" id="keep-issue-title" name="issue-title"/>
-				<input type="hidden" id="keep-issue-type" name="issue-type"/>
-				action("Log In", login())
-				  [onclick="javascript:$('#keep-issue-desc').attr('value',$('p#new-issue-desc textarea').val());"+
-				                      "$('#keep-issue-title').attr('value',$('p#new-issue-title input').val());"+
-				                      "$('#keep-issue-type').attr('value',$('p#new-issue-type select').val());"]
-			}
-		}
-		navigate(registerUser()) {"Register"}
-		" | "
-		navigate(resetUserPassword()) {"Reset Pass"}
-	}
-	action login(){
-		securityContext.newIssueDesc := getRequestParameter("issue-desc"); 
-		securityContext.newIssueTitle := getRequestParameter("issue-title"); 
-		securityContext.newIssueType := getRequestParameter("issue-type"); 
-		securityContext.principal := null;
-		if(authenticate(email,pass)) {
-			message("Login successful");
-		} else {
-			message("Incorrect email address or incorrect password");
-		}
-		/*
-		securityContext.principal := null;
-		securityContext.loggedIn := false;
-		var users : List<User> :=
-			select u from User as u 
-			where (u._email = ~email);
-		if(users.length > 0 && users.get(0).password.check(pass)) {
-			securityContext.principal := users.get(0);
-			securityContext.loggedIn := true;
-			return home();
-		} else {
-			message("Incorrect email address or incorrect password");
-			return root();
-		}
-		*/
-	}
-}
+// define override template login(){
+// 	var email : Email;
+// 	var pass : Secret;
+// 	form{
+// 		block {
+// 			label("Email ") {input(email)}
+// 			" "
+// 			label("Pass ") {input(pass)}
+// 			" "
+// 			block [class := "LoginButton"] {
+// 				// Workaround for reconstrucing the input data of a new issue when logging in on the create issue page.
+// 				// As part of the login form submit the create issue information is gathered, 
+// 				// and the action stores this data temporarily in the securityContext session entity.
+// 				// The new issue data is requested on the create issue page in issue/register.app.
+// 				<input type="hidden" id="keep-issue-desc" name="issue-desc"/>
+// 				<input type="hidden" id="keep-issue-title" name="issue-title"/>
+// 				<input type="hidden" id="keep-issue-type" name="issue-type"/>
+// 				action("Log In", login())
+// 				  [onclick="javascript:$('#keep-issue-desc').attr('value',$('p#new-issue-desc textarea').val());"+
+// 				                      "$('#keep-issue-title').attr('value',$('p#new-issue-title input').val());"+
+// 				                      "$('#keep-issue-type').attr('value',$('p#new-issue-type select').val());"]
+// 			}
+// 		}
+// 		navigate(registerUser()) {"Register"}
+// 		" | "
+// 		navigate(resetUserPassword()) {"Reset Pass"}
+// 	}
+// 	action login(){
+// 		securityContext.newIssueDesc := getRequestParameter("issue-desc"); 
+// 		securityContext.newIssueTitle := getRequestParameter("issue-title"); 
+// 		securityContext.newIssueType := getRequestParameter("issue-type"); 
+// 		securityContext.principal := null;
+// 		if(authenticate(email,pass)) {
+// 			message("Login successful");
+// 		} else {
+// 			message("Incorrect email address or incorrect password");
+// 		}
+// 		/*
+// 		securityContext.principal := null;
+// 		securityContext.loggedIn := false;
+// 		var users : List<User> :=
+// 			select u from User as u 
+// 			where (u._email = ~email);
+// 		if(users.length > 0 && users.get(0).password.check(pass)) {
+// 			securityContext.principal := users.get(0);
+// 			securityContext.loggedIn := true;
+// 			return home();
+// 		} else {
+// 			message("Incorrect email address or incorrect password");
+// 			return root();
+// 		}
+// 		*/
+// 	}
+// }
 
-define override template logout(){
-	"Logged in as " 
-	navigate(home()) 
-		{output(securityContext.principal.name)}
-	" "
-	form{
-		block [class := "LoginButton"] {
-			action("Log Out", logout())
-		}
-	}
-	action logout(){
-		securityContext.principal := null;
-		return root();
-	}
-}
+  override template login() {
+	  var email : Email;
+	  var pass : Secret;
+	
+    action login(){
+      securityContext.principal := null;
+      validate(authenticate(email,pass), "Incorrect email address or incorrect password");
+      return home();
+    }
+    pageHeader2{ "Sign In" }
+	  horizontalForm{
+		  controlGroup("Email") { input(email) }
+	    controlGroup("Password") { input(pass) }
+		  formActions {
+			  submitlink login() [class="btn btn-primary"] { "Sign in" } " "
+		    navigate resetUserPassword() [class="btn"] { "Reset Password" } 
+		  }
+	  }
+  }
+
+  override template logout() {
+    action logout(){
+      securityContext.principal := null;
+      return root();
+    }
+	  navItem{	      
+	    navigate home() {"Logged in as " output(securityContext.principal.name)}
+	  }
+	  navItem{ submitlink logout() { "Log Out" } }
+  }

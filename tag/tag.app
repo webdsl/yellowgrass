@@ -8,7 +8,7 @@ imports user/user
 imports project/roadmap
 imports comment/tagControl
 
-entity Tag {
+entity Tag { 
 	name 		:: String	(validate(name.length() > 1, "Tags need to have at least 2 characters"),
 							 validate(/[a-z0-9\.\-_@!]*/.match(name),"Tags may consist of: a-z 0-9 . _ @ ! -"))
 	description :: String
@@ -234,172 +234,169 @@ function arrangeTags(tags : Set<Tag>, summary : Bool) : List<Tag> {
 	return sortedTags;
 }
 
-define page tag(p : Project, tag : String) {
-	title{output(p.name) " / " output(tag) " - on YellowGrass.org"}
-	main(p)
-	define body(){
-		var t := getTag(tag, p);
-		var taggedIssues : List<Issue> :=
-			select i
-			from Issue as i
-			left join i._tags as t
-			where t._name = ~tag and t._project = ~p
-			limit 500
+section user interface
 
-		block [class := "main"] { 
-			if(securityContext.loggedIn) {
-				par [class := "Back"] { 
-					rawoutput { " &raquo; " }
-					navigate(home()) {"Home"}
-					rawoutput { " &raquo; " }
-					navigate(project(p)) {"Project " output(p.name)}
-					rawoutput { "&raquo; " } " Tag " output(tag)
-				}
-			} else { 
-				par [class := "Back"] { navigate(project(p)) {rawoutput { "&raquo; " } " Back to Project"} }
-			}
-			par{ 
-				<h1> "Tagged " output(t.name) tags(t, true) </h1>
-				if(t.description != null && t.description != "") {
-					<i> output(t.description) </i>
-				}
-			}
-			issues(taggedIssues.set(), false, true, true, 50, true, false)
-		}
-		tagSideBar(t)
-	}
-}
+  page tag(p : Project, tag : String) {
+    var t := getTag(tag, p);
+    var taggedIssues : List<Issue> :=
+      select i
+      from Issue as i
+      left join i._tags as t
+      where t._name = ~tag and t._project = ~p
+      limit 500
+      
+	  title{output(p.name) " / " output(tag) " - on YellowGrass.org"}
+	  bmain(p){ 
+      gridRow{
+        gridSpan(2) { tagSideBar(t) }
+        gridSpan(10) {
+		      // block [class := "main"] {  }
+		      // 	if(securityContext.loggedIn) {
+		      // 		par [class := "Back"] { 
+		      // 			rawoutput { " &raquo; " }
+		      // 			navigate(home()) {"Home"}
+		      // 			rawoutput { " &raquo; " }
+	 	      // 			navigate(project(p)) {"Project " output(p.name)}
+		      // 			rawoutput { "&raquo; " } " Tag " output(tag)
+		      // 		}
+		      // 	} else { 
+		      // 		par [class := "Back"] { navigate(project(p)) {rawoutput { "&raquo; " } " Back to Project"} }
+		      // 	}
+			    pageHeader2{ 
+				    "Tagged " output(t.name) tags(t, true)
+				  }
+				  if(t.description != null && t.description != "") {
+					  par{ <i> output(t.description) </i> }
+				  }
+			    issues(taggedIssues.set(), false, true, true, 50, true, false)
+			  }
+		  }
+	  }
+  }
 
-define page editTag(p : Project, t : Tag) {
-	title{output(t.project.name) "." output(t.name) " on YellowGrass.org [Editing]"}
-	main(p)
-	define body(){
-		<h1> "Edit Tag" </h1>
-		form {
-			par {
-				label("Name") { input(t.name) }
-			}
-			par {
-				label("Description") { input(t.description) }
-			}
-			par {
-				navigate(tag(t.project, t.name)) {"Cancel"}
-				" "	
-				submit("Save",save())
-			}
-		}
-	}
-	action save(){
-		t.save();
-		return tag(t.project, t.name);
-	}
-}
-
-define template tags(t : Tag, editing : Bool) {
-	block [class:="Tags"] {
-		for(tag : Tag in arrangeTags(t.tags, false)) {
-			block [class:=tag.getStylingClass()] {
-				output(tag.name) 
-				if(editing) {
-					block [class := "Delete"] {
-						actionLink("x", deleteTag(t, tag))
-					}
+  page editTag(p : Project, t : Tag) {
+	  title{output(t.project.name) "." output(t.name) " on YellowGrass.org [Editing]"}
+	  bmain(p){
+		  pageHeader2{ "Edit Tag" }
+		  horizontalForm {
+			  controlGroup("Name") { input(t.name) }
+			  controlGroup("Description") { input(t.description) }
+			  formActions{
+			    submitlink save() [class="btn btn-primary"] { "Save" } " "
+				  navigate tag(t.project, t.name) [class="btn"] { "Cancel" }
 				}
 			}
-			output(" ")
 		}
-		tagHelp()
-	}
-	action deleteTag(tagToRemoveFrom : Tag, tagToRemove : Tag) {
-		tagToRemoveFrom.tags.remove(tagToRemove);
-		tagCleanup(tagToRemove);
-		return tag(t.project, t.name);
-	}
-}
+	  action save(){
+		  t.save();
+		  return tag(t.project, t.name);
+	  }
+  }
+  
+  template showTag(owner: Tag, tag : Tag, editing : Bool) {
+    div[class=tag.getStylingClass()] {
+      output(tag.name) 
+      if(editing) { " "
+        submitlink deleteTag(owner, tag) { "[x]" }
+      }
+    }
+    action deleteTag(tagToRemoveFrom : Tag, tagToRemove : Tag) {
+      tagToRemoveFrom.tags.remove(tagToRemove);
+      tagCleanup(tagToRemove);
+      return tag(tag.project, tag.name);
+    }
+  }
 
-function getTagsStylingClass(summary : Bool) : String {
-	if(summary) {
-		return "Tags TagsSummary";
-	} else {
-		return "Tags";
-	}
-}
+  template tags(t : Tag, editing : Bool) {
+	  div[class="Tags"] {
+		  for(tag : Tag in arrangeTags(t.tags, false)) {			  
+			  showTag(t, tag, editing)
+		  } separated-by { " " }
+		  tagHelp
+	  }
+  }
 
-define template tags(i : Issue, editing : Bool) {
-	tags(i, editing, false)
-}
-define template tags(i : Issue, editing : Bool, summary : Bool) {
-	block [class = getTagsStylingClass(summary)] {
-		for(tag : Tag in arrangeTags(i.tags, summary)) {
-			block [class:=tag.getStylingClass()] {
-				navigate(tag(i.project, tag.name)){output(tag.name)} 
-				if(editing) {
-					block [class := "Delete"] {
-						actionLink("x", deleteTag(i, tag))
-					}
-				}
-			}
-			" "
-		}
-	}
-	action deleteTag(i : Issue, t : Tag) {
-		i.deleteTag(t);
-		i.save();
-		tagCleanup(t);
-		return issue(i.project, i.number);
-	}
-}
+  function getTagsStylingClass(summary : Bool) : String {
+	  if(summary) {
+		  return "Tags TagsSummary";
+	  } else {
+		  return "Tags";
+	  }
+  }
 
-define template tags(ts : List<Tag>, p : Project) {
-	block [class:="Tags"] {
-		for(tag : Tag in ts) {
-			navigate (tag(p, tag.name)){output(tag.name)} " "
-		}
-	}
-}
+  template tags(i : Issue, editing : Bool) {
+	  tags(i, editing, false)
+  }
 
-define template addTag(i : Issue) {
-	var t : String := ""
-	block [class := "TagAddition"] {
-		form {
-			label("Tag") {
-				input(t) [onkeyup := updateTagSuggestions(t), autocomplete:="off"]
-			}
-			action("+", addTag(t, i))[ajax]
-			tagHelp()
-			placeholder tagValidityFeedback {""}
-		}
-		placeholder tagSuggestionsBox {
-			tagSuggestions(t, i)
-		}
-	}
-	action addTag(t : String, i : Issue) {
-		var f := Tag{ name := t };
-		var feedback := f.validateName();
-		if(feedback.exceptions.length > 0) {
-			log("Validation failed!!");
-			replace(tagValidityFeedback, validationFeedback(feedback));
-		} else {
-			log("Validation succeeded!!");
-			i.addTag(tag(t, i.project));
-			i.save();
-			return issue(i.project, i.number);
-		}
-	}
-	action updateTagSuggestions(t : String) {
-		replace(tagSuggestionsBox, tagSuggestions(t, i));
-	}
-}
+  template tags(i : Issue, editing : Bool, summary : Bool) {
+	  div [class = getTagsStylingClass(summary)] {
+		  for(tag : Tag in arrangeTags(i.tags, summary)) {
+			  div [class:=tag.getStylingClass()] {
+				  navigate tag(i.project, tag.name) { output(tag.name) } 
+				  if(editing) {
+					  " " submitlink deleteTag(i, tag) { "[x]" }
+				  }
+			  }
+		  } separated-by { " " }
+	  }
+	  action deleteTag(i : Issue, t : Tag) {
+		  i.deleteTag(t);
+		  i.save();
+		  tagCleanup(t);
+		  return issue(i.project, i.number);
+	  }
+  }
 
-function tagSuggestionFilter(tagPrefix : String) : String{
-	if(tagPrefix != "") {
-		return "";
-	}
-	return "@%";
-}
+  template tags(ts : List<Tag>, p : Project) {
+	  div [class:="Tags"] {
+		  for(tag : Tag in ts) {
+			  navigate tag(p, tag.name) { output(tag.name) }
+		  } separated-by { " " }
+	  }
+  }
+
+  template addTag(i : Issue) {
+	  var t : String := ""
+	  div [class := "TagAddition"] {
+		  form {
+			  label("Tag") {
+				  input(t) [onkeyup := updateTagSuggestions(t), autocomplete:="off"]
+			  }
+			  submitlink addTag(t, i) [class="btn"] { iPlus }
+			  tagHelp
+			  placeholder tagValidityFeedback {""}
+		  }
+		  placeholder tagSuggestionsBox {
+			  tagSuggestions(t, i)
+		  }
+	  }
+	  action addTag(t : String, i : Issue) {
+		  var f := Tag{ name := t };
+		  var feedback := f.validateName();
+		  if(feedback.exceptions.length > 0) {
+			  log("Validation failed!!");
+			  replace(tagValidityFeedback, validationFeedback(feedback));
+		  } else {
+			  log("Validation succeeded!!");
+			  i.addTag(tag(t, i.project));
+			  i.save();
+			  return issue(i.project, i.number);
+		  }
+	  }
+	  action updateTagSuggestions(t : String) {
+		  replace(tagSuggestionsBox, tagSuggestions(t, i));
+	  }
+  }
+
+  function tagSuggestionFilter(tagPrefix : String) : String{
+	  if(tagPrefix != "") {
+		  return "";
+ 	  }
+	  return "@%";
+  }
 
 // NOTE: Do not make this publicly available, the AJAX causes a lot of bad links
-define ajax tagSuggestions(tagPrefix : String, issue : Issue) {
+ajax template tagSuggestions(tagPrefix : String, issue : Issue) {
 	var tagSearchString := tagPrefix.toLowerCase() + "%"
 	var suggestions : List<Tag> := (
 		select	t

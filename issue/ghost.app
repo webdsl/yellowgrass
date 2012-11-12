@@ -37,11 +37,10 @@ entity IssueGhost {
 	}
 }
 
-define page issueConfirmation() {
+page issueConfirmation() {
 	title{"New issue created, please confirm"}
-	main()
-	define body(){
-		<h1>"Issue Submitted and Awaiting Confirmation"</h1>
+	bmain{
+		pageHeader2{ "Issue Submitted and Awaiting Confirmation" }
 		par{
 			"Your issue has successfully been submitted to YellowGrass. " 
 			"You should receive a confirmation email from YellowGrass shortly. "
@@ -49,7 +48,7 @@ define page issueConfirmation() {
 		}
 		par{
 			"Do you not want to confirm issues any longer? " 
-			navigate(registerUser()){"Register!"}
+			navigate registerUser() {"Register!"}
 			" It's free"
 		} 
 	}
@@ -59,16 +58,15 @@ define page confirmGhost(g : IssueGhost) {
 	var i : Issue := g.tryRealize();
 	
 	title{output(g.project.name) " - Issue Confirmed"}
-	main(g.project)
-	define body(){
-		<h1>"Issue Confirmed"</h1>
+	bmain(g.project){
+		pageHeader2{ "Issue Confirmed" }
 		par{
 			"Thank you for submitting this issue."
 		}
 		if(i != null) {
 			par{
 				"You can follow its progress on "
-				navigate(issue(i.project, i.number)){"the issue page"}
+				navigate issue(i.project, i.number) {"the issue page"}
 				"."
 			}
 		} 
@@ -82,7 +80,7 @@ define email issueConfirmationEmail(g : IssueGhost) {
 	par {
 		"Thank you for submitting an issue to " output(g.project.name) "."
 		"Please confirm submission by visiting "
-		navigate(confirmGhost(g)){"the confirmation page"}
+		navigate confirmGhost(g) {"the confirmation page"}
 		"."
 	}
 	par {" -- http://yellowgrass.org -- " }

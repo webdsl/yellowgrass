@@ -45,14 +45,14 @@ function generateRoadmap(project:Project):List<Release>{
 }
 
 
-function min (a : Int, b : Int) : Int {
-	if(a < b) {
-		return a;
-		
-	} else {
-		return b;
-	}
-}
+// function min (a : Int, b : Int) : Int {
+// 	if(a < b) {
+// 		return a;
+// 		
+// 	} else {
+// 		return b;
+// 	}
+// }
 
 entity VersionObject {
 	 function  toString2() : String {

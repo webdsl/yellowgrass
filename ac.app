@@ -6,14 +6,14 @@ module ac
 		true
 	}
 	
-	rule page sources() {
+	rule page about() {
 		true
 	}
 	
-	rule template mainheader(p : Project) {
-		mayAccess(p)
-	}
-	
+	// rule template mainheader(p : Project) {
+	// 	mayAccess(p)
+	// }
+	// 
 	rule page search(p: Project, q : String) {
 		mayAccess(p)
 	}

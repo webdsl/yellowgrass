@@ -2,30 +2,29 @@ module user/password
 
 imports emails
 
-define page editUserPassword(u : User){
+page editUserPassword(u : User){
 	var temp : Secret;
 	
 	title{"YellowGrass.org - Change Password"}
-	main()
-	define body(){
+	bmain{
 		//var current : Secret;
-		<h1> "Change Password" </h1>
-		form {
+		pageHeader{ "Change Password" }
+		horizontalForm {
 			/*par { 
 				label("Current Password"){
 					input(current){ validate(u.password.check(current), "Incorrect password") }
 				}
 			} */ // TODO This does not seem to work. Fix it and add it for security reasons
-			par {
-				label("New Password"){input(u.password)}
+		  controlGroup("New Password"){
+		    input(u.password)
+		  }
+			controlGroup("Repeat New Password"){
+			  input(temp){ validate(u.password == temp, "Passwords do not match") } 
 			}
-			par { 
-				label("Repeat New Password"){
-					input(temp){ validate(u.password == temp, "Passwords do not match") } 
-				}
+			formActions{
+			  navigate home() [class="btn"] { "Cancel" } " "
+			  submitlink changePassword() [class="btn btn-primary"] { "Change" }
 			}
-			navigate(home()){"Cancel"} " "
-			action("change",changePassword())
 		}
 	}
 	action changePassword(){
@@ -36,18 +35,19 @@ define page editUserPassword(u : User){
 	}
 }
 
-define page resetUserPassword(){
-	title{"YellowGrass.org - Request Password Reset"}
-	main()
-	define body(){
-		var email : Email;
-		
-		<h1> "Request Password Reset" </h1>
-		form {
-			par { label("Email"){ 
-				input(email){ validate(findUserByEmail(email).length > 0, "Unknown email address") } 
-			} }
-			action("Reset Password", resetPassword())
+  page resetUserPassword(){
+	  title{"YellowGrass.org - Request Password Reset"}
+    var email : Email;
+	  bmain{		
+		  pageHeader{ "Request Password Reset" }
+		  horizontalForm {
+			  controlGroup("Email"){ 
+				  input(email){ validate(findUserByEmail(email).length > 0, "Unknown email address") } 
+			  }
+			  formActions{ 
+			    submitlink resetPassword() [class="btn btn-primary"] { "Reset Password" }
+			  }
+			}
 		}
 		action resetPassword(){
 			// Lookup user
@@ -60,31 +60,20 @@ define page resetUserPassword(){
 			email(notifyNewPassword(user, newPassword));
 			user.password := secret;
 			user.save();
-			return resetUserPasswordComplete();
+			message("Your password has been reset, a new password has been emailed to you.");
+			return signin();
 		}
 	}
-	
-}
 
-define page resetUserPasswordComplete(){
-	title{"YellowGrass.org - Password Reset Complete"}
-	main()
-	define body(){
-		<h2> "Password reset complete" </h2>
-		par { "Your password has been reset, a new password has been emailed to you." }
-	}
-}
-
-define email notifyNewPassword(u:User, p: String){
-	to(u.email)
-	from(EMAIL_FROM())
-	subject("Password reset")
-    
-	par{ "Dear " output(u.name) ", " }
-	par {}
-	par{
-		"Your password has been changed to: " output(p)
-	}
-	par {}
-	par { " -- http://yellowgrass.org -- " }
-}
+  email template notifyNewPassword(u:User, p: String){
+	  to(u.email)
+	  from(EMAIL_FROM())
+	  subject("Password reset")   
+	  par{ "Dear " output(u.name) ", " }
+	  par {}
+	  par{
+		  "Your password has been changed to: " output(p)
+	  }
+	  par {}
+	  par { " -- http://yellowgrass.org -- " }
+  }

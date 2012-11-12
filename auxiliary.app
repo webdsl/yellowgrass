@@ -1,27 +1,27 @@
 module auxiliary
 
-type String{
-	substring(Int,Int):String
-}
+  // type String{
+  //   substring(Int,Int):String
+  // }
 
-function abbreviate(s : String, length : Int) : String {
-	if(s.length() <= length) {
-		return s;
-	} else {
-		return s.substring(0,length - 4) + " ...";
-	}
-}
+// function abbreviate(s : String, length : Int) : String {
+// 	if(s.length() <= length) {
+// 		return s;
+// 	} else {
+// 		return s.substring(0,length - 4) + " ...";
+// 	}
+// }
 
-function prefix(s : String, length : Int) : String {
-	return s.substring(0,length);
-}
+// function prefix(s : String, length : Int) : String {
+// 	return s.substring(0,length);
+// }
 
-function max(i1 : Int, i2 : Int) : Int {
-	if(i1 >= i2) {
-		return i1;
-	}
-	return i2;
-}
+// function max(i1 : Int, i2 : Int) : Int {
+// 	if(i1 >= i2) {
+// 		return i1;
+// 	}
+// 	return i2;
+// }
 
 function maxList(is : List<Int>) : Int {
 	var m : Int := is.get(0);
@@ -49,13 +49,13 @@ define ajax validationFeedback(vem : ValidationExceptionMultiple){
   
 function format(date : DateTime) : String {
 	if(now().format("yyyy") == date.format("yyyy")) {
-		return date.format("d MMM");
+		return date.format("d/MM");
 	} else {
-		return date.format("d MMM ''yy");
+		return date.format("d/MM/yy");
 	}
 }
 
-define ajax template empty() {}
+//define ajax template empty() {}
 
 /* Provides continously loading pages: whenever the user scrolls down, more page is loaded
  * While higher-order templates are not yet supported:

@@ -5,6 +5,7 @@ imports project/project
 imports user/user
 
 access control rules
+
 	rule page issue(p : Project, number : Int) { 
 		mayAccess(p)
 		// Not checking whether issue exists anymore, due to performance issues in generating navigates

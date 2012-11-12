@@ -1,0 +1,299 @@
+/* 
+body {
+    margin: 0;
+    padding: 0;
+    font-size: 9pt;
+    font-family: sans-serif, Arial, Helvetica;
+    color: #444444;
+    line-height: 125%;
+    min-width: 970px;
+}
+
+h1 {
+	font-size: 16pt;
+	color: #354b35;
+	padding-top: 10px;
+	font-weight: normal;
+	font-style: normal;
+	text-decoration: none;
+}
+
+h2 {
+	font-size: 12pt;
+	font-weight: normal;
+	font-style: italic;
+	color: #354b35;
+	padding-top: 10px;
+	text-decoration: none;
+}
+
+img {
+	border-width : 0px;
+}
+
+/* Custom */
+
+.Ghost {
+	display: none;
+}
+
+.Error {
+	color: #a81a1a;
+	font-weight: bold;
+	font-style: italic;
+}
+
+#pagewrapper {
+    width: 100%;
+    margin: 0px auto;
+    padding: 0;
+    border: none;
+}
+#content {
+    padding: 12px 20px;
+    clear: both;
+}
+
+#content .main {
+	float: left;
+	width: 72%; 
+}
+
+#content .sidebar {
+	float: right;
+	width: 25%;
+	background-color: #FFFFFF;
+	padding: 5px;
+}
+
+#content .columns {
+	width : 100%;
+	padding: 0px;
+	border-style: none;
+	border-spacing: 0px;
+}
+#content .column1 {
+	vertical-align: top;
+}
+
+#content .column2 {
+	vertical-align: top;
+}
+
+#content .Screenshot {
+	width: 220px;
+	border-style: none;
+}
+
+#header {
+    background-color: white;
+    background-image: url('../images/headerbg.png');
+    height: 88px;
+    margin: 0;
+    padding: 12px 20px;
+    font-size: 8pt;
+    text-align: right;
+}
+
+#header .logo {
+	float: left;
+	height: 88px;
+}
+
+#header input {
+	width: 120px;
+	border: 1px solid #BBBBBB;
+	background: transparent;
+}
+
+#header .LoginButton {
+	display: inline
+}
+
+#header .LoginButton input {
+	width: 55px;
+	border: 1px solid #BBBBBB;
+	background-color: transparent;
+	color: #444444;
+}
+
+#header .SearchBox {
+	float: bottom;
+	margin-top: 15px;
+}
+
+#header .ProjectList {
+	float: bottom;
+	margin-top: 15px;
+}
+
+#header label {
+	display:inline;
+	font-style: italic;
+	font-weight: normal;
+}
+
+#footer {
+    clear:both;
+    text-align: center;
+    color: #999999;
+    font-size: 7pt;
+    padding: 12px 20px;
+}
+
+#footer .Item {
+	display: inline;
+	padding: 0px 3px;
+}
+
+#footer a:link 		{ color: #999999; }
+#footer a:visited	{ color: #999999; }
+#footer a:hover 	{ color: #608060; }
+#footer a:active 	{ color: #999999; }
+
+
+.Listing table {
+	border-spacing : 0;
+}
+
+.Listing td {
+	padding: 3px 10px;
+}
+
+.Listing tr:nth-child(even) {
+	background: #efefef;
+}
+
+.Back a:link 	{ color: #999999; }
+.Back a:visited	{ color: #999999; }
+.Back a:hover 	{ color: #608060; }
+.Back a:active 	{ color: #999999; }
+
+.Back {
+	color: #999999;
+	font-size: 7pt;
+}
+
+.IssueTitle {
+	font-weight : bold;
+	display: inline;
+}
+
+.CommentHeader {
+	font-size: 7pt;
+	font-style: italic;
+	color: #999999;
+}
+
+.CommentHeader a:link 	{ color: #999999; }
+.CommentHeader a:visited{ color: #999999; }
+.CommentHeader a:hover 	{ color: #608060; }
+.CommentHeader a:active { color: #999999; }
+
+.CommentText {
+	margin-left: 10px;
+}
+
+.Block {
+	-moz-border-radius: 6px;
+	-webkit-border-radius: 6px;
+	
+/*	-moz-box-shadow: 2px 2px 4px #EEEEEE;
+	-webkit-box-shadow: 2px 2px 4px #EEEEEE;
+*/	
+	border: 1px solid #EEEEEE;
+	background: #FAFAFA;
+	margin: 20px 30px 20px 0px;
+	padding: 0px 10px 0px 10px;
+}
+
+.Date {
+	white-space: nowrap;
+}
+
+.Listing .AbbreviatedIssueTitle {
+	white-space: nowrap;
+}
+
+form { 
+  display: inline;
+}
+
+hr {
+	color: #999999;
+	background-color: #999999;
+	height: 1px;
+}
+
+table {
+	border-spacing : 0;
+}
+
+td {
+	padding: 2px 10px;
+}
+
+textarea { 
+	height : 5em;
+	width : 95%;
+	height : 25em;
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
+	border: 1px solid #BBBBBB;
+}
+
+select {
+	width : 30em;
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
+	border: 1px solid #BBBBBB;
+}
+
+input[type="text"]{
+	width : 30em;
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
+	border: 1px solid #BBBBBB;
+}
+
+input[type="file"]{
+	width : 21em;
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
+	border: 1px solid #BBBBBB;
+}
+
+a:link 		{ color: #444444; }
+a:visited	{ color: #444444; }
+a:hover 	{ color: #354b35; }
+a:active 	{ color: #444444; }
+
+label {
+	display:block;
+	margin-bottom:0.1em;
+	margin-top:1em;
+	font-size: 8pt;
+	font-style: italic; 
+	font-weight: bold;
+}
+
+.IssueSuggestions {
+	margin-bottom: 30px;
+	text-indent: 20px;
+	font-size: 8pt;
+}
+
+.IssueMoveTargets {
+	margin-left: 20px;
+	font-size: 8pt;
+}
+
+#issueDetails {
+	position: absolute;
+	max-width: 30%;
+	max-height: 30%;
+	right: 0px;
+	bottom: 0px;
+}
+
+*/

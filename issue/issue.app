@@ -14,18 +14,20 @@ imports issue/attachment
 imports issue/issueBrowser
 imports issue/ghost
 
+section data model
+
 entity Issue {
-	number		:: Int		(searchable)
-	title		:: String	(searchable, validate(title.length() >= 5, "Use a longer and more descriptive title"))
+	number		  :: Int		(searchable)
+	title		    :: String	(searchable, validate(title.length() >= 5, "Use a longer and more descriptive title"))
 	description	:: WikiText (searchable)
 	submitted 	:: DateTime
-	project		-> Project	(searchable, inverse = Project.issues)
-	reporter	-> User
-	open		:: Bool
-	log			-> Set<Event>
-	tags		-> Set<Tag>(searchable)
-	email		:: Email // Only when reporter == null
-	nrVotes		:: Int := [ t | t : Tag in tags where /!.*/.match(t.name)].length
+	project		  -> Project	(searchable, inverse = Project.issues)
+	reporter	  -> User
+	open		    :: Bool
+	log			    -> Set<Event>
+	tags		    -> Set<Tag>(searchable)
+	email		    :: Email // Only when reporter == null
+	nrVotes		  :: Int := [ t | t : Tag in tags where /!.*/.match(t.name)].length
 	attachments -> Set<Attachment>
 	// comments -> Set<Comment>(searchable) := getComments()
 	
@@ -270,33 +272,36 @@ function newIssueNumber(p: Project) : Int {
 	}
 }
 
-define template issues(is : Set<Issue>, showProjectName : Bool) {
+section user interface
+
+template issues(is : Set<Issue>, showProjectName : Bool) {
 	issues(is, showProjectName, false)
 }
-define template issues(is : Set<Issue>, showProjectName : Bool, showTicks : Bool) {
+template issues(is : Set<Issue>, showProjectName : Bool, showTicks : Bool) {
 	issues(is, showProjectName, showTicks, true)
 }
-define template issues(is : Set<Issue>, showProjectName : Bool, showTicks : Bool, showNumbers : Bool) {
+template issues(is : Set<Issue>, showProjectName : Bool, showTicks : Bool, showNumbers : Bool) {
 	issues(is, showProjectName, showTicks, showNumbers, 33)
 }
-define template issues(is : Set<Issue>, showProjectName : Bool, showTicks : Bool, showNumbers : Bool, titleLength : Int) {
+template issues(is : Set<Issue>, showProjectName : Bool, showTicks : Bool, showNumbers : Bool, titleLength : Int) {
 	issues(is, showProjectName, showTicks, showNumbers, titleLength, false, false)
 }
 
-define template issues(is : Set<Issue>, showProjectName : Bool, showTicks : Bool, showNumbers : Bool, titleLength : Int, showTags : Bool, showNrVotes : Bool) {
+template issues(is : Set<Issue>, showProjectName : Bool, showTicks : Bool, showNumbers : Bool, titleLength : Int, showTags : Bool, showNrVotes : Bool) {
 	issues([i | i : Issue in is.list()  order by i.submitted desc], 
 		showProjectName, showTicks, showNumbers, titleLength, showTags, showNrVotes)
 }
 
-define template issues(is : List<Issue>, showProjectName : Bool, showTicks : Bool, showNumbers : Bool, titleLength : Int, showTags : Bool, showNrVotes : Bool) {
+template issues(is : List<Issue>, showProjectName : Bool, showTicks : Bool, showNumbers : Bool, titleLength : Int, showTags : Bool, showNrVotes : Bool) {
 	block [class := "Listing"] {
-		table {
+		tableBordered {
 			for(i : Issue in is) {
 				row {
 					if(showTicks) {
 						column {
 							if(!i.open) { 
-								image("/images/tick.png") 
+								//image("/images/tick.png") 
+								iOk
 							} else { 
 								"" 
 							}
@@ -309,7 +314,8 @@ define template issues(is : List<Issue>, showProjectName : Bool, showTicks : Boo
 						block[class := "Date"] { output(format(i.submitted)) }
 					}
 					if(showProjectName) {
-						column { output(abbreviate(i.project.name, 20)) }
+						column { 
+						  navigate project(i.project) { output(abbreviate(i.project.name, 20)) } }
 					}
 					column { 
 						block[class := "AbbreviatedIssueTitle"] {
@@ -330,90 +336,89 @@ define template issues(is : List<Issue>, showProjectName : Bool, showTicks : Boo
 	}
 }
 
-define page issue(p : Project, issueNumber : Int) {
-	var i := getIssue(p, issueNumber);
-	var nrVotes := i.nrVotes; // Derived props are not cached and executed on demand
+  page issue(p : Project, issueNumber : Int) {
+	  var i := getIssue(p, issueNumber);
+	  var nrVotes := i.nrVotes; // Derived props are not cached and executed on demand
 	
-	title{"#" output(i.number) " " output(i.getTitle()) " (project " output(i.project.name) " on YellowGrass.org)"}
-	main(p)
-	define body(){
-		block [class := "main"] {
-			if(securityContext.loggedIn) {
-				par [class := "Back"] {
-					rawoutput { " &raquo; " } 
-					navigate(home()) {"Home"}
-					rawoutput { " &raquo; " }
-					navigate(project(i.project)) {"Project " output(i.project.name)}
-					rawoutput { " &raquo; " }
-					"Issue " output(i.number)
-				}
-			} else {
-				par [class := "Back"] { navigate(project(i.project)) {rawoutput { " &raquo; " } " To Project"} }
-			}
+	  title{"#" output(i.number) " " output(i.getTitle()) " (project " output(i.project.name) " on YellowGrass.org)"}
+	  bmain{
+		// block [class := "main"] {
+		// 	if(securityContext.loggedIn) {
+		// 		par [class := "Back"] {
+		// 			rawoutput { " &raquo; " } 
+		// 			navigate(home()) {"Home"}
+		// 			rawoutput { " &raquo; " }
+		// 			navigate(project(i.project)) {"Project " output(i.project.name)}
+		// 			rawoutput { " &raquo; " }
+		// 			"Issue " output(i.number)
+		// 		}
+		// 	} else {
+		// 		par [class := "Back"] { navigate(project(i.project)) {rawoutput { " &raquo; " } " To Project"} }
+		// 	}
+		  gridRow{
+		  	gridSpan(2){ issueSideBar(i) }
+		    gridSpan(10){
 			
-			par{ <h2> 
-				output(i.getTitle())
-				if(nrVotes > 0) { " (" output(nrVotes) ") " } 
-				if(!i.open) {
-					image("/images/tick.png")
-				}
-			</h2> }
-			par{
-				<i> 
-				block [class := "IssueTitle"] {
-					output(i.project.name) 
-					" #" output(i.number)
-					" ("
-					if(i.reporter != null) {
-						"by " navigate(user(i.reporter.tag)){output(i.reporter.name) " "}
-					}
-					if(i.reporter == null && i.email != "" && securityContext.principal in p.members) {
-						"by " output(i.email) " "
-					}
-					"on " output(format(i.submitted)) 
-					") " 
-				}
-				" "
-				</i>
-				tags(i, true)
-			}
-			par { output(i.description) }
+			    pageHeader2{
+				    output(i.getTitle())
+				    if(nrVotes > 0) { " (" output(nrVotes) ") " } 
+				    if(!i.open) {
+				      iOk
+					    //image("/images/tick.png")
+				    }
+			    }
+			    
+			    par{
+				    <i> 
+				      block [class := "IssueTitle"] {
+					      output(i.project.name) 
+					      " #" output(i.number)
+					      " ("
+					      if(i.reporter != null) {
+						      "by " navigate(user(i.reporter.tag)){output(i.reporter.name) " "}
+					      }
+					      if(i.reporter == null && i.email != "" && securityContext.principal in p.members) {
+						      "by " output(i.email) " "
+					      }
+					      "on " output(format(i.submitted)) 
+					      ") " 
+				      }
+				      " "
+				   </i>
+				   tags(i, true)
+			   }
+			   par { output(i.description) }
 			
-			// output(/\n/.replaceAll("<br />", b1.text) as WikiText)
+			  // output(/\n/.replaceAll("<br />", b1.text) as WikiText)
 			
-			attachmentList(i)
-			attachmentAddition(i)
+			  attachmentList(i)
+			  attachmentAddition(i)
 			
-			image("/images/hr.png")
+			  image("/images/hr.png")
 			
-			if(i.log.length > 0) {
-				par { <h2> "Issue Log" </h2> }
-				par { events(i.log) }
-			}
-			commentAddition(i)
-			noCommentAddition()
+			  if(i.log.length > 0) {
+				  pageHeader2 { "Issue Log" }
+				  par { events(i.log) }
+			  }
+			  commentAddition(i)
+			  noCommentAddition()
 			
-		}
-		issueSideBar(i)
+		  }
+	  }
 	}
-}
+	}
+  
 	
-define page editIssue(i : Issue) {
+page editIssue(i : Issue) {
 	title{output(i.project.name) " issue #" output(i.number) " on YellowGrass.org [editing]"}
-	main(i.project)
-	define body(){
-		<h1> "Edit Issue " output(i.number) </h1>
-		form {
-			par {
-				label("Title") {input(i.title)}
-			}
-			par {
-				label("Description") {input(i.description)}
-			}
-			par {
-				navigate(issue(i.project, i.number)) {"Cancel"}
-				" "
-				submit("Save",save())
+	bmain(i.project){
+		pageHeader2{ "Edit Issue " output(i.number) }
+		horizontalForm {
+			controlGroup("Title") {input(i.title)}
+			controlGroup("Description") {input(i.description)}
+			formActions{
+			  submitlink save() [class="btn btn-primary"] { "Save" }
+				navigate issue(i.project, i.number) [class="btn"] {"Cancel"}			
 			}
 		}
 	}
@@ -423,23 +428,22 @@ define page editIssue(i : Issue) {
 	}
 }
 
-define page postedIssues() {
-	var postedIssues := 
-		from Issue
-		where _reporter = ~securityContext.principal
-		order by _submitted desc
-		limit 200
+  page postedIssues() {
+	  var postedIssues := 
+		  from Issue
+		  where _reporter = ~securityContext.principal
+		  order by _submitted desc
+		  limit 200
 
-	title{"Issues posted by " output(securityContext.principal.name) " on YellowGrass.org [editing]"}
-	main()
-	define body() {
-		par [class := "Back"] { 
-			rawoutput { " &raquo; " }
-			navigate(home()) {"Home"}
-			rawoutput { " &raquo; " }
-			"Posted Issues"
-		}
-		par { <h1> "Issues Posted by You" </h1> }
-		par { issues(postedIssues.set(), true, true, true, 50, true, true) }
-	}
-}
+	  title{"Issues posted by " output(securityContext.principal.name) " on YellowGrass.org [editing]"}
+	  bmain{
+		  // par [class := "Back"] { 
+			 //  rawoutput { " &raquo; " }
+			 //  navigate(home()) {"Home"}
+			 //  rawoutput { " &raquo; " }
+			 //  "Posted Issues"
+		  // }
+		  pageHeader2 { "Issues Posted by You" }
+		  par { issues(postedIssues.set(), true, true, true, 50, true, true) }
+	  }
+  }

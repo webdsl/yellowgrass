@@ -3,6 +3,10 @@ module user/ac
 principal is User with credentials email, password
 
 access control rules
+
+  rule page signin() {  
+    true
+  }
 	
 	rule page registerUser() {	
 		true
@@ -30,9 +34,5 @@ access control rules
 	}
 	
 	rule page resetUserPassword() {
-		true
-	}
-	
-	rule page resetUserPasswordComplete() {
 		true
 	}
