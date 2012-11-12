@@ -23,7 +23,7 @@ entity Project {
 	members				-> Set<User>
 	memberRequests		-> Set<User>
 	followers			-> Set<User>
-	created				:: DateTime
+	// created				:: DateTime
 	private				:: Bool		(searchable)
 	email				:: Email
 	
