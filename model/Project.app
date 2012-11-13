@@ -10,6 +10,20 @@ entity Project {
   url :: URL
   description :: WikiText
   name :: String ( id, searchable, validate(isUniqueProject(this),"Another project with this name already exists"), validate(name.length()>=3,"Project names should be three characters or longer"), validate ( /[a-z0-9A-Z._]*/.match(name) , "Project names may contain characters, numbers, dots and underscores." ) )
+  test1 :: String
+  test2 :: WikiText
+  test3 :: Email
+  test4 :: URL
+  // test5 :: Bool
+  test6 :: Int
+  test7 :: Long
+  test8 :: Float
+  test9 :: DateTime
+  test10 :: Date
+  test11 :: Time
+  test12 -> Project
+  test13 -> Set<Project>
+  // test14 -> Set<Project> 
   function toJSONRef ( ) : JSONObject
   {
     // if ( private && ! securityContext.principal in members )

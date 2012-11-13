@@ -111,9 +111,9 @@ extend entity Issue {
     else
     {
       var arraylog := JSONArray() ;
-      for ( s_4612 : Event in this.log )
+      for ( q_34452 : Event in this.log )
         {
-          arraylog.put(makeJSONObjectFromEntityRef(s_4612));
+          arraylog.put(makeJSONObjectFromEntityRef(q_34452));
         }
       object.put("log", arraylog);
     }
@@ -124,9 +124,9 @@ extend entity Issue {
     else
     {
       var arraytags := JSONArray() ;
-      for ( t_4612 : Tag in this.tags )
+      for ( r_34452 : Tag in this.tags )
         {
-          arraytags.put(makeJSONObjectFromEntityRef(t_4612));
+          arraytags.put(makeJSONObjectFromEntityRef(r_34452));
         }
       object.put("tags", arraytags);
     }
@@ -153,9 +153,9 @@ extend entity Issue {
     else
     {
       var arrayattachments := JSONArray() ;
-      for ( u_4612 : Attachment in this.attachments )
+      for ( s_34452 : Attachment in this.attachments )
         {
-          arrayattachments.put(makeJSONObjectFromEntityRef(u_4612));
+          arrayattachments.put(makeJSONObjectFromEntityRef(s_34452));
         }
       object.put("attachments", arrayattachments);
     }

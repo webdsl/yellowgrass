@@ -1,7 +1,0 @@
-Stat(
-  Call(
-    Var("set")
-  , "add"
-  , [FieldAccess(Var("this"), "issues")]
-  )
-)

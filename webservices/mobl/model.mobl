@@ -7,8 +7,8 @@ module webservices::mobl::model
     projects : Collection < Project > ( inverse : members )
     url : String
     tag : String
-    generatedPropertyForInverse_Project_followers : Collection < Project > ( inverse : followers )
-    generatedPropertyForInverse_Project_memberRequests : Collection < Project > ( inverse : memberRequests )
+    generatedPropertyForInverse_Project_followers : Project
+    generatedPropertyForInverse_Project_memberRequests : Project
   }
   entity TagRemoval {
     version : Num
@@ -28,12 +28,24 @@ module webservices::mobl::model
     description : String
     project : Project
     tags : Collection < Tag > ( inverse : generatedPropertyForInverse_Tag_tags )
-    generatedPropertyForInverse_Issue_tags : Collection < Issue > ( inverse : tags )
-    generatedPropertyForInverse_IssueGhost_tags : Collection < IssueGhost > ( inverse : tags )
-    generatedPropertyForInverse_Tag_tags : Collection < Tag > ( inverse : tags )
+    generatedPropertyForInverse_Issue_tags : Issue
+    generatedPropertyForInverse_IssueGhost_tags : IssueGhost
+    generatedPropertyForInverse_Tag_tags : Tag
   }
   entity Project {
     version : Num
+    test13 : Collection < Project > ( inverse : generatedPropertyForInverse_Project_test13 )
+    test12 : Project
+    test11 : DateTime
+    test10 : DateTime
+    test9 : DateTime
+    test8 : Num
+    test7 : Num
+    test6 : Num
+    test4 : String
+    test3 : String
+    test2 : String
+    test1 : String
     name : String ( searchable )
     description : String
     url : String
@@ -43,6 +55,7 @@ module webservices::mobl::model
     followers : Collection < User > ( inverse : generatedPropertyForInverse_Project_followers )
     private : Bool
     email : String
+    generatedPropertyForInverse_Project_test13 : Project
     lastSynced : Num
     sync : Bool
   }
@@ -91,7 +104,7 @@ module webservices::mobl::model
   entity Event {
     version : Num
     moment : DateTime
-    generatedPropertyForInverse_Issue_log : Collection < Issue > ( inverse : log )
+    generatedPropertyForInverse_Issue_log : Issue
   }
   entity Comment {
     version : Num
@@ -102,5 +115,5 @@ module webservices::mobl::model
   entity Attachment {
     version : Num
     date : DateTime
-    generatedPropertyForInverse_Issue_attachments : Collection < Issue > ( inverse : attachments )
+    generatedPropertyForInverse_Issue_attachments : Issue
   }

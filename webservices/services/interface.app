@@ -60,12 +60,25 @@ function addDirtyFalse ( json : JSONObject ) : JSONObject
   json.put("dirty", "false");
   return json;
 }
-function makeJSONErrorObject ( message : String , type : String , ent : String , id : UUID ) : JSONObject
+function makeJSONErrorObject ( message : String , type : String ) : JSONObject
 {
   var json := JSONObject() ;
   json.put("message", message);
   json.put("type", type);
-  json.put("id", id);
-  json.put("ent", ent);
   return json;
+}
+function makeJSONEntityErrorObject ( errors : JSONArray , ent : String , id : String ) : JSONObject
+{
+  var json := JSONObject() ;
+  json.put("errors", errors);
+  json.put("ent", ent);
+  json.put("id", id);
+  return json;
+}
+function addValidationExceptionsToLocalErrors ( localErrors : JSONArray , errors : List<NativeValidationException> ) : Void
+{
+  for ( ex : NativeValidationException in errors )
+    {
+      localErrors.put(makeJSONErrorObject(ex.getErrorMessage(), "error"));
+    }
 }

@@ -51,9 +51,9 @@ extend entity Tag {
     else
     {
       var arraytags := JSONArray() ;
-      for ( m_4612 : Tag in this.tags )
+      for ( j_34452 : Tag in this.tags )
         {
-          arraytags.put(makeJSONObjectFromEntityRef(m_4612));
+          arraytags.put(makeJSONObjectFromEntityRef(j_34452));
         }
       object.put("tags", arraytags);
     }

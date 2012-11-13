@@ -14,14 +14,28 @@ service webservice_generated_syncDirtyObjects ( )
       {
         for ( count : Int from 0 to entities.length() )
           {
+            var localErrors := JSONArray() ;
             var entity := ( loadEntity("User", entities.getJSONObject(count).getString("id").parseUUID()) as User ) ;
-            if ( entity.version <= entities.getJSONObject(count).getInt("version") )
+            if ( entity == null )
             {
-              mapperEditedUser(entity, entities.getJSONObject(count));
+              localErrors.put(makeJSONErrorObject("Object does not exist", "error"));
             }
             else
             {
-              errors.put(makeJSONErrorObject("already has newer version", "warning", "User", entity.id));
+              if ( entity.version <= entities.getJSONObject(count).getInt("version") )
+              {
+                mapperEditedUser(entity, entities.getJSONObject(count), localErrors);
+                var valerrors := commitAndStartNewTransaction() ;
+                addValidationExceptionsToLocalErrors(localErrors, valerrors);
+              }
+              else
+              {
+                localErrors.put(makeJSONErrorObject("Object already has newer version", "warning"));
+              }
+            }
+            if ( localErrors.length() > 0 )
+            {
+              errors.put(makeJSONEntityErrorObject(localErrors, "User", entities.getJSONObject(count).getString("id")));
             }
           }
       }
@@ -31,14 +45,28 @@ service webservice_generated_syncDirtyObjects ( )
         {
           for ( count : Int from 0 to entities.length() )
             {
+              var localErrors := JSONArray() ;
               var entity := ( loadEntity("TagRemoval", entities.getJSONObject(count).getString("id").parseUUID()) as TagRemoval ) ;
-              if ( entity.version <= entities.getJSONObject(count).getInt("version") )
+              if ( entity == null )
               {
-                mapperEditedTagRemoval(entity, entities.getJSONObject(count));
+                localErrors.put(makeJSONErrorObject("Object does not exist", "error"));
               }
               else
               {
-                errors.put(makeJSONErrorObject("already has newer version", "warning", "TagRemoval", entity.id));
+                if ( entity.version <= entities.getJSONObject(count).getInt("version") )
+                {
+                  mapperEditedTagRemoval(entity, entities.getJSONObject(count), localErrors);
+                  var valerrors := commitAndStartNewTransaction() ;
+                  addValidationExceptionsToLocalErrors(localErrors, valerrors);
+                }
+                else
+                {
+                  localErrors.put(makeJSONErrorObject("Object already has newer version", "warning"));
+                }
+              }
+              if ( localErrors.length() > 0 )
+              {
+                errors.put(makeJSONEntityErrorObject(localErrors, "TagRemoval", entities.getJSONObject(count).getString("id")));
               }
             }
         }
@@ -48,14 +76,28 @@ service webservice_generated_syncDirtyObjects ( )
           {
             for ( count : Int from 0 to entities.length() )
               {
+                var localErrors := JSONArray() ;
                 var entity := ( loadEntity("TagAddition", entities.getJSONObject(count).getString("id").parseUUID()) as TagAddition ) ;
-                if ( entity.version <= entities.getJSONObject(count).getInt("version") )
+                if ( entity == null )
                 {
-                  mapperEditedTagAddition(entity, entities.getJSONObject(count));
+                  localErrors.put(makeJSONErrorObject("Object does not exist", "error"));
                 }
                 else
                 {
-                  errors.put(makeJSONErrorObject("already has newer version", "warning", "TagAddition", entity.id));
+                  if ( entity.version <= entities.getJSONObject(count).getInt("version") )
+                  {
+                    mapperEditedTagAddition(entity, entities.getJSONObject(count), localErrors);
+                    var valerrors := commitAndStartNewTransaction() ;
+                    addValidationExceptionsToLocalErrors(localErrors, valerrors);
+                  }
+                  else
+                  {
+                    localErrors.put(makeJSONErrorObject("Object already has newer version", "warning"));
+                  }
+                }
+                if ( localErrors.length() > 0 )
+                {
+                  errors.put(makeJSONEntityErrorObject(localErrors, "TagAddition", entities.getJSONObject(count).getString("id")));
                 }
               }
           }
@@ -65,14 +107,28 @@ service webservice_generated_syncDirtyObjects ( )
             {
               for ( count : Int from 0 to entities.length() )
                 {
+                  var localErrors := JSONArray() ;
                   var entity := ( loadEntity("Tag", entities.getJSONObject(count).getString("id").parseUUID()) as Tag ) ;
-                  if ( entity.version <= entities.getJSONObject(count).getInt("version") )
+                  if ( entity == null )
                   {
-                    mapperEditedTag(entity, entities.getJSONObject(count));
+                    localErrors.put(makeJSONErrorObject("Object does not exist", "error"));
                   }
                   else
                   {
-                    errors.put(makeJSONErrorObject("already has newer version", "warning", "Tag", entity.id));
+                    if ( entity.version <= entities.getJSONObject(count).getInt("version") )
+                    {
+                      mapperEditedTag(entity, entities.getJSONObject(count), localErrors);
+                      var valerrors := commitAndStartNewTransaction() ;
+                      addValidationExceptionsToLocalErrors(localErrors, valerrors);
+                    }
+                    else
+                    {
+                      localErrors.put(makeJSONErrorObject("Object already has newer version", "warning"));
+                    }
+                  }
+                  if ( localErrors.length() > 0 )
+                  {
+                    errors.put(makeJSONEntityErrorObject(localErrors, "Tag", entities.getJSONObject(count).getString("id")));
                   }
                 }
             }
@@ -82,14 +138,28 @@ service webservice_generated_syncDirtyObjects ( )
               {
                 for ( count : Int from 0 to entities.length() )
                   {
+                    var localErrors := JSONArray() ;
                     var entity := ( loadEntity("Project", entities.getJSONObject(count).getString("id").parseUUID()) as Project ) ;
-                    if ( entity.version <= entities.getJSONObject(count).getInt("version") )
+                    if ( entity == null )
                     {
-                      mapperEditedProject(entity, entities.getJSONObject(count));
+                      localErrors.put(makeJSONErrorObject("Object does not exist", "error"));
                     }
                     else
                     {
-                      errors.put(makeJSONErrorObject("already has newer version", "warning", "Project", entity.id));
+                      if ( entity.version <= entities.getJSONObject(count).getInt("version") )
+                      {
+                        mapperEditedProject(entity, entities.getJSONObject(count), localErrors);
+                        var valerrors := commitAndStartNewTransaction() ;
+                        addValidationExceptionsToLocalErrors(localErrors, valerrors);
+                      }
+                      else
+                      {
+                        localErrors.put(makeJSONErrorObject("Object already has newer version", "warning"));
+                      }
+                    }
+                    if ( localErrors.length() > 0 )
+                    {
+                      errors.put(makeJSONEntityErrorObject(localErrors, "Project", entities.getJSONObject(count).getString("id")));
                     }
                   }
               }
@@ -99,14 +169,28 @@ service webservice_generated_syncDirtyObjects ( )
                 {
                   for ( count : Int from 0 to entities.length() )
                     {
+                      var localErrors := JSONArray() ;
                       var entity := ( loadEntity("IssueReopen", entities.getJSONObject(count).getString("id").parseUUID()) as IssueReopen ) ;
-                      if ( entity.version <= entities.getJSONObject(count).getInt("version") )
+                      if ( entity == null )
                       {
-                        mapperEditedIssueReopen(entity, entities.getJSONObject(count));
+                        localErrors.put(makeJSONErrorObject("Object does not exist", "error"));
                       }
                       else
                       {
-                        errors.put(makeJSONErrorObject("already has newer version", "warning", "IssueReopen", entity.id));
+                        if ( entity.version <= entities.getJSONObject(count).getInt("version") )
+                        {
+                          mapperEditedIssueReopen(entity, entities.getJSONObject(count), localErrors);
+                          var valerrors := commitAndStartNewTransaction() ;
+                          addValidationExceptionsToLocalErrors(localErrors, valerrors);
+                        }
+                        else
+                        {
+                          localErrors.put(makeJSONErrorObject("Object already has newer version", "warning"));
+                        }
+                      }
+                      if ( localErrors.length() > 0 )
+                      {
+                        errors.put(makeJSONEntityErrorObject(localErrors, "IssueReopen", entities.getJSONObject(count).getString("id")));
                       }
                     }
                 }
@@ -116,14 +200,28 @@ service webservice_generated_syncDirtyObjects ( )
                   {
                     for ( count : Int from 0 to entities.length() )
                       {
+                        var localErrors := JSONArray() ;
                         var entity := ( loadEntity("IssueMoved", entities.getJSONObject(count).getString("id").parseUUID()) as IssueMoved ) ;
-                        if ( entity.version <= entities.getJSONObject(count).getInt("version") )
+                        if ( entity == null )
                         {
-                          mapperEditedIssueMoved(entity, entities.getJSONObject(count));
+                          localErrors.put(makeJSONErrorObject("Object does not exist", "error"));
                         }
                         else
                         {
-                          errors.put(makeJSONErrorObject("already has newer version", "warning", "IssueMoved", entity.id));
+                          if ( entity.version <= entities.getJSONObject(count).getInt("version") )
+                          {
+                            mapperEditedIssueMoved(entity, entities.getJSONObject(count), localErrors);
+                            var valerrors := commitAndStartNewTransaction() ;
+                            addValidationExceptionsToLocalErrors(localErrors, valerrors);
+                          }
+                          else
+                          {
+                            localErrors.put(makeJSONErrorObject("Object already has newer version", "warning"));
+                          }
+                        }
+                        if ( localErrors.length() > 0 )
+                        {
+                          errors.put(makeJSONEntityErrorObject(localErrors, "IssueMoved", entities.getJSONObject(count).getString("id")));
                         }
                       }
                   }
@@ -133,14 +231,28 @@ service webservice_generated_syncDirtyObjects ( )
                     {
                       for ( count : Int from 0 to entities.length() )
                         {
+                          var localErrors := JSONArray() ;
                           var entity := ( loadEntity("IssueGhost", entities.getJSONObject(count).getString("id").parseUUID()) as IssueGhost ) ;
-                          if ( entity.version <= entities.getJSONObject(count).getInt("version") )
+                          if ( entity == null )
                           {
-                            mapperEditedIssueGhost(entity, entities.getJSONObject(count));
+                            localErrors.put(makeJSONErrorObject("Object does not exist", "error"));
                           }
                           else
                           {
-                            errors.put(makeJSONErrorObject("already has newer version", "warning", "IssueGhost", entity.id));
+                            if ( entity.version <= entities.getJSONObject(count).getInt("version") )
+                            {
+                              mapperEditedIssueGhost(entity, entities.getJSONObject(count), localErrors);
+                              var valerrors := commitAndStartNewTransaction() ;
+                              addValidationExceptionsToLocalErrors(localErrors, valerrors);
+                            }
+                            else
+                            {
+                              localErrors.put(makeJSONErrorObject("Object already has newer version", "warning"));
+                            }
+                          }
+                          if ( localErrors.length() > 0 )
+                          {
+                            errors.put(makeJSONEntityErrorObject(localErrors, "IssueGhost", entities.getJSONObject(count).getString("id")));
                           }
                         }
                     }
@@ -150,14 +262,28 @@ service webservice_generated_syncDirtyObjects ( )
                       {
                         for ( count : Int from 0 to entities.length() )
                           {
+                            var localErrors := JSONArray() ;
                             var entity := ( loadEntity("IssueClose", entities.getJSONObject(count).getString("id").parseUUID()) as IssueClose ) ;
-                            if ( entity.version <= entities.getJSONObject(count).getInt("version") )
+                            if ( entity == null )
                             {
-                              mapperEditedIssueClose(entity, entities.getJSONObject(count));
+                              localErrors.put(makeJSONErrorObject("Object does not exist", "error"));
                             }
                             else
                             {
-                              errors.put(makeJSONErrorObject("already has newer version", "warning", "IssueClose", entity.id));
+                              if ( entity.version <= entities.getJSONObject(count).getInt("version") )
+                              {
+                                mapperEditedIssueClose(entity, entities.getJSONObject(count), localErrors);
+                                var valerrors := commitAndStartNewTransaction() ;
+                                addValidationExceptionsToLocalErrors(localErrors, valerrors);
+                              }
+                              else
+                              {
+                                localErrors.put(makeJSONErrorObject("Object already has newer version", "warning"));
+                              }
+                            }
+                            if ( localErrors.length() > 0 )
+                            {
+                              errors.put(makeJSONEntityErrorObject(localErrors, "IssueClose", entities.getJSONObject(count).getString("id")));
                             }
                           }
                       }
@@ -167,14 +293,28 @@ service webservice_generated_syncDirtyObjects ( )
                         {
                           for ( count : Int from 0 to entities.length() )
                             {
+                              var localErrors := JSONArray() ;
                               var entity := ( loadEntity("Issue", entities.getJSONObject(count).getString("id").parseUUID()) as Issue ) ;
-                              if ( entity.version <= entities.getJSONObject(count).getInt("version") )
+                              if ( entity == null )
                               {
-                                mapperEditedIssue(entity, entities.getJSONObject(count));
+                                localErrors.put(makeJSONErrorObject("Object does not exist", "error"));
                               }
                               else
                               {
-                                errors.put(makeJSONErrorObject("already has newer version", "warning", "Issue", entity.id));
+                                if ( entity.version <= entities.getJSONObject(count).getInt("version") )
+                                {
+                                  mapperEditedIssue(entity, entities.getJSONObject(count), localErrors);
+                                  var valerrors := commitAndStartNewTransaction() ;
+                                  addValidationExceptionsToLocalErrors(localErrors, valerrors);
+                                }
+                                else
+                                {
+                                  localErrors.put(makeJSONErrorObject("Object already has newer version", "warning"));
+                                }
+                              }
+                              if ( localErrors.length() > 0 )
+                              {
+                                errors.put(makeJSONEntityErrorObject(localErrors, "Issue", entities.getJSONObject(count).getString("id")));
                               }
                             }
                         }
@@ -184,14 +324,28 @@ service webservice_generated_syncDirtyObjects ( )
                           {
                             for ( count : Int from 0 to entities.length() )
                               {
+                                var localErrors := JSONArray() ;
                                 var entity := ( loadEntity("Event", entities.getJSONObject(count).getString("id").parseUUID()) as Event ) ;
-                                if ( entity.version <= entities.getJSONObject(count).getInt("version") )
+                                if ( entity == null )
                                 {
-                                  mapperEditedEvent(entity, entities.getJSONObject(count));
+                                  localErrors.put(makeJSONErrorObject("Object does not exist", "error"));
                                 }
                                 else
                                 {
-                                  errors.put(makeJSONErrorObject("already has newer version", "warning", "Event", entity.id));
+                                  if ( entity.version <= entities.getJSONObject(count).getInt("version") )
+                                  {
+                                    mapperEditedEvent(entity, entities.getJSONObject(count), localErrors);
+                                    var valerrors := commitAndStartNewTransaction() ;
+                                    addValidationExceptionsToLocalErrors(localErrors, valerrors);
+                                  }
+                                  else
+                                  {
+                                    localErrors.put(makeJSONErrorObject("Object already has newer version", "warning"));
+                                  }
+                                }
+                                if ( localErrors.length() > 0 )
+                                {
+                                  errors.put(makeJSONEntityErrorObject(localErrors, "Event", entities.getJSONObject(count).getString("id")));
                                 }
                               }
                           }
@@ -201,14 +355,28 @@ service webservice_generated_syncDirtyObjects ( )
                             {
                               for ( count : Int from 0 to entities.length() )
                                 {
+                                  var localErrors := JSONArray() ;
                                   var entity := ( loadEntity("Comment", entities.getJSONObject(count).getString("id").parseUUID()) as Comment ) ;
-                                  if ( entity.version <= entities.getJSONObject(count).getInt("version") )
+                                  if ( entity == null )
                                   {
-                                    mapperEditedComment(entity, entities.getJSONObject(count));
+                                    localErrors.put(makeJSONErrorObject("Object does not exist", "error"));
                                   }
                                   else
                                   {
-                                    errors.put(makeJSONErrorObject("already has newer version", "warning", "Comment", entity.id));
+                                    if ( entity.version <= entities.getJSONObject(count).getInt("version") )
+                                    {
+                                      mapperEditedComment(entity, entities.getJSONObject(count), localErrors);
+                                      var valerrors := commitAndStartNewTransaction() ;
+                                      addValidationExceptionsToLocalErrors(localErrors, valerrors);
+                                    }
+                                    else
+                                    {
+                                      localErrors.put(makeJSONErrorObject("Object already has newer version", "warning"));
+                                    }
+                                  }
+                                  if ( localErrors.length() > 0 )
+                                  {
+                                    errors.put(makeJSONEntityErrorObject(localErrors, "Comment", entities.getJSONObject(count).getString("id")));
                                   }
                                 }
                             }
@@ -218,14 +386,28 @@ service webservice_generated_syncDirtyObjects ( )
                               {
                                 for ( count : Int from 0 to entities.length() )
                                   {
+                                    var localErrors := JSONArray() ;
                                     var entity := ( loadEntity("Attachment", entities.getJSONObject(count).getString("id").parseUUID()) as Attachment ) ;
-                                    if ( entity.version <= entities.getJSONObject(count).getInt("version") )
+                                    if ( entity == null )
                                     {
-                                      mapperEditedAttachment(entity, entities.getJSONObject(count));
+                                      localErrors.put(makeJSONErrorObject("Object does not exist", "error"));
                                     }
                                     else
                                     {
-                                      errors.put(makeJSONErrorObject("already has newer version", "warning", "Attachment", entity.id));
+                                      if ( entity.version <= entities.getJSONObject(count).getInt("version") )
+                                      {
+                                        mapperEditedAttachment(entity, entities.getJSONObject(count), localErrors);
+                                        var valerrors := commitAndStartNewTransaction() ;
+                                        addValidationExceptionsToLocalErrors(localErrors, valerrors);
+                                      }
+                                      else
+                                      {
+                                        localErrors.put(makeJSONErrorObject("Object already has newer version", "warning"));
+                                      }
+                                    }
+                                    if ( localErrors.length() > 0 )
+                                    {
+                                      errors.put(makeJSONEntityErrorObject(localErrors, "Attachment", entities.getJSONObject(count).getString("id")));
                                     }
                                   }
                               }
