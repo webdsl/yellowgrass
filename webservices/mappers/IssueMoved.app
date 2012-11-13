@@ -1,31 +1,71 @@
 module webservices/mappers/IssueMoved
-function mapperEditedIssueMoved ( ent : IssueMoved , json : JSONObject ) : Void
+function mapperEditedIssueMoved ( ent : IssueMoved , json : JSONObject , localerrors : JSONArray ) : Void
 {
-  var temp := json.getJSONObject("actor") ;
-  if ( temp != null )
+  if ( ! json.has("actor") )
   {
-    var localent := ( loadEntity("User", temp.getString("id").parseUUID()) as User ) ;
-    if ( localent != null )
-    {
-      ent.actor := localent;
-    }
+    localerrors.put(makeJSONErrorObject("Entity is missing property actor", "warning"));
   }
   else
   {
-    ent.actor := null;
-  }
-  var temp := json.getJSONObject("target") ;
-  if ( temp != null )
-  {
-    var localent := ( loadEntity("Issue", temp.getString("id").parseUUID()) as Issue ) ;
-    if ( localent != null )
+    if ( json.get("actor") == json.NULL )
     {
-      ent.target := localent;
+      ent.actor := null;
     }
+    else
+    {
+      var temp := json.getJSONObject("actor") ;
+      var localent := ( loadEntity("User", temp.getString("id").parseUUID()) as User ) ;
+      if ( localent != null )
+      {
+        ent.actor := localent;
+      }
+      else
+      {
+        localerrors.put(makeJSONErrorObject("Trying to set non existing object for property: actor", "warning"));
+      }
+    }
+  }
+  if ( ! json.has("target") )
+  {
+    localerrors.put(makeJSONErrorObject("Entity is missing property target", "warning"));
   }
   else
   {
-    ent.target := null;
+    if ( json.get("target") == json.NULL )
+    {
+      ent.target := null;
+    }
+    else
+    {
+      var temp := json.getJSONObject("target") ;
+      var localent := ( loadEntity("Issue", temp.getString("id").parseUUID()) as Issue ) ;
+      if ( localent != null )
+      {
+        ent.target := localent;
+      }
+      else
+      {
+        localerrors.put(makeJSONErrorObject("Trying to set non existing object for property: target", "warning"));
+      }
+    }
   }
-  ent.moment.setTime(json.getLong("moment") * 1000L);
+  if ( ! json.has("moment") )
+  {
+    localerrors.put(makeJSONErrorObject("Entity is missing property moment", "warning"));
+  }
+  else
+  {
+    if ( json.get("moment") == json.NULL )
+    {
+      ent.moment := null;
+    }
+    else
+    {
+      if ( ent.moment == null )
+      {
+        ent.moment := now();
+      }
+      ent.moment.setTime(json.getLong("moment") * 1000L);
+    }
+  }
 }
