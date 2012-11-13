@@ -2,6 +2,7 @@ module webservices::mobl::sync
   import webservices :: mobl :: mapper
   import webservices :: mobl :: model
   import webservices :: mobl :: unsync
+  import webservices :: mobl :: simpleView
   service Sync {
     resource sendEdits ( arg : [ JSON ] ) : JSON {
       uri="webservice/syncDirtyObjects"
@@ -225,4 +226,120 @@ module webservices::mobl::sync
     var errors = Sync . sendEdits ( array ) ;
     setSyncFlag(false);
     return errors;
+  }
+  function clearDirty ( excludes : [ String ] ) {
+    var value = User . all ( ) . filter ( "dirty" , "=" , true ) ;
+    foreach ( ent in value ) {
+      if ( ! excludes . contains ( ent . id ) )
+      {
+        ent . dirty = false ;
+      }
+    }
+    var value = TagRemoval . all ( ) . filter ( "dirty" , "=" , true ) ;
+    foreach ( ent in value ) {
+      if ( ! excludes . contains ( ent . id ) )
+      {
+        ent . dirty = false ;
+      }
+    }
+    var value = TagAddition . all ( ) . filter ( "dirty" , "=" , true ) ;
+    foreach ( ent in value ) {
+      if ( ! excludes . contains ( ent . id ) )
+      {
+        ent . dirty = false ;
+      }
+    }
+    var value = Tag . all ( ) . filter ( "dirty" , "=" , true ) ;
+    foreach ( ent in value ) {
+      if ( ! excludes . contains ( ent . id ) )
+      {
+        ent . dirty = false ;
+      }
+    }
+    var value = Project . all ( ) . filter ( "sync" , "=" , true ) . filter ( "dirty" , "=" , true ) ;
+    foreach ( ent in value ) {
+      if ( ! excludes . contains ( ent . id ) )
+      {
+        ent . dirty = false ;
+      }
+    }
+    var value = IssueReopen . all ( ) . filter ( "dirty" , "=" , true ) ;
+    foreach ( ent in value ) {
+      if ( ! excludes . contains ( ent . id ) )
+      {
+        ent . dirty = false ;
+      }
+    }
+    var value = IssueMoved . all ( ) . filter ( "dirty" , "=" , true ) ;
+    foreach ( ent in value ) {
+      if ( ! excludes . contains ( ent . id ) )
+      {
+        ent . dirty = false ;
+      }
+    }
+    var value = IssueGhost . all ( ) . filter ( "dirty" , "=" , true ) ;
+    foreach ( ent in value ) {
+      if ( ! excludes . contains ( ent . id ) )
+      {
+        ent . dirty = false ;
+      }
+    }
+    var value = IssueClose . all ( ) . filter ( "dirty" , "=" , true ) ;
+    foreach ( ent in value ) {
+      if ( ! excludes . contains ( ent . id ) )
+      {
+        ent . dirty = false ;
+      }
+    }
+    var value = Issue . all ( ) . filter ( "dirty" , "=" , true ) ;
+    foreach ( ent in value ) {
+      if ( ! excludes . contains ( ent . id ) )
+      {
+        ent . dirty = false ;
+      }
+    }
+    var value = Event . all ( ) . filter ( "dirty" , "=" , true ) ;
+    foreach ( ent in value ) {
+      if ( ! excludes . contains ( ent . id ) )
+      {
+        ent . dirty = false ;
+      }
+    }
+    var value = Comment . all ( ) . filter ( "dirty" , "=" , true ) ;
+    foreach ( ent in value ) {
+      if ( ! excludes . contains ( ent . id ) )
+      {
+        ent . dirty = false ;
+      }
+    }
+    var value = Attachment . all ( ) . filter ( "dirty" , "=" , true ) ;
+    foreach ( ent in value ) {
+      if ( ! excludes . contains ( ent . id ) )
+      {
+        ent . dirty = false ;
+      }
+    }
+  }
+  function getListofIds ( errorents : JSON ) : [ String ] {
+    var ids : [ String ] = [ ] ;
+    foreach ( errorent in errorents ) {
+      if ( errorent . id )
+      {
+        ids . push ( errorent . id );
+      }
+    }
+    return ids;
+  }
+  function testSync ( errorCTRL : Control3 < JSON , ? , Function0 < void > > = showErrors , detailCTRL : Control2 < String , String > = showObject ) : void {
+    var errors = syncEdits ( ) ;
+    clearDirty(getListofIds(errors));
+    if ( errors . length > 0 )
+    {
+      showErrorsEmptyScreen(errors,errorCTRL,detailCTRL,continueSync);
+    }
+    continueSync();
+  }
+  function continueSync ( ) {
+    clearDirty([]);
+    syncAll();
   }

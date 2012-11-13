@@ -83,48 +83,68 @@ module webservices::mobl::simpleView
   screen showObjectEmptyScreen ( type : String , id : String , entityCTRL : Control2 < String , String > ) {
     entityCTRL ( type , id )
   }
-  style
-  customWarningItemStyle
-  {
-  itemMixin
-  (
-  #000
-  ,
-  #ff5
-  )
-  ;
+  style customWarningItemStyle {
+    itemMixin ( #000 , #ff5 ) ;
   }
-  style
-  customErrorItemStyle
-  {
-  itemMixin
-  (
-  #000
-  ,
-  #f1
-  )
-  ;
+  style customErrorItemStyle {
+    itemMixin ( #000 , #f1 ) ;
   }
-  control showErrors ( errors : JSON , detailview : Control2 < String , String > = showObject ) {
-    header ( "Errors" )
-    list ( error in errors ) {
-      when ( error . type == "warning" ) {
-        item ( style = customWarningItemStyle , onclick = { if ( detailview != null )
-                                                            {
-                                                              showObjectEmptyScreen(error.ent,error.id,detailview);
-                                                            } } ) {
-          label ( error . message )
+  control SimpleErrorViewControl ( errorTuple : Tuple2 < JSON , Control2 < String , String > > ) {
+    when ( errorTuple . _1 . id ) {
+      item {
+        label ( errorTuple . _1 . ent + " : " + errorTuple . _1 . id )
+      }
+    }
+    else {
+    item {
+      label ( errorTuple . _1 . message )
+    }
+    }
+  }
+  control DetailErrorViewControl ( errorTuple : Tuple2 < JSON , Control2 < String , String > > ) {
+    when ( errorTuple . _1 . id ) {
+      item {
+        label ( errorTuple . _1 . ent + " : " + errorTuple . _1 . id )
+      }
+      when ( errorTuple . _2 != null ) {
+        item ( onclick = { showObjectEmptyScreen(errorTuple._1.ent,errorTuple._1.id,errorTuple._2); } ) {
+          label ( "Show Object" )
         }
       }
-      when ( error . type == "error" ) {
-        item ( style = customErrorItemStyle , onclick = { if ( detailview != null )
-                                                          {
-                                                            showObjectEmptyScreen(error.ent,error.id,detailview);
-                                                          } } ) {
-          label ( error . message )
+      list ( error in errorTuple . _1 . errors ) {
+        when ( error . type == "warning" ) {
+          item ( style = customWarningItemStyle ) {
+            label ( error . message )
+          }
+        }
+        when ( error . type == "error" ) {
+          item ( style = customErrorItemStyle ) {
+            label ( error . message )
+          }
         }
       }
     }
+    else {
+    item {
+      label ( errorTuple . _1 . message )
+    }
+    }
+  }
+  control showErrors ( errors : JSON , detailview : Control2 < String , String > = showObject , ignoreFunction : Function0 < void > ) {
+    header ( "Errors" ) {
+      backButton ( "back" , onclick = { back(); } )
+      button ( "ignore" , onclick = { back(); ignoreFunction(); } )
+    }
+    var collection = Collection < Tuple2 < JSON , Control2 < String , String > > > ( ) ;
+    script {
+      foreach ( error in errors ) {
+        collection . add ( ( error , detailview ) );
+      }
+    }
+    zoomList ( collection , SimpleErrorViewControl , DetailErrorViewControl )
+  }
+  screen showErrorsEmptyScreen ( errors : JSON , ctrl : Control2 < JSON , ? > , detailCTRL : Control2 < String , String > , continueFunction : Function0 < void > ) {
+    ctrl ( errors , detailCTRL , continueFunction )
   }
   control showUserSimple ( ent : User ) {
     header ( "User" ) {
