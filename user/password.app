@@ -2,38 +2,36 @@ module user/password
 
 imports emails
 
-page editUserPassword(u : User){
-	var temp : Secret;
+  page editUserPassword(u : User){
+    var pw   : Secret;
+	  var temp : Secret;
+    //var current : Secret;
 	
-	title{"YellowGrass.org - Change Password"}
-	bmain{
-		//var current : Secret;
-		pageHeader{ "Change Password" }
-		horizontalForm {
-			/*par { 
-				label("Current Password"){
-					input(current){ validate(u.password.check(current), "Incorrect password") }
-				}
-			} */ // TODO This does not seem to work. Fix it and add it for security reasons
-		  controlGroup("New Password"){
-		    input(u.password)
+	  title{"YellowGrass.org - Change Password"}
+	  bmain{
+		  pageHeader{ "Change Password" }
+		  horizontalForm { 
+			  // controlGroup("Current Password"){
+			  // 		input(current){ validate(u.password.check(current), "Incorrect password") }
+			  // 	}
+			  // } // TODO This does not seem to work. Fix it and add it for security reasons
+		    controlGroup("New Password"){
+		      input(pw)
+		    }
+			  controlGroup("Repeat New Password"){
+			    input(temp){ validate(pw == temp, "Passwords do not match") } 
+			  }
+			  formActions{
+			    navigate home() [class="btn"] { "Cancel" } " "
+			    submitlink changePassword() [class="btn btn-primary"] { "Change" }
+			  }
 		  }
-			controlGroup("Repeat New Password"){
-			  input(temp){ validate(u.password == temp, "Passwords do not match") } 
-			}
-			formActions{
-			  navigate home() [class="btn"] { "Cancel" } " "
-			  submitlink changePassword() [class="btn btn-primary"] { "Change" }
-			}
-		}
-	}
-	action changePassword(){
-		var pass : String := u.password.toString();
-		u.password := u.password.digest();
-		u.save();
-		return home();
-	}
-}
+	  }
+	  action changePassword(){
+		  u.password := pw.digest();
+		  return home();
+	  }
+  }
 
   page resetUserPassword(){
 	  title{"YellowGrass.org - Request Password Reset"}
