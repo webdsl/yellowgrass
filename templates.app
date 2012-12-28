@@ -152,7 +152,7 @@ define body(){
   }
 
   override page accessDenied() {
-	  title{ "YellowGrass.org - Access Denied" }
+	  title{ "YellowGrass.org - Access Denied" }  
 	  bmain{
 		  pageHeader2{ "You are not allowed to visit this page" }
 		  par{

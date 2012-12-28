@@ -2,7 +2,7 @@ module user/ac
 
 principal is User with credentials email, password
 
-access control rules
+access control rules 
 
   rule page signin() {  
     true
