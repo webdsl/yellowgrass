@@ -1,5 +1,5 @@
 module issue/sidebar
-  
+ 
   template issueSideBar(i : Issue) {
 	  div [class = "sidebar"] {
 		  //projectCommands(i.project) 
@@ -22,19 +22,14 @@ module issue/sidebar
 	  par { addTag(i) }
 	  action close(issue : Issue){
 		  issue.close();
-		  issue.save();
-		  issue.notifyClose();
 		  return issue(issue.project, issue.number);
 	  }
 	  action reopen(issue : Issue){
 		  issue.reopen();
-		  issue.save();
-		  issue.notifyReopen();
 		  return issue(issue.project, issue.number);
-	  } 
+	  }   
 	  action vote(issue : Issue){
-		  var tag := tag("!" + securityContext.principal.tag, issue.project);
-		  issue.addTag(tag);
+		  issue.vote();
 		  return issue(issue.project, issue.number);
 	  }
 	  action showIssueMoveTargets(issue : Issue){
