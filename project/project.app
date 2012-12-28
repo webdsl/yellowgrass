@@ -12,6 +12,11 @@ imports project/statistics
 imports tag/tag
 imports user/user 
 
+section navigation
+
+  template nav(p: Project) {
+    navigate project(p) { output(p.name) }
+  }
 
 section user interface
 

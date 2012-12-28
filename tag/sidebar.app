@@ -2,7 +2,7 @@ module tag/sidebar
 
   template tagSideBar(t : Tag) {
 	  block [class := "sidebar"] {
-		  //projectCommands(t.project)
+		  //projectCommands(t.project) 
 		  hrule
 		  tagCommands(t)
       hrule

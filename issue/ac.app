@@ -45,7 +45,13 @@ access control rules
 		principal in issue.project.members && 
 		principal.projects.length > 1
 	}
-	
+
+  rule template issueMoveTargetsMenu (issue : Issue){
+    loggedIn() && 
+    principal in issue.project.members && 
+    principal.projects.length > 1
+  }
+  	
 	rule ajaxtemplate issueMoveTargets (issue : Issue){
 		principal in issue.project.members && 
 		principal.projects.length > 1
@@ -68,27 +74,48 @@ access control rules
 			principal == i.reporter
 		}
 	}
-	
-	rule template issueCommands(i : Issue) {
-		mayAccess(i.project)
-		
-		rule action close(issue : Issue) {
-			principal in issue.project.members &&
-			issue.open
-		}
-		
-		rule action reopen(issue : Issue) {
-			principal in issue.project.members &&
-			(!issue.open)
-		}
-		
-		rule action vote(issue : Issue) {
-			loggedIn &&
-			mayAccess(issue.project) && 
-			!issue.hasTag("!"+principal.tag) && 
-			!(principal == issue.reporter)
-		}
-	}
+
+  rule template issueCommandsMenu(i : Issue) {
+    mayAccess(i.project)
+    
+    rule action close(issue : Issue) {
+      principal in issue.project.members &&
+      issue.open
+    }
+    
+    rule action reopen(issue : Issue) {
+      principal in issue.project.members &&
+      (!issue.open)
+    }
+    
+    rule action vote(issue : Issue) {
+      loggedIn &&
+      mayAccess(issue.project) && 
+      !issue.hasTag("!"+principal.tag) && 
+      !(principal == issue.reporter)
+    }
+  }
+  	
+	// rule template issueCommands(i : Issue) {
+	// 	mayAccess(i.project)
+	// 	
+	// 	rule action close(issue : Issue) {
+	// 		principal in issue.project.members &&
+	// 		issue.open
+	// 	}
+	// 	
+	// 	rule action reopen(issue : Issue) {
+	// 		principal in issue.project.members &&
+	// 		(!issue.open)
+	// 	}
+	// 	
+	// 	rule action vote(issue : Issue) {
+	// 		loggedIn &&
+	// 		mayAccess(issue.project) && 
+	// 		!issue.hasTag("!"+principal.tag) && 
+	// 		!(principal == issue.reporter)
+	// 	}
+	// }
 	
 	rule template issueSideBar(i : Issue) {
 		mayAccess(i.project)

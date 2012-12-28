@@ -68,6 +68,33 @@ section operations
         email(issueReopenNotification(this, e));
       }
     }
+    
+    function moveTo(p: Project): Issue {
+      var new := Issue { // todo: define clone method on Issue
+        title := this.title
+        description := this.description
+        submitted := now()
+        project := p
+        number := newIssueNumber(p)
+        open := true
+        reporter := this.reporter
+        email := this.email
+      };
+      new.assign();
+      new.save();
+    
+      this.log.add(
+        IssueMoved {
+          moment := now()
+          actor := securityContext.principal
+          target := new 
+        }
+      );
+      this.close();
+      flush();
+      new.notifyRegister();
+      return new;  
+    }
   }
   
 section queries

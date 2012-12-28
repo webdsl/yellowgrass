@@ -15,6 +15,12 @@ imports issue/attachment
 imports issue/issueBrowser
 imports issue/ghost
 
+section navigation
+
+  template nav(i: Issue) {
+    navigate issue(i.project, i.number) [all attributes] { "Issue " output(i.number) }
+  }
+
 section issue page
 
   page issue(p : Project, issueNumber : Int) {
@@ -36,23 +42,21 @@ section issue page
     //  } else {
     //    par [class := "Back"] { navigate(project(i.project)) {rawoutput { " &raquo; " } " To Project"} }
     //  }
+    
+
+      issueCommandsMenu(i)
+      pageHeader2{
+        output(i.getTitle())
+        if(nrVotes > 0) { " (" output(nrVotes) ") " } 
+        if(!i.open) { iOk }
+      }
       gridRow{
-        gridSpan(2){ issueSideBar(i) }
-        gridSpan(10){
-      
-          pageHeader2{
-            output(i.getTitle())
-            if(nrVotes > 0) { " (" output(nrVotes) ") " } 
-            if(!i.open) {
-              iOk
-              //image("/images/tick.png")
-            }
-          }
-          
+        //gridSpan(2){ issueSideBar(i) }
+        gridSpan(12){             
           par{
             <i> 
-              block [class := "IssueTitle"] {
-                output(i.project.name) 
+              div [class := "IssueTitle"] {
+                nav(i.project)  
                 " #" output(i.number)
                 " ("
                 if(i.reporter != null) {
@@ -68,6 +72,7 @@ section issue page
            </i>
            tags(i, true)
          }
+         
          par { output(i.description) }
       
         // output(/\n/.replaceAll("<br />", b1.text) as WikiText)
@@ -116,14 +121,7 @@ template issues(is : List<Issue>, showProjectName : Bool, showTicks : Bool, show
 			for(i : Issue in is) {
 				row {
 					if(showTicks) {
-						column {
-							if(!i.open) { 
-								//image("/images/tick.png") 
-								iOk
-							} else { 
-								"" 
-							}
-						}
+						column { if(!i.open) { iOk } }
 					}
 					if(showNumbers) {
 						column { output(i.number) }
@@ -155,26 +153,32 @@ template issues(is : List<Issue>, showProjectName : Bool, showTicks : Bool, show
 }
 
 
-  
+section edit issue 
 	
-page editIssue(i : Issue) {
-	title{output(i.project.name) " issue #" output(i.number) " on YellowGrass.org [editing]"}
-	bmain(i.project){
-		pageHeader2{ "Edit Issue " output(i.number) }
-		horizontalForm {
-			controlGroup("Title") {input(i.title)}
-			controlGroup("Description") {input(i.description)}
-			formActions{
-			  submitlink save() [class="btn btn-primary"] { "Save" }
-				navigate issue(i.project, i.number) [class="btn"] {"Cancel"}			
-			}
-		}
-	}
-	action save(){
-		i.save();
-		return issue(i.project, i.number);
-	}
-}
+  page editIssue(i : Issue) {
+	  title{output(i.project.name) " issue #" output(i.number) " on YellowGrass.org [editing]"}
+
+    action save(){
+      return issue(i.project, i.number);
+    }
+    
+    bmain(i.project){
+	    issueCommandsMenu(i)
+		  pageHeader2{ "Edit Issue " output(i.number) }
+		  horizontalForm {
+			  controlGroup("Title") { input(i.title) }
+			  controlGroup("Description") { 
+			    input(i.description)[style="height: 400px;"] 
+			  }
+			  formActions{
+			    submitlink save() [class="btn btn-primary"] { "Save" } " " 
+				  navigate issue(i.project, i.number) [class="btn"] {"Cancel"}			
+			  }
+		  }
+	  }
+  } 
+
+section issues posted by principal
 
   page postedIssues() {
 	  var postedIssues := 
