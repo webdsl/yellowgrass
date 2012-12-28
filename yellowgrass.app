@@ -11,7 +11,7 @@ imports project/project
 imports user/register
 imports tag/tag
 
-section user interface
+section root page
 
   page root() {
 	  title{"YellowGrass.org - The Tag-Based Issue Tracker"}
@@ -25,11 +25,7 @@ section user interface
       order by max(i._submitted) desc
       limit 10;
 
-    var recentIssues : List<Issue> := 
-      from Issue as i
-      where i._project._private=false
-      order by _submitted desc
-      limit 27;
+    var recentIssues : List<Issue> := recentIssues();
       
 	bmain{		
 		gridRow{
@@ -66,6 +62,8 @@ section user interface
 	}
 }
 
+section about page
+
   page about() {
 	  title{"About YellowGrass"}
 	  bmain{
@@ -85,7 +83,7 @@ section user interface
 			  " Its source code is distributed under under the " <a href="http://www.affero.org/agpl2.html">"Affero General Public License"</a> "."
 		  }
 		  par {
-			  "The source code repository can be found at: " <a href="https://svn.strategoxt.org/repos/issolar">"https://svn.strategoxt.org/repos/issolar"</a>
+			  "The source code repository can be found at: " <a href="https://github.com/webdsl/yellowgrass">"https://github.com/webdsl/yellowgrass"</a>
 		  }
 		  
 		  pageHeader{ "Contributions" }
