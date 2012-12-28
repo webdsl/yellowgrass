@@ -36,7 +36,25 @@ imports elib/lib
       ygfooter
     }
     analytics
-  } 
+  }
+  
+  define mainResponsive(p: Project) { 
+    mainResponsiveStyle{ 
+      navbarResponsive{ 
+        navItems{
+          navItem{ navigate about() { "About" } }
+          projectMenu(p)
+        }
+        pullRight{ signInOut } 
+      }
+      gridContainer{  
+        messages
+        elements 
+      }
+      ygfooter
+    }
+    analytics
+  }
   
   template ygfooter() {
     footer{

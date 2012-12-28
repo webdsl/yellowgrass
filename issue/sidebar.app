@@ -1,8 +1,8 @@
 module issue/sidebar
-
+  
   template issueSideBar(i : Issue) {
 	  div [class = "sidebar"] {
-		  projectCommands(i.project)
+		  //projectCommands(i.project) 
 		  issueCommands(i)
       hrule
       par{ tags(i.project.getCommonTags(80), i.project) }

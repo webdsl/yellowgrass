@@ -31,8 +31,8 @@ template main(project : Project) {
 
 template bmain(project : Project) {
   includeCSS("tags.css")
-  mainResponsive{  
-    elements
+  mainResponsive(project){  
+    elements 
   }
 }
 
@@ -40,7 +40,7 @@ template bmain() {
   includeCSS("tags.css")
   mainResponsive{  
     elements
-  }
+  } 
 }
 
 template analytics() {

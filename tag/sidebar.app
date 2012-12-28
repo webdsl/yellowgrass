@@ -2,13 +2,13 @@ module tag/sidebar
 
   template tagSideBar(t : Tag) {
 	  block [class := "sidebar"] {
-		  projectCommands(t.project)
+		  //projectCommands(t.project)
 		  hrule
 		  tagCommands(t)
       hrule
       par{ tags(t.project.getCommonTags(80), t.project) }
 	  }
-  }
+  } 
 
   template tagCommands(t : Tag) {
 	  pageHeader4 { output(abbreviateNE(t.name,12)) }

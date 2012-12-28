@@ -15,6 +15,80 @@ imports issue/attachment
 imports issue/issueBrowser
 imports issue/ghost
 
+section issue page
+
+  page issue(p : Project, issueNumber : Int) {
+    var i := getIssue(p, issueNumber);
+    var nrVotes := i.nrVotes; // Derived props are not cached and executed on demand
+  
+    title{"#" output(i.number) " " output(i.getTitle()) " (project " output(i.project.name) " on YellowGrass.org)"}
+    bmain(p){  
+    // block [class := "main"] {
+    //  if(securityContext.loggedIn) {
+    //    par [class := "Back"] {
+    //      rawoutput { " &raquo; " } 
+    //      navigate(home()) {"Home"}
+    //      rawoutput { " &raquo; " }
+    //      navigate(project(i.project)) {"Project " output(i.project.name)}
+    //      rawoutput { " &raquo; " }
+    //      "Issue " output(i.number)
+    //    }
+    //  } else {
+    //    par [class := "Back"] { navigate(project(i.project)) {rawoutput { " &raquo; " } " To Project"} }
+    //  }
+      gridRow{
+        gridSpan(2){ issueSideBar(i) }
+        gridSpan(10){
+      
+          pageHeader2{
+            output(i.getTitle())
+            if(nrVotes > 0) { " (" output(nrVotes) ") " } 
+            if(!i.open) {
+              iOk
+              //image("/images/tick.png")
+            }
+          }
+          
+          par{
+            <i> 
+              block [class := "IssueTitle"] {
+                output(i.project.name) 
+                " #" output(i.number)
+                " ("
+                if(i.reporter != null) {
+                  "by " navigate(user(i.reporter.tag)){output(i.reporter.name) " "}
+                }
+                if(i.reporter == null && i.email != "" && securityContext.principal in p.members) {
+                  "by " output(i.email) " "
+                }
+                "on " output(format(i.submitted)) 
+                ") " 
+              }
+              " "
+           </i>
+           tags(i, true)
+         }
+         par { output(i.description) }
+      
+        // output(/\n/.replaceAll("<br />", b1.text) as WikiText)
+      
+        attachmentList(i)
+        attachmentAddition(i)
+      
+        image("/images/hr.png")
+      
+        if(i.log.length > 0) {
+          pageHeader2 { "Issue Log" }
+          par { events(i.log) }
+        }
+        commentAddition(i)
+        noCommentAddition()
+      
+      }
+    }
+  }
+  }
+
 
 section user interface
 
@@ -80,77 +154,7 @@ template issues(is : List<Issue>, showProjectName : Bool, showTicks : Bool, show
 	}
 }
 
-  page issue(p : Project, issueNumber : Int) {
-	  var i := getIssue(p, issueNumber);
-	  var nrVotes := i.nrVotes; // Derived props are not cached and executed on demand
-	
-	  title{"#" output(i.number) " " output(i.getTitle()) " (project " output(i.project.name) " on YellowGrass.org)"}
-	  bmain{
-		// block [class := "main"] {
-		// 	if(securityContext.loggedIn) {
-		// 		par [class := "Back"] {
-		// 			rawoutput { " &raquo; " } 
-		// 			navigate(home()) {"Home"}
-		// 			rawoutput { " &raquo; " }
-		// 			navigate(project(i.project)) {"Project " output(i.project.name)}
-		// 			rawoutput { " &raquo; " }
-		// 			"Issue " output(i.number)
-		// 		}
-		// 	} else {
-		// 		par [class := "Back"] { navigate(project(i.project)) {rawoutput { " &raquo; " } " To Project"} }
-		// 	}
-		  gridRow{
-		  	gridSpan(2){ issueSideBar(i) }
-		    gridSpan(10){
-			
-			    pageHeader2{
-				    output(i.getTitle())
-				    if(nrVotes > 0) { " (" output(nrVotes) ") " } 
-				    if(!i.open) {
-				      iOk
-					    //image("/images/tick.png")
-				    }
-			    }
-			    
-			    par{
-				    <i> 
-				      block [class := "IssueTitle"] {
-					      output(i.project.name) 
-					      " #" output(i.number)
-					      " ("
-					      if(i.reporter != null) {
-						      "by " navigate(user(i.reporter.tag)){output(i.reporter.name) " "}
-					      }
-					      if(i.reporter == null && i.email != "" && securityContext.principal in p.members) {
-						      "by " output(i.email) " "
-					      }
-					      "on " output(format(i.submitted)) 
-					      ") " 
-				      }
-				      " "
-				   </i>
-				   tags(i, true)
-			   }
-			   par { output(i.description) }
-			
-			  // output(/\n/.replaceAll("<br />", b1.text) as WikiText)
-			
-			  attachmentList(i)
-			  attachmentAddition(i)
-			
-			  image("/images/hr.png")
-			
-			  if(i.log.length > 0) {
-				  pageHeader2 { "Issue Log" }
-				  par { events(i.log) }
-			  }
-			  commentAddition(i)
-			  noCommentAddition()
-			
-		  }
-	  }
-	}
-	}
+
   
 	
 page editIssue(i : Issue) {

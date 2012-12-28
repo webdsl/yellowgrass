@@ -246,7 +246,7 @@ section user interface
       limit 500
       
 	  title{output(p.name) " / " output(tag) " - on YellowGrass.org"}
-	  bmain(p){ 
+	  bmain(p){  
       gridRow{
         gridSpan(2) { tagSideBar(t) }
         gridSpan(10) {
