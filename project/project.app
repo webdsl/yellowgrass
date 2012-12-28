@@ -18,25 +18,25 @@ section user interface
   page project(p : Project) {
     title{output(p.name) " on YellowGrass.org" }
     
-	  var recentIssues : List<Issue> := 
-		  from Issue
-		  where _open = true and _project = ~p
-		  order by _submitted desc
-		  limit 10;
+	  var recentIssues : List<Issue> := p.recentIssues(10)
+		  // from Issue
+		  // where _open = true and _project = ~p
+		  // order by _submitted desc
+		  // limit 10;
 	
-	  var popularIssues : List<Issue> := 
-		  select i
-		  from Issue as i
-		  left join i.tags as t
-		  where 
-			  i._open = true and 
-			  i._project = ~p and
-			  t._name like ~"!%"
-		  group by i 
-		  order by count(t._name) desc //order by aggregation is not supported in MySQL :(
-		  limit 10;
+	  var popularIssues : List<Issue> := p.popularIssues(10);
+		  // select i
+		  // from Issue as i
+		  // left join i.tags as t
+		  // where 
+			 //  i._open = true and 
+			 //  i._project = ~p and
+			 //  t._name like ~"!%"
+		  // group by i 
+		  // order by count(t._name) desc //order by aggregation is not supported in MySQL :(
+		  // limit 10;
 	
-	  bmain(p){
+	  bmain(p){ 
 	    gridRow{
 	      // gridSpan(12){ 
 	      //   pageHeader { navigate(project(p))  { output(p.name) } } 
