@@ -17,18 +17,20 @@ section root page
 	  title{"YellowGrass.org - The Tag-Based Issue Tracker"}      
 	  bmain{		
 		  gridRow{
-		    gridSpan(8){		    
-		      pageHeader{ "About YellowGrass" }
-				  par {
-					  "YellowGrass is a tag-based issue tracker."
-				  }
-          par {
-					  "It supports issue voting, issue tagging, roadmaps, assigning and following issues, private and public projects, full text search, email updates, action logging and much more. "
-					  "YellowGrass is fully web-based and free of charge. Registering your project is just a few clicks away. "
-					  "Take a look at YellowGrass's " navigate(features()){"Feature List"} " or " navigate(registerUser()){"Register"} " right away."
+		    gridSpan(4){		  
+		      pageHeader2{ "About YellowGrass" }  
+		      well{    
+				    par {
+					    "YellowGrass is a tag-based issue tracker."
+				    }
+            par {
+					    "It supports issue voting, issue tagging, roadmaps, assigning and following issues, private and public projects, full text search, email updates, action logging and much more. "
+					    "YellowGrass is fully web-based and free of charge. Registering your project is just a few clicks away. "
+					    "Take a look at YellowGrass's " navigate(features()){"Feature List"} " or " navigate(registerUser()){"Register"} " right away."
+				    }
 				  }
 		    }
-        gridSpan(4){ 
+        gridSpan(8){ 
           pageHeader2{ "Some Active Projects" }
           tableBordered {
             for(p : Project in activeProjects()) {
@@ -42,7 +44,7 @@ section root page
         }
 	    }
 	    gridRow{
-	      gridSpan(8){		
+	      gridSpan(12){		
 			    pageHeader2{ "Recent Issues" }
 		      par { issues(recentIssues().set(), true, false, false, 40) }
 		    }
