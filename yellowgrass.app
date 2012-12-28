@@ -16,15 +16,7 @@ section root page
   page root() {
 	  title{"YellowGrass.org - The Tag-Based Issue Tracker"}
 	
-    var activeProjects : List<Project> := 
-      select p
-      from Project as p
-      join p.issues as i
-      where _private=false
-      group by p
-      order by max(i._submitted) desc
-      limit 10;
-
+    var activeProjects : List<Project> := activeProjects();
     var recentIssues : List<Issue> := recentIssues();
       
 	bmain{		
