@@ -14,45 +14,41 @@ imports tag/tag
 section root page
 
   page root() {
-	  title{"YellowGrass.org - The Tag-Based Issue Tracker"}
-	
-    var activeProjects : List<Project> := activeProjects();
-    var recentIssues : List<Issue> := recentIssues();
-      
-	bmain{		
-		gridRow{
-		  gridSpan(12){		    
-		    pageHeader{ "About YellowGrass" }
-				par {
-					"YellowGrass is a user-friendly, tag-based issue tracker."
-				}
-        par {
-					"It supports issue voting, issue tagging, roadmaps, assigning and following issues, private and public projects, full text search, email updates, action logging and much more. "
-					"YellowGrass is fully web-based and free of charge. Registering your project is just a few clicks away. "
-					"Take a look at YellowGrass's " navigate(features()){"Feature List"} " or " navigate(registerUser()){"Register"} " right away."
-				}
+	  title{"YellowGrass.org - The Tag-Based Issue Tracker"}      
+	  bmain{		
+		  gridRow{
+		    gridSpan(8){		    
+		      pageHeader{ "About YellowGrass" }
+				  par {
+					  "YellowGrass is a tag-based issue tracker."
+				  }
+          par {
+					  "It supports issue voting, issue tagging, roadmaps, assigning and following issues, private and public projects, full text search, email updates, action logging and much more. "
+					  "YellowGrass is fully web-based and free of charge. Registering your project is just a few clicks away. "
+					  "Take a look at YellowGrass's " navigate(features()){"Feature List"} " or " navigate(registerUser()){"Register"} " right away."
+				  }
+		    }
+        gridSpan(4){ 
+          pageHeader2{ "Some Active Projects" }
+          tableBordered {
+            for(p : Project in activeProjects()) {
+              row { 
+                column { navigate project(p) { output(p.name) } }
+                column { output(p.url) }
+              }
+            }
+          }
+          par { navigate projectList() { "View all Projects" } }      
+        }
+	    }
+	    gridRow{
+	      gridSpan(8){		
+			    pageHeader2{ "Recent Issues" }
+		      par { issues(recentIssues().set(), true, false, false, 40) }
+		    }
 		  }
 	  }
-	  gridRow{
-      gridSpan(4){ 
-				pageHeader2{ "Some Active Projects" }
-				tableBordered {
-				  for(p : Project in activeProjects) {
-					  row { 
-							column { navigate project(p) { output(p.name) } }
-							column { output(p.url) }
-						}
-					}
-				}
-				par { navigate projectList() { "View all Projects" } }			
-			}
-	    gridSpan(8){		
-			  pageHeader2{ "Recent Issues" }
-		    par { issues(recentIssues.set(), true, false, false, 40) }
-		  }
-		}
-	}
-}
+  }
 
 section about page
 
