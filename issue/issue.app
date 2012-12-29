@@ -29,21 +29,6 @@ section issue page
   
     title{"#" output(i.number) " " output(i.getTitle()) " (project " output(i.project.name) " on YellowGrass.org)"}
     bmain(p){  
-    // block [class := "main"] {
-    //  if(securityContext.loggedIn) {
-    //    par [class := "Back"] {
-    //      rawoutput { " &raquo; " } 
-    //      navigate(home()) {"Home"}
-    //      rawoutput { " &raquo; " }
-    //      navigate(project(i.project)) {"Project " output(i.project.name)}
-    //      rawoutput { " &raquo; " }
-    //      "Issue " output(i.number)
-    //    }
-    //  } else {
-    //    par [class := "Back"] { navigate(project(i.project)) {rawoutput { " &raquo; " } " To Project"} }
-    //  }
-    
-
       issueCommandsMenu(i)
       pageHeader2{
         output(i.getTitle())
@@ -51,49 +36,43 @@ section issue page
         if(!i.open) { iOk }
       }
       gridRow{
-        //gridSpan(2){ issueSideBar(i) }
-        gridSpan(12){             
+        gridSpan(6){             
           par{
-            <i> 
-              div [class := "IssueTitle"] {
-                nav(i.project)  
-                " #" output(i.number)
-                " ("
-                if(i.reporter != null) {
-                  "by " navigate(user(i.reporter.tag)){output(i.reporter.name) " "}
-                }
-                if(i.reporter == null && i.email != "" && securityContext.principal in p.members) {
-                  "by " output(i.email) " "
-                }
-                "on " output(format(i.submitted)) 
-                ") " 
-              }
-              " "
-           </i>
-           tags(i, true)
-         }
-         
-         par { output(i.description) }
-      
-        // output(/\n/.replaceAll("<br />", b1.text) as WikiText)
-      
-        attachmentList(i)
-        attachmentAddition(i)
-      
-        image("/images/hr.png")
-      
-        if(i.log.length > 0) {
-          pageHeader2 { "Issue Log" }
-          par { events(i.log) }
+            nav(i.project) " issue # " output(i.number)
+            " submitted "
+            if(i.reporter != null) {
+              "by " navigate(user(i.reporter.tag)){output(i.reporter.name) " "}
+            } else { if(i.email != "" && securityContext.principal in p.members) {
+              "by " output(i.email) " "
+            } }
+            "on " output(format(i.submitted))
+          }
         }
-        commentAddition(i)
-        noCommentAddition()
+        gridSpan(6) {
+          pullRight{ par{ tags(i, true) } } 
+        }
+      }
+      gridRow{
+        gridSpan(12){
+          blockquote { output(i.description) }
       
+          // output(/\n/.replaceAll("<br />", b1.text) as WikiText)
+      
+          attachmentList(i)
+          attachmentAddition(i)
+      
+          hrule
+      
+          if(i.log.length > 0) {
+            pageHeader2 { "Issue Log" }
+            par { events(i.log) }
+          }
+          commentAddition(i)
+          noCommentAddition()
+        }
       }
     }
   }
-  }
-
 
 section user interface
 
