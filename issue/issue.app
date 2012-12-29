@@ -27,7 +27,7 @@ section navigation
   
   template reporter(i: Issue, prefix: String) {
     if(i.reporter != null) {
-      output(prefix) navigate(user(i.reporter.tag)){output(i.reporter.name) " "}
+      output(prefix) navigate(user(i.reporter.tag)){ output(i.reporter.name) }  " "
     } else { if(i.email != "" && securityContext.principal in i.project.members) {
       output(prefix) output(i.email) " " 
     } }    
@@ -40,21 +40,23 @@ section issue page
     var nrVotes := i.nrVotes; // Derived props are not cached and executed on demand
   
     title{"#" output(i.number) " " output(i.getTitle()) " (project " output(i.project.name) " on YellowGrass.org)"}
-    bmain(p){  
+    bmain{  
       issueCommandsMenu(i)
       pageHeader2{
         output(i.getTitle()) " "
         if(nrVotes > 0) { " (" output(nrVotes) ") " } 
         if(!i.open) { iOk }
-      }   
+      }
       gridRow{
         gridSpan(12){
-          blockquote { output(i.description) }
+          blockquote { output(i.description) } 
+          pullRight{ addTag(i) }          
+          tags(i, true) 
           hrule
         }
       }
       gridRow{
-        gridSpan(6){             
+        gridSpan(12){             
           par{
             nav(i.project) " issue # " output(i.number)
             " submitted "
@@ -62,12 +64,10 @@ section issue page
             "on " output(format(i.submitted))
           }
         }
-        gridSpan(6) {
-          pullRight{ par{ tags(i, true) } } 
-        }
       }
       gridRow{
         gridSpan(12){
+          hrule
           // output(/\n/.replaceAll("<br />", b1.text) as WikiText)
       
           attachmentList(i)
