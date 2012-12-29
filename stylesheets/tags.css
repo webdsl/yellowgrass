@@ -48,25 +48,47 @@
 .Tag a:hover 	{ color: #bdb947; text-decoration: none; }
 .Tag a:active 	{ color: #bdb947; text-decoration: none; }
 
+/* release */
+
 .ReleaseTag {
 	border: 1px solid #b2cdde;
 	background: #d1e1eb;
 }
-
 .ReleaseTag a:link 		{ color: #488fbc; }
 .ReleaseTag a:visited	{ color: #488fbc; }
 .ReleaseTag a:hover 	{ color: #488fbc; }
 .ReleaseTag a:active 	{ color: #488fbc; }
 
+a.ReleaseTag {
+  border: 1px solid #b2cdde;
+  background: #d1e1eb;
+}
+a.ReleaseTag:link    { color: #488fbc; }
+a.ReleaseTag:visited { color: #488fbc; }
+a.ReleaseTag:hover   { color: #488fbc; }
+a.ReleaseTag:active  { color: #488fbc; }
+
+/* issue type */
+
 .IssuetypeTag {
 	border: 1px solid #c8c8c8;
 	background: #dedede;
 }
-
 .IssuetypeTag a:link 	{ color: #828282; }
 .IssuetypeTag a:visited	{ color: #828282; }
 .IssuetypeTag a:hover 	{ color: #828282; }
 .IssuetypeTag a:active 	{ color: #828282; }
+
+a.IssuetypeTag {
+  border: 1px solid #c8c8c8;
+  background: #dedede;
+}
+a.IssuetypeTag:link  { color: #828282; }
+a.IssuetypeTag:visited { color: #828282; }
+a.IssuetypeTag:hover   { color: #828282; }
+a.IssuetypeTag:active  { color: #828282; }
+
+/* red */
 
 .RedTag {
 	border: 1px solid #deb2b2;
@@ -78,35 +100,74 @@
 .RedTag a:hover 	{ color: #bc4848; }
 .RedTag a:active 	{ color: #bc4848; }
 
-.GreenTag {
+a.RedTag {
+  border: 1px solid #deb2b2;
+  background: #ebd1d1;
+}
+a.RedTag:link    { color: #bc4848; }
+a.RedTag:visited { color: #bc4848; }
+a.RedTag:hover   { color: #bc4848; }
+a.RedTag:active  { color: #bc4848; }
+
+/* green */
+
+a.GreenTag {
 	border: 1px solid #b2deb7;
 	background: #d1ebd4;
 }
+a.GreenTag:link 	 { color: #48bc56; }
+a.GreenTag:visited { color: #48bc56; }
+a.GreenTag:hover 	 { color: #48bc56; }
+a.GreenTag:active  { color: #48bc56; }
 
-.GreenTag a:link 	{ color: #48bc56; }
-.GreenTag a:visited	{ color: #48bc56; }
-.GreenTag a:hover 	{ color: #48bc56; }
-.GreenTag a:active 	{ color: #48bc56; }
+.GreenTag {
+  border: 1px solid #b2deb7;
+  background: #d1ebd4;
+}
+.GreenTag a:link  { color: #48bc56; }
+.GreenTag a:visited { color: #48bc56; }
+.GreenTag a:hover   { color: #48bc56; }
+.GreenTag a:active  { color: #48bc56; }
 
-.GreyTag {
+/* grey */
+
+a.GreyTag {
 	border: 1px solid #c8c8c8;
 	background: #dedede;
 }
+a.GreyTag:link 	{ color: #828282; }
+a.GreyTag:visited	{ color: #828282; }
+a.GreyTag:hover 	{ color: #828282; }
+a.GreyTag:active 	{ color: #828282; }
 
-.GreyTag a:link 	{ color: #828282; }
-.GreyTag a:visited	{ color: #828282; }
-.GreyTag a:hover 	{ color: #828282; }
-.GreyTag a:active 	{ color: #828282; }
+.GreyTag {
+  border: 1px solid #c8c8c8;
+  background: #dedede;
+}
+.GreyTag a:link   { color: #828282; }
+.GreyTag a:visited  { color: #828282; }
+.GreyTag a:hover  { color: #828282; }
+.GreyTag a:active   { color: #828282; }
+
+/* purple */
 
 .PurpleTag {
 	border: 1px solid #bcb2de;
 	background: #d7d1eb;
 }
-
 .PurpleTag a:link 		{ color: #6348bc; }
 .PurpleTag a:visited	{ color: #6348bc; }
 .PurpleTag a:hover 		{ color: #6348bc; }
 .PurpleTag a:active 	{ color: #6348bc; }
+
+a.PurpleTag {
+  border: 1px solid #bcb2de;
+  background: #d7d1eb;
+}
+a.PurpleTag:link     { color: #6348bc; }
+a.PurpleTag:visited  { color: #6348bc; }
+a.PurpleTag:hover    { color: #6348bc; }
+a.PurpleTag:active   { color: #6348bc; }
 
 /**************** Tag Controls ****************/
 

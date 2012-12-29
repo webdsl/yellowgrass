@@ -104,21 +104,21 @@ section user interface
   }
 
   template tags(i : Issue, editing : Bool, summary : Bool) {
-	  div [class = getTagsStylingClass(summary)] {
+    action deleteTag(i : Issue, t : Tag) {
+      i.deleteTag(t);
+      i.save();
+      tagCleanup(t);
+      return issue(i.project, i.number);
+    }
+    span [class = getTagsStylingClass(summary)] {
 		  for(tag : Tag in arrangeTags(i.tags, summary)) {
-			  div [class:=tag.getStylingClass()] {
-				  navigate tag(i.project, tag.name) { output(tag.name) } 
+		    buttonGroupSpan{
+				  navigate tag(i.project, tag.name) [class="btn btn-mini " + tag.getStylingClass()] { output(tag.name) } 
 				  if(editing) {
-					  " " submitlink deleteTag(i, tag) { "[x]" }
-				  }
+					  submitlink deleteTag(i, tag) [class="btn btn-mini " + tag.getStylingClass()] { "x" }
+			    }
 			  }
 		  } separated-by { " " }
-	  }
-	  action deleteTag(i : Issue, t : Tag) {
-		  i.deleteTag(t);
-		  i.save();
-		  tagCleanup(t);
-		  return issue(i.project, i.number);
 	  }
   }
 

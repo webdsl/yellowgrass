@@ -46,19 +46,19 @@ section data model
   
     function getStylingClass() : String{
       if(hasTag("release")) {
-        return "ReleaseTag Tag";
+        return "ReleaseTag";
       } if(hasTag("red")) {
-        return "RedTag Tag";
+        return "RedTag";
       } if(hasTag("green")) {
-        return "GreenTag Tag";
+        return "GreenTag";
       } if(hasTag("grey")) {
-        return "GreyTag Tag";
+        return "GreyTag";
       } if(hasTag("purple")) {
-        return "PurpleTag Tag";
+        return "PurpleTag";
       } if(hasTag(ISSUE_TYPE_TAG())) { // Can be overridden by custom colors 
-        return "IssuetypeTag Tag";
+        return "IssuetypeTag";
       } else {
-        return "Tag";
+        return "";
       }
     }
   
