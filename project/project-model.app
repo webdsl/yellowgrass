@@ -51,6 +51,15 @@ section queries
   }
 
   extend entity Project {
+    
+    function taggedIssues(tag: Tag): List<Issue> {
+      return select i
+      from Issue as i
+      left join i._tags as t
+      where t._name = ~(tag.name) and t._project = ~this
+      limit 500;
+    } 
+     
     function recentIssues(n: Int): List<Issue> {
       return from Issue
         where _open = true and _project = ~this

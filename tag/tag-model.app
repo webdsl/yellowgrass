@@ -24,7 +24,7 @@ section data model
     function hasTag(tagName : String) : Bool {
       for( t : Tag in tags) {
         if(t.name == tagName) {
-          return true;
+          return true; 
         }
       }
       return false;
@@ -82,6 +82,24 @@ section data model
     }
   }
   
+section suggest tags
+
+  function tagSuggestions(tagPrefix : String, issue : Issue): List<Tag> {
+    var tagSearchString := tagPrefix.toLowerCase() + "%";
+    var suggestions : List<Tag> := (
+      select t
+      from  Issue as i left join i.tags as t  // Joint to only select used tags (subqueries not supported)
+      where i._project = ~issue.project and
+        t._project = ~issue.project and   // Not really needed, but improves performance
+        t._name like ~tagSearchString and
+        t._name not like ~tagSuggestionFilter(tagPrefix)
+      group by t._name
+      order by count(i) desc
+      limit 5
+    ) as List<Tag>;
+    return suggestions;  
+  }
+  
 section issue tags
 
   extend entity Issue {
@@ -131,35 +149,35 @@ section issue tags
     }
   }
 
-function getTag(t : String, p : Project) : Tag {
-  var tags : List<Tag> := 
-    from Tag
-    where _name = ~t.toLowerCase() and _project = ~p;
-  if(tags.length == 0) {
-    return Tag {}; 
-  } else {
-    return tags.get(0);
-  }
-}
-
-function getFollowers(ts : Set<Tag>) : Set<User> {
-  var followers : Set<User> := {User{}};
-  followers.clear();
-  for(t : Tag in ts) {
-    if(/![a-z0-9]+/.match(t.name)) {
-      var tagSuffixArray := t.name.split();
-      tagSuffixArray.removeAt(0);
-      var tagSuffix := tagSuffixArray.concat();
-      var us : List<User> := 
-        from User
-        where _tag = ~tagSuffix;
-      if(us.length > 0) {
-        followers.add(us.get(0));
-      }
+  function getTag(t : String, p : Project) : Tag {
+    var tags : List<Tag> := 
+      from Tag
+      where _name = ~t.toLowerCase() and _project = ~p;
+    if(tags.length == 0) {
+      return Tag {}; 
+    } else {
+      return tags.get(0);
     }
   }
-  return followers;
-}
+
+  function getFollowers(ts : Set<Tag>) : Set<User> {
+    var followers : Set<User> := {User{}};
+    followers.clear();
+    for(t : Tag in ts) {
+      if(/![a-z0-9]+/.match(t.name)) {
+        var tagSuffixArray := t.name.split();
+        tagSuffixArray.removeAt(0);
+        var tagSuffix := tagSuffixArray.concat();
+        var us : List<User> := 
+          from User
+          where _tag = ~tagSuffix;
+        if(us.length > 0) {
+          followers.add(us.get(0));
+        }
+      }
+    }
+    return followers;
+  }
 
 /**
  ** Deletes the given tag if:

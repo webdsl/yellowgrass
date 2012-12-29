@@ -46,7 +46,14 @@ access control rules
       principal in tagToRemoveFrom.project.members
     }
   }
-	
+
+  rule template showTag(i: Issue, tag: Tag, editing: Bool) {
+    mayAccess(i.project)
+    rule action deleteTag(i : Issue, t : Tag) {
+      principal in i.project.members
+    }
+  }
+  	
 	rule template tags(ts : List<Tag>, p : Project) {
 		mayAccess(p)
 	}

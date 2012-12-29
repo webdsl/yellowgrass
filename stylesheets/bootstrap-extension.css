@@ -1,3 +1,8 @@
+
+.btn, .dropdown-menu {
+  font-family: Arial, sans-serif;
+}
+
 body {
 	font-size: 16px;
 	line-height: 1.5em;

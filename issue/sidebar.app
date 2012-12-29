@@ -20,7 +20,7 @@ section issue commands
             buttonGroup{               
               nav(i)[class="btn"] 
               dropdownCaret{
-                dropdownMenuItem{ reporter(i, "Submitted by ") } 
+                dropdownMenuItem{ reporter(i, "") } 
                 dropdownMenuItem{ <a href="#">"Submitted on " output(format(i.submitted)) </a> }
                 dropdownMenuItem{ if(i.nrVotes > 0) { <a href="#"> output(i.nrVotes) " Votes" </a> } }
               }

@@ -1,10 +1,10 @@
 module tag/manual
 
-define template tagHelp(){
-	"[" navigate tagManual() { "?" } "]"
-}
-
-define page tagManual() {
+  template tagHelp(){
+	  navigate tagManual() [class="btn btn-mini", style="height:14px;padding:7px;", title="Tag Help"] { "?" }
+  }
+ 
+page tagManual() {
 	title{"How to Tag on YellowGrass"}
 	main()
 	define body() {

@@ -50,9 +50,9 @@
 .Tag a:active 	{ color: #bdb947; text-decoration: none; }
 
 a.DefaultTag {
-  padding-left: 4px;
+  /* padding-left: 4px;
   padding-right: 4px;
-  display: inline;
+  display: inline; */
   background: #ebebd1;
   border: 1px solid #deddb2;
 }
@@ -63,6 +63,7 @@ a.DefaultTag:active   { color: #bdb947; text-decoration: none; }
 
 /* release */
 
+/*
 .ReleaseTag {
 	border: 1px solid #b2cdde;
 	background: #d1e1eb;
@@ -71,6 +72,7 @@ a.DefaultTag:active   { color: #bdb947; text-decoration: none; }
 .ReleaseTag a:visited	{ color: #488fbc; }
 .ReleaseTag a:hover 	{ color: #488fbc; }
 .ReleaseTag a:active 	{ color: #488fbc; }
+*/
 
 a.ReleaseTag {
   border: 1px solid #b2cdde;

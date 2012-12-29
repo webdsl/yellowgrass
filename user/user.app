@@ -49,6 +49,10 @@ var yellowGrass :=
 		  par { issues(reportedIssues.set(), true, true, true, 50, true, true) }
 	  }
   }
+  
+  template nav(u: User) {
+    navigate user(u.tag) { output(u.name) } 
+  }
 
   template users(us : Set<User>) {
 	  for(u : User in us) {

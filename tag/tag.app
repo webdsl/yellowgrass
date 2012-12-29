@@ -5,20 +5,20 @@ imports tag/ac
 imports tag/sidebar
 imports tag/manual
 imports user/user
-// imports issue/issue
+imports issue/issue
 imports project/roadmap
 imports comment/tagControl
 
-section user interface
+section tag page
 
   page tag(p : Project, tag : String) {
     var t := getTag(tag, p);
-    var taggedIssues : List<Issue> :=
-      select i
-      from Issue as i
-      left join i._tags as t
-      where t._name = ~tag and t._project = ~p
-      limit 500
+    var taggedIssues : List<Issue> := p.taggedIssues(t);
+      // select i
+      // from Issue as i
+      // left join i._tags as t
+      // where t._name = ~tag and t._project = ~p
+      // limit 500
       
 	  title{output(p.name) " / " output(tag) " - on YellowGrass.org"}
 	  bmain(p){  
@@ -28,8 +28,8 @@ section user interface
       }
       gridRow{ gridSpan(12){ pullRight{ par{ tags(t, true) } } } } 
       gridRow{
-        gridSpan(2) { tagSideBar(t) }
-        gridSpan(10) {
+        //gridSpan(2) { tagSideBar(t) }
+        gridSpan(12) {
 				  if(t.description != null && t.description != "") {
 					  par{ <i> output(t.description) </i> }
 				  }
@@ -42,6 +42,7 @@ section user interface
   page editTag(p : Project, t : Tag) {
 	  title{output(t.project.name) "." output(t.name) " on YellowGrass.org [Editing]"}
 	  bmain(p){
+      tagCommandsToolbar(t) 
 		  pageHeader2{ "Edit Tag" }
 		  horizontalForm {
 			  controlGroup("Name") { input(t.name) }
@@ -53,22 +54,38 @@ section user interface
 			}
 		}
 	  action save(){
-		  t.save();
 		  return tag(t.project, t.name);
 	  }
   }
   
+section displaying tags
+  
   template showTag(owner: Tag, tag : Tag, editing : Bool) {
+    action deleteTag(tagToRemoveFrom : Tag, tagToRemove : Tag) {
+      tagToRemoveFrom.tags.remove(tagToRemove);
+      tagCleanup(tagToRemove);
+      //return tag(tag.project, tag.name);
+    }   
     buttonGroupSpan{
       navigate tag(tag.project, tag.name) [class="btn btn-mini " + tag.getStylingClass()] { output(tag.name) } 
       if(editing) {
         submitlink deleteTag(owner, tag) [class="btn btn-mini " + tag.getStylingClass()] { "x" }
       }
-    } 
-    action deleteTag(tagToRemoveFrom : Tag, tagToRemove : Tag) {
-      tagToRemoveFrom.tags.remove(tagToRemove);
-      tagCleanup(tagToRemove);
-      //return tag(tag.project, tag.name);
+    }
+  }
+  
+  template showTag(i: Issue, tag: Tag, editing: Bool) {
+    action deleteTag(i : Issue, t : Tag) {
+      i.deleteTag(t);
+      i.save();
+      tagCleanup(t);
+      //return issue(i.project, i.number);
+    }
+    buttonGroupSpan{
+      navigate tag(i.project, tag.name) [class="btn btn-mini " + tag.getStylingClass()] { output(tag.name) }     
+      if(editing) {
+        submitlink deleteTag(i, tag) [class="btn btn-mini " + tag.getStylingClass()] { "x" }
+      }
     }
   }
 
@@ -94,107 +111,81 @@ section user interface
   }
 
   template tags(i : Issue, editing : Bool, summary : Bool) {
-    action deleteTag(i : Issue, t : Tag) {
-      i.deleteTag(t);
-      i.save();
-      tagCleanup(t);
-      return issue(i.project, i.number);
-    }
-    span [class = getTagsStylingClass(summary)] {
-		  for(tag : Tag in arrangeTags(i.tags, summary)) {
-		    buttonGroupSpan{
-				  navigate tag(i.project, tag.name) [class="btn btn-mini " + tag.getStylingClass()] { output(tag.name) } 
-				  if(editing) {
-					  submitlink deleteTag(i, tag) [class="btn btn-mini " + tag.getStylingClass()] { "x" }
-			    }
-			  }
-		  } separated-by { " " }
-	  }
+    for(tag : Tag in arrangeTags(i.tags, summary)) {
+		  showTag(i, tag, editing)
+		} separated-by { " " } 
   }
 
   template tags(ts : List<Tag>, p : Project) {
-	  div [class:="Tags"] {
-		  for(tag : Tag in ts) {
-			  navigate tag(p, tag.name) { output(tag.name) }
-		  } separated-by { " " }
-	  }
+	  for(tag : Tag in ts) {
+			navigate tag(p, tag.name) { output(tag.name) }
+		} separated-by { " " }
   }
+
+section tagging
 
   template addTag(i : Issue) {
 	  var t : String := ""
+    action addTag(t : String, i : Issue) {
+      var f := Tag{ name := t };
+      var feedback := f.validateName();
+      if(feedback.exceptions.length > 0) {
+        log("Validation failed!!");
+        replace(tagValidityFeedback, validationFeedback(feedback));
+      } else {
+        log("Validation succeeded!!");
+        i.addTag(tag(t, i.project));
+        i.save();
+        return issue(i.project, i.number);
+      }
+    }
+    action updateTagSuggestions(t : String) {
+      replace(tagSuggestionsBox, tagSuggestions(t, i));
+    }
+    
 	  div [class := "TagAddition"] {
-		  form {
-			  label("Tag") {
-				  input(t) [onkeyup := updateTagSuggestions(t), autocomplete:="off"]
+		  form { 
+		    inputAppend{
+			    input(t) [class="input-mini", onkeyup := updateTagSuggestions(t), autocomplete:="off"]		  
+			    submitlink addTag(t, i) [class="btn btn-mini", style="height:14px;padding:7px;"] { iPlus }
+			    tagHelp
 			  }
-			  submitlink addTag(t, i) [class="btn"] { iPlus }
-			  tagHelp
 			  placeholder tagValidityFeedback {""}
 		  }
-		  placeholder tagSuggestionsBox {
-			  tagSuggestions(t, i)
-		  }
-	  }
-	  action addTag(t : String, i : Issue) {
-		  var f := Tag{ name := t };
-		  var feedback := f.validateName();
-		  if(feedback.exceptions.length > 0) {
-			  log("Validation failed!!");
-			  replace(tagValidityFeedback, validationFeedback(feedback));
-		  } else {
-			  log("Validation succeeded!!");
-			  i.addTag(tag(t, i.project));
-			  i.save();
-			  return issue(i.project, i.number);
-		  }
-	  }
-	  action updateTagSuggestions(t : String) {
-		  replace(tagSuggestionsBox, tagSuggestions(t, i));
+		  placeholder tagSuggestionsBox { }
 	  }
   }
 
   function tagSuggestionFilter(tagPrefix : String) : String{
 	  if(tagPrefix != "") {
-		  return "";
+		  return ""; 
  	  }
 	  return "@%";
+  } 
+  
+  // NOTE: Do not make this publicly available, the AJAX causes a lot of bad links
+  ajax template tagSuggestions(tagPrefix : String, issue : Issue) {
+	  var suggestions : List<Tag> := tagSuggestions(tagPrefix, issue);
+    action addSuggestedTag(suggestion : Tag) {
+      issue.addTag(suggestion);
+    }
+    div[class="dropdown open"]{ 
+      dropdownMenu{
+	      for(suggestion : Tag in suggestions) {
+			    dropdownMenuItem{ submitlink addSuggestedTag(suggestion) { output(suggestion.name) } }
+	      }
+	    }
+	  }
+    /*  var suggestions : List<Tag> := (
+      select  t
+      from  Tag as t
+      where i._project = ~issue.project and
+          t._project = ~issue.project and
+          t._name like ~tagSearchString and
+          t._name not like ~tagSuggestionFilter(tagPrefix)
+      order by (select count(i) from Issue as i where t in i._tags) desc
+      limit 5
+      ) as List<Tag>;
+    */  
   }
-
-// NOTE: Do not make this publicly available, the AJAX causes a lot of bad links
-ajax template tagSuggestions(tagPrefix : String, issue : Issue) {
-	var tagSearchString := tagPrefix.toLowerCase() + "%"
-	var suggestions : List<Tag> := (
-		select	t
-		from	Issue as i left join i.tags as t	// Joint to only select used tags (subqueries not supported)
-		where	i._project = ~issue.project and
-				t._project = ~issue.project and		// Not really needed, but improves performance
-				t._name like ~tagSearchString and
-				t._name not like ~tagSuggestionFilter(tagPrefix)
-		group by t._name
-		order by count(i) desc
-		limit 5
-		) as List<Tag>;
-		
-/*	var suggestions : List<Tag> := (
-		select	t
-		from	Tag as t
-		where	i._project = ~issue.project and
-				t._project = ~issue.project and
-				t._name like ~tagSearchString and
-				t._name not like ~tagSuggestionFilter(tagPrefix)
-		order by (select count(i) from Issue as i where t in i._tags) desc
-		limit 5
-		) as List<Tag>;
-*/	
-	for(suggestion : Tag in suggestions) {
-		form { block [class := "Suggestion"] {
-			actionLink(suggestion.name, addSuggestedTag(suggestion))[ajax]
-		}}
-	}
-	
-	action addSuggestedTag(suggestion : Tag) {
-		issue.addTag(suggestion);
-		issue.save();
-		refresh();
-	}
-} 
+   
