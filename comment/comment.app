@@ -55,7 +55,7 @@ section view
 
   template comment(c : Comment) {
 	  block [class := "CommentHeader"] {
-		  "On " output(format(c.moment)) " " output(c.author.name) " wrote: "
+		  "On " output(format(c.moment)) " " nav(c.author) " wrote: "
 		  navigate editComment(c) [title="edit comment"] { iPencil }
 	  }
 	  blockquote{
