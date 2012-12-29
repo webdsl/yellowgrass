@@ -35,7 +35,7 @@ imports elib/lib
       }
       ygfooter
     }
-    analytics
+    //analytics
   }
   
   define mainResponsive(p: Project) { 
@@ -53,7 +53,7 @@ imports elib/lib
       }
       ygfooter
     }
-    analytics
+    //analytics
   }
   
   template ygfooter() {
