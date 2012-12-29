@@ -58,7 +58,7 @@ section data model
       } if(hasTag(ISSUE_TYPE_TAG())) { // Can be overridden by custom colors 
         return "IssuetypeTag";
       } else {
-        return "";
+        return "DefaultTag";
       }
     }
   

@@ -37,16 +37,29 @@
 	padding-right: 0px;
 }
 
+/* default tag */
+
 .Tag a {
 	padding-left: 4px;
 	padding-right: 4px;
 	display: inline;
 }
-
 .Tag a:link 	{ color: #bdb947; text-decoration: none; }
 .Tag a:visited	{ color: #bdb947; text-decoration: none; }
 .Tag a:hover 	{ color: #bdb947; text-decoration: none; }
 .Tag a:active 	{ color: #bdb947; text-decoration: none; }
+
+a.DefaultTag {
+  padding-left: 4px;
+  padding-right: 4px;
+  display: inline;
+  background: #ebebd1;
+  border: 1px solid #deddb2;
+}
+a.DefaultTag:link   { color: #bdb947; text-decoration: none; }
+a.DefaultTag:visited  { color: #bdb947; text-decoration: none; }
+a.DefaultTag:hover  { color: #bdb947; text-decoration: none; }
+a.DefaultTag:active   { color: #bdb947; text-decoration: none; }
 
 /* release */
 

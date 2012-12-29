@@ -22,24 +22,13 @@ section user interface
       
 	  title{output(p.name) " / " output(tag) " - on YellowGrass.org"}
 	  bmain(p){  
+	    pageHeader2{ 
+        "Tagged " output(t.name) 
+      }
+      gridRow{ gridSpan(12){ pullRight{ tags(t, true) } } }
       gridRow{
         gridSpan(2) { tagSideBar(t) }
         gridSpan(10) {
-		      // block [class := "main"] {  }
-		      // 	if(securityContext.loggedIn) {
-		      // 		par [class := "Back"] { 
-		      // 			rawoutput { " &raquo; " }
-		      // 			navigate(home()) {"Home"}
-		      // 			rawoutput { " &raquo; " }
-	 	      // 			navigate(project(p)) {"Project " output(p.name)}
-		      // 			rawoutput { "&raquo; " } " Tag " output(tag)
-		      // 		}
-		      // 	} else { 
-		      // 		par [class := "Back"] { navigate(project(p)) {rawoutput { "&raquo; " } " Back to Project"} }
-		      // 	}
-			    pageHeader2{ 
-				    "Tagged " output(t.name) tags(t, true)
-				  }
 				  if(t.description != null && t.description != "") {
 					  par{ <i> output(t.description) </i> }
 				  }
@@ -69,12 +58,12 @@ section user interface
   }
   
   template showTag(owner: Tag, tag : Tag, editing : Bool) {
-    div[class=tag.getStylingClass()] {
-      output(tag.name) 
-      if(editing) { " "
-        submitlink deleteTag(owner, tag) { "[x]" }
+    buttonGroupSpan{
+      navigate tag(tag.project, tag.name) [class="btn btn-mini " + tag.getStylingClass()] { output(tag.name) } 
+      if(editing) {
+        submitlink deleteTag(owner, tag) [class="btn btn-mini " + tag.getStylingClass()] { "x" }
       }
-    }
+    } 
     action deleteTag(tagToRemoveFrom : Tag, tagToRemove : Tag) {
       tagToRemoveFrom.tags.remove(tagToRemove);
       tagCleanup(tagToRemove);
