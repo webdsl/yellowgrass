@@ -3,24 +3,27 @@ module comment/comment
 imports comment/ac
 imports comment/event
 
-entity Comment : Event {
-	// submitted		:: DateTime
-	text			:: WikiText		(searchable)
-	author			-> User 
+section data model
+
+  entity Comment : Event {
+	  // submitted		:: DateTime
+	  text			:: WikiText		(searchable)
+	  author			-> User 
 	
-	function toJSON() : JSONObject {
-		var json := JSONObject();
-		json.put("id", id);
-		json.put("text", text.format());
-		json.put("author", author.toJSON());
-		json.put("submitted", moment.getTime() / 1000L);
-		json.put("version", version);
-		return json;
-	}
-}
+	  function toJSON() : JSONObject {
+		  var json := JSONObject();
+		  json.put("id", id);
+		  json.put("text", text.format());
+		  json.put("author", author.toJSON());
+		  json.put("submitted", moment.getTime() / 1000L);
+		  json.put("version", version);
+		  return json;
+	  }
+  }
 
+section operations
 
-function checkNewCommentObjects(json : JSONArray) : List<Comment> {
+  function checkNewCommentObjects(json : JSONArray) : List<Comment> {
 		var newObjects := List<Comment> ();
 		for(i : Int from 0 to json.length()) {
 			var object := json.getJSONObject(i);
@@ -38,22 +41,24 @@ function checkNewCommentObjects(json : JSONArray) : List<Comment> {
 		return newObjects;
 	}
 
-function createComment(t : WikiText) : Comment {
-	var c := Comment {
-		text := t
-		moment := now()
-		author := securityContext.principal
-	};
-	c.save();
-	return c;
-}
+  function createComment(t : WikiText) : Comment {
+	  var c := Comment {
+		  text := t
+		  moment := now()
+		  author := securityContext.principal
+	  };
+	  c.save();
+	  return c;
+  }
+  
+section view
 
   template comment(c : Comment) {
 	  block [class := "CommentHeader"] {
 		  "On " output(format(c.moment)) " " output(c.author.name) " wrote: "
-		  navigate editComment(c) [class="btn"] { iPencil "Edit" }
+		  navigate editComment(c) [title="edit comment"] { iPencil }
 	  }
-	  block [class := "CommentText"] {
+	  blockquote{
 		  output(c.text)
 	  }
   }
@@ -66,7 +71,7 @@ function createComment(t : WikiText) : Comment {
 		  replace(commentAdditionBox, commentAdditionInput(i));
 	  }
   }
-
+ 
   ajax template commentAdditionInput(i : Issue) {
 	  var newCommentText : WikiText := "";
 	  pageHeader3 { "New Comment" }
@@ -114,7 +119,7 @@ function createComment(t : WikiText) : Comment {
 	  bmain(i.project){
 		  pageHeader4{ "Edit Comment" }
 	    horizontalForm {
-			   controlGroup("Comment") { input(c.text) }
+			   controlGroup("Comment") { input(c.text)[style="height:400px;"] }
 			   formActions {
 			     submitlink save() [class="btn btn-primary"] { "Save" } " "
 				   navigate issue(i.project, i.number) [class="btn"] {"Cancel"}

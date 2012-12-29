@@ -25,7 +25,7 @@ module issue/register
     var type : Tag;
 
     action post() {
-      ig.project := p;
+      ig.project := p; 
       if(initialTag != null) {
         ig.tags := {initialTag};
       }
