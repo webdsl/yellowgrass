@@ -36,3 +36,4 @@ access control rules
 		!im.target.project.private || 
 		principal in im.target.project.members
 	}
+	

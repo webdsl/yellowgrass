@@ -9,6 +9,12 @@ imports issue/issue
 imports project/roadmap
 imports comment/tagControl
 
+section navigation
+
+  template nav(t: Tag) {
+    navigate tag(t.project, t.name) { output(t.name) }
+  }
+
 section tag page
 
   page tag(p : Project, tag : String) {
@@ -21,7 +27,7 @@ section tag page
       // limit 500
       
 	  title{output(p.name) " / " output(tag) " - on YellowGrass.org"}
-	  bmain(p){  
+	  bmain{  
 	    tagCommandsToolbar(t) 
 	    pageHeader2{ 
         "Tagged " output(t.name) 
@@ -147,7 +153,7 @@ section tagging
 		  form { 
 		    inputAppend{
 			    input(t) [class="input-mini", onkeyup := updateTagSuggestions(t), autocomplete:="off"]		  
-			    submitlink addTag(t, i) [class="btn btn-mini", style="height:14px;padding:7px;"] { iPlus }
+			    submitlink addTag(t, i) [class="btn btn-mini", style="height:14px;padding:7px;", title="Add tag"] { iPlus }
 			    tagHelp
 			  }
 			  placeholder tagValidityFeedback {""}

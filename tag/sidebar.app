@@ -13,11 +13,18 @@ module tag/sidebar
     
     gridRow{
       gridSpan(12) {
-        pullRight{
+        pullLeft{     
           buttonToolbar{
+            buttonGroup{     
+              projectDropdown(t.project)    
+            }
+          }
+        }
+        pullRight{
+          buttonToolbar{ 
             buttonGroup{
-              navigate createTaggedIssue(t.project, t) [class="btn"] {iPlus " New " output(t.name) " Issue"}
-              navigate editTag(t.project, t) [class="btn"] {iPencil " Edit"}            
+              navigate createTaggedIssue(t.project, t) [class="btn", title="New " + t.name + " Issue", style="height:14px;padding:7px;"] { iPlus }
+              navigate editTag(t.project, t) [class="btn", title="Edit", style="height:14px;padding:7px;"] { iPencil }            
               submitlink makeRelease(t, t.project) [class="btn ReleaseTag", title="Make release"] {"Release" }
               submitlink makeIssueType(t, t.project) [class="btn IssuetypeTag", title="Make issue type"] {"Issue Type" }
               submitlink color(t, t.project, "red") [class="btn RedTag", title="Color red"] { "Red" }
