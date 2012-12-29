@@ -1,4 +1,23 @@
 
+.listbox {
+    background-clip: padding-box;
+    background-color: #FFFFFF;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 6px 6px 6px 6px;
+    float: left;
+    left: 0;
+    list-style: none outside none;
+    margin: 2px 0 0;
+    min-width: 160px;
+    padding: 10px;
+    top: 100%;
+    z-index: 1000;
+}
+
+.Ghost {
+    display: none;
+}
+
 /**************** Tags ****************/
 
 .Tags {

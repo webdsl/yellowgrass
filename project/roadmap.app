@@ -7,21 +7,9 @@ module project/roadmap
 	  continuousLoading()
 	  title{output(p.name) " Roadmap - on YellowGrass.org"}
 	  bmain{		
+      projectToolbar(p) 
 		  gridRow{
-		    gridSpan(2){ projectSideBar(p) }
-		    gridSpan(10){
-		      // todo: breadcrumbs
-			    //     if(securityContext.loggedIn) {
-			    // 	    par [class := "Back"] { 
-			    // 		rawoutput { " &raquo; " }
-			    // 		navigate(home()) {"Home"}
-			    // 		rawoutput { " &raquo; " }
-			    // 		navigate(project(p)) {"Project " output(p.name)}
-			    // 		rawoutput { "&raquo; " } " Roadmap "
-			    // 	}
-			    // } else { 
-			    // 	par [class := "Back"] { navigate(project(p)) {rawoutput { "&raquo; " } " Back to Project"} }
-			    // }		
+		    gridSpan(12){
 			    pageHeader2{ "Roadmap" }
 			    placeholder releases roadmapRelease(releases.get(0))
 			  }
