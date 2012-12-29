@@ -1,5 +1,33 @@
 module project/sidebar
 
+  template projectDropdown(p: Project) {
+    action followProject(p : Project) {
+      p.follow();
+      message("You will now receive email updates upon events in this project");
+    } 
+    action unfollowProject(p : Project) {
+      p.unfollow();
+      message("You will no longer receive email updates upon events in this project");
+    }  
+    action requestJoinProject(p : Project) {
+      p.requestJoin();
+      message("Project membership requested, awaiting project member approval...");
+    }
+    
+    navigate project(p) [class="btn"] { output(abbreviateNE(p.name,12)) }
+    dropdownCaret { 
+        dropdownMenuItem { navigate createIssue(p)          { iPlus " New Issue" } }        
+        dropdownMenuItem { navigate roadmap(p)              { iRoad " Roadmap"} }   
+        dropdownMenuItem { navigate projectIssues(p, true)  { iList " Open issues"} } 
+        dropdownMenuItem { navigate projectIssues(p, false) { iList " All issues"} }    
+        dropdownMenuItem { navigate edit(p)                 { iWrench " Project Settings"} }
+        
+        dropdownMenuItem { submitlink followProject(p)      { "Follow Project" } }
+        dropdownMenuItem { submitlink unfollowProject(p)    { "Unfollow Project" } }
+        dropdownMenuItem { submitlink requestJoinProject(p) { "Request Project Membership" } }
+    }
+  }
+  
   template projectMenu(p: Project) {
     action followProject(p : Project) {
       p.follow();

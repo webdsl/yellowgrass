@@ -89,6 +89,28 @@ access control rules
 		}
 	}
 
+  rule template projectDropdown(p : Project) {
+    mayAccess(p)
+    
+    rule action followProject(p : Project) {
+      loggedIn && 
+      !(principal in p.followers) &&
+      !(principal in p.members) &&
+      !(principal in p.memberRequests)
+    }
+    
+    rule action unfollowProject(p : Project) {
+      loggedIn &&
+      (principal in p.followers)
+    }
+    
+    rule action requestJoinProject(p : Project) {
+      loggedIn && 
+      !(principal in p.members) &&
+      !(principal in p.memberRequests)
+    }
+  }
+  
   rule template projectMenu(p : Project) {
     mayAccess(p)
     

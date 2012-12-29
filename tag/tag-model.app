@@ -8,6 +8,18 @@ section data model
     description :: String
     project   -> Project
     tags    -> Set<Tag>
+    
+    function makeRelease(p: Project) {
+      tags.add(tag("release", p));
+    }
+    
+    function makeIssueType(p: Project) {
+      tags.add(tag(ISSUE_TYPE_TAG(), p));
+    }
+    
+    function color(p : Project, color : String) {
+      tags.add(tag(color, p));
+    }
   
     function hasTag(tagName : String) : Bool {
       for( t : Tag in tags) {
@@ -65,7 +77,8 @@ section data model
     function isColored() : Bool {
       return  hasTag("red")   || 
           hasTag("green") ||
-          hasTag("grey");
+          hasTag("grey") ||
+          hasTag("purple");
     }
   }
   

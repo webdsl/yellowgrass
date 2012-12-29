@@ -22,10 +22,11 @@ section user interface
       
 	  title{output(p.name) " / " output(tag) " - on YellowGrass.org"}
 	  bmain(p){  
+	    tagCommandsToolbar(t) 
 	    pageHeader2{ 
         "Tagged " output(t.name) 
       }
-      gridRow{ gridSpan(12){ pullRight{ tags(t, true) } } }
+      gridRow{ gridSpan(12){ pullRight{ par{ tags(t, true) } } } } 
       gridRow{
         gridSpan(2) { tagSideBar(t) }
         gridSpan(10) {
@@ -67,7 +68,7 @@ section user interface
     action deleteTag(tagToRemoveFrom : Tag, tagToRemove : Tag) {
       tagToRemoveFrom.tags.remove(tagToRemove);
       tagCleanup(tagToRemove);
-      return tag(tag.project, tag.name);
+      //return tag(tag.project, tag.name);
     }
   }
 

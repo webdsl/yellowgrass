@@ -50,19 +50,32 @@ access control rules
 	rule template tags(ts : List<Tag>, p : Project) {
 		mayAccess(p)
 	}
-	
-	rule template tagCommands(t : Tag) {
-		mayAccess(t.project)
-		rule action makeRelease(tag : Tag, p : Project) {
-			principal in p.members && !tag.hasTag("release")
-		}
-		rule action makeIssueType(tag : Tag, p : Project) {
-			principal in p.members && !tag.hasTag(ISSUE_TYPE_TAG()) 
-		}
-		rule action color(t : Tag, p : Project, color : String) {
-			principal in p.members && !t.isColored()
-		}
-	}
+
+  rule template tagCommandsToolbar(t : Tag) {
+    mayAccess(t.project)
+    rule action makeRelease(tag : Tag, p : Project) {
+      principal in p.members && !tag.hasTag("release")
+    }
+    rule action makeIssueType(tag : Tag, p : Project) {
+      principal in p.members && !tag.hasTag(ISSUE_TYPE_TAG()) 
+    }
+    rule action color(t : Tag, p : Project, color : String) {
+      principal in p.members && !t.isColored()
+    }
+  }
+  	
+	// rule template tagCommands(t : Tag) {
+	// 	mayAccess(t.project)
+	// 	rule action makeRelease(tag : Tag, p : Project) {
+	// 		principal in p.members && !tag.hasTag("release")
+	// 	}
+	// 	rule action makeIssueType(tag : Tag, p : Project) {
+	// 		principal in p.members && !tag.hasTag(ISSUE_TYPE_TAG()) 
+	// 	}
+	// 	rule action color(t : Tag, p : Project, color : String) {
+	// 		principal in p.members && !t.isColored()
+	// 	}
+	// }
 	
 	rule template tagSideBar(t : Tag) {
 		mayAccess(t.project)

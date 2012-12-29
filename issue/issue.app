@@ -18,7 +18,19 @@ imports issue/ghost
 section navigation
 
   template nav(i: Issue) {
-    navigate issue(i.project, i.number) [all attributes] { "Issue " output(i.number) }
+    navigate issue(i.project, i.number) [all attributes] { output(i.number) }
+  }
+  
+  template reporter(i: Issue) {
+    reporter(i, "")
+  }
+  
+  template reporter(i: Issue, prefix: String) {
+    if(i.reporter != null) {
+      output(prefix) navigate(user(i.reporter.tag)){output(i.reporter.name) " "}
+    } else { if(i.email != "" && securityContext.principal in i.project.members) {
+      output(prefix) output(i.email) " " 
+    } }    
   }
 
 section issue page
@@ -31,20 +43,22 @@ section issue page
     bmain(p){  
       issueCommandsMenu(i)
       pageHeader2{
-        output(i.getTitle())
+        output(i.getTitle()) " "
         if(nrVotes > 0) { " (" output(nrVotes) ") " } 
         if(!i.open) { iOk }
+      }   
+      gridRow{
+        gridSpan(12){
+          blockquote { output(i.description) }
+          hrule
+        }
       }
       gridRow{
         gridSpan(6){             
           par{
             nav(i.project) " issue # " output(i.number)
             " submitted "
-            if(i.reporter != null) {
-              "by " navigate(user(i.reporter.tag)){output(i.reporter.name) " "}
-            } else { if(i.email != "" && securityContext.principal in p.members) {
-              "by " output(i.email) " "
-            } }
+            reporter(i, "by ")
             "on " output(format(i.submitted))
           }
         }
@@ -54,8 +68,6 @@ section issue page
       }
       gridRow{
         gridSpan(12){
-          blockquote { output(i.description) }
-      
           // output(/\n/.replaceAll("<br />", b1.text) as WikiText)
       
           attachmentList(i)

@@ -10,21 +10,29 @@ section issue commands
       gridSpan(12){
         pullLeft{     
           buttonToolbar{
-            buttonGroup{              
-              nav(i)[class="btn"]
+            buttonGroup{     
+              projectDropdown(i.project)    
             }
           }
         }
         pullRight{      
           buttonToolbar{
-            buttonGroup{                  
-              navigate   editIssue(i)  [class="btn"] { iPencil " Edit Issue"} 
-              submitlink close(i)      [class="btn"] { iOk " Close Issue" } 
-              submitlink reopen(i)     [class="btn"] { "Reopen Issue" }
-              submitlink vote(i)       [class="btn"] { iThumbsUp " Vote and Follow" }
+            buttonGroup{               
+              nav(i)[class="btn"] 
+              dropdownCaret{
+                dropdownMenuItem{ reporter(i, "Submitted by ") } 
+                dropdownMenuItem{ <a href="#">"Submitted on " output(format(i.submitted)) </a> }
+                dropdownMenuItem{ if(i.nrVotes > 0) { <a href="#"> output(i.nrVotes) " Votes" </a> } }
+              }
+            }
+            buttonGroup{       
+              navigate   editIssue(i)  [class="btn", title="Edit Issue", style="height:14px;padding:7px;"] { iPencil } 
+              submitlink close(i)      [class="btn", title="Close Issue", style="height:14px;padding:7px;"] { iOk } 
+              submitlink reopen(i)     [class="btn btn-inverse", title="Reopen Issue", style="height:14px;padding:7px;"] { iOkWhite }
+              submitlink vote(i)       [class="btn", title="Vote and Follow", style="height:14px;padding:7px;"] { iThumbsUp  }
               issueMoveTargetsMenu(i) 
               // addTag(i)
-            }
+            } 
           }
         }
       }
