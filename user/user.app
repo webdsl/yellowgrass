@@ -6,30 +6,22 @@ imports user/home
 imports user/register
 imports user/access
 
-/*
-var yellowGrass := 
-	User {
-		name := "YellowGrass"
-		email := "info@yellowgrass.org"
-		password := (randomUUID().toString() as Secret).digest()
-		url := "http://yellowgrass.org"
-		tag := "yellowgrass"
-	};
-*/
+section user page
+
   page user(usertag : String) {
 	  var u : User := getUser(usertag)
-	  var reportedIssues : List<Issue> := 
-		  from Issue
-		  where _reporter = ~u and _project._private=false//not( project.private)
-		  order by _submitted desc
-		  limit 15;
-	  var projects : List<Project> :=
-		  select p 
-		  from Project as p
-		  left join p.members as m 
-		  where _private=false and m = ~u
-		  limit 30;
-	
+	  var reportedIssues : List<Issue> := u.reportedIssues();
+		  // from Issue
+		  // where _reporter = ~u and _project._private=false//not( project.private)
+		  // order by _submitted desc
+		  // limit 15;
+	  var projects : List<Project> := u.projects();
+		  // select p 
+		  // from Project as p
+		  // left join p.members as m 
+		  // where _private=false and m = ~u
+		  // limit 30;
+	 
 	  title{output(u.name) " on YellowGrass.org" }
 	  bmain{
 		  // if(securityContext.loggedIn) {
@@ -40,10 +32,11 @@ var yellowGrass :=
 		  // }
 		  pageHeader2 { output(u.name) }
 		  if(u.url != null && u.url != "") {
-			  par { label("Home Page") { output(u.url) } }
+			  par { "Home Page: " output(u.url) }
 		  }
 		  if(projects.length > 0) {
-			  par { label("Projects") { projects(projects) } }
+			  pageHeader2{ "Projects" }
+			  projects(projects)
 		  }
 		  pageHeader3{ "Recently Reported Issues" }
 		  par { issues(reportedIssues.set(), true, true, true, 50, true, true) }
@@ -59,6 +52,8 @@ var yellowGrass :=
 		  navigate user(u.tag) { output(u.name) }
 	  } separated-by { ", " }
   }
+  
+section edit user profile
 
   page editUser(u : User) {
 	  title{output(u.name) " on YellowGrass.org [Editing]"}	

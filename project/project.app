@@ -78,8 +78,6 @@ section user interface
 	  par { image(p.getWeeklyStatsGraph()) }
   }
 
-
-
   template projectsAbbreviated(ps : List<Project>) {
 	  tableBordered {
 		  for(p : Project in ps) { 
