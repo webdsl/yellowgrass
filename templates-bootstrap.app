@@ -58,7 +58,7 @@ imports elib/lib
   
   template ygfooter() {
     footer{
-      gridContainerFluid{     
+      gridContainer{     
         gridRow{ 
           gridSpan(12){
             "YellowGrass.org - for all your project management"
