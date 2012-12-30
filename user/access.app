@@ -96,7 +96,7 @@ extend session securityContext {
 		  controlGroup("Email") { input(email) }
 	    controlGroup("Password") { input(pass) }
 		  formActions {
-			  submitlink login() [class="btn btn-primary"] { "Sign in" } " "
+			  submitlink login() [class="btn btn-primary"] { "Sign In" } " "
 		    navigate resetUserPassword() [class="btn"] { "Reset Password" } 
 		  }
 	  }
@@ -108,7 +108,7 @@ extend session securityContext {
       return root();
     }
 	  navItem{	      
-	    navigate home() {"Logged in as " output(securityContext.principal.name)}
+	    navigate home() { iUserWhite " " output(securityContext.principal.name) }
 	  }
-	  navItem{ submitlink logout() { "Log Out" } }
+	  navItem{ submitlink logout() { "Sign Out" } }
   }
