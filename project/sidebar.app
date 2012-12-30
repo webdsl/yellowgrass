@@ -1,5 +1,19 @@
 module project/sidebar
 
+  template projectToolbar(p: Project) {
+      gridRow{
+        gridSpan(12){
+          pullLeft{     
+            buttonToolbar{ 
+              buttonGroup{     
+                projectDropdown(p)
+              }
+            }
+          }
+        }
+      }    
+  }
+
   template projectDropdown(p: Project) {
     action followProject(p : Project) {
       p.follow();

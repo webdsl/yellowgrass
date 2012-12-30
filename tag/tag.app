@@ -20,11 +20,6 @@ section tag page
   page tag(p : Project, tag : String) {
     var t := getTag(tag, p);
     var taggedIssues : List<Issue> := p.taggedIssues(t);
-      // select i
-      // from Issue as i
-      // left join i._tags as t
-      // where t._name = ~tag and t._project = ~p
-      // limit 500
       
 	  title{output(p.name) " / " output(tag) " - on YellowGrass.org"}
 	  bmain{  
@@ -176,7 +171,7 @@ section tagging
       issue.addTag(suggestion);
     }
     div[class="dropdown open"]{ 
-      dropdownMenu{
+      list{
 	      for(suggestion : Tag in suggestions) {
 			    dropdownMenuItem{ submitlink addSuggestedTag(suggestion) { output(suggestion.name) } }
 	      }
