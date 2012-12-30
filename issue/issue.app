@@ -40,7 +40,7 @@ section issue page
     var nrVotes := i.nrVotes; // Derived props are not cached and executed on demand
   
     title{"#" output(i.number) " " output(i.getTitle()) " (project " output(i.project.name) " on YellowGrass.org)"}
-    bmain{  
+    bmain(p){  
       issueCommandsMenu(i)
       pageHeader2{
         output(i.getTitle()) " "
@@ -135,13 +135,13 @@ template issues(is : List<Issue>, showProjectName : Bool, showTicks : Bool, show
 						}
 					}
 					if(showTags) { 
-						column { tags(i, false, true) }
+						column { tags(i, true, true) }
 					}
 				}
 			}
 		}
 	}
-}
+} 
 
 
 section edit issue 

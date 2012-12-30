@@ -1,12 +1,14 @@
 module project/roadmap
 
-// imports issue/issue
+imports issue/issue
+
+section project roadmap
 
   page roadmap(p : Project) {
     var releases := releases(p)   
 	  continuousLoading()
 	  title{output(p.name) " Roadmap - on YellowGrass.org"}
-	  bmain{		
+	  bmain(p){		
       projectToolbar(p) 
 		  gridRow{
 		    gridSpan(12){
