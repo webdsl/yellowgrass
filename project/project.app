@@ -12,22 +12,41 @@ imports issue/issue
 imports tag/tag
 imports user/user 
 
-section all projects
+section project lists
 
   template projects(ps : List<Project>) {
-      tableBordered {
-        for(p : Project in ps) { 
-          row {
-            column { navigate project(p) {output(p.name)} }
-            column {
-              output((select count(i) from Issue as i where i.open=true and i.project = ~p)) 
-              " open issues "
-            }
+    tableBordered {
+      for(p : Project in ps) { 
+        row {
+          column { navigate project(p) {output(p.name)} }
+          column {
+            output((select count(i) from Issue as i where i.open=true and i.project = ~p)) 
+            " open issues "
           }
         }
       }
+    }
   }
 
+  page projectList() {
+    var projectList : List<Project> := 
+      from Project
+      where _private=false
+      order by _name;
+      
+    title{"YellowGrass.org - Public Projects List"}
+    bmain{
+      gridRow{
+        gridSpan(8,2){
+          pageHeader{ "Project List" }      
+          block [class := "Listing"] {
+            projects(projectList)
+          }
+        }
+      }
+    }
+  }
+  
 section navigation
 
   template nav(p: Project) {
@@ -42,7 +61,7 @@ section user interface
 	  var recentIssues : List<Issue> := p.recentIssues(10)
 	  var popularIssues : List<Issue> := p.popularIssues(10);
 	
-	  bmain{ 
+	  bmain(p){ 
       projectToolbar(p) 
 	    gridRow{
         gridSpan(12){        
@@ -88,24 +107,7 @@ section user interface
 	  }
   }
 
-  page projectList() {
-    var projectList : List<Project> := 
-      from Project
-      where _private=false
-      order by _name;
-      
-	  title{"YellowGrass.org - Public Projects List"}
-	  bmain{
-	    gridRow{
-		    gridSpan(8,2){
-		      pageHeader{ "Project List" }			
-		      block [class := "Listing"] {
-			      projects(projectList)
-			    }
-			  }
-		  }
-	  }
-  }
+section project issues
 
   page projectIssues(p : Project, filterOpen : Bool) {
 	  title{output(p.name) " issues on YellowGrass.org"}
@@ -122,6 +124,4 @@ section user interface
 	  }
   }
 
-  function mayAccess(ps : List<Project>) : Bool {
-	  return [p | p : Project in ps where !mayAccess(p)].length == 0;
-  }
+

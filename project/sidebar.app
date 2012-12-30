@@ -1,17 +1,19 @@
 module project/sidebar
 
+section project toolbar
+
   template projectToolbar(p: Project) {
-      gridRow{
-        gridSpan(12){
-          pullLeft{     
-            buttonToolbar{ 
-              buttonGroup{     
-                projectDropdown(p)
-              }
+    gridRow{
+      gridSpan(12){
+        pullLeft{     
+          buttonToolbar{ 
+            buttonGroup{     
+              projectDropdown(p)
             }
           }
         }
-      }    
+      }
+    }    
   }
 
   template projectDropdown(p: Project) {
@@ -42,45 +44,53 @@ module project/sidebar
     }
   }
   
-  template projectMenu(p: Project) {
-    action followProject(p : Project) {
-      p.follow();
-      message("You will now receive email updates upon events in this project");
-    } 
-    action unfollowProject(p : Project) {
-      p.unfollow();
-      message("You will no longer receive email updates upon events in this project");
-    }  
-    action requestJoinProject(p : Project) {
-      p.requestJoin();
-      message("Project membership requested, awaiting project member approval...");
-    }
-      
-    dropdownInNavbar(abbreviateNE(p.name,12)) {
-      dropdownMenu{  
-        dropdownMenuItem { navigate project(p) { output(abbreviateNE(p.name,12)) } }
-        dropdownMenuItem { navigate createIssue(p)          { iPlus " New Issue" } }        
-        dropdownMenuItem { navigate roadmap(p)              { iRoad " Roadmap"} }   
-        dropdownMenuItem { navigate projectIssues(p, true)  { iList " Open issues"} } 
-        dropdownMenuItem { navigate projectIssues(p, false) { iList " All issues"} }    
-        dropdownMenuItem { navigate edit(p)                 { iWrench " Project Settings"} }
-        
-        dropdownMenuItem { submitlink followProject(p)      { "Follow Project" } }
-        dropdownMenuItem { submitlink unfollowProject(p)    { "Unfollow Project" } }
-        dropdownMenuItem { submitlink requestJoinProject(p) { "Request Project Membership" } }
-      }
-    }
-  }
+section project menu
 
-  template projectSideBar(p : Project) {
-  	div[class="sidebar"]{
-		  //projectCommands(p)
-		  // par { image(p.getWeeklyStatsGraph()) }
-		  // par { <i> "Weekly Issue Count" </i> }
-      //hrule
-		  par{ tags(p.getCommonTags(80), p) }
-		}
+  template projectMenu(p: Project) {
+    searchBox(p, "")
   }
+   
+section old code
+
+  // template projectMenuOld(p: Project) {
+  //   action followProject(p : Project) {
+  //     p.follow();
+  //     message("You will now receive email updates upon events in this project");
+  //   } 
+  //   action unfollowProject(p : Project) {
+  //     p.unfollow();
+  //     message("You will no longer receive email updates upon events in this project");
+  //   }  
+  //   action requestJoinProject(p : Project) {
+  //     p.requestJoin();
+  //     message("Project membership requested, awaiting project member approval...");
+  //   }
+  //     
+  //   dropdownInNavbar(abbreviateNE(p.name,12)) {
+  //     dropdownMenu{  
+  //       dropdownMenuItem { navigate project(p) { output(abbreviateNE(p.name,12)) } }
+  //       dropdownMenuItem { navigate createIssue(p)          { iPlus " New Issue" } }        
+  //       dropdownMenuItem { navigate roadmap(p)              { iRoad " Roadmap"} }   
+  //       dropdownMenuItem { navigate projectIssues(p, true)  { iList " Open issues"} } 
+  //       dropdownMenuItem { navigate projectIssues(p, false) { iList " All issues"} }    
+  //       dropdownMenuItem { navigate edit(p)                 { iWrench " Project Settings"} }
+  //       
+  //       dropdownMenuItem { submitlink followProject(p)      { "Follow Project" } }
+  //       dropdownMenuItem { submitlink unfollowProject(p)    { "Unfollow Project" } }
+  //       dropdownMenuItem { submitlink requestJoinProject(p) { "Request Project Membership" } }
+  //     }
+  //   }
+  // }
+
+  // template projectSideBar(p : Project) {
+  // 	div[class="sidebar"]{
+		//   //projectCommands(p)
+		//   // par { image(p.getWeeklyStatsGraph()) }
+		//   // par { <i> "Weekly Issue Count" </i> }
+  //     //hrule
+		//   par{ tags(p.getCommonTags(80), p) }
+		// }
+  // }
 
  //  template projectCommands(p : Project) {
  //    

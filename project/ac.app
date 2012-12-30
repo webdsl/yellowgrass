@@ -4,6 +4,10 @@ imports tag/release
 
 access control rules
 	
+	predicate mayAccess(ps : List<Project>) {
+    [p | p : Project in ps where !mayAccess(p)].length == 0
+  }
+  
 	predicate mayAccess(p : Project){
 		( !p.private ) || 
 		securityContext.principal in p.members
@@ -52,10 +56,10 @@ access control rules
 		p.memberRequests.length > 0
 	}
 	
-	rule template projectSideBar(p : Project) {
-		mayAccess(p)
-	}
-	
+	// rule template projectSideBar(p : Project) {
+	// 	mayAccess(p)
+	// }
+	 
 	rule page projectStats(p : Project) {
 		mayAccess(p)
 	}
