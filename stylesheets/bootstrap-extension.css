@@ -121,12 +121,13 @@ form{
 	padding: 0 5px 0px 5px;
 }
 
-input.inputString {
+/* input.inputString {
 	width: 95%;
 }
 input.inputEmail {
 	width: 95%;
-}
+} */
+
 .ibtn {
   height: 18px;
 }
