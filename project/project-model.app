@@ -22,20 +22,16 @@ section data model
   
 section operations
 
-  extend entity Project {
-    
+  extend entity Project {    
     function follow() {
       followers.add(securityContext.principal);
     }
-    
     function unfollow() {
       followers.remove(securityContext.principal);
-    }
-    
+    }    
     function requestJoin() {
       memberRequests.add(securityContext.principal);
-    }
-    
+    }    
   }
 
 section queries
@@ -50,7 +46,18 @@ section queries
       limit 10;
   }
 
-  extend entity Project {
+  extend entity Project { 
+    
+    function issueTypes(): List<Tag> {
+      return select t1
+      from Tag as t1 left join t1.tags as t2
+      where 
+        t1.project = ~this and
+        t2.project = ~this and
+        t2.name = ~ISSUE_TYPE_TAG()
+      group by t1.name
+      order by t1.name;
+    }
     
     function taggedIssues(tag: Tag): List<Issue> {
       return select i
