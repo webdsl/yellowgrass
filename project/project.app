@@ -93,8 +93,17 @@ section user interface
   }
 
   page projectStats(p : Project) {
-	  par { <i> "Issue Count (weekly)" </i> }
-	  par { image(p.getWeeklyStatsGraph()) }
+    title{ output(p.name) " statistics on YellowGrass.org" } 
+    bmain(p){
+      gridRow{
+        gridSpan(12){
+          projectToolbar(p) 
+          pageHeader{ output(p.name) " Statistics "}
+          par { <i> "Issue Count (weekly)" </i> } 
+          par { image(p.getWeeklyStatsGraph()) }           
+        }
+      }  
+	  }
   }
 
   template projectsAbbreviated(ps : List<Project>) {
