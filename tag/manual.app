@@ -1,15 +1,14 @@
 module tag/manual
 
   template tagHelp(){
-	  navigate tagManual() [class="btn btn-mini", style="height:14px;padding:7px;", title="Tag Help"] { "?" }
+	  navigate tagManual() [class="btn btn-mini", style="height:14px;padding:7px;", title="Tag Help"] { iQuestionSign }
   }
  
 page tagManual() {
 	title{"How to Tag on YellowGrass"}
-	main()
-	define body() {
-		par { <h1> "How to tag"</h1> }
-		par { <h2> "Whatever You Prefer"</h2> }
+	bmain{
+		pageHeader { "How to tag" }
+		pageHeader2 { "Whatever You Prefer" }
 		par {
 			"As nothing is perfect, projects gather issues. Sometimes a few, sometimes a lot. " 
 			"To keep things organized, we use tags. "
@@ -20,7 +19,7 @@ page tagManual() {
 			"Some tags are provided by default, but feel free to choose others. "
 		}
 			
-		par { <h2> "Special Tags" </h2> }
+		pageHeader2 { "Special Tags" }
 		par {
 			"Although you can choose any tag you like, two sets of tags are special, "
 			"they trigger extra functionality in Yellowgrass:"
@@ -44,7 +43,7 @@ page tagManual() {
 			}
 		}
 		
-		par { <h2> "Meta-tagging" </h2> }
+		pageHeader2 { "Meta-tagging" }
 		par {
 			"If you really like tagging, you get a lot of tags. "
 			"Fortunately, to manage your tags, you can tag tags: meta-tagging. "
