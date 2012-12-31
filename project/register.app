@@ -13,8 +13,9 @@ module project/register
       return edit(p);
     }
 	  title{"YellowGrass.org - Project Registration"}
-	  bmain{
-		  pageHeader{ "Create New Project" }
+	  bmain{     
+      buttonToolbar{ homeToolbar(securityContext.principal) }  
+		  pageHeader{ "Create New Project" } 
 		  horizontalForm { 
 			  controlGroup("Project name") { input(p.name) }
 			  formActions {
