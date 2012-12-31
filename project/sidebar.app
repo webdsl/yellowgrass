@@ -7,16 +7,14 @@ section project toolbar
       gridSpan(12){
         pullLeft{     
           buttonToolbar{ 
-            buttonGroup{     
-              projectDropdown(p)
-            }
+            projectTools(p)
           }
         }
       }
     }    
   }
 
-  template projectDropdown(p: Project) {
+  template projectTools(p: Project) {
     action followProject(p : Project) {
       p.follow();
       message("You will now receive email updates upon events in this project");
@@ -30,24 +28,66 @@ section project toolbar
       message("Project membership requested, awaiting project member approval...");
     }
     
-    navigate project(p) [class="btn"] { output(abbreviateNE(p.name,12)) }
-    dropdownCaret { 
-        dropdownMenuItem { navigate createIssue(p)          { iPlus " New Issue" } }        
-        dropdownMenuItem { navigate roadmap(p)              { iRoad " Roadmap"} }   
-        dropdownMenuItem { navigate projectIssues(p, true)  { iList " Open issues"} } 
-        dropdownMenuItem { navigate projectIssues(p, false) { iList " All issues"} }    
-        dropdownMenuItem { navigate edit(p)                 { iWrench " Project Settings"} }
+    buttonGroup{     
+      navigate project(p) [class="btn"] { output(abbreviateNE(p.name,12)) }
+      navigate createIssue(p)          [class="btn", title="New Issue", style="height:14px;padding:7px;"] { iPlus  }        
+      navigate roadmap(p)              [class="btn", title="Roadmap", style="height:14px;padding:7px;"] { iRoad }    
+      navigate projectIssues(p, true)  [class="btn", title=" Open issues", style="height:14px;padding:7px;"] { iList }  
+      navigate projectIssues(p, false) [class="btn", title=" All issues", style="height:14px;padding:7px;"] { iListAlt }     
+      navigate edit(p)                 [class="btn", title=" Project Settings", style="height:14px;padding:7px;"] { iWrench } 
         
-        dropdownMenuItem { submitlink followProject(p)      { "Follow Project" } }
-        dropdownMenuItem { submitlink unfollowProject(p)    { "Unfollow Project" } }
-        dropdownMenuItem { submitlink requestJoinProject(p) { "Request Project Membership" } }
+      submitlink followProject(p)      [class="btn", title="Follow Project", style="height:14px;padding:7px;"] { iThumbsUp  }  
+      submitlink unfollowProject(p)    [class="btn", title="Unfollow Project", style="height:14px;padding:7px;"] { iThumbsDown } 
+      submitlink requestJoinProject(p) [class="btn", title="Request Project Membership", style="height:14px;padding:7px;"] { iUser }     
+    }
+    searchBoxInToolbar(p, "")
+  }
+  
+  template searchBoxInToolbar(p: Project, q: String) {
+    var query : String := q
+    action search(q: String) { return search(p, q); }
+    buttonGroup{
+      form{
+        inputAppend{
+          input(query)[placeholder="Search", class="span2"]  
+          submitlink search(query) [class="btn", style="height:18px; padding:5px; margin:0px;"] { iSearch }
+        }
+      }
     }
   }
+  
+  // template projectDropdown(p: Project) {
+  //   action followProject(p : Project) {
+  //     p.follow();
+  //     message("You will now receive email updates upon events in this project");
+  //   } 
+  //   action unfollowProject(p : Project) {
+  //     p.unfollow();
+  //     message("You will no longer receive email updates upon events in this project");
+  //   }  
+  //   action requestJoinProject(p : Project) {
+  //     p.requestJoin();
+  //     message("Project membership requested, awaiting project member approval...");
+  //   }
+  //   
+  //   navigate project(p) [class="btn"] { output(abbreviateNE(p.name,12)) }
+  //   dropdownCaret { 
+  //       dropdownMenuItem { navigate createIssue(p)          { iPlus " New Issue" } }        
+  //       dropdownMenuItem { navigate roadmap(p)              { iRoad " Roadmap"} }   
+  //       dropdownMenuItem { navigate projectIssues(p, true)  { iList " Open issues"} } 
+  //       dropdownMenuItem { navigate projectIssues(p, false) { iList " All issues"} }    
+  //       dropdownMenuItem { navigate edit(p)                 { iWrench " Project Settings"} }
+  //       
+  //       dropdownMenuItem { submitlink followProject(p)      { "Follow Project" } }
+  //       dropdownMenuItem { submitlink unfollowProject(p)    { "Unfollow Project" } }
+  //       dropdownMenuItem { submitlink requestJoinProject(p) { "Request Project Membership" } }
+  //   }
+  // }
   
 section project menu
 
   template projectMenu(p: Project) {
-    searchBox(p, "")
+    //searchBox(p, "")
   }
    
 section old code

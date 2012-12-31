@@ -9,10 +9,8 @@ section issue commands
     gridRow{
       gridSpan(12){
         pullLeft{     
-          buttonToolbar{
-            buttonGroup{     
-              projectDropdown(i.project)    
-            }
+          buttonToolbar{     
+            projectTools(i.project)
           }
         }
         pullRight{      

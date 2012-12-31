@@ -48,9 +48,19 @@ module search
     action search(q: String) { return search(p, q); }
     form[class="navbar-form"]{
     	inputAppend{ 
-    	  input(query)[placeholder="Search"] 
+    	  input(query)[placeholder="Search", class="span2"]  
         submitlink search(query) [class="btn", style="height:18px; padding:5px; margin:0px;"] { iSearch }
       }
     }
   }
+  
+  // template searchBoxInToolbar(p: Project, q: String) {
+  //   var query : String := q
+  //   action search(q: String) { return search(p, q); }
+  //   form[class="navbar-form"]{
+  //     input(query)[placeholder="Search", class="span2"]  
+  //     submitlink search(query) [class="btn", style="height:18px; padding:5px; margin:0px;"] { iSearch }
+  //   }
+  // }
+  
   

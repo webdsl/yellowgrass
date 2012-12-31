@@ -16,7 +16,8 @@ module tag/sidebar
         pullLeft{     
           buttonToolbar{
             buttonGroup{     
-              projectDropdown(t.project)    
+              //projectDropdown(t.project) 
+              projectTools(t.project)   
             }
           }
         }
