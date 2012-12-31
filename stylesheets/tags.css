@@ -18,6 +18,10 @@
     display: none;
 }
 
+.btn-group input[type="text"] {
+	margin : 0;
+}
+
 /**************** Tags ****************/
 
 .Tags {
