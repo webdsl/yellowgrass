@@ -62,10 +62,10 @@ access control rules
 		principal == i.reporter
 	}
 	
-	rule template attachmentAdditionInput(i : Issue) {
+	rule ajaxtemplate attachmentAdditionInput(i : Issue) {
 		principal in i.project.members || 
 		principal == i.reporter
-	}
+	} 
 	
 	rule ajaxtemplate attachmentList(i : Issue) {
 		mayAccess(i.project)		

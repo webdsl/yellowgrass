@@ -31,14 +31,13 @@ section view
 section adding attachments 
 
   template attachmentAddition(i : Issue) {
-    attachmentAdditionInput(i)   
-    // action add() { replace(attachmentAdditionBox, attachmentAdditionInput(i));  }
-    // placeholder attachmentAdditionBox {
-    //   submitlink add() [class="btn"] { iPlus " Add Attachment" }
-    // }
+    action add() { replace(attachmentAdditionBox, attachmentAdditionInput(i));  }
+    placeholder attachmentAdditionBox {
+      submitlink add() [class="btn"] { iPlus " Add Attachment" }
+    }
   }
 
-  template attachmentAdditionInput(i : Issue) {
+  ajax template attachmentAdditionInput(i : Issue) {
     var newFile : File;
     action addAttachment(newFile : File, issue : Issue) {
       var newAttachment := Attachment {
@@ -51,7 +50,7 @@ section adding attachments
     form {
       par { 
         input(newFile) { validate(newFile != null && newFile.fileName() != "", "") }
-        submitlink addAttachment(newFile, i) [class="btn"] { iPlus " Add" }
+        submit addAttachment(newFile, i) [class="btn"] { "Add Attachment" }
       }
     }
   }
