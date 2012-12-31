@@ -18,7 +18,7 @@ imports issue/ghost
 section navigation
 
   template nav(i: Issue) {
-    navigate issue(i.project, i.number) [all attributes] { output(i.number) }
+    navigate issue(i.project, i.number) [all attributes] { "#" output(i.number) }
   }
   
   template reporter(i: Issue) {
