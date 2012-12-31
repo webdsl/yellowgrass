@@ -8,7 +8,7 @@ section data model
       validate(name.length() >= 3, "Project names should be three characters or longer"),
       validate(/[a-z0-9A-Z._]*/.match(name), "Project names may contain characters, numbers, dots and underscores."))
 
-    code             :: String
+    //code             :: String
     description      :: WikiText
     url              :: URL
     issues           -> Set<Issue>
