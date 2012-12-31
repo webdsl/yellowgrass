@@ -148,7 +148,7 @@ section tagging
 		  form { 
 		    inputAppend{
 			    input(t) [class="input-mini", onkeyup := updateTagSuggestions(t), autocomplete:="off"]		  
-			    submitlink addTag(t, i) [class="btn btn-mini", style="height:14px;padding:7px;", title="Add tag"] { iPlus }
+			    submitlink addTag(t, i) [class="btn btn-mini", style="height:14px;padding:7px;", title="Add tag"] { iTag }
 			    tagHelp
 			  }
 			  placeholder tagValidityFeedback {""}
@@ -169,9 +169,9 @@ section tagging
 	  var suggestions : List<Tag> := tagSuggestions(tagPrefix, issue);
     action addSuggestedTag(suggestion : Tag) {
       issue.addTag(suggestion);
-    }
-    div[class="dropdown open"]{ 
-      list{
+    } 
+    div[class="dropdown open"]{   
+      dropdownMenu{
 	      for(suggestion : Tag in suggestions) {
 			    dropdownMenuItem{ submitlink addSuggestedTag(suggestion) { output(suggestion.name) } }
 	      }
