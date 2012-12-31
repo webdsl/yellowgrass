@@ -23,9 +23,10 @@ imports elib/lib
   
   define mainResponsive() { 
     mainResponsiveStyle{ 
-      navbarResponsive{ 
+      navbarResponsive{  
         navItems{
           navItem{ navigate about() { "About" } }
+          navItem{ navigate tagManual() { "Manual" } }
         }
         pullRight{ signInOut } 
       }
@@ -43,6 +44,7 @@ imports elib/lib
       navbarResponsive{ 
         navItems{
           navItem{ navigate about() { "About" } }
+          navItem{ navigate tagManual() { "Manual" } }
           projectMenu(p)
         }
         pullRight{ signInOut } 
