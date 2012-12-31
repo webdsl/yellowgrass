@@ -5,6 +5,22 @@ imports user/password
 // Projects recently posted to
 // Important issues (votes / assigned / recent / recent comments)
 
+  template homeToolbar(u: User) {
+    gridRow{
+      gridSpan(12){
+        buttonGroup{
+          navigate home() [class="btn"] { iUser " " output(u.name) }
+          navigate registerProject()   [class="btn", title="Create New Project", style="height:14px;padding:7px;"] { iPlus }
+          navigate editUser(u)         [class="btn", title="Edit Your Profile", style="height:14px;padding:7px;"] { iPencil  }
+          navigate editUserPassword(u) [class="btn", title="Change Password", style="height:14px;padding:7px;"] { iLock  }
+          if (u.deviceKeySet.length > 0) { 
+            navigate manageDevices(u)  [class="btn", title="Manage Devices", style="height:14px;padding:7px;"] { iCamera  } 
+          }
+        }
+      } 
+    }
+  }
+
   page home() {
 	  // Workaround for bug that access control is enforced after variable initialization (init block is executed after access control)
 	  var u : User; 
@@ -21,20 +37,7 @@ imports user/password
 	
 	  title{"YellowGrass.org - " output(u.name)}
 	  bmain{
-	    gridRow{
-        gridSpan(12){
-          buttonToolbar{
-            buttonGroup{
-              navigate registerProject()   [class="btn"] { iPlus " Create New Project" }
-              navigate editUser(u)         [class="btn"] { iPencil " Edit Your Profile" }
-              navigate editUserPassword(u) [class="btn"] { iPencil " Change Password" }
-              if (u.deviceKeySet.length > 0) { 
-                navigate manageDevices(u)  [class="btn"] { iCamera " Manage Devices" } 
-              } 
-            } 
-          }
-        }
-      }
+      buttonToolbar{ homeToolbar(u) } 
 	    gridRow{
         gridSpan(12){
           pageHeader2{ output(u.name) } 
