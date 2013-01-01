@@ -107,6 +107,7 @@ extend session securityContext {
       securityContext.principal := null;
       return root();
     }
+    yourProjects
 	  navItem{	      
 	    navigate home() { iUserWhite " " output(securityContext.principal.name) }
 	  }
