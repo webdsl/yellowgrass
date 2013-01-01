@@ -82,6 +82,10 @@ section data model
     }
   }
   
+  function tagify(x: String): String {
+    return /[^a-z0-9\.\-_@!]/.replaceAll("", x.toLowerCase());
+  } 
+  
 section suggest tags
 
   function tagSuggestions(tagPrefix : String, issue : Issue): List<Tag> {
@@ -103,6 +107,7 @@ section suggest tags
 section issue tags
 
   extend entity Issue {
+    
     function addTag(t : Tag) {
       tags.add(t);
       log.add(
