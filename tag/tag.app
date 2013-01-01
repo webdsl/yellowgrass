@@ -12,7 +12,7 @@ imports comment/tagControl
 section navigation
 
   template nav(t: Tag) {
-    navigate tag(t.project, t.name) { output(t.name) }
+    navigate tag(t.project, t.name) [target = "_blank"] { output(t.name) }
   }
 
 section tag page
@@ -41,12 +41,17 @@ section tag page
   }
 
   page editTag(p : Project, t : Tag) {
-	  title{output(t.project.name) "." output(t.name) " on YellowGrass.org [Editing]"}
+    var tagName := t.name;
+    action save() {
+      t.name := tagify(tagName); 
+      return tag(t.project, t.name);
+    }
+	  title{ output(t.project.name) "." output(t.name) " on YellowGrass.org [Editing]" }
 	  bmain(p){
       tagCommandsToolbar(t) 
 		  pageHeader2{ "Edit Tag" }
 		  horizontalForm {
-			  controlGroup("Name") { input(t.name) }
+			  controlGroup("Name") { input(tagName) }
 			  controlGroup("Description") { input(t.description) }
 			  formActions{
 			    submitlink save() [class="btn btn-primary"] { "Save" } " "
@@ -54,9 +59,6 @@ section tag page
 				}
 			}
 		}
-	  action save(){
-		  return tag(t.project, t.name);
-	  }
   }
   
 section displaying tags
@@ -91,7 +93,7 @@ section displaying tags
   }
 
   template tags(t : Tag, editing : Bool) {
-	  div[class="Tags"] {
+	  div[class="tags"] {
 		  for(tag : Tag in arrangeTags(t.tags, false)) {			  
 			  showTag(t, tag, editing)
 		  } separated-by { " " }
@@ -112,15 +114,19 @@ section displaying tags
   }
 
   template tags(i : Issue, editing : Bool, summary : Bool) {
-    for(tag : Tag in arrangeTags(i.tags, summary)) {
-		  showTag(i, tag, editing)
-		} separated-by { " " } 
+    div[class="tags"] {
+      for(tag : Tag in arrangeTags(i.tags, summary)) {
+		    showTag(i, tag, editing)
+		  } separated-by { " " } 
+		}
   }
 
   template tags(ts : List<Tag>, p : Project) {
-	  for(tag : Tag in ts) {
-			navigate tag(p, tag.name) { output(tag.name) }
-		} separated-by { " " }
+    div[class="tags"] {
+	    for(tag : Tag in ts) {
+			  navigate tag(p, tag.name) { output(tag.name) }
+		  } separated-by { " " }
+		}
   }
 
 section tagging
@@ -128,6 +134,7 @@ section tagging
   template addTag(i : Issue) {
 	  var t : String := ""
     action addTag(t : String, i : Issue) {
+      var t := tagify(t); 
       var f := Tag{ name := t };
       var feedback := f.validateName();
       if(feedback.exceptions.length > 0) {
