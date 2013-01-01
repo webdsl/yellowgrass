@@ -1,27 +1,4 @@
 
-.listbox {
-    background-clip: padding-box;
-    background-color: #FFFFFF;
-    border: 1px solid rgba(0, 0, 0, 0.2);
-    border-radius: 6px 6px 6px 6px;
-    float: left;
-    left: 0;
-    list-style: none outside none;
-    margin: 2px 0 0;
-    min-width: 160px;
-    padding: 10px;
-    top: 100%;
-    z-index: 1000;
-}
-
-.Ghost {
-    display: none;
-}
-
-.btn-group input[type="text"] {
-	margin : 0;
-}
-
 /**************** Tags ****************/
 
 .Tags {
@@ -231,3 +208,35 @@ a.PurpleTag:active   { color: #6348bc; }
 .TagAddition .Suggestion a:hover 	{ color: #608060; }
 .TagAddition .Suggestion a:active 	{ color: #999999; }
 
+/* tweaks */
+
+.listbox {
+    background-clip: padding-box;
+    background-color: #FFFFFF;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 6px 6px 6px 6px;
+    float: left;
+    left: 0;
+    list-style: none outside none;
+    margin: 2px 0 0;
+    min-width: 160px;
+    padding: 10px;
+    top: 100%;
+    z-index: 1000;
+}
+
+.Ghost {
+    display: none;
+}
+
+.btn-group input[type="text"] {
+  margin : 0;
+}
+
+.btn-group form .input-append input {
+  vertical-align: middle;
+}
+
+.tags .btn-group + .btn-group {
+    margin: 0px;
+}
