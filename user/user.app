@@ -11,25 +11,10 @@ section user page
   page user(usertag : String) {
 	  var u : User := getUser(usertag)
 	  var reportedIssues : List<Issue> := u.reportedIssues();
-		  // from Issue
-		  // where _reporter = ~u and _project._private=false//not( project.private)
-		  // order by _submitted desc
-		  // limit 15;
 	  var projects : List<Project> := u.projects();
-		  // select p 
-		  // from Project as p
-		  // left join p.members as m 
-		  // where _private=false and m = ~u
-		  // limit 30;
 	 
 	  title{output(u.name) " on YellowGrass.org" }
 	  bmain{
-		  // if(securityContext.loggedIn) {
-			 //  par [class := "Back"] { 
-				//   rawoutput { " &raquo; " } 
-				//   navigate(home()) {"Home"}
-			 //  }
-		  // }
 		  pageHeader2 { output(u.name) }
 		  if(u.url != null && u.url != "") {
 			  par { "Home Page: " output(u.url) }
@@ -62,6 +47,7 @@ section edit user profile
       return home();
     }
 	  bmain{
+      buttonToolbar{ homeToolbar(u) } 	    
 		  pageHeader2{ "Edit Profile" }
 		  horizontalForm {
 			  controlGroup("Name") { input(u.name) }
@@ -79,6 +65,7 @@ section edit user profile
   page manageDevices(u : User) {
 	  title{output(u.name) " on YellowGrass.org [Editing]"}
 	  bmain{
+      buttonToolbar{ homeToolbar(u) } 
 		  pageHeader2{ "Manage Devices" }
 		  form {
 			  par {
@@ -99,14 +86,10 @@ section edit user profile
 					  }
 				  }
 			  }
-			  par {
-				  navigate(home()) {"Back"}
-			  }
 		  }
 	  }
 	  action save(){
-		  u.save();
-		  //message("Profile saved");
+		  message("Profile saved");
 		  return home();
   	}
   }
