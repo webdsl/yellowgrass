@@ -2,6 +2,8 @@ module user/password
 
 imports emails
 
+section change password
+
   page editUserPassword(u : User){
     var pw   : Secret;
 	  var temp : Secret;
@@ -9,6 +11,7 @@ imports emails
 	
 	  title{"YellowGrass.org - Change Password"}
 	  bmain{
+      buttonToolbar{ homeToolbar(u) } 	    
 		  pageHeader{ "Change Password" }
 		  horizontalForm { 
 			  // controlGroup("Current Password"){
@@ -33,6 +36,8 @@ imports emails
 	  }
   }
 
+section reset password
+
   page resetUserPassword(){
 	  title{"YellowGrass.org - Request Password Reset"}
     var email : Email;
@@ -46,7 +51,7 @@ imports emails
 			    submitlink resetPassword() [class="btn btn-primary"] { "Reset Password" }
 			  }
 			}
-		}
+		} 
 		action resetPassword(){
 			// Lookup user
 			var users : List<User> := findUserByEmail(email);
