@@ -5,6 +5,8 @@ imports user/password
 // Projects recently posted to
 // Important issues (votes / assigned / recent / recent comments)
 
+section operations for user
+
   template homeToolbar(u: User) {
     gridRow{
       gridSpan(12){
@@ -20,6 +22,30 @@ imports user/password
       } 
     }
   }
+
+  template yourProjects() {
+    if(securityContext.loggedIn) {
+      dropdownInNavbar("Projects") {
+        dropdownMenu{  
+          for(p : Project in securityContext.principal.projects order by p.getkey asc) {
+            dropdownMenuItem{
+              navigate project(p) { output(p.name) }
+            }
+          }  
+          dropdownMenuDivider
+          dropdownMenuItem{
+            navigate projectList() { "All Projects"}
+          } 
+          dropdownMenuDivider
+          dropdownMenuItem{
+            navigate registerProject() { iPlus " Create New Project"}
+          }
+        }
+      }
+    }
+  }
+  
+section home page of user
 
   page home() {
 	  // Workaround for bug that access control is enforced after variable initialization (init block is executed after access control)
@@ -66,7 +92,7 @@ imports user/password
           }
 				  pageHeader3 { "Recent Issues" }
 				  par { issues(recentIssues.set(), true, false, true, 50, true, false) }
-				  par { navigate(postedIssues()) {"View issues posted by you"} }
+				  par { navigate postedIssues() {"View issues posted by you"} }
 				}
 		  }
 		}

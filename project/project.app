@@ -16,8 +16,8 @@ section project lists
 
   template projects(ps : List<Project>) {
     tableBordered {
-      for(p : Project in ps) { 
-        row {
+      for(p : Project in ps order by p.getkey asc) { 
+        row { 
           column { navigate project(p) {output(p.name)} }
           column {
             output((select count(i) from Issue as i where i.open=true and i.project = ~p)) 
