@@ -21,12 +21,25 @@ imports elib/lib
     navigate root() [class="brand"]{ "YellowGrass" }
   }
   
-  define mainResponsive() { 
+  template aboutMenu() {
+    dropdownInNavbar("About"){ 
+      dropdownMenu{              
+        dropdownMenuItem{ navigate about() { "About YellowGrass" } }
+        dropdownMenuItem{ navigate features() { "Features" } }
+        dropdownMenuItem{ navigate tagManual() { "Tag Manual" } }
+        dropdownMenuDivider
+        dropdownMenuItem{
+          navigate projectList() { "Browse Public Projects"}
+        }
+      }
+    }    
+  }
+  
+  template mainResponsive() { 
     mainResponsiveStyle{ 
       navbarResponsive{  
         navItems{
-          navItem{ navigate about() { "About" } }
-          navItem{ navigate tagManual() { "Manual" } }
+          aboutMenu
         }
         pullRight{ signInOut } 
       }
@@ -43,9 +56,7 @@ imports elib/lib
     mainResponsiveStyle{ 
       navbarResponsive{ 
         navItems{
-          navItem{ navigate about() { "About" } }
-          navItem{ navigate tagManual() { "Manual" } }
-          projectMenu(p)
+          aboutMenu
         }
         pullRight{ signInOut } 
       }
