@@ -8,16 +8,25 @@ section data model
       validate(name.length() >= 3, "Project names should be three characters or longer"),
       validate(/[a-z0-9A-Z._]*/.match(name), "Project names may contain characters, numbers, dots and underscores."))
 
-    //code             :: String
     description      :: WikiText
     url              :: URL
     issues           -> Set<Issue>
     members          -> Set<User>
     memberRequests   -> Set<User>
     followers        -> Set<User>
-    //created        :: DateTime
     private          :: Bool (searchable)
     email            :: Email
+
+    key              :: String    
+    function setName(x: String) {
+      key := x.toLowerCase();
+    }
+    getkey :: String := getkey()
+    function getkey(): String {
+      if(key == null) { key := name.toLowerCase(); }
+      return key;
+    }
+    
   }
   
 section operations
