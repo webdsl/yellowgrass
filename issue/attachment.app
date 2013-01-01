@@ -13,11 +13,11 @@ section view
     if(i.attachments.length > 0) {
       tableBordered  {
         for(a : Attachment in i.attachments order by a.date desc) {
-          form {row { 
-            column{ output(a.file) } 
+          form { row { 
+            column{ iFile " " output(a.file) } 
             column{ output(a.date.format("MMM d")) }
             column{ submitlink deleteAttachment(a) [class="btn"] { iRemove } }
-          }}
+          } }
         }
       }
       par { " " }
