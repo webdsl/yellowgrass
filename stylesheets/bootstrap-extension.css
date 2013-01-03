@@ -4,12 +4,32 @@
 }
 
 body {
-	font-size: 16px;
+	font-size: 15px;
 	line-height: 1.5em;
-	font-family: Georgia, serif;
+	font-family: Arial, sans-serif;
 }
+blockquote p, blockquote ul, blockquote li {
+    font-size: 15px;
+    line-height: 1.4em;
+    margin-bottom: 7px;
+}
+
+.page-header {
+    border-bottom: 1px solid #EEEEEE;
+    margin: 20px 0 10px;
+    padding-bottom: 0;
+}
+
+hr { 
+	margin : 3px 0;
+}
+
+.page-header h1, .page-header h2, .page-header h3 {
+	margin: 0;
+}
+
 .footer{
-	font-size: 14px;
+	font-size: 13px;
 }
 .navbar{
 	font-size: 14px;
@@ -21,6 +41,7 @@ li{
 	line-height: 1.5em;
 }
 
+/*
 div.byline {
   margin: 4px 0 20px 0;
 }
@@ -47,6 +68,7 @@ div.attachments{
 	margin: 20px 0 20px 0;
 	font-size: 14px;
 }
+*/
 
 /* img {
 	margin: 10px;
@@ -74,6 +96,7 @@ h3 {
 	border: 0
 }
 
+/*
 .postContent pre, .postContent pre code {
 	font-size: 15px;
 }
@@ -89,13 +112,10 @@ h3 {
   font-family: Georgia,serif;
   line-height: 1.5em;
 }
-blockquote p, blockquote ul, blockquote li {
-  font-size: 16px;
-  line-height: 1.5em;
-}
 .postContent blockquote, .postContent ul, .postContent li  {
   font-family: Georgia,serif;
 }
+*/
 
 h3 {
   line-height: 1.2em;
