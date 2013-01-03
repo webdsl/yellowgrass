@@ -45,7 +45,7 @@ section issue page
       pageHeader2{
         output(i.getTitle()) " "
         if(nrVotes > 0) { " (" output(nrVotes) ") " } 
-        if(!i.open) { iOk }      
+        if(!i.open) { iOk }       
       }
       gridRow{
         gridSpan(12) { 
@@ -78,7 +78,7 @@ section issue page
           // output(/\n/.replaceAll("<br />", b1.text) as WikiText)
       
           attachmentList(i)
-          attachmentAddition(i)
+          //attachmentAddition(i)
             
           if(i.log.length > 0) {
             pageHeader2 { "Issue Log" }

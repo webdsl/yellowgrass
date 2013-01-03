@@ -57,18 +57,18 @@ access control rules
 		principal.projects.length > 1
 	}
 
-	rule template attachmentAddition(i : Issue) {
-		principal in i.project.members || 
-		principal == i.reporter
-	}
+	// rule template attachmentAddition(i : Issue) {
+	// 	principal in i.project.members || 
+	// 	principal == i.reporter
+	// }
   rule template attachmentAdditionTool(i : Issue) {
     principal in i.project.members || 
     principal == i.reporter
   }
   	
-	rule ajaxtemplate attachmentAdditionInput(i : Issue) {
+	rule template attachmentAdditionInput(i : Issue) {
 		principal in i.project.members || 
-		principal == i.reporter
+		principal == i.reporter 
 	} 
 	
 	rule ajaxtemplate attachmentList(i : Issue) {
@@ -77,6 +77,11 @@ access control rules
 			principal in i.project.members || 
 			principal == i.reporter
 		}
+	}
+	
+	rule page attachment(i: Issue) {
+	  principal in i.project.members || 
+    principal == i.reporter 
 	}
 
   rule template issueCommandsMenu(i : Issue) {

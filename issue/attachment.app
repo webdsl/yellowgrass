@@ -11,16 +11,18 @@ section view
 
   ajax template attachmentList(i : Issue) {
     if(i.attachments.length > 0) {
+      pageHeader2{ "Attachments" }
       tableBordered  {
         for(a : Attachment in i.attachments order by a.date desc) {
-          form { row { 
-            column{ iFile " " output(a.file) } 
-            column{ output(a.date.format("MMM d")) }
-            column{ submitlink deleteAttachment(a) [class="btn"] { iRemove } }
-          } }
+          form { 
+            row { 
+              column{ iFile " " output(a.file) } 
+              column{ output(a.date.format("d MMMM yyyy 'at' HH:mm")) }
+              column{ submitlink deleteAttachment(a) [class="btn"] { iRemove } }
+            } 
+          }
         }
       }
-      par { " " }
     }
     action deleteAttachment(a : Attachment) {
       i.attachments.remove(a);
@@ -30,21 +32,21 @@ section view
   
 section adding attachments 
 
-  template attachmentAddition(i : Issue) {
-    //action add() { replace(attachmentAdditionBox, attachmentAdditionInput(i));  }
-    placeholder attachmentAdditionBox {
-      // pullRight{ 
-      //   par{ submitlink add() [class="btn btn-mini"] { iPlus " Add Attachment" } }
-      // }
-    } 
-  } 
+  // template attachmentAddition(i : Issue) {
+  //   //action add() { replace(attachmentAdditionBox, attachmentAdditionInput(i));  }
+  //   placeholder attachmentAdditionBox {
+  //     // pullRight{ 
+  //     //   par{ submitlink add() [class="btn btn-mini"] { iPlus " Add Attachment" } }
+  //     // }
+  //   } 
+  // } 
    
   template attachmentAdditionTool(i : Issue) {
-    action add() { replace(attachmentAdditionBox, attachmentAdditionInput(i));  }
-    submitlink add() [class="btn", title="Add Attachment", style="height:14px;padding:7px;"] { iFile  }
-  }
+    //action add() { replace(attachmentAdditionBox, attachmentAdditionInput(i));  }
+    navigate attachment(i) [class="btn", title="Add Attachment", style="height:14px;padding:7px;"] { iFile  }
+  }  
 
-  ajax template attachmentAdditionInput(i : Issue) {
+  template attachmentAdditionInput(i : Issue) {
     var newFile : File;
     action addAttachment(newFile : File, issue : Issue) {
       var newAttachment := Attachment {
@@ -54,11 +56,23 @@ section adding attachments
       issue.attachments.add(newAttachment);
       return issue(i.project, i.number); 
     }
-    form {
-      par { 
+    horizontalForm {
+      controlGroup("File"){
         input(newFile) { validate(newFile != null && newFile.fileName() != "", "") }
-        submit addAttachment(newFile, i) [class="btn"] { "Add Attachment" }
       }
+      formActions{
+        submit addAttachment(newFile, i) [class="btn btn-primary"] { "Add Attachment" }
+      }
+    }
+  }
+  
+section add attachment page
+
+  page attachment(i: Issue) {
+    bmain(i.project){
+      issueCommandsMenu(i)
+      pageHeader2{"Add Attachment:" output(i.getTitle()) }
+      attachmentAdditionInput(i)
     }
   }
 
