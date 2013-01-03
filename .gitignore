@@ -3,3 +3,7 @@
 .servletapp/*
 .webdsl-fragment-cache/*
 .webdsl-parsecache/*
+application.ini
+application.ini.server
+.dependencies.webdsl
+.saved-but-not-built
