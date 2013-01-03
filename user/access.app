@@ -85,9 +85,10 @@ extend session securityContext {
   override template login() {
 	  var email : Email;
 	  var pass : Secret;
-	
+	  var keepLoggedIn : Bool;
     action login(){
       securityContext.principal := null;
+      getSessionManager().stayLoggedIn := keepLoggedIn;
       validate(authenticate(email,pass), "Incorrect email address or incorrect password");
       return home();
     }
@@ -95,6 +96,7 @@ extend session securityContext {
 	  horizontalForm{
 		  controlGroup("Email") { input(email) }
 	    controlGroup("Password") { input(pass) }
+	    controlGroup("Stay logged in") { input(keepLoggedIn) }
 		  formActions {
 			  submitlink login() [class="btn btn-primary"] { "Sign In" } " "
 		    navigate resetUserPassword() [class="btn"] { "Reset Password" } 
