@@ -12,11 +12,12 @@ section operations for user
       gridSpan(12){
         buttonGroup{
           navigate home() [class="btn"] { iUser " " output(u.name) }
-          navigate registerProject()   [class="btn", title="Create New Project", style="height:14px;padding:7px;"] { iPlus }
-          navigate editUser(u)         [class="btn", title="Edit Your Profile", style="height:14px;padding:7px;"] { iPencil  }
-          navigate editUserPassword(u) [class="btn", title="Change Password", style="height:14px;padding:7px;"] { iLock  }
+          navigate postedIssues() [class="btn", title="Issues posted by you", style="height:14px;padding:7px;"] { iListAlt }     
+          navigate registerProject()   [class="btn", title="Create new project", style="height:14px;padding:7px;"] { iPlus }
+          navigate editUser(u)         [class="btn", title="Edit your profile", style="height:14px;padding:7px;"] { iPencil  }
+          navigate editUserPassword(u) [class="btn", title="Change your password", style="height:14px;padding:7px;"] { iLock  }
           if (u.deviceKeySet.length > 0) { 
-            navigate manageDevices(u)  [class="btn", title="Manage Devices", style="height:14px;padding:7px;"] { iCamera  } 
+            navigate manageDevices(u)  [class="btn", title="Manage devices", style="height:14px;padding:7px;"] { iCamera  } 
           }
         }
       } 
