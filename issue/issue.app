@@ -45,36 +45,41 @@ section issue page
       pageHeader2{
         output(i.getTitle()) " "
         if(nrVotes > 0) { " (" output(nrVotes) ") " } 
-        if(!i.open) { iOk }
+        if(!i.open) { iOk }      
+      }
+      gridRow{
+        gridSpan(12) { 
+          pullRight{ small{ par{
+            "Submitted "
+            reporter(i, "by ")
+            "on " output(format(i.submitted))
+          } } }
+        }
       }
       gridRow{
         gridSpan(12){
           blockquote { output(i.description) } 
           pullRight{ addTag(i) }          
-          tags(i, true) 
-          hrule
+          tags(i, true, false, false)  
         }
       }
-      gridRow{
-        gridSpan(12){             
-          par{
-            nav(i.project) " issue # " output(i.number)
-            " submitted "
-            reporter(i, "by ")
-            "on " output(format(i.submitted))
-          }
-        }
-      }
+      // gridRow{
+      //   gridSpan(12){             
+      //     par{
+      //       nav(i.project) " issue # " output(i.number)
+      //       " submitted "
+      //       reporter(i, "by ")
+      //       "on " output(format(i.submitted))
+      //     }
+      //   }
+      // }
       gridRow{
         gridSpan(12){
-          hrule
           // output(/\n/.replaceAll("<br />", b1.text) as WikiText)
       
           attachmentList(i)
           attachmentAddition(i)
-      
-          hrule
-      
+            
           if(i.log.length > 0) {
             pageHeader2 { "Issue Log" }
             par { events(i.log) }
