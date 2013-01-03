@@ -20,6 +20,9 @@ access control rules
 	rule ajaxtemplate commentAdditionInput(i : Issue) {
 		loggedIn && mayAccess(i.project)
 		
+		rule action updateCommentPreview(d : WikiText) {
+			loggedIn
+		}
 		rule action comment(text : WikiText, issue : Issue) {
 			loggedIn && 
 			mayAccess(issue.project)
@@ -39,5 +42,9 @@ access control rules
 	rule template issueMoved(im : IssueMoved) {
 		!im.target.project.private || 
 		principal in im.target.project.members
+	}
+	
+	rule ajaxtemplate commentPreview(d : WikiText) {
+		loggedIn
 	}
 	
