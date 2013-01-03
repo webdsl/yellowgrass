@@ -25,11 +25,13 @@ section issue commands
             buttonGroup{       
               nav(i)[class="btn"]        
               navigate   editIssue(i)  [class="btn", title="Edit Issue", style="height:14px;padding:7px;"] { iPencil } 
+              attachmentAdditionTool(i)
+              commentAdditionTool(i)
               submitlink close(i)      [class="btn", title="Close Issue", style="height:14px;padding:7px;"] { iOk } 
               submitlink reopen(i)     [class="btn btn-inverse", title="Reopen Issue", style="height:14px;padding:7px;"] { iOkWhite }
               submitlink vote(i)       [class="btn", title="Vote and Follow", style="height:14px;padding:7px;"] { iThumbsUp  }
               issueMoveTargetsMenu(i) 
-              // addTag(i)
+              // addTag(i) 
             } 
           }
         }

@@ -13,6 +13,10 @@ access control rules
 		loggedIn
 	}
 	
+  rule template commentAdditionTool(i : Issue) {
+    loggedIn
+  }
+  	
 	rule ajaxtemplate commentAdditionInput(i : Issue) {
 		loggedIn
 		

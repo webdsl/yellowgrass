@@ -31,10 +31,17 @@ section view
 section adding attachments 
 
   template attachmentAddition(i : Issue) {
-    action add() { replace(attachmentAdditionBox, attachmentAdditionInput(i));  }
+    //action add() { replace(attachmentAdditionBox, attachmentAdditionInput(i));  }
     placeholder attachmentAdditionBox {
-      submitlink add() [class="btn"] { iPlus " Add Attachment" }
-    }
+      // pullRight{ 
+      //   par{ submitlink add() [class="btn btn-mini"] { iPlus " Add Attachment" } }
+      // }
+    } 
+  } 
+   
+  template attachmentAdditionTool(i : Issue) {
+    action add() { replace(attachmentAdditionBox, attachmentAdditionInput(i));  }
+    submitlink add() [class="btn", title="Add Attachment", style="height:14px;padding:7px;"] { iFile  }
   }
 
   ajax template attachmentAdditionInput(i : Issue) {

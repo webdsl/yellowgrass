@@ -61,7 +61,11 @@ access control rules
 		principal in i.project.members || 
 		principal == i.reporter
 	}
-	
+  rule template attachmentAdditionTool(i : Issue) {
+    principal in i.project.members || 
+    principal == i.reporter
+  }
+  	
 	rule ajaxtemplate attachmentAdditionInput(i : Issue) {
 		principal in i.project.members || 
 		principal == i.reporter

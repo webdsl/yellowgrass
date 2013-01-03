@@ -63,15 +63,26 @@ section view
 	  }
   }
 
-  template commentAddition(i : Issue) {
+  template commentAddition(i : Issue) { 
 	  placeholder commentAdditionBox {
-		  par { submitlink showCommentAdditionInput(i) [class="btn"] { iPlus " New Comment" } }
+		  // pullRight { par{
+		  //   submitlink showCommentAdditionInput(i) [class="btn btn-mini"] { iPlus " New Comment" } 
+		  // } }
 	  }
-	  action showCommentAdditionInput( i : Issue ) {
-		  replace(commentAdditionBox, commentAdditionInput(i));
-	  }
+	  // action showCommentAdditionInput( i : Issue ) {
+		 //  replace(commentAdditionBox, commentAdditionInput(i));
+	  // }
   }
- 
+
+  template commentAdditionTool(i : Issue) { 
+    submitlink showCommentAdditionInput(i) [class="btn btn-mini", title="New Comment", style="height:14px;padding:7px;"] { 
+      iComment  
+    } 
+    action showCommentAdditionInput( i : Issue ) {
+      replace(commentAdditionBox, commentAdditionInput(i));
+    }
+  }
+    
   ajax template commentAdditionInput(i : Issue) {
 	  var newCommentText : WikiText := "";
 	  pageHeader3 { "New Comment" }
