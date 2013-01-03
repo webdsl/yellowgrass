@@ -89,8 +89,8 @@ section view
   	  action ignore-validation updateCommentPreview(d : WikiText) {
       	replace(commentPreview, commentPreview(d));
       }
-      
 	  var newCommentText : WikiText := "";
+      
 	  pageHeader3 { "New Comment" }
 	  horizontalForm {
 			par { input(newCommentText)[onkeyup := updateCommentPreview(newCommentText)] }

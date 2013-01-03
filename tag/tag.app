@@ -119,8 +119,8 @@ section displaying tags
   template tags(i : Issue, editing : Bool, summary : Bool, right: Bool) {
     // init{
     //   log("tags(right = " + right + ")");
-    // }
-    div[class="tags"] {
+    // } 
+    span[class="tags"] { 
       for(tag : Tag in arrangeTags(i.tags, summary)) {
 		    if(right) { 
 		      pullRight{ showTag(i, tag, editing) } 
@@ -128,11 +128,11 @@ section displaying tags
 		      showTag(i, tag, editing) 
 		    }
 		  } separated-by { " " } 
-		} 
+		}
   }
 
   template tags(ts : List<Tag>, p : Project) {
-    div[class="tags"] { pullRight{
+    span[class="tags"] { pullRight{
 	    for(tag : Tag in ts) {
 			  navigate tag(p, tag.name) { output(tag.name) }
 		  } separated-by { " " }

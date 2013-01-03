@@ -126,8 +126,9 @@ section user interface
         titleSpan := 8;
         tagsSpan := 0;
       }
-    } 
+    }
     for(i : Issue in is) {
+      gridRow{ gridSpan(12){ container{
         gridRow(if(!i.open) "issueRow issueRowDone" else "issueRow") { 
           gridSpan(projectSpan) { 
             if(!showProjectName) {
@@ -135,30 +136,30 @@ section user interface
             } else {
               navigate project(i.project) { output(abbreviate(i.project.name, 20)) }
             } " "
-            pullRight{ block[class := "Date"] { output(format(i.submitted)) } }    
+            pullRight{ div[class := "Date"] { output(format(i.submitted)) } }  
           }
           // if(showProjectName) {          
           //     gridSpan(projectSpan) { 
           //       navigate project(i.project) { output(abbreviate(i.project.name, 20)) }
           //     }
           // }
-          gridSpan(titleSpan) {
+          gridSpan(titleSpan + tagsSpan) {
+            if(!i.open) { iOk " " } 
               navigate(issue(i.project, i.number)) {
                 output(abbreviate(i.getTitle(), titleLength))          
                 if(showNrVotes && i.nrVotes > 0) {
                   " (" output(i.nrVotes) ")"
-                } 
+                }
               }
-              //if(showTicks) {
-                if(!i.open) { pullRight{ iOk } }
-              //}
-          }
-          if(showTags) { 
-            gridSpan(tagsSpan) { tags(i, true, true) } 
-          }
+              if(showTags) { tags(i, true, true, true) } 
+          }  
+          // if(showTags) { 
+          //   gridSpan(tagsSpan) { tags(i, true, true) } 
+          // }
         }
-      }
-  }
+      } } }
+    }
+  } 
 
 // template issues(is : List<Issue>, showProjectName : Bool, showTicks : Bool, showNumbers : Bool, titleLength : Int, showTags : Bool, showNrVotes : Bool) {
 // 	block [class := "Listing"] {

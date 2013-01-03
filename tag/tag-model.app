@@ -3,11 +3,11 @@ module tag/tag-model
 section data model
 
   entity Tag { 
-    name    :: String (validate(name.length() > 1, "Tags need to have at least 2 characters"),
-               validate(/[a-z0-9\.\-_@!]*/.match(name),"Tags may consist of: a-z 0-9 . _ @ ! -"))
+    name        :: String (validate(name.length() > 1, "Tags need to have at least 2 characters"),
+                           validate(/[a-z0-9\.\-_@!]*/.match(name),"Tags may consist of: a-z 0-9 . _ @ ! -"))
     description :: String
-    project   -> Project
-    tags    -> Set<Tag>
+    project     -> Project
+    tags        -> Set<Tag>
     
     function makeRelease(p: Project) {
       tags.add(tag("release", p));
@@ -235,31 +235,30 @@ function tagCleanup(tag : Tag) {
 */
 }
 
-function arrangeTags(tags : Set<Tag>, summary : Bool) : List<Tag> {
-  // TODO Maybe optimize this by little loops that add them on the fly, saves some list building
-  var types :=    [t | t : Tag in tags where t.hasTag(ISSUE_TYPE_TAG()) order by t.name];
-  var releases := [t | t : Tag in tags where t.hasTag("release") order by t.name];
-  var votes :=  [t | t : Tag in tags where t.name.contains("!")];
-  var assigns :=  [t | t : Tag in tags where t.name.contains("@")];
-  var others :=   [t | t : Tag in tags where 
-            !t.hasTag("release") && 
-            !t.hasTag(ISSUE_TYPE_TAG()) && 
-            !t.name.contains("!") &&
-            !t.name.contains("@")
-            order by t.name];
+  function arrangeTags(tags : Set<Tag>, summary : Bool) : List<Tag> {
+    // TODO Maybe optimize this by little loops that add them on the fly, saves some list building
+    var types :=    [t | t : Tag in tags where t.hasTag(ISSUE_TYPE_TAG()) order by t.name];
+    var releases := [t | t : Tag in tags where t.hasTag("release") order by t.name]; 
+    var assigns :=  [t | t : Tag in tags where t.name.contains("@") order by t.name];
+    var others :=   [t | t : Tag in tags where !t.hasTag("release") && 
+                                               !t.hasTag(ISSUE_TYPE_TAG()) && 
+                                               !t.name.contains("!") &&
+                                               !t.name.contains("@")
+                                               order by t.name];
   
-  var sortedTags : List<Tag> := List<Tag>();
-  sortedTags.addAll(types);
-  sortedTags.addAll(releases);
-  if(!summary) {
-    sortedTags.addAll(assigns);
-    sortedTags.addAll(votes);
-  } else {
-    if(sortedTags.length + assigns.length <= 3) {
+    var sortedTags : List<Tag> := List<Tag>();
+    sortedTags.addAll(types);
+    sortedTags.addAll(releases);
+    if(!summary) {
+      var votes :=  [t | t : Tag in tags where t.name.contains("!")];
       sortedTags.addAll(assigns);
+      sortedTags.addAll(votes);
+    } else { 
+      if(sortedTags.length + others.length + assigns.length <= 3) {
+        sortedTags.addAll(assigns);
+      }
     }
+    sortedTags.addAll(others);
+    return sortedTags;
   }
-  sortedTags.addAll(others);
-  return sortedTags;
-}
 
