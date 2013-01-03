@@ -4,7 +4,7 @@
 .Tags {
 	font-size: 8pt;
 	font-style: italic;
-	color: #b4b252;
+	/* color: #b4b252; */
 	display: inline;
 	line-height: 170%;
 }
@@ -43,11 +43,14 @@
 	padding-left: 4px;
 	padding-right: 4px;
 	display: inline;
+  color: #555;
 }
+/*
 .Tag a:link 	{ color: #bdb947; text-decoration: none; }
 .Tag a:visited	{ color: #bdb947; text-decoration: none; }
 .Tag a:hover 	{ color: #bdb947; text-decoration: none; }
 .Tag a:active 	{ color: #bdb947; text-decoration: none; }
+*/
 
 a.DefaultTag {
   /* padding-left: 4px;
@@ -55,11 +58,14 @@ a.DefaultTag {
   display: inline; */
   background: #ebebd1;
   border: 1px solid #deddb2;
+  color: #555;
 }
+/*
 a.DefaultTag:link   { color: #bdb947; text-decoration: none; }
 a.DefaultTag:visited  { color: #bdb947; text-decoration: none; }
 a.DefaultTag:hover  { color: #bdb947; text-decoration: none; }
 a.DefaultTag:active   { color: #bdb947; text-decoration: none; }
+*/
 
 /* release */
 
@@ -77,117 +83,148 @@ a.DefaultTag:active   { color: #bdb947; text-decoration: none; }
 a.ReleaseTag {
   border: 1px solid #b2cdde;
   background: #d1e1eb;
+  color: #555;
 }
+/*
 a.ReleaseTag:link    { color: #488fbc; }
 a.ReleaseTag:visited { color: #488fbc; }
 a.ReleaseTag:hover   { color: #488fbc; }
 a.ReleaseTag:active  { color: #488fbc; }
+*/
 
 /* issue type */
 
 .IssuetypeTag {
 	border: 1px solid #c8c8c8;
 	background: #dedede;
+  color: #555;
 }
+/*
 .IssuetypeTag a:link 	{ color: #828282; }
 .IssuetypeTag a:visited	{ color: #828282; }
 .IssuetypeTag a:hover 	{ color: #828282; }
 .IssuetypeTag a:active 	{ color: #828282; }
+*/
 
 a.IssuetypeTag {
   border: 1px solid #c8c8c8;
   background: #dedede;
+  color: #555;
 }
+/*
 a.IssuetypeTag:link  { color: #828282; }
 a.IssuetypeTag:visited { color: #828282; }
 a.IssuetypeTag:hover   { color: #828282; }
 a.IssuetypeTag:active  { color: #828282; }
+*/
 
 /* red */
 
 .RedTag {
 	border: 1px solid #deb2b2;
 	background: #ebd1d1;
+  color: #555;
 }
-
+/*
 .RedTag a:link 		{ color: #bc4848; }
 .RedTag a:visited	{ color: #bc4848; }
 .RedTag a:hover 	{ color: #bc4848; }
 .RedTag a:active 	{ color: #bc4848; }
+*/
 
 a.RedTag {
   border: 1px solid #deb2b2;
   background: #ebd1d1;
+  color: #555;
 }
+/*
 a.RedTag:link    { color: #bc4848; }
 a.RedTag:visited { color: #bc4848; }
 a.RedTag:hover   { color: #bc4848; }
 a.RedTag:active  { color: #bc4848; }
+*/
 
 /* green */
 
 a.GreenTag {
 	border: 1px solid #b2deb7;
 	background: #d1ebd4;
+  color: #555;
 }
+/*
 a.GreenTag:link 	 { color: #48bc56; }
 a.GreenTag:visited { color: #48bc56; }
 a.GreenTag:hover 	 { color: #48bc56; }
 a.GreenTag:active  { color: #48bc56; }
+*/
 
 .GreenTag {
   border: 1px solid #b2deb7;
   background: #d1ebd4;
+  color: #555;
 }
+/*
 .GreenTag a:link  { color: #48bc56; }
 .GreenTag a:visited { color: #48bc56; }
 .GreenTag a:hover   { color: #48bc56; }
 .GreenTag a:active  { color: #48bc56; }
-
+*/
 /* grey */
 
 a.GreyTag {
 	border: 1px solid #c8c8c8;
 	background: #dedede;
+  color: #555;
 }
+/* 
 a.GreyTag:link 	{ color: #828282; }
 a.GreyTag:visited	{ color: #828282; }
 a.GreyTag:hover 	{ color: #828282; }
-a.GreyTag:active 	{ color: #828282; }
+a.GreyTag:active 	{ color: #828282; } 
+*/
 
 .GreyTag {
   border: 1px solid #c8c8c8;
   background: #dedede;
+  color: #555;
 }
+/* 
 .GreyTag a:link   { color: #828282; }
 .GreyTag a:visited  { color: #828282; }
 .GreyTag a:hover  { color: #828282; }
-.GreyTag a:active   { color: #828282; }
+.GreyTag a:active   { color: #828282; } 
+*/
 
 /* purple */
 
 .PurpleTag {
 	border: 1px solid #bcb2de;
 	background: #d7d1eb;
+  color: #555;
 }
+/* 
 .PurpleTag a:link 		{ color: #6348bc; }
 .PurpleTag a:visited	{ color: #6348bc; }
 .PurpleTag a:hover 		{ color: #6348bc; }
-.PurpleTag a:active 	{ color: #6348bc; }
+.PurpleTag a:active 	{ color: #6348bc; } 
+*/
 
 a.PurpleTag {
   border: 1px solid #bcb2de;
   background: #d7d1eb;
+  color: #555;
 }
+/* 
 a.PurpleTag:link     { color: #6348bc; }
 a.PurpleTag:visited  { color: #6348bc; }
 a.PurpleTag:hover    { color: #6348bc; }
-a.PurpleTag:active   { color: #6348bc; }
+a.PurpleTag:active   { color: #6348bc; } 
+*/
 
 /**************** Tag Controls ****************/
 
 
-.TagAddition input[type="text"] {
+/* .TagAddition input[type="text"] {
 	width : 100px;
 }
 
@@ -207,6 +244,7 @@ a.PurpleTag:active   { color: #6348bc; }
 .TagAddition .Suggestion a:visited	{ color: #999999; }
 .TagAddition .Suggestion a:hover 	{ color: #608060; }
 .TagAddition .Suggestion a:active 	{ color: #999999; }
+*/
 
 /* tweaks */
 
@@ -258,10 +296,10 @@ div.Date {
 	padding: 3px 0;
 }
 .row .issueRowDone {
-	background: #eee;
-	color: #555;
+	background: #efefef; 
+	color: #777;
 }
 .row .issueRowDone a {
-  color: #555;
+  color: #777;
 }
 
