@@ -93,54 +93,68 @@ section issue page
 
 section user interface
 
-template issues(is : Set<Issue>, showProjectName : Bool) {
-	issues(is, showProjectName, false)
-}
-template issues(is : Set<Issue>, showProjectName : Bool, showTicks : Bool) {
-	issues(is, showProjectName, showTicks, true)
-}
-template issues(is : Set<Issue>, showProjectName : Bool, showTicks : Bool, showNumbers : Bool) {
-	issues(is, showProjectName, showTicks, showNumbers, 33)
-}
-template issues(is : Set<Issue>, showProjectName : Bool, showTicks : Bool, showNumbers : Bool, titleLength : Int) {
-	issues(is, showProjectName, showTicks, showNumbers, titleLength, false, false)
-}
+  template issues(is : Set<Issue>, showProjectName : Bool) {
+	  issues(is, showProjectName, false)
+  }
+  template issues(is : Set<Issue>, showProjectName : Bool, showTicks : Bool) {
+	  issues(is, showProjectName, showTicks, true)
+  }
+  template issues(is : Set<Issue>, showProjectName : Bool, showTicks : Bool, showNumbers : Bool) {
+	  issues(is, showProjectName, showTicks, showNumbers, 33)
+  }
+  template issues(is : Set<Issue>, showProjectName : Bool, showTicks : Bool, showNumbers : Bool, titleLength : Int) {
+	  issues(is, showProjectName, showTicks, showNumbers, titleLength, false, false)
+  }
 
-template issues(is : Set<Issue>, showProjectName : Bool, showTicks : Bool, showNumbers : Bool, titleLength : Int, showTags : Bool, showNrVotes : Bool) {
-	issues([i | i : Issue in is.list()  order by i.submitted desc], 
-		showProjectName, showTicks, showNumbers, titleLength, showTags, showNrVotes)
-}
+  template issues(is : Set<Issue>, showProjectName : Bool, showTicks : Bool, showNumbers : Bool, titleLength : Int, showTags : Bool, showNrVotes : Bool) {
+	  issues([i | i : Issue in is.list()  order by i.submitted desc], 
+		  showProjectName, showTicks, showNumbers, titleLength, showTags, showNrVotes)
+  }
 
-  template issues(is : List<Issue>, showProjectName : Bool, showTicks : Bool, showNumbers : Bool, titleLength : Int, showTags : Bool, showNrVotes : Bool) {
-      for(i : Issue in is) {
+  template issues(is : List<Issue>, showProjectName : Bool, showTicks : Bool, showNumbers : Bool, titleLength : Int, showTags : Bool, showNrVotes : Bool) { 
+    var projectSpan := 2;
+    var titleSpan := 6;
+    var tagsSpan := 4;
+    init{
+      if(showProjectName && showTags) {
+        projectSpan := 4;
+        titleSpan := 5; 
+        tagsSpan := 3;
+      }
+      if(showProjectName && !showTags) {
+        projectSpan := 4;
+        titleSpan := 8;
+        tagsSpan := 0;
+      }
+    } 
+    for(i : Issue in is) {
         gridRow(if(!i.open) "issueRow issueRowDone" else "issueRow") { 
-          gridSpan(2) { 
-            // if(showTicks) {
-            //   if(!i.open) { iOk } " " 
-            // }
-            if(showNumbers) {
-              output(i.number) " "
-            }
-            pullRight{ block[class := "Date"] { output(format(i.submitted)) } }
+          gridSpan(projectSpan) { 
+            if(!showProjectName) {
+              output(i.number)          
+            } else {
+              navigate project(i.project) { output(abbreviate(i.project.name, 20)) }
+            } " "
+            pullRight{ block[class := "Date"] { output(format(i.submitted)) } }    
           }
-          if(showProjectName) {          
-              gridSpan(3) { 
-                navigate project(i.project) { output(abbreviate(i.project.name, 20)) }
-              }
-          }
-          gridSpan(6) {
+          // if(showProjectName) {          
+          //     gridSpan(projectSpan) { 
+          //       navigate project(i.project) { output(abbreviate(i.project.name, 20)) }
+          //     }
+          // }
+          gridSpan(titleSpan) {
               navigate(issue(i.project, i.number)) {
-                output(abbreviate(i.getTitle(), titleLength))
+                output(abbreviate(i.getTitle(), titleLength))          
+                if(showNrVotes && i.nrVotes > 0) {
+                  " (" output(i.nrVotes) ")"
+                } 
               }
-              if(showNrVotes && i.nrVotes > 0) {
-                " (" output(i.nrVotes) ")"
-              }
-              if(showTicks) {
+              //if(showTicks) {
                 if(!i.open) { pullRight{ iOk } }
-              }
+              //}
           }
           if(showTags) { 
-            gridSpan(4) { tags(i, true, true) } 
+            gridSpan(tagsSpan) { tags(i, true, true) } 
           }
         }
       }
@@ -220,12 +234,7 @@ section issues posted by principal
 
 	  title{"Issues posted by " output(securityContext.principal.name) " on YellowGrass.org [editing]"}
 	  bmain{
-		  // par [class := "Back"] { 
-			 //  rawoutput { " &raquo; " }
-			 //  navigate(home()) {"Home"}
-			 //  rawoutput { " &raquo; " }
-			 //  "Posted Issues"
-		  // }
+	    buttonToolbar{ homeToolbar(securityContext.principal) }    
 		  pageHeader2 { "Issues Posted by You" }
 		  par { issues(postedIssues.set(), true, true, true, 50, true, true) }
 	  }
