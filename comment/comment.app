@@ -84,12 +84,21 @@ section view
   }
     
   ajax template commentAdditionInput(i : Issue) {
+  	
+  	  action ignore-validation updateCommentPreview(d : WikiText) {
+      	replace(commentPreview, commentPreview(d));
+      }
+      
 	  var newCommentText : WikiText := "";
 	  pageHeader3 { "New Comment" }
 	  horizontalForm {
-			par { input(newCommentText) }
+			par { input(newCommentText)[onkeyup := updateCommentPreview(newCommentText)] }
 			if(!i.open) {
 				par { "This issue is closed! Are you sure you want to add a comment?" }
+			}
+							
+			div [class="Block"] {
+				placeholder commentPreview {} 
 			}
 			formActions { 
 				submitlink comment(newCommentText, i) [class="btn"] { "Post Comment" }
@@ -110,6 +119,13 @@ section view
 	  }
   }
 
+ ajax template commentPreview(d : WikiText) {
+	  group("Preview") {
+		  block {	// Needed to work around placeholder content displacement
+			  output(d)
+		  }
+	  }
+  }
   template noCommentAddition() {
 	  par { <i> "Log in to post comments" </i> }
   }
