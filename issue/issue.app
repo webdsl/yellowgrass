@@ -52,7 +52,7 @@ section issue page
           pullRight{ small{ par{
             "Submitted "
             reporter(i, "by ")
-            "on " output(format(i.submitted))
+            "on " output(i.submitted.format("d MMMM yyyy 'at' HH:mm"))
           } } }
         }
       }

@@ -49,11 +49,20 @@ define ajax validationFeedback(vem : ValidationExceptionMultiple){
   
 function format(date : DateTime) : String {
 	if(now().format("yyyy") == date.format("yyyy")) {
-		return date.format("d/MM");
+		return date.format("MMM d");
 	} else {
-		return date.format("d/MM/yy");
+		return date.format("MMM ''yy");
 	}
 }
+
+
+// function format(date : DateTime) : String {
+//   if(now().format("yyyy") == date.format("yyyy")) {
+//     return date.format("d/MM");
+//   } else {
+//     return date.format("d/MM/yy");
+//   }
+// }
 
 //define ajax template empty() {}
 
