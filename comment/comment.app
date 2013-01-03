@@ -55,9 +55,9 @@ section view
 
   template comment(c : Comment) {
 	  block [class := "CommentHeader"] {
-		  "On " output(format(c.moment)) " " nav(c.author) " wrote: "
+		  "On " output(c.moment.format("d MMMM yyyy 'at' HH:mm")) " " nav(c.author) " wrote: "
 		  navigate editComment(c) [title="edit comment"] { iPencil }
-	  }
+	  } 
 	  blockquote{
 		  output(c.text)
 	  }
@@ -65,6 +65,7 @@ section view
 
   template commentAddition(i : Issue) { 
 	  placeholder commentAdditionBox {
+	    commentAdditionInput(i)
 		  // pullRight { par{
 		  //   submitlink showCommentAdditionInput(i) [class="btn btn-mini"] { iPlus " New Comment" } 
 		  // } }
@@ -74,14 +75,14 @@ section view
 	  // }
   }
 
-  template commentAdditionTool(i : Issue) { 
-    submitlink showCommentAdditionInput(i) [class="btn btn-mini", title="New Comment", style="height:14px;padding:7px;"] { 
-      iComment  
-    } 
-    action showCommentAdditionInput( i : Issue ) {
-      replace(commentAdditionBox, commentAdditionInput(i));
-    }
-  }
+  // template commentAdditionTool(i : Issue) { 
+  //   submitlink showCommentAdditionInput(i) [class="btn btn-mini", title="New Comment", style="height:14px;padding:7px;"] { 
+  //     iComment  
+  //   } 
+  //   action showCommentAdditionInput( i : Issue ) {
+  //     replace(commentAdditionBox, commentAdditionInput(i));
+  //   }
+  // }
     
   ajax template commentAdditionInput(i : Issue) {
 	  var newCommentText : WikiText := "";

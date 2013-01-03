@@ -13,12 +13,12 @@ access control rules
 		loggedIn
 	}
 	
-  rule template commentAdditionTool(i : Issue) {
-    loggedIn
-  }
+  // rule template commentAdditionTool(i : Issue) {
+  //   loggedIn
+  // }
   	
 	rule ajaxtemplate commentAdditionInput(i : Issue) {
-		loggedIn
+		loggedIn && mayAccess(i.project)
 		
 		rule action comment(text : WikiText, issue : Issue) {
 			loggedIn && 
