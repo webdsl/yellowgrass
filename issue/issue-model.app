@@ -299,10 +299,10 @@ function newIssueNumber(p: Project) : Int {
   }
 }
 
-function recentIssues(): List<Issue> {
-  return from Issue as i
-      where i._project._private=false
-      order by _submitted desc
-      limit 27;
-} 
+  function recentIssues(): List<Issue> {
+    return from Issue as i
+          where i._project._private = false
+       order by _submitted desc
+          limit 27;
+  } 
 
