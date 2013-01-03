@@ -29,7 +29,6 @@ section tag page
       }
       gridRow{ gridSpan(12){ pullRight{ par{ tags(t, true) } } } } 
       gridRow{
-        //gridSpan(2) { tagSideBar(t) }
         gridSpan(12) {
 				  if(t.description != null && t.description != "") {
 					  par{ <i> output(t.description) </i> }
@@ -84,20 +83,20 @@ section displaying tags
       tagCleanup(t);
       //return issue(i.project, i.number);
     }
-    pullRight{ buttonGroupSpan{
+    buttonGroupSpan{
       navigate tag(i.project, tag.name) [class="btn btn-mini " + tag.getStylingClass()] { output(tag.name) }     
       if(editing) {
         submitlink deleteTag(i, tag) [class="btn btn-mini " + tag.getStylingClass()] { "x" }
       }
-    } }
-  }
+    }
+  } 
 
   template tags(t : Tag, editing : Bool) {
 	  div[class="tags"] {
 		  for(tag : Tag in arrangeTags(t.tags, false)) {			  
 			  showTag(t, tag, editing)
 		  } separated-by { " " }
-		  tagHelp
+		  //tagHelp
 	  }
   }
 
@@ -110,15 +109,26 @@ section displaying tags
   }
 
   template tags(i : Issue, editing : Bool) {
-	  tags(i, editing, false)
+    tags(i, editing, false, false)
+  }
+  
+  template tags(i : Issue, editing : Bool, right: Bool) {
+	  tags(i, editing, false, right)
   }
 
-  template tags(i : Issue, editing : Bool, summary : Bool) {
+  template tags(i : Issue, editing : Bool, summary : Bool, right: Bool) {
+    // init{
+    //   log("tags(right = " + right + ")");
+    // }
     div[class="tags"] {
       for(tag : Tag in arrangeTags(i.tags, summary)) {
-		    showTag(i, tag, editing)
+		    if(right) { 
+		      pullRight{ showTag(i, tag, editing) } 
+		    } else { 
+		      showTag(i, tag, editing) 
+		    }
 		  } separated-by { " " } 
-		}
+		} 
   }
 
   template tags(ts : List<Tag>, p : Project) {
