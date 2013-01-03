@@ -10,10 +10,10 @@ imports comment/comment
 
   template tagAddition(ta : TagAddition) {
 	  block [class := "CommentHeader"] {
-		  "On " output(format(ta.moment)) " " nav(ta.actor) " tagged " nav(ta.tag)
+		  "On " output(ta.moment.format("d MMMM yyyy 'at' HH:mm")) " " nav(ta.actor) " tagged " nav(ta.tag)
 	  }
   }
- 
+  
   entity TagRemoval : Event { 
 	  actor -> User
 	  tag -> Tag
@@ -21,7 +21,7 @@ imports comment/comment
 
   template tagRemoval(tr : TagRemoval) {
 	  block [class := "CommentHeader"] {
-		  "On " output(format(tr.moment)) " " nav(tr.actor) " removed tag " nav(tr.tag)
-	  } 
+		  "On " output(tr.moment.format("d MMMM yyyy 'at' HH:mm")) " " nav(tr.actor) " removed tag " nav(tr.tag)
+	  }  
   }
   
