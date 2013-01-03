@@ -15,15 +15,15 @@ section issue commands
         }
         pullRight{      
           buttonToolbar{
-            buttonGroup{               
-              nav(i)[class="btn"] 
-              dropdownCaret{
-                dropdownMenuItem{ reporter(i, "") } 
-                dropdownMenuItem{ <a href="#">"Submitted on " output(format(i.submitted)) </a> }
-                dropdownMenuItem{ if(i.nrVotes > 0) { <a href="#"> output(i.nrVotes) " Votes" </a> } }
-              }
-            }
+            //buttonGroup{        
+              // dropdownCaret{
+              //   dropdownMenuItem{ reporter(i, "") } 
+              //   dropdownMenuItem{ <a href="#">"Submitted on " output(format(i.submitted)) </a> }
+              //   dropdownMenuItem{ if(i.nrVotes > 0) { <a href="#"> output(i.nrVotes) " Votes" </a> } }
+              // }
+            //}
             buttonGroup{       
+              nav(i)[class="btn"]        
               navigate   editIssue(i)  [class="btn", title="Edit Issue", style="height:14px;padding:7px;"] { iPencil } 
               submitlink close(i)      [class="btn", title="Close Issue", style="height:14px;padding:7px;"] { iOk } 
               submitlink reopen(i)     [class="btn btn-inverse", title="Reopen Issue", style="height:14px;padding:7px;"] { iOkWhite }
