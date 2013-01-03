@@ -106,42 +106,77 @@ template issues(is : Set<Issue>, showProjectName : Bool, showTicks : Bool, showN
 		showProjectName, showTicks, showNumbers, titleLength, showTags, showNrVotes)
 }
 
-template issues(is : List<Issue>, showProjectName : Bool, showTicks : Bool, showNumbers : Bool, titleLength : Int, showTags : Bool, showNrVotes : Bool) {
-	block [class := "Listing"] {
-		tableBordered {
-			for(i : Issue in is) {
-				row {
-					if(showTicks) {
-						column { if(!i.open) { iOk } }
-					}
-					if(showNumbers) {
-						column { output(i.number) }
-					}
-					column {
-						block[class := "Date"] { output(format(i.submitted)) }
-					}
-					if(showProjectName) {
-						column { 
-						  navigate project(i.project) { output(abbreviate(i.project.name, 20)) } }
-					}
-					column { 
-						block[class := "AbbreviatedIssueTitle"] {
-							navigate(issue(i.project, i.number)) {
-								output(abbreviate(i.getTitle(), titleLength))
-							}
-							if(showNrVotes && i.nrVotes > 0) {
-								" (" output(i.nrVotes) ")"
-							}
-						}
-					}
-					if(showTags) { 
-						column { tags(i, true, true) }
-					}
-				}
-			}
-		}
-	}
-} 
+  template issues(is : List<Issue>, showProjectName : Bool, showTicks : Bool, showNumbers : Bool, titleLength : Int, showTags : Bool, showNrVotes : Bool) {
+      for(i : Issue in is) {
+        gridRow(if(!i.open) "issueRow issueRowDone" else "issueRow") { 
+          gridSpan(2) { 
+            // if(showTicks) {
+            //   if(!i.open) { iOk } " " 
+            // }
+            if(showNumbers) {
+              output(i.number) " "
+            }
+            pullRight{ block[class := "Date"] { output(format(i.submitted)) } }
+          }
+          if(showProjectName) {          
+              gridSpan(3) { 
+                navigate project(i.project) { output(abbreviate(i.project.name, 20)) }
+              }
+          }
+          gridSpan(6) {
+              navigate(issue(i.project, i.number)) {
+                output(abbreviate(i.getTitle(), titleLength))
+              }
+              if(showNrVotes && i.nrVotes > 0) {
+                " (" output(i.nrVotes) ")"
+              }
+              if(showTicks) {
+                if(!i.open) { pullRight{ iOk } }
+              }
+          }
+          if(showTags) { 
+            gridSpan(4) { tags(i, true, true) } 
+          }
+        }
+      }
+  }
+
+// template issues(is : List<Issue>, showProjectName : Bool, showTicks : Bool, showNumbers : Bool, titleLength : Int, showTags : Bool, showNrVotes : Bool) {
+// 	block [class := "Listing"] {
+// 		tableBordered {
+// 			for(i : Issue in is) {
+// 				row {
+// 					if(showTicks) {
+// 						column { if(!i.open) { iOk } }
+// 					}
+// 					if(showNumbers) {
+// 						column { output(i.number) }
+// 					}
+// 					column {
+// 						block[class := "Date"] { output(format(i.submitted)) }
+// 					}
+// 					if(showProjectName) {
+// 						column { 
+// 						  navigate project(i.project) { output(abbreviate(i.project.name, 20)) } }
+// 					}
+// 					column { 
+// 						block[class := "AbbreviatedIssueTitle"] {
+// 							navigate(issue(i.project, i.number)) {
+// 								output(abbreviate(i.getTitle(), titleLength))
+// 							}
+// 							if(showNrVotes && i.nrVotes > 0) {
+// 								" (" output(i.nrVotes) ")"
+// 							}
+// 						}
+// 					}
+// 					if(showTags) { 
+// 						column { tags(i, true, true) }
+// 					}
+// 				}
+// 			}
+// 		}
+// 	}
+// } 
 
 
 section edit issue 

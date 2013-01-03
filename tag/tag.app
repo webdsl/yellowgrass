@@ -84,12 +84,12 @@ section displaying tags
       tagCleanup(t);
       //return issue(i.project, i.number);
     }
-    buttonGroupSpan{
+    pullRight{ buttonGroupSpan{
       navigate tag(i.project, tag.name) [class="btn btn-mini " + tag.getStylingClass()] { output(tag.name) }     
       if(editing) {
         submitlink deleteTag(i, tag) [class="btn btn-mini " + tag.getStylingClass()] { "x" }
       }
-    }
+    } }
   }
 
   template tags(t : Tag, editing : Bool) {
@@ -122,16 +122,16 @@ section displaying tags
   }
 
   template tags(ts : List<Tag>, p : Project) {
-    div[class="tags"] {
+    div[class="tags"] { pullRight{
 	    for(tag : Tag in ts) {
 			  navigate tag(p, tag.name) { output(tag.name) }
 		  } separated-by { " " }
-		}
+		} }
   }
 
 section tagging
 
-  template addTag(i : Issue) {
+  template addTag(i : Issue) { 
 	  var t : String := ""
     action addTag(t : String, i : Issue) {
       var t := tagify(t); 

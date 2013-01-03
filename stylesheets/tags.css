@@ -238,5 +238,30 @@ a.PurpleTag:active   { color: #6348bc; }
 }
 
 .tags .btn-group + .btn-group {
-    margin: 0px;
+    margin: 0 3px 3px;
 }
+.tags .btn-group {
+	margin: 0 0 3px 3px;
+}
+
+.CommentHeader {
+	font-style: italic;
+	margin-bottom: 2px;
+}
+
+div.Date {
+	display: inline;
+}
+
+.row .issueRow {
+	border-bottom: 1px solid #ccc;
+	padding: 3px 0;
+}
+.row .issueRowDone {
+	background: #eee;
+	color: #555;
+}
+.row .issueRowDone a {
+  color: #555;
+}
+
