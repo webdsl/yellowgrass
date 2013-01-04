@@ -1,4 +1,3 @@
-
 /**************** Tags ****************/
 
 .Tags {
@@ -283,8 +282,10 @@ a.PurpleTag:active   { color: #6348bc; }
 }
 
 .CommentHeader {
-	font-style: italic;
-	margin-bottom: 2px;
+        color: gray;
+        font-style: italic;
+        font-size: small;
+        margin-bottom: 2px;
 }
 
 div.Date {
