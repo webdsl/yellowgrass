@@ -7,7 +7,7 @@ imports elib/lib
     includeCSS("bootstrap/css/bootstrap-responsive.css")   
     includeCSS("bootstrap/css/bootstrap-adapt.css")
     includeCSS("bootstrap-extension.css")
-    includeJS("jquery.js")
+    includeJS("jquery-1.8.2.min.js")
     includeJS("bootstrap/js/bootstrap.js")
     includeHead("<meta name='viewport' content='width=device-width, initial-scale=1.0'>")   
     //includeHead(rendertemplate(rssLink()))

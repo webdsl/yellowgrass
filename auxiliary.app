@@ -72,6 +72,6 @@ function format(date : DateTime) : String {
  * of additional page content.
  */
 define template continuousLoading() {
-	includeJS("https://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js")
+  includeJS("jquery-1.8.2.min.js") //already included, but we must make sure this one gets included before auxiliary.js
 	includeJS("auxiliary.js")
 }
