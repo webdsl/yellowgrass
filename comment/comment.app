@@ -7,7 +7,7 @@ section data model
 
   entity Comment : Event {
 	  // submitted		:: DateTime
-	  text			:: WikiText		(searchable)
+	  text			:: WikiText		(searchable(default))
 	  author			-> User 
 	
 	  function toJSON() : JSONObject {
@@ -142,6 +142,7 @@ section view
 		var i := is.get(0);
 	  action save(){
       c.save();
+      IndexManager.reindex(i); //reindex issue to reflect changed comment in search index of Issue (because Issue.comments is a derived prop -> not flagged dirty -> no reindex of Issue)
       return issue(i.project, i.number);
     }
 	  bmain(i.project){

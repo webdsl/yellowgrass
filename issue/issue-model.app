@@ -3,27 +3,37 @@ module issue/issue-model
 section data model
 
   entity Issue {
-    number      :: Int    (searchable)
-    title       :: String (searchable, validate(title.length() >= 5, "Use a longer and more descriptive title"))
-    description :: WikiText (searchable)
+    number      :: Int
+    title       :: String (validate(title.length() >= 5, "Use a longer and more descriptive title"))
+    description :: WikiText
     submitted   :: DateTime
-    project     -> Project  (searchable, inverse = Project.issues)
+    project     -> Project  (inverse = Project.issues)
     reporter    -> User
     open        :: Bool
     log         -> Set<Event>
-    tags        -> Set<Tag>(searchable)
+    tags        -> Set<Tag>
     email       :: Email // Only when reporter == null
     nrVotes     :: Int := [ t | t : Tag in tags where /!.*/.match(t.name)].length
     attachments -> Set<Attachment>
-    // comments -> Set<Comment>(searchable) := getComments()
+    comments    -> Set<Comment> := getComments()
   
-    projectName  :: String (searchable) := project.name
-    reporterName :: String (searchable) := 
+    reporterName :: String := 
       if (reporter != null && reporter.name != null)
         reporter.name
       else
         ""
-    }
+        
+    search mapping{
+      + number
+      + title
+      + description
+        project
+      + tags
+      + reporterName
+      + comments
+  }      
+        
+  }
     
 section operations
 
@@ -128,8 +138,9 @@ section queries
   
 
   function addComment(c : Comment) {
-    log.add(c);
+    log.add(c);    
     this.save();
+    IndexManager.reindex(this); //comments are a derived property, which are not checked for changes
     for(e : Email in mailinglist()){
       email(issueCommentNotification(this, e, c));
     }
@@ -138,6 +149,7 @@ section queries
     log.add(c);
     close();
     this.save();
+    IndexManager.reindex(this); //comments are a derived property, which are not checked for changes
     for(e : Email in mailinglist()){
       email(issueCommentCloseNotification(this, e, c));
     }
