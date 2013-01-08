@@ -7,7 +7,7 @@ Issues: http://yellowgrass.org/project/YellowGrass
 
 * Sander Vermolen
 * Chris Melman
-* Elmer Chastelet
+* Elmer van Chastelet
 * Danny Groenewegen
 * Eelco Visser
 
