@@ -21,10 +21,10 @@ section data model
     function setName(x: String) {
       key := x.toLowerCase();
     }
-    getkey :: String := getkey()
+    getkey :: String := getkey()  
     function getkey(): String {
-      if(key == null) { key := name.toLowerCase(); }
-      return key;
+      if(key == null || key == "") { key := name.toLowerCase(); }
+      return key; 
     }
     
   }
