@@ -50,7 +50,7 @@ module issue/register
 			    pageHeader2{ "Post New " output(p.name) " Issue" }
 			    horizontalForm {		
 				    controlGroup("Title") {
-					    input (ig.title) [onkeyup := updateIssueSuggestions(ig.title, p), autocomplete:="off"]
+					    input (ig.title) [class="span8", onkeyup := updateIssueSuggestions(ig.title, p), autocomplete:="off"]
 					    placeholder issueSuggestionsBox { } 
 				    }
 				    if(issuetypes.length > 0) {
