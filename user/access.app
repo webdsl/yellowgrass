@@ -82,14 +82,18 @@ extend session securityContext {
 // 	}
 // }
 
+  function login(email: Email, pass: Secret, keepLoggedIn: Bool) {
+    securityContext.principal := null;
+    getSessionManager().stayLoggedIn := keepLoggedIn;
+    validate(authenticate(email,pass), "Incorrect email address or incorrect password");
+  }
+  
   override template login() {
 	  var email : Email;
 	  var pass : Secret;
 	  var keepLoggedIn : Bool;
     action login(){
-      securityContext.principal := null;
-      getSessionManager().stayLoggedIn := keepLoggedIn;
-      validate(authenticate(email,pass), "Incorrect email address or incorrect password");
+      login(email, pass, keepLoggedIn);
       return home();
     }
     pageHeader2{ "Sign In" }
