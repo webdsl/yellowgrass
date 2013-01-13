@@ -86,21 +86,18 @@ section view
     
   ajax template commentAdditionInput(i : Issue) {
   	
-  	  action ignore-validation updateCommentPreview(d : WikiText) {
-      	replace(commentPreview, commentPreview(d));
-      }
-	  var newCommentText : WikiText := "";
+  	action ignore-validation updateCommentPreview(d : WikiText) {
+      replace(commentPreview, commentPreview(d, false)); 
+    }
+	  var newCommentText : WikiText := ""; 
       
 	  pageHeader3 { "New Comment" }
-	  horizontalForm {
+	  horizontalForm { 
 			par { input(newCommentText)[onkeyup := updateCommentPreview(newCommentText)] }
 			if(!i.open) {
 				par { "This issue is closed! Are you sure you want to add a comment?" }
-			}
-							
-			div [class="Block"] {
-				placeholder commentPreview {} 
-			}
+			}						
+			placeholder commentPreview {} 
 			formActions { 
 				submitlink comment(newCommentText, i) [class="btn"] { "Post Comment" }
 				" "
@@ -120,18 +117,20 @@ section view
 	  }
   }
 
- ajax template commentPreview(d : WikiText) {
-	  group("Preview") {
-		  block {	// Needed to work around placeholder content displacement
-			  output(d)
-		  }
+  ajax template commentPreview(d : WikiText, controlGroup: Bool) {
+	  if(controlGroup) { 
+	    controlGroup("Preview") { blockquote{ output(d) } } 
+	  } else {
+	    group("Preview") { blockquote { output(d) } }
 	  }
   }
+  
   template noCommentAddition() {
 	  par { <i> "Log in to post comments" </i> }
   }
 
   page editComment(c : Comment) {
+    
     title{"YellowGrass.org - Edit Comment"}
 	  var is := 
 		 	select i
@@ -145,10 +144,16 @@ section view
       IndexManager.reindex(i); //reindex issue to reflect changed comment in search index of Issue (because Issue.comments is a derived prop -> not flagged dirty -> no reindex of Issue)
       return issue(i.project, i.number);
     }
+    action ignore-validation updateCommentPreview(d : WikiText) {
+      replace(commentPreview, commentPreview(d, true));
+    }
 	  bmain(i.project){
 		  pageHeader4{ "Edit Comment" }
 	    horizontalForm {
-			   controlGroup("Comment") { input(c.text)[style="height:400px;"] }
+			   controlGroup("Comment") { 
+			     input(c.text)[onkeyup := updateCommentPreview(c.text), style="height:400px;"] 
+			   }
+			   placeholder commentPreview { }
 			   formActions {
 			     submitlink save() [class="btn btn-primary"] { "Save" } " "
 				   navigate issue(i.project, i.number) [class="btn"] {"Cancel"}

@@ -44,7 +44,7 @@ access control rules
 		principal in im.target.project.members
 	}
 	
-	rule ajaxtemplate commentPreview(d : WikiText) {
+	rule ajaxtemplate commentPreview(d : WikiText, cg: Bool) {
 		loggedIn
 	}
 	

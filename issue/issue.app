@@ -195,15 +195,19 @@ section edit issue
     action save(){
       return issue(i.project, i.number);
     }
-    
+    action ignore-validation updateIssuePreview(d : WikiText) {
+      replace(issuePreview, issuePreview(d));
+    }
+        
     bmain(i.project){
 	    issueCommandsMenu(i)
 		  pageHeader2{ "Edit Issue " output(i.number) }
 		  horizontalForm {
 			  controlGroup("Title") { input(i.title) }
 			  controlGroup("Description") { 
-			    input(i.description)[style="height: 400px;"] 
+			    input(i.description)[onkeyup := updateIssuePreview(i.description), style="height: 400px;"] 
 			  }
+			  placeholder issuePreview {} 
 			  formActions{
 			    submitlink save() [class="btn btn-primary"] { "Save" } " " 
 				  navigate issue(i.project, i.number) [class="btn"] {"Cancel"}			
