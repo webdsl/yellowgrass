@@ -16,17 +16,22 @@ section navigation
   }
 
 section tag page
-
+  
   page tag(p : Project, tag : String) {
-    var t := getTag(tag, p);
-    var taggedIssues : List<Issue> := p.taggedIssues(t);
-      
+    var t : Tag := getTag(tag, p);
+    var taggedIssues : List<Issue>;
+    init{
+      if(t == null) {
+        message("No tag '" + tag + "' defined on this project");
+        return project(p);
+      } else {
+        taggedIssues := p.taggedIssues(t);
+      }    
+    }
 	  title{output(p.name) " / " output(tag) " - on YellowGrass.org"}
 	  bmain{  
 	    tagCommandsToolbar(t) 
-	    pageHeader2{ 
-        "Tagged " output(t.name) 
-      }
+	    pageHeader2{ "Tagged " output(t.name) }
       gridRow{ gridSpan(12){ pullRight{ par{ tags(t, true) } } } } 
       gridRow{
         gridSpan(12) {

@@ -4,7 +4,7 @@ section data model
 
   entity Tag { 
     name        :: String (validate(name.length() > 1, "Tags need to have at least 2 characters"),
-                           validate(/[a-z0-9\.\-_@!]*/.match(name),"Tags may consist of: a-z 0-9 . _ @ ! -"),
+                           validate(/[a-zA-Z0-9\.\-_@!]*/.match(name),"Tags may consist of: a-z 0-9 . _ @ ! -"),
                            searchable(default, analyzer=none))
     description :: String
     project     -> Project
@@ -130,7 +130,7 @@ section issue tags
       );
     }
     function hasTag(tagName : String) : Bool {
-      for( t : Tag in tags) {
+      for(t : Tag in tags) {
         if(t.name == tagName) {
           return true;
         }
@@ -140,29 +140,29 @@ section issue tags
   }
 
   function tag(t : String, p : Project) : Tag {
-    var tags : List<Tag> := 
-      from Tag
-      where _name = ~t.toLowerCase() and _project = ~p;
+    var tags : List<Tag> :=  from Tag where _name = ~t and _project = ~p;
+    if(tags.length == 0) {
+      tags := from Tag where _name = ~tagify(t) and _project = ~p;
+    }
     if(tags.length == 0) {
       var newTag := Tag { 
-        name := t.toLowerCase()
+        name := tagify(t) 
         project := p
       };
       newTag.save();
       return newTag; 
     } else {
-      return tags.get(0);
-    }
+      return tags[0];
+    } 
   }
 
   function getTag(t : String, p : Project) : Tag {
-    var tags : List<Tag> := 
-      from Tag
-      where _name = ~t.toLowerCase() and _project = ~p;
+    var tags : List<Tag> :=  from Tag where _name = ~t and _project = ~p;
+      //where _name = ~t.toLowerCase() and _project = ~p;
     if(tags.length == 0) {
-      return Tag {}; 
+      return null; 
     } else {
-      return tags.get(0);
+      return tags[0];
     }
   }
 
