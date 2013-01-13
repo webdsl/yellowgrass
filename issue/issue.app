@@ -63,20 +63,8 @@ section issue page
           tags(i, true, false, false)  
         }
       }
-      // gridRow{
-      //   gridSpan(12){             
-      //     par{
-      //       nav(i.project) " issue # " output(i.number)
-      //       " submitted "
-      //       reporter(i, "by ")
-      //       "on " output(format(i.submitted))
-      //     }
-      //   }
-      // }
       gridRow{
-        gridSpan(12){
-          // output(/\n/.replaceAll("<br />", b1.text) as WikiText)
-      
+        gridSpan(12){      
           attachmentList(i)
           //attachmentAddition(i)
             
