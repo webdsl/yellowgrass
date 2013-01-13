@@ -10,6 +10,7 @@ imports user/user
 imports project/project
 imports user/register
 imports tag/tag
+imports questions/question-view 
 
 section root page
 
