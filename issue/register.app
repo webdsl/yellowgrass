@@ -10,7 +10,10 @@ module issue/register
 
   template createIssue(p : Project, initialTag : Tag) { 
     title{output(p.name) " - Create new issue on YellowGrass.org"}
-    
+
+    var pass : Secret;
+    var keepLoggedIn : Bool;
+        
 	  var issuetypes : List<Tag> := p.issueTypes();
 	  
     var ig := IssueGhost{ alive := false }; 
@@ -30,7 +33,13 @@ module issue/register
         var i : Issue := ig.realize();
         return issue(i.project, i.number);
       } else {
-        email(issueConfirmationEmail(ig));
+        if(pass != "") { 
+          login(ig.email, pass, keepLoggedIn); 
+          var i : Issue := ig.realize();
+          return issue(i.project, i.number);
+        } else {
+          email(issueConfirmationEmail(ig));
+        }
         return issueConfirmation();
       }
     }
@@ -51,7 +60,9 @@ module issue/register
 			    horizontalForm {		
 				    controlGroup("Title") {
 					    input (ig.title) [class="span8", onkeyup := updateIssueSuggestions(ig.title, p), autocomplete:="off"]
-					    placeholder issueSuggestionsBox { } 
+					    placeholder issueSuggestionsBox { 
+					      issueSuggestions(ig.title, p)
+					    }
 				    }
 				    if(issuetypes.length > 0) {
 					    controlGroup("Type") { 
@@ -61,20 +72,32 @@ module issue/register
 				    controlGroup("Description") { 
 						  input(ig.description)[onkeyup := updateIssuePreview(ig.description), style="height:400px;"] 
 					  }			
-				    div [class="Block"] {
-					    placeholder issuePreview {} 
-				    }
+				    placeholder issuePreview {} 
 				    par [align = "center"] { 
 				      navigate(url("http://en.wikipedia.org/wiki/Markdown#Syntax_examples")) [target:="_blank"] { "Syntax help" } 
 				    }
 				    if(!loggedIn()) { 
 					    controlGroup("Email") {
-						    input(ig.email){ validate(loggedIn() || ig.email != "", "Please enter your email address") }
-			    		   <i> 	
-			    		     "Email addresses are used for issue confirmation, notifications and questions only. "
-								   "Email addresses are never presented publicly."
-						     </i>
+						    input(ig.email){ 
+						      helpBlock{
+						        validate(loggedIn() || ig.email != "", "Please enter your email address")
+						      } 
+			    		    helpBlock{ 
+			    		      "Email addresses are used for issue confirmation, notifications and questions only. "
+								    "Email addresses are never presented publicly."
+						      }
+						    }
 						  }
+						  controlGroup("Password") {
+						    input(pass) {
+						      validate(pass == "" || authenticate(ig.email,pass), 
+						               "Incorrect email address or incorrect password")
+						    }
+						    helpBlock{ 
+						      "Leave empty if you don't have an account."
+						    }
+						  }
+						  controlGroup("Stay logged in") { input(keepLoggedIn) }
 						}
 					  formActions{
               submitlink post() [class="btn btn-primary"] { "Post" } " "
@@ -90,20 +113,18 @@ module issue/register
 	  // Cannot search on project names (yet), so doing bigger search and project limit
 	  var suggestions := searchIssue(t+" "+p.name, 20);
 	  var projectSuggestions := [ i | i : Issue in suggestions where i.project == p limit 5];
-	    list[class="listbox"] {
-        for(i : Issue in projectSuggestions) {
-		      listitem {
-			      navigate(issue(p, i.number)) [target:="_blank"] { output(i.getTitle()) }
-			    }
+	  list[class="listbox"] {
+      for(i : Issue in projectSuggestions) {
+		    listitem {
+			    navigate(issue(p, i.number)) [target:="_blank"] { output(i.getTitle()) }
 			  }
-	 	  }
+			}
+	 	}
   }
 
   ajax template issuePreview(d : WikiText) {
-	  label("Description Preview") {
-		  block {	// Needed to work around placeholder content displacement
-			  output(d)
-		  }
+	  controlGroup("Description Preview") {
+		  blockquote { output(d) }
 	  }
   }
   
