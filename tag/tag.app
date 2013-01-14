@@ -96,6 +96,12 @@ section displaying tags
     }
   } 
 
+  template showTag(p: Project, tag: Tag) {
+    buttonGroupSpan{
+      navigate tag(p, tag.name) [class="btn btn-mini " + tag.getStylingClass()] { output(tag.name) }     
+    }
+  } 
+  
   template tags(t : Tag, editing : Bool) {
 	  div[class="tags"] {
 		  for(tag : Tag in arrangeTags(t.tags, false)) {			  
@@ -139,9 +145,10 @@ section displaying tags
   template tags(ts : List<Tag>, p : Project) {
     span[class="tags"] { pullRight{
 	    for(tag : Tag in ts) {
-			  navigate tag(p, tag.name) { output(tag.name) }
+			  //navigate tag(p, tag.name) { output(tag.name) }
+			  showTag(p, tag) 
 		  } separated-by { " " }
-		} }
+		} } 
   }
 
 section tagging

@@ -69,7 +69,7 @@ section user interface
         	
         	par{ output( p.description ) }
         	par{ navigate url(p.url) { output(p.url) } }
-			
+        	    	
 			    if(popularIssues.length > 0) {
 				    pageHeader2 { "Popular Open Issues" }
 				    par { issues(popularIssues, false, false, true, 50, true, true) }
@@ -77,7 +77,10 @@ section user interface
 			
 			    pageHeader2 { "Recent Open Issues" }
 			    par { issues(recentIssues, false, false, true, 50, true, true) }
-			
+
+          pageHeader2{ "Tags" }   
+          par{ tags(p.getCommonTags(80), p) }
+  			
 			    pageHeader2 { "Project Members" }
 			    par { users(p.members) }
 			    		    
