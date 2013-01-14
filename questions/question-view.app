@@ -6,11 +6,9 @@ imports questions/question-ac
 section toolbar
 
   template questionsTools(p: Project) {    
-    buttonGroup{     
-      navigate project(p) [class="btn"] { output(abbreviateNE(p.name,12)) }
-    }
+    projectButton(p)
     buttonGroup{
-      navigate questions(p) [class="btn"] { "Questions" }
+      navigate questions(p) [class="btn"] { "Q&A" }
       navigate newQuestion(p) [class="btn"] { "Ask" }
     }
   }

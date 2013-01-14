@@ -13,6 +13,15 @@ section project toolbar
       }
     }    
   }
+  
+  template projectButton(p: Project) {
+    buttonGroup{     
+      navigate project(p) [class="btn"] { 
+        if(p.private) { iLock " " }
+        output(abbreviateNE(p.name,12)) 
+      }
+    }
+  }
 
   template projectTools(p: Project) {
     action followProject(p : Project) {
@@ -28,9 +37,8 @@ section project toolbar
       message("Project membership requested, awaiting project member approval...");
     }
     
-    buttonGroup{     
-      navigate project(p) [class="btn"] { output(abbreviateNE(p.name,12)) }
-    }
+    projectButton(p)
+    
     buttonGroup{ 
       navigate questions(p) [class="btn"] { "Q&A" }
     }
