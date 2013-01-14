@@ -5,16 +5,18 @@ imports questions/question-model
 access control rules
 
   rule page questions(p: Project) {
-    true
+    mayAccess(p)
   }
   
   rule page question(p: Project, number: Int) {
-    true
+    mayAccess(p)
   }
 
   rule page newQuestion(p: Project) {
-    true
-  }
+    mayAccess(p)
+  } 
 
- 
- 
+  rule page editQuestion(q: Question) {
+    principal in q.project.members || 
+    (loggedIn && principal == q.askedBy)
+  } 

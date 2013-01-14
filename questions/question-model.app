@@ -10,7 +10,7 @@ section data model
     urlTitle    :: String
     description :: WikiText
     project     -> Project (inverse=Project.questions)
-    
+    closed      :: Bool (default=false)
     askedBy     -> User
     
     tags        -> Set<Tag>
@@ -41,7 +41,7 @@ section data model
       } else {
         return null;
       }
-    } 
+    }
 
     function newQuestionNumber() : Int {
       var lastProjectQuestions : List<Question> := 
@@ -56,11 +56,14 @@ section data model
       }
     }
     
-    function newQuestion(): Question {
+    function newQuestion(title: String, descrition: WikiText): Question {
       var q := Question {
         number := newQuestionNumber()
         project := this 
-      };
+        title := title
+        description := description 
+        askedBy := securityContext.principal 
+      }; 
       q.save();
       return q;
     }
