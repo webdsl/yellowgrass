@@ -13,10 +13,14 @@ access control rules
   }
 
   rule page newQuestion(p: Project) {
-    mayAccess(p)
+    mayAccess(p) && loggedIn
   } 
 
   rule page editQuestion(q: Question) {
     principal in q.project.members || 
     (loggedIn && principal == q.askedBy)
+  } 
+  
+  rule template answerQuestion(q: Question) {
+    loggedIn
   } 

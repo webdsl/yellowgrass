@@ -30,6 +30,11 @@ section project toolbar
     
     buttonGroup{     
       navigate project(p) [class="btn"] { output(abbreviateNE(p.name,12)) }
+    }
+    buttonGroup{ 
+      navigate questions(p) [class="btn"] { "Q&A" }
+    }
+    buttonGroup{     
       navigate createIssue(p)          [class="btn", title="New Issue", style="height:14px;padding:7px;"] { iPlus  }        
       navigate roadmap(p)              [class="btn", title="Roadmap", style="height:14px;padding:7px;"] { iRoad }    
       navigate projectIssues(p, true)  [class="btn", title=" Open issues", style="height:14px;padding:7px;"] { iList }  

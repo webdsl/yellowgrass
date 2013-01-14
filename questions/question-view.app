@@ -88,7 +88,11 @@ section question page
           }
         }
       }
-      answerQuestion(q) 
+      if(q.closed) {
+        par{ "Question is closed" }
+      } else {
+        answerQuestion(q) 
+      }
     }
   }
   
@@ -129,7 +133,7 @@ section question page
         }
       }
     }
-  } 
+  }
    
 section answering questions
 
@@ -139,15 +143,11 @@ section answering questions
       a.answeredBy := securityContext.principal;
       q.answers.add(a);
     }
-    if(q.closed) {
-      par{ "Question is closed" }
-    } else {
-      pageHeader2{ "Your Answer" } 
-      horizontalForm{
-        input(a.text) [placeholder="Answer"]
-        formActions{ 
-          submitlink save() [class="btn btn-primary"] { "Save" }
-        }
+    pageHeader2{ "Your Answer" } 
+    horizontalForm{
+      input(a.text) [placeholder="Answer"]
+      formActions{ 
+        submitlink save() [class="btn btn-primary"] { "Save" }
       }
     }
   }
