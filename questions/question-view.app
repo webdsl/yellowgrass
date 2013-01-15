@@ -66,7 +66,7 @@ section question page
       blockquote{ 
         output(q.description) 
         small{
-            "Asked by " nav(q.askedBy) 
+            "Asked by " nav(q.author) 
             " on " output(q.created)
         }
       }
@@ -80,16 +80,16 @@ section question page
           blockquote{  
             output(a.text) 
             small{
-                "Answered by " nav(a.answeredBy)   
+                "Answered by " nav(a.author)   
                 " on " output(a.created)
             }
           }
         }
       }
-      if(q.closed) {
-        par{ "Question is closed" }
-      } else {
+      if(q.open) {
         answerQuestion(q) 
+      } else {
+        par{ "Question is closed" }
       }
     }
   }
@@ -136,14 +136,13 @@ section question page
 section answering questions
 
   template answerQuestion(q: Question) {
-    var a := Answer{}
+    var text : WikiText
     action save() {
-      a.answeredBy := securityContext.principal;
-      q.answers.add(a);
-    }
+      q.answer(text); 
+    } 
     pageHeader2{ "Your Answer" } 
     horizontalForm{
-      input(a.text) [placeholder="Answer"]
+      input(text) [placeholder="Your Answer"]
       formActions{ 
         submitlink save() [class="btn btn-primary"] { "Save" }
       }

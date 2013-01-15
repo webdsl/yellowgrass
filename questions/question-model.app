@@ -1,6 +1,7 @@
 module questions/question-model
 
 imports project/project-model
+imports questions/question-emails 
 
 section data model
 
@@ -8,16 +9,17 @@ section data model
     number      :: Int
     title       :: String
     urlTitle    :: String
-    description :: WikiText
+    description :: WikiText 
     project     -> Project (inverse=Project.questions)
-    closed      :: Bool (default=false)
-    askedBy     -> User
+    open        :: Bool (default=true)
+    author      -> User
+    email       :: Email
     
     tags        -> Set<Tag>
     answers     -> Set<Answer>
     
     search mapping{
-      + number
+      + number 
       + title
       + description
         project
@@ -56,23 +58,32 @@ section data model
       }
     }
     
-    function newQuestion(title: String, descrition: WikiText): Question {
+    function newQuestion(t: String, text: WikiText): Question {
       var q := Question {
         number := newQuestionNumber()
-        project := this 
-        title := title
-        description := description 
-        askedBy := securityContext.principal 
+        project := this  
+        title := t
+        description := text 
+        author := securityContext.principal 
       }; 
-      q.save();
-      return q;
+      q.save(); 
+      q.notifyQuestion(); 
+      return q;  
     }
-  } 
+  }
   
 section answers
-
+ 
   entity Answer {
-    answeredBy -> User
-    text       :: WikiText
+    author -> User
+    text   :: WikiText
+  }
+  
+  extend entity Question {
+    function answer(text: WikiText) {
+      var a := Answer{ text := text author := securityContext.principal };
+      answers.add(a);
+      notifyAnswer(a);
+    } 
   }
   

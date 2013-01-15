@@ -18,9 +18,9 @@ access control rules
 
   rule page editQuestion(q: Question) {
     principal in q.project.members || 
-    (loggedIn && principal == q.askedBy)
+    (loggedIn && principal == q.author)
   } 
   
-  rule template answerQuestion(q: Question) {
+  rule template answerQuestion(q: Question) { 
     loggedIn
   } 
