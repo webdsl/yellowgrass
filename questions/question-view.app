@@ -84,7 +84,7 @@ section question page
                 " on " output(a.created.format("d MMMM yyyy 'at' HH:mm"))
             }
           }
-        }
+        } separated-by{ hrule }
       }
       if(q.open) {
         answerQuestion(q) 
