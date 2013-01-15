@@ -27,7 +27,7 @@ module issue/register
       if(type != null) {
         ig.tags.add(type);
       }
-      ig.save();
+      ig.save(); 
       
       if(securityContext.loggedIn) {
         var i : Issue := ig.realize();
@@ -38,7 +38,7 @@ module issue/register
           var i : Issue := ig.realize();
           return issue(i.project, i.number);
         } else {
-          email(issueConfirmationEmail(ig));
+          email issueConfirmationEmail(ig); 
         }
         return issueConfirmation();
       }

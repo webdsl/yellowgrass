@@ -13,10 +13,10 @@ section project toolbar
       }
     }    
   }
-  
+   
   template projectButton(p: Project) {
     buttonGroup{     
-      navigate project(p) [class="btn"] { 
+      navigate project(p) [class="btn", title=(if(p.private) "Private " else "") + "Project " + p.name] { 
         if(p.private) { iLock " " }
         output(abbreviateNE(p.name,12)) 
       }
