@@ -16,7 +16,7 @@ section data model
     email       :: Email
     
     tags        -> Set<Tag>
-    answers     -> Set<Answer>
+    answers     -> Set<Answer> (inverse=Answer.question)
     
     search mapping{
       + number 
@@ -24,7 +24,7 @@ section data model
       + description
         project
       + tags
-      + askerName
+      + authorName
       + comments
     }
   }
@@ -75,8 +75,9 @@ section data model
 section answers
  
   entity Answer {
-    author -> User
-    text   :: WikiText
+    question -> Question
+    author   -> User
+    text     :: WikiText
   }
   
   extend entity Question {
@@ -84,6 +85,6 @@ section answers
       var a := Answer{ text := text author := securityContext.principal };
       answers.add(a);
       notifyAnswer(a);
-    } 
+    }
   }
   
