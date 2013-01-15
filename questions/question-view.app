@@ -8,8 +8,8 @@ section toolbar
   template questionsTools(p: Project) {    
     projectButton(p)
     buttonGroup{
-      navigate questions(p) [class="btn"] { "Q&A" }
-      navigate newQuestion(p) [class="btn"] { "Ask" }
+      navigate questions(p) [class="btn", title="Questions and answers for " + p.name] { "Q&A" }
+      navigate newQuestion(p) [class="btn", title="Ask a question about " + p.name] { "Ask" }
     }
   }
   
@@ -67,7 +67,7 @@ section question page
         output(q.description) 
         small{
             "Asked by " nav(q.author) 
-            " on " output(q.created)
+            " on " output(q.created.format("d MMMM yyyy 'at' HH:mm"))
         }
       }
       if(answers == 0) {
@@ -81,7 +81,7 @@ section question page
             output(a.text) 
             small{
                 "Answered by " nav(a.author)   
-                " on " output(a.created)
+                " on " output(a.created.format("d MMMM yyyy 'at' HH:mm"))
             }
           }
         }
