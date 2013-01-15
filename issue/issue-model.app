@@ -22,7 +22,7 @@ section data model
         reporter.name
       else
         ""
-        
+                
     search mapping{
       + number
       + title
@@ -31,8 +31,8 @@ section data model
       + tags
       + reporterName
       + comments
-  }      
-        
+    }
+
   }
     
 section operations
@@ -119,10 +119,10 @@ section queries
       return "";
     }
   }
-  function getComments():Set<Comment>{
+  function getComments(): Set<Comment>{
     var set : Set<Comment>;
     log("getComments");
-    for(e:Event in log where e is a Comment){
+    for(e: Event in log where e is a Comment){
       set.add(e as Comment);
     }
     return set;
@@ -318,3 +318,17 @@ function newIssueNumber(p: Project) : Int {
           limit 27;
   } 
 
+section completed
+
+  function completed(issues: List<Issue>): List<Int> {
+    var done: Int := 0;
+    var total: Int := 0; 
+    for(i: Issue in issues) { 
+      if(!i.open) { done := done + 1; }
+      total := total + 1;
+    } 
+    var completed := if(total > 0) ((done * 100) / total) else 0;
+    return  [done, total, completed];  
+  }
+
+    

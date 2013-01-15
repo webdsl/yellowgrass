@@ -30,7 +30,7 @@ section data model
       }
       return false;
     }
-  
+      
     function toJSON():JSONObject{
       var json := JSONObject();
       json.put("id",id);

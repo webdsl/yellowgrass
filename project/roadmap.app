@@ -21,18 +21,30 @@ section project roadmap
 
   ajax template roadmapRelease(r : Tag) {
 	  var previousRelease := previousRelease(r);
-	  header2{
-		  navigate(tag(r.project, r.name)) { output(r.name) }
+	  var issues := releaseIssues(r);
+	  var completed := completed(issues);
+	  var releaseDone := releaseDone(r);
+	  pageHeader2{ 
+		  navigate tag(r.project, r.name) { output(r.name) } 
+		  " (" if(!releaseDone) { output(completed[0]) "/" } output(completed[1]) ") "
+		  
 		  if(r.description != null && r.description != "") {
 			  output(" -- ") <i> output(r.description) </i>
 		  }
-	  }
-	  par { submitlink postponeOpen(r) { "Postpone Open Issues to " output(nextRelease(r).name) } }
-	  issues(releaseIssues(r), false, true, true, 50, true, true)
+	  } 
+	  if(!releaseDone) {
+	    gridRow{	    
+        gridSpan(6) { progressBar(completed[2])  }
+	      pullRight{
+	        par { submitlink postponeOpen(r) [class="btn"] { "Postpone Open Issues to " output(nextRelease(r).name) } }
+	      }
+	    }
+    }
+	  issues(issues, false, true, true, 50, true, true)
 	  if(previousRelease != null) {
 		  block[class="Ghost"] {
 			  submitlink showPreviousRelease(previousRelease) [id="continuousLoader"+r.name+r.id, class="btn continuousLoader"] { "Show More" }
-		  }
+		  } 
 	  }
 	
 	  action postponeOpen(release : Tag) {
@@ -50,4 +62,5 @@ section project roadmap
 		  }
 	  }
   }
+  
   
