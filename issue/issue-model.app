@@ -66,8 +66,7 @@ section operations
       for(e : Email in mailinglist()){
         email(issueNotification(this, e));
       }
-    }
-  
+    }  
     function notifyClose() {
       for(e : Email in mailinglist()){
         email(issueCloseNotification(this, e));
@@ -121,7 +120,7 @@ section queries
   }
   function getComments(): Set<Comment>{
     var set : Set<Comment>;
-    log("getComments");
+    //log("getComments");
     for(e: Event in log where e is a Comment){
       set.add(e as Comment);
     }
