@@ -122,25 +122,25 @@ section user interface
             if(!showProjectName) {
               output(i.number)          
             } else {
-              navigate project(i.project) { output(abbreviate(i.project.name, 20)) }
+              navigate project(i.project) [title=i.project.name] { output(abbreviate(i.project.name, 20)) }
             } " "
             pullRight{ div[class := "Date"] { output(format(i.submitted)) } }  
           }
-          // if(showProjectName) {          
+          // if(showProjectName) {           
           //     gridSpan(projectSpan) { 
           //       navigate project(i.project) { output(abbreviate(i.project.name, 20)) }
           //     }
           // }
           gridSpan(titleSpan + tagsSpan) {
             if(!i.open) { iOk " " } 
-              navigate(issue(i.project, i.number)) {
+              navigate issue(i.project, i.number) [title=i.getTitle()] {
                 output(abbreviate(i.getTitle(), titleLength))          
                 if(showNrVotes && i.nrVotes > 0) {
                   " (" output(i.nrVotes) ")"
                 }
               }
               if(showTags) { tags(i, true, true, true) } 
-          }  
+          }
           // if(showTags) { 
           //   gridSpan(tagsSpan) { tags(i, true, true) } 
           // }
