@@ -39,9 +39,9 @@ imports emails
 		
 		  return mailinglist;
 	  } 
-	
+	 
 	  function mailSubject() : String {
-		  return project.name + " - Question " + number;
+		  return project.name + " - Question #" + number + ": " + abbreviate(title, 20);
 	  }
 	  
     function notifyQuestion() {
@@ -71,9 +71,9 @@ section email templates
   template questionHeader(q: Question) {
     par { 
       navigate project(q.project) { output(q.project.name) }
-      " " 
-      navigate question(q.project, q.number) { "#" output(q.number) }
-      " (" output(q.created.format("MMM hh:mm ")) ")"
+      " - " 
+      navigate question(q.project, q.number) { "Question #" output(q.number) }
+      " (" output(q.created.format("dd MMMM yyyy hh:mm ")) ")"
     }
   }
   
@@ -85,8 +85,7 @@ section email templates
   }
   
   template questionFooter(q: Question) {
-    par { " -- " navigate question(q.project, q.number) {"Issue on YellowGrass"} " -- http://yellowgrass.org -- " }
-    par { " -- " output(navigate(issue(q.project, q.number))) }
+    par { " -- " output(navigate(question(q.project, q.number))) }
   }
   
 section emails
