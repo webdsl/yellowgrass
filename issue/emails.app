@@ -41,8 +41,8 @@ imports emails
 	  }
 	
 	  function mailSubject() : String {
-		  return project.name+" - Issue "+number;
-	  }
+		  return project.name + " - Issue #" + number + ": " + abbreviate(title, 20);
+	  } 
   }
   
 section email templates
@@ -50,9 +50,9 @@ section email templates
   template issueHeader(i: Issue) {
     par { 
       navigate project(i.project) { output(i.project.name) }
-      " " 
-      navigate issue(i.project, i.number) { "#" output(i.number) }
-      " (" output(i.submitted.format("MMM hh:mm ")) ")"
+      " - " 
+      navigate issue(i.project, i.number) { "Issue #" output(i.number) }
+      " (" output(i.submitted.format("d MMMM yyyy hh:mm ")) ")"
     }
   }
   
@@ -64,7 +64,6 @@ section email templates
   }
   
   template issueFooter(i: Issue) {
-    par { " -- " navigate issue(i.project, i.number) {"Issue on YellowGrass"} " -- http://yellowgrass.org -- " }
     par { " -- " output(navigate(issue(i.project, i.number))) }
   }
   
@@ -73,7 +72,7 @@ section emails
   email template issueNotification(i : Issue, e : Email) {
 	  to(e)
 	  from(EMAIL_FROM())
-	  subject(i.mailSubject())
+	  subject(i.mailSubject()) 
     issueHeader(i)
 	  par {}
 	  issueByLine(i) 
