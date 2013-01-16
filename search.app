@@ -12,7 +12,7 @@ module search
   template searchtmpl(p : Project, q : String) {
     var query := q;
 	  var issues : List<Issue>;
-	  var issueSearcher := search Issue matching q limit 50;
+	  var issueSearcher := search Issue matching q [no lucene] limit 50;
  	
 	  init{
 		  if (p != null) {
