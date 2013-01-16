@@ -63,6 +63,7 @@ section project toolbar
       form{
         inputAppend{
           input(query)[placeholder="Search", class="span2"]  
+          submit search(query) [class="btn", style="height:18px; padding:5px; margin:0px;display:none;"] { "Search" }
           submitlink search(query) [class="btn", style="height:18px; padding:5px; margin:0px;"] { iSearch }
         }
       }

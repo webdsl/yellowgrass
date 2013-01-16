@@ -176,7 +176,8 @@ section tagging
 	  div [class := "TagAddition"] {
 		  form { 
 		    inputAppend{
-			    input(t) [class="input-mini", onkeyup := updateTagSuggestions(t), autocomplete:="off"]		  
+			    input(t) [class="input-mini", onkeyup := updateTagSuggestions(t), autocomplete:="off"]
+          submit addTag(t, i) [class="btn btn-mini", style="height:14px;padding:7px;display:none;", title="Add tag"] { "Add Tag" }
 			    submitlink addTag(t, i) [class="btn btn-mini", style="height:14px;padding:7px;", title="Add tag"] { iTag }
 			    tagHelp
 			  }
