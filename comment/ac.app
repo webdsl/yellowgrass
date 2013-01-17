@@ -7,7 +7,7 @@ section predicates
   extend entity Comment {
     
     function mayView(): Bool {
-      return loggedIn(); 
+      return true; 
     }   
     
     function mayEdit(): Bool {
@@ -22,7 +22,7 @@ access control rules
 	// 	(c.author == securityContext.principal)
 	// }
 	
-	rule template commentAddition(i : Issue) {
+	rule template commentAddition(i : Issue) { 
 		loggedIn
 	}
 	
