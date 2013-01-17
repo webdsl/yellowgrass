@@ -1,6 +1,12 @@
 module user/ac
 
-principal is User with credentials email, password
+section principal
+
+  principal is User with credentials email, password
+
+  function principal(): User {
+    return securityContext.principal;
+  }
 
 access control rules 
 
