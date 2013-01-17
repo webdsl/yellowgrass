@@ -10,6 +10,7 @@ section data model
     title       :: String
     urlTitle    :: String
     description :: WikiText 
+    preview     :: WikiText
     project     -> Project (inverse=Project.questions)
     open        :: Bool (default=true)
     author      -> User
@@ -78,6 +79,7 @@ section answers
     question -> Question
     author   -> User
     text     :: WikiText
+    preview  :: WikiText
   }
   
   extend entity Question {

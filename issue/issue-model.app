@@ -6,6 +6,7 @@ section data model
     number      :: Int
     title       :: String (validate(title.length() >= 5, "Use a longer and more descriptive title"))
     description :: WikiText
+    preview     :: WikiText  
     submitted   :: DateTime
     project     -> Project  (inverse = Project.issues)
     reporter    -> User
@@ -16,6 +17,9 @@ section data model
     nrVotes     :: Int := [ t | t : Tag in tags where /!.*/.match(t.name)].length
     attachments -> Set<Attachment>
     comments    -> Set<Comment> := getComments()
+    
+    hasDueDate  :: Bool (default=false)
+    due         :: Date (default=null)
   
     reporterName :: String := 
       if (reporter != null && reporter.name != null)
@@ -23,7 +27,7 @@ section data model
       else
         ""
                 
-    search mapping{
+    search mapping {
       + number
       + title
       + description
@@ -31,6 +35,7 @@ section data model
       + tags
       + reporterName
       + comments
+        due
     }
 
   }

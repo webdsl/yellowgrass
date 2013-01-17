@@ -35,6 +35,12 @@ section navigation
 
 section issue page
 
+  template byline(issue: Issue) {
+    "Submitted "
+    reporter(issue, "by ")
+    "on " output(issue.submitted.format("d MMMM yyyy 'at' HH:mm"))
+  }  
+ 
   page issue(p : Project, issueNumber : Int) {
     var i := getIssue(p, issueNumber);
     var nrVotes := i.nrVotes; // Derived props are not cached and executed on demand
@@ -47,18 +53,18 @@ section issue page
         if(nrVotes > 0) { " (" output(nrVotes) ") " } 
         if(!i.open) { iOk }       
       }
-      gridRow{
-        gridSpan(12) { 
-          pullRight{ small{ par{
-            "Submitted "
-            reporter(i, "by ")
-            "on " output(i.submitted.format("d MMMM yyyy 'at' HH:mm"))
-          } } }
-        }
-      }
+      // gridRow{
+      //   gridSpan(12) { 
+      //     pullRight{ small{ par{
+      //       "Submitted "
+      //       reporter(i, "by ")
+      //       "on " output(i.submitted.format("d MMMM yyyy 'at' HH:mm"))
+      //     } } }
+      //   }
+      // }
       gridRow{
         gridSpan(12){
-          blockquote { output(i.description) } 
+          editableText(i.description, i.preview)  
           pullRight{ addTag(i) }          
           tags(i, true, false, false)  
         }
@@ -126,11 +132,6 @@ section user interface
             } " "
             pullRight{ div[class := "Date"] { output(format(i.submitted)) } }  
           }
-          // if(showProjectName) {           
-          //     gridSpan(projectSpan) { 
-          //       navigate project(i.project) { output(abbreviate(i.project.name, 20)) }
-          //     }
-          // }
           gridSpan(titleSpan + tagsSpan) {
             if(!i.open) { iOk " " } 
               navigate issue(i.project, i.number) [title=i.getTitle()] {
@@ -141,80 +142,39 @@ section user interface
               }
               if(showTags) { tags(i, true, true, true) } 
           }
-          // if(showTags) { 
-          //   gridSpan(tagsSpan) { tags(i, true, true) } 
-          // }
-        }
+         }
       } } }
     }
-  } 
-
-// template issues(is : List<Issue>, showProjectName : Bool, showTicks : Bool, showNumbers : Bool, titleLength : Int, showTags : Bool, showNrVotes : Bool) {
-// 	block [class := "Listing"] {
-// 		tableBordered {
-// 			for(i : Issue in is) {
-// 				row {
-// 					if(showTicks) {
-// 						column { if(!i.open) { iOk } }
-// 					}
-// 					if(showNumbers) {
-// 						column { output(i.number) }
-// 					}
-// 					column {
-// 						block[class := "Date"] { output(format(i.submitted)) }
-// 					}
-// 					if(showProjectName) {
-// 						column { 
-// 						  navigate project(i.project) { output(abbreviate(i.project.name, 20)) } }
-// 					}
-// 					column { 
-// 						block[class := "AbbreviatedIssueTitle"] {
-// 							navigate(issue(i.project, i.number)) {
-// 								output(abbreviate(i.getTitle(), titleLength))
-// 							}
-// 							if(showNrVotes && i.nrVotes > 0) {
-// 								" (" output(i.nrVotes) ")"
-// 							}
-// 						}
-// 					}
-// 					if(showTags) { 
-// 						column { tags(i, true, true) }
-// 					}
-// 				}
-// 			}
-// 		}
-// 	}
-// } 
-
+  }
 
 section edit issue 
 	
-  page editIssue(i : Issue) {
-	  title{output(i.project.name) " issue #" output(i.number) " on YellowGrass.org [editing]"}
-
-    action save(){
-      return issue(i.project, i.number);
-    }
-    action ignore-validation updateIssuePreview(d : WikiText) {
-      replace(issuePreview, issuePreview(d));
-    }
-        
-    bmain(i.project){
-	    issueCommandsMenu(i)
-		  pageHeader2{ "Edit Issue " output(i.number) }
-		  horizontalForm {
-			  controlGroup("Title") { input(i.title) }
-			  controlGroup("Description") { 
-			    input(i.description)[onkeyup := updateIssuePreview(i.description), style="height: 400px;"] 
-			  }
-			  placeholder issuePreview {} 
-			  formActions{
-			    submitlink save() [class="btn btn-primary"] { "Save" } " " 
-				  navigate issue(i.project, i.number) [class="btn"] {"Cancel"}			
-			  }
-		  }
-	  }
-  } 
+   page editIssue(i : Issue) {
+ 	  title{output(i.project.name) " issue #" output(i.number) " on YellowGrass.org [editing]"}
+ 
+     action save(){
+       return issue(i.project, i.number);
+     }
+     action ignore-validation updateIssuePreview(d : WikiText) {
+       replace(issuePreview, issuePreview(d));
+     }
+         
+     bmain(i.project){
+ 	    issueCommandsMenu(i)
+ 		  pageHeader2{ "Edit Issue " output(i.number) }
+ 		  horizontalForm {
+ 			  controlGroup("Title") { input(i.title) }
+ 			  controlGroup("Description") {  
+ 			    input(i.description)[onkeyup := updateIssuePreview(i.description), style="height: 400px;"] 
+ 			  }
+ 			  placeholder issuePreview {} 
+ 			  formActions{
+ 			    submitlink save() [class="btn btn-primary"] { "Save" } " " 
+ 				  navigate issue(i.project, i.number) [class="btn"] {"Cancel"}			
+ 			  }
+ 		  }
+ 	  }
+  }
 
 section issues posted by principal
 
@@ -232,3 +192,4 @@ section issues posted by principal
 		  par { issues(postedIssues.set(), true, true, true, 50, true, true) }
 	  }
   }
+  

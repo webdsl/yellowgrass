@@ -2,12 +2,25 @@ module comment/ac
 
 imports comment/tagControl
 
+section predicates
+
+  extend entity Comment {
+    
+    function mayView(): Bool {
+      return loggedIn(); 
+    }   
+    
+    function mayEdit(): Bool {
+      return (author != null) && (author == securityContext.principal); 
+    } 
+  }
+  
 access control rules
 	
-	rule page editComment(c : Comment) {
-		(c.author != null) &&
-		(c.author == securityContext.principal)
-	}
+	// rule page editComment(c : Comment) {
+	// 	(c.author != null) &&
+	// 	(c.author == securityContext.principal)
+	// }
 	
 	rule template commentAddition(i : Issue) {
 		loggedIn

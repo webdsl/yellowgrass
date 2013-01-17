@@ -4,6 +4,20 @@ imports issue/issue
 imports project/project
 imports user/user
 
+section predicates
+
+  extend entity Issue {
+    
+    function mayView(): Bool {
+      return mayAccess(project);
+    }
+    
+    function mayEdit(): Bool {
+      return principal() in project.members 
+          || (loggedIn() && principal() == reporter);
+    }
+  }
+
 access control rules
 
 	rule page issue(p : Project, number : Int) { 

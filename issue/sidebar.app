@@ -13,7 +13,7 @@ section issue commands
             projectTools(i.project)
           }
         }
-        pullRight{      
+        pullRight{
           buttonToolbar{
             //buttonGroup{        
               // dropdownCaret{
@@ -24,7 +24,7 @@ section issue commands
             //}
             buttonGroup{       
               nav(i)[class="btn"]        
-              navigate   editIssue(i)  [class="btn", title="Edit Issue", style="height:14px;padding:7px;"] { iPencil } 
+              //navigate   editIssue(i)  [class="btn", title="Edit Issue", style="height:14px;padding:7px;"] { iPencil } 
               attachmentAdditionTool(i)
               //commentAdditionTool(i)
               submitlink close(i)      [class="btn", title="Close Issue", style="height:14px;padding:7px;"] { iOk } 

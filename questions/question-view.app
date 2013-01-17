@@ -2,6 +2,7 @@ module questions/question-view
 
 imports questions/question-model
 imports questions/question-ac
+imports generic/editable-text 
 
 section toolbar
 
@@ -28,7 +29,9 @@ section toolbar
         pullRight{
           buttonToolbar{
             buttonGroup{
-              navigate editQuestion(q) [class="btn",title="Edit question", style="height:14px;padding:7px;"] { iPencil }
+              navigate question(q.project, q.number) [class="btn",title=(q.project.name + " Question #" + q.number), style="height:14px;padding:7px;"] { 
+                "Question # " output(q.number) 
+              }
             }
           }
         }
@@ -63,13 +66,7 @@ section question page
     bmain(p) {
       questionToolbar(q)
       pageHeader2{ output(q.title) }
-      blockquote{ 
-        output(q.description) 
-        small{
-            "Asked by " nav(q.author) 
-            " on " output(q.created.format("d MMMM yyyy 'at' HH:mm"))
-        }
-      }
+      editableText(q.description, q.preview)
       if(answers == 0) {
         pageHeader2{ "No answers yet" }
       } else {
@@ -77,14 +74,9 @@ section question page
           output(answers) if(answers == 1) { " Answer" } else { " Answers" } 
         }
         for(a: Answer in q.answers order by a.created asc) {
-          blockquote{  
-            output(a.text) 
-            small{
-                "Answered by " nav(a.author)   
-                " on " output(a.created.format("d MMMM yyyy 'at' HH:mm"))
-            }
-          }
-        } separated-by{ hrule }
+          editableText(a.text, a.preview)
+          hrule
+        } //separated-by{ hrule }
       }
       if(q.open) {
         answerQuestion(q) 
@@ -92,6 +84,16 @@ section question page
         par{ "Question is closed" }
       }
     }
+  }
+  
+  template byline(q: Question) {
+    "Asked by " nav(q.author) 
+    " on " output(q.created.format("d MMMM yyyy 'at' HH:mm"))
+  }
+  
+  template byline(a: Answer) {
+    "Answered by " nav(a.author)   
+    " on " output(a.created.format("d MMMM yyyy 'at' HH:mm"))
   }
   
   page newQuestion(p: Project) {
@@ -115,23 +117,23 @@ section question page
     }
   }
  
-  page editQuestion(q: Question) {
-    action save() { 
-      return question(q.project, q.number);
-    } 
-    bmain(q.project) {
-      questionToolbar(q)
-      pageHeader{ "Edit Question '" output(q.title) "'" }
-      horizontalForm{ 
-        controlGroup("Title") { input(q.title)[class="span8"] }
-        controlGroup("Description") { input(q.description) }
-        formActions{
-          submitlink save() [class="btn btn-primary"]{ "Post" } " "
-          navigate question(q.project, q.number) [class="btn"] { "Cancel" }
-        }
-      }
-    }
-  }
+  // page editQuestion(q: Question) {
+  //   action save() { 
+  //     return question(q.project, q.number);
+  //   } 
+  //   bmain(q.project) {
+  //     questionToolbar(q)
+  //     pageHeader{ "Edit Question '" output(q.title) "'" }
+  //     horizontalForm{ 
+  //       controlGroup("Title") { input(q.title)[class="span8"] }
+  //       controlGroup("Description") { input(q.description) }
+  //       formActions{
+  //         submitlink save() [class="btn btn-primary"]{ "Post" } " "
+  //         navigate question(q.project, q.number) [class="btn"] { "Cancel" }
+  //       }
+  //     }
+  //   }
+  // }
    
 section answering questions
 

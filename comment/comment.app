@@ -8,7 +8,8 @@ section data model
   entity Comment : Event {
 	  // submitted		:: DateTime
 	  text			:: WikiText		(searchable(default))
-	  author			-> User 
+	  preview   :: WikiText
+	  author		-> User 
 	
 	  function toJSON() : JSONObject {
 		  var json := JSONObject();
@@ -53,14 +54,17 @@ section operations
   
 section view
 
+  template byline(c: Comment) {
+    "Submitted on " output(c.moment.format("d MMMM yyyy 'at' HH:mm")) " by " nav(c.author)
+  }
+
   template comment(c : Comment) {
-	  block [class := "CommentHeader"] {
-		  "On " output(c.moment.format("d MMMM yyyy 'at' HH:mm")) " " nav(c.author) " wrote: "
-		  navigate editComment(c) [title="edit comment"] { iPencil }
-	  } 
-	  blockquote{
-		  output(c.text)
-	  }
+	  // block [class := "CommentHeader"] {
+		 //  "On " output(c.moment.format("d MMMM yyyy 'at' HH:mm")) " " nav(c.author) " wrote: "
+		 //  navigate editComment(c) [title="edit comment"] { iPencil }
+	  // } 	  
+	  editableText(c.text, c.preview)  
+	  hrule
   }
 
   template commentAddition(i : Issue) { 
@@ -91,9 +95,9 @@ section view
     }
 	  var newCommentText : WikiText := ""; 
       
-	  pageHeader3 { "New Comment" }
+	  pageHeader3 { "New Comment" } 
 	  horizontalForm { 
-			par { input(newCommentText)[onkeyup := updateCommentPreview(newCommentText)] }
+			par { input(newCommentText)[onkeyup := updateCommentPreview(newCommentText), placeholder="Your comment"] }
 			if(!i.open) {
 				par { "This issue is closed! Are you sure you want to add a comment?" }
 			}						
@@ -129,35 +133,34 @@ section view
 	  par { <i> "Log in to post comments" </i> }
   }
 
-  page editComment(c : Comment) {
-    
-    title{"YellowGrass.org - Edit Comment"}
-	  var is := 
-		 	select i
-			from Issue as i
-			left join i.log as l
-			where ~c = l
-			limit 1
-		var i := is.get(0);
-	  action save(){
-      c.save();
-      IndexManager.reindex(i); //reindex issue to reflect changed comment in search index of Issue (because Issue.comments is a derived prop -> not flagged dirty -> no reindex of Issue)
-      return issue(i.project, i.number);
-    }
-    action ignore-validation updateCommentPreview(d : WikiText) {
-      replace(commentPreview, commentPreview(d, true));
-    }
-	  bmain(i.project){
-		  pageHeader4{ "Edit Comment" }
-	    horizontalForm {
-			   controlGroup("Comment") { 
-			     input(c.text)[onkeyup := updateCommentPreview(c.text), style="height:400px;"] 
-			   }
-			   placeholder commentPreview { }
-			   formActions {
-			     submitlink save() [class="btn btn-primary"] { "Save" } " "
-				   navigate issue(i.project, i.number) [class="btn"] {"Cancel"}
-				 }
-			}
-		}
-	}
+ //  page editComment(c : Comment) {    
+ //    title{"YellowGrass.org - Edit Comment"}
+	//   var is := 
+	// 	 	select i
+	// 		from Issue as i
+	// 		left join i.log as l
+	// 		where ~c = l
+	// 		limit 1
+	// 	var i := is.get(0);
+	//   action save(){
+ //      c.save();
+ //      IndexManager.reindex(i); //reindex issue to reflect changed comment in search index of Issue (because Issue.comments is a derived prop -> not flagged dirty -> no reindex of Issue)
+ //      return issue(i.project, i.number);
+ //    }
+ //    action ignore-validation updateCommentPreview(d : WikiText) {
+ //      replace(commentPreview, commentPreview(d, true));
+ //    }
+	//   bmain(i.project){
+	// 	  pageHeader4{ "Edit Comment" }
+	//     horizontalForm {
+	// 		   controlGroup("Comment") { 
+	// 		     input(c.text)[onkeyup := updateCommentPreview(c.text), style="height:400px;"] 
+	// 		   }
+	// 		   placeholder commentPreview { }
+	// 		   formActions {
+	// 		     submitlink save() [class="btn btn-primary"] { "Save" } " "
+	// 			   navigate issue(i.project, i.number) [class="btn"] {"Cancel"}
+	// 			 }
+	// 		}
+	// 	}
+	// }
