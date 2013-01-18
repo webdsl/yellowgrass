@@ -41,7 +41,7 @@ imports emails
 	  }
 	
 	  function mailSubject() : String {
-		  return project.name + " - Issue #" + number + ": " + abbreviate(title, 20);
+		  return project.name + " - Issue #" + number + ": " + title;
 	  } 
   }
   

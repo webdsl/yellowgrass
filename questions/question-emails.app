@@ -41,7 +41,7 @@ imports emails
 	  } 
 	 
 	  function mailSubject() : String {
-		  return project.name + " - Question #" + number + ": " + abbreviate(title, 20);
+		  return project.name + " - Question #" + number + ": " + title;
 	  }
 	  
     function notifyQuestion() {
