@@ -25,10 +25,10 @@ access control rules
 		// Not checking whether issue exists anymore, due to performance issues in generating navigates
 	}
 		
-	rule page editIssue(i : Issue) {
-		principal in i.project.members || 
-		(loggedIn && principal == i.reporter)
-	}
+	// rule page editIssue(i : Issue) {
+	// 	principal in i.project.members || 
+	// 	(loggedIn && principal == i.reporter)
+	// }
 	
 	rule page createIssue(p : Project) {
 		mayAccess(p)

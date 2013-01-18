@@ -20,7 +20,7 @@ section navigation
   template nav(i: Issue) {
     navigate issue(i.project, i.number) [all attributes] { "#" output(i.number) }
   }
-  
+   
   template reporter(i: Issue) {
     reporter(i, "")
   }
@@ -147,34 +147,34 @@ section user interface
     }
   }
 
-section edit issue 
-	
-   page editIssue(i : Issue) {
- 	  title{output(i.project.name) " issue #" output(i.number) " on YellowGrass.org [editing]"}
- 
-     action save(){
-       return issue(i.project, i.number);
-     }
-     action ignore-validation updateIssuePreview(d : WikiText) {
-       replace(issuePreview, issuePreview(d));
-     }
-         
-     bmain(i.project){
- 	    issueCommandsMenu(i)
- 		  pageHeader2{ "Edit Issue " output(i.number) }
- 		  horizontalForm {
- 			  controlGroup("Title") { input(i.title) }
- 			  controlGroup("Description") {  
- 			    input(i.description)[onkeyup := updateIssuePreview(i.description), style="height: 400px;"] 
- 			  }
- 			  placeholder issuePreview {} 
- 			  formActions{
- 			    submitlink save() [class="btn btn-primary"] { "Save" } " " 
- 				  navigate issue(i.project, i.number) [class="btn"] {"Cancel"}			
- 			  }
- 		  }
- 	  }
-  }
+// section edit issue 
+// 	
+//    page editIssue(i : Issue) {
+//  	  title{output(i.project.name) " issue #" output(i.number) " on YellowGrass.org [editing]"}
+//  
+//      action save(){
+//        return issue(i.project, i.number);
+//      }
+//      action ignore-validation updateIssuePreview(d : WikiText) {
+//        replace(issuePreview, issuePreview(d));
+//      }
+//          
+//      bmain(i.project){
+//  	    issueCommandsMenu(i)
+//  		  pageHeader2{ "Edit Issue " output(i.number) }
+//  		  horizontalForm {
+//  			  controlGroup("Title") { input(i.title) }
+//  			  controlGroup("Description") {  
+//  			    input(i.description)[onkeyup := updateIssuePreview(i.description), style="height: 400px;"] 
+//  			  }
+//  			  placeholder issuePreview {} 
+//  			  formActions{
+//  			    submitlink save() [class="btn btn-primary"] { "Save" } " " 
+//  				  navigate issue(i.project, i.number) [class="btn"] {"Cancel"}			
+//  			  }
+//  		  }
+//  	  }
+//   }
 
 section issues posted by principal
 
