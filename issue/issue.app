@@ -49,10 +49,10 @@ section issue page
     bmain(p){  
       issueCommandsMenu(i)
       pageHeader2{
-        output(i.getTitle()) " "
+        editableString(i.title) " "
         if(nrVotes > 0) { " (" output(nrVotes) ") " } 
-        if(!i.open) { iOk }       
-      }
+        if(!i.open) { iOk }         
+      } 
       // gridRow{
       //   gridSpan(12) { 
       //     pullRight{ small{ par{

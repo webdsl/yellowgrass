@@ -45,9 +45,9 @@ section project toolbar
     buttonGroup{     
       navigate createIssue(p)          [class="btn", title="New Issue", style="height:14px;padding:7px;"] { iPlus  }        
       navigate roadmap(p)              [class="btn", title="Roadmap", style="height:14px;padding:7px;"] { iRoad }    
-      navigate projectIssues(p, true)  [class="btn", title=" Open issues", style="height:14px;padding:7px;"] { iList }  
-      navigate projectIssues(p, false) [class="btn", title=" All issues", style="height:14px;padding:7px;"] { iListAlt }     
-      navigate edit(p)                 [class="btn", title=" Project Settings", style="height:14px;padding:7px;"] { iWrench } 
+      navigate projectIssues(p, true)  [class="btn", title="Open issues", style="height:14px;padding:7px;"] { iList }  
+      navigate projectIssues(p, false) [class="btn", title="All issues", style="height:14px;padding:7px;"] { iListAlt }     
+      navigate edit(p)                 [class="btn", title="Project Settings", style="height:14px;padding:7px;"] { iWrench } 
         
       submitlink followProject(p)      [class="btn", title="Follow Project", style="height:14px;padding:7px;"] { iStarEmpty  }  
       submitlink unfollowProject(p)    [class="btn", title="Unfollow Project", style="height:14px;padding:7px;"] { iStar } 

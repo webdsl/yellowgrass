@@ -4,7 +4,7 @@ module generic/entity
     if(e is a Answer) { return (e as Answer).mayEdit(); }
     if(e is a Question) { return (e as Question).mayEdit(); }
     if(e is a Comment) { return (e as Comment).mayEdit(); }
-    if(e is a Issue) { return (e as Issue).mayEdit(); } 
+    if(e is a Issue) { return (e as Issue).mayEdit(); }  
     return false;
   } 
     

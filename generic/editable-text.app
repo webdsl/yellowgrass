@@ -2,7 +2,7 @@ module generic/editable-text
 
 imports generic/entity 
 
-access control rules
+access control rules  
 
   rule ajaxtemplate editableText(text : Ref<WikiText>, preview: Ref<WikiText>) {
     true 
@@ -68,6 +68,51 @@ section templates
     blockquote{ 
       output(text)  
       small{ byline(text.getEntity()) } 
+    }
+  }
+  
+access control rules 
+
+  rule ajaxtemplate editableString(x: Ref<String>) { 
+    mayView(x.getEntity())
+  }
+   
+  rule ajaxtemplate editableStringShow(t: String, x: Ref<String>) {
+    mayEdit(x.getEntity())
+  }
+  
+  rule ajaxtemplate editableStringEdit(t: String, x: Ref<String>, old: String) {
+    mayEdit(x.getEntity())
+  }
+      
+section editable string
+
+  ajax template editableString(x: Ref<String>) {
+    var t := "editString" + getTemplate().getUniqueId();
+    placeholder (t as String) { editableStringShow(t, x) }
+  }
+  
+  ajax template editableStringShow(t: String, x: Ref<String>) {
+    action edit() { replace(t as String, editableStringEdit(t, x, x)); } 
+    div[ondblclick=edit()]{ output(x) }
+  }
+  
+  ajax template editableStringEdit(t: String, x: Ref<String>, old: String) {
+    action save() { 
+      replace(t as String, editableStringShow(t, x));
+    } 
+    action cancel() { 
+      x := old; 
+      replace(t as String, editableStringShow(t, x));
+    }
+    form{ 
+      div{ input(x)[style="width: 80%;"] }
+      pullRight{ par{
+        submit save() [style="display:none;"] { "Save" }
+        submitlink save() [class="btn btn-primary"] { "Save" } " "
+        submitlink cancel() [class="btn"] { "Cancel" }
+      } }
+      clear
     }
   }
   
