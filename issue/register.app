@@ -100,6 +100,7 @@ module issue/register
 						  controlGroup("Stay logged in") { input(keepLoggedIn) }
 						}
 					  formActions{
+					    submit post() [style="display: none;"] { "Post" }
               submitlink post() [class="btn btn-primary"] { "Post" } " "
               navigate project(p) [class="btn"] { "Cancel" } 
 					  }
