@@ -49,8 +49,8 @@ section project toolbar
       navigate projectIssues(p, false) [class="btn", title=" All issues", style="height:14px;padding:7px;"] { iListAlt }     
       navigate edit(p)                 [class="btn", title=" Project Settings", style="height:14px;padding:7px;"] { iWrench } 
         
-      submitlink followProject(p)      [class="btn", title="Follow Project", style="height:14px;padding:7px;"] { iThumbsUp  }  
-      submitlink unfollowProject(p)    [class="btn", title="Unfollow Project", style="height:14px;padding:7px;"] { iThumbsDown } 
+      submitlink followProject(p)      [class="btn", title="Follow Project", style="height:14px;padding:7px;"] { iStarEmpty  }  
+      submitlink unfollowProject(p)    [class="btn", title="Unfollow Project", style="height:14px;padding:7px;"] { iStar } 
       submitlink requestJoinProject(p) [class="btn", title="Request Project Membership", style="height:14px;padding:7px;"] { iUser }     
     }
     searchBoxInToolbar(p, "")
