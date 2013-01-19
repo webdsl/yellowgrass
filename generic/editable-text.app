@@ -89,12 +89,14 @@ section editable string
 
   ajax template editableString(x: Ref<String>) {
     var t := "editString" + getTemplate().getUniqueId();
-    placeholder (t as String) { editableStringShow(t, x) }
+    if(mayEdit(x.getEntity())) {
+      placeholder (t as String) { editableStringShow(t, x) }
+    } else { output(x) }
   }
-  
+   
   ajax template editableStringShow(t: String, x: Ref<String>) {
     action edit() { replace(t as String, editableStringEdit(t, x, x)); } 
-    div[ondblclick=edit()]{ output(x) }
+    div[onclick=edit(), ondblclick=edit(), title= "Click to edit"]{ output(x) }
   }
   
   ajax template editableStringEdit(t: String, x: Ref<String>, old: String) {
@@ -105,15 +107,17 @@ section editable string
       x := old; 
       replace(t as String, editableStringShow(t, x));
     }
-    form{ 
-      div{ input(x)[style="width: 80%;"] }
-      pullRight{ par{
-        submit save() [style="display:none;"] { "Save" }
-        submitlink save() [class="btn btn-primary"] { "Save" } " "
-        submitlink cancel() [class="btn"] { "Cancel" }
-      } }
-      clear
+    buttonGroup{
+      form{ 
+        inputAppend{ 
+          input(x)[style="width: 60%;"] 
+          submit save() [style="display:none;"] { "Save" }
+          submitlink save() [class="btn btn-primary"] { "Save" } " "
+          submitlink cancel() [class="btn"] { "Cancel" }
+        }
+      }
     }
+    clear
   }
   
   
