@@ -53,21 +53,13 @@ section issue page
         if(nrVotes > 0) { " (" output(nrVotes) ") " } 
         if(!i.open) { iOk }         
       } 
-      // gridRow{
-      //   gridSpan(12) { 
-      //     pullRight{ small{ par{
-      //       "Submitted "
-      //       reporter(i, "by ")
-      //       "on " output(i.submitted.format("d MMMM yyyy 'at' HH:mm"))
-      //     } } }
-      //   }
-      // }
       gridRow{
         gridSpan(12){
-          editableText(i.description, i.preview)  
-          pullRight{ addTag(i) }          
-          tags(i, true, false, false)  
+          editableText(i.description, i.preview)           
         }
+      }
+      gridRow{
+        gridSpan(12){ tagBar(i) }
       }
       gridRow{
         gridSpan(12){      

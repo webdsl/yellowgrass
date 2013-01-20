@@ -82,19 +82,25 @@ section displaying tags
   }
   
   template showTag(i: Issue, tag: Tag, editing: Bool) {
+    span[id="showTag" + tag.id]{ showTagView(i, tag, editing) } 
+  } 
+    
+  template showTagView(i: Issue, tag: Tag, editing: Bool) {
     action deleteTag(i : Issue, t : Tag) {
+      var id := tag.id;
       i.deleteTag(t);
       i.save();
       tagCleanup(t);
       //return issue(i.project, i.number);
-    }
+      replace("showTag" + id, empty);
+    } 
     buttonGroupSpan{
       navigate tag(i.project, tag.name) [class="btn btn-mini " + tag.getStylingClass()] { output(tag.name) }     
       if(editing) {
         submitlink deleteTag(i, tag) [class="btn btn-mini " + tag.getStylingClass()] { "x" }
       }
     }
-  } 
+  }
 
   template showTag(p: Project, tag: Tag) {
     buttonGroupSpan{
@@ -107,7 +113,6 @@ section displaying tags
 		  for(tag : Tag in arrangeTags(t.tags, false)) {			  
 			  showTag(t, tag, editing)
 		  } separated-by { " " }
-		  //tagHelp
 	  }
   }
 
@@ -128,9 +133,6 @@ section displaying tags
   }
 
   template tags(i : Issue, editing : Bool, summary : Bool, right: Bool) {
-    // init{
-    //   log("tags(right = " + right + ")");
-    // } 
     span[class="tags"] { 
       for(tag : Tag in arrangeTags(i.tags, summary)) {
 		    if(right) { 
@@ -145,10 +147,24 @@ section displaying tags
   template tags(ts : List<Tag>, p : Project) {
     span[class="tags"] { pullRight{
 	    for(tag : Tag in ts) {
-			  //navigate tag(p, tag.name) { output(tag.name) }
 			  showTag(p, tag) 
 		  } separated-by { " " }
 		} } 
+  }
+  
+section tag bar on issue page
+  
+  template tagBar(i: Issue) {
+    placeholder tagBar { tagBarTags(i) }
+  }
+  
+  ajax template tagBarTags(i: Issue) {
+    span[class="tags"] { 
+      for(tag : Tag in arrangeTags(i.tags, false)) {
+        showTag(i, tag, true) 
+      }
+    }
+    pullRight{ addTag(i) }
   }
 
 section tagging
@@ -160,28 +176,29 @@ section tagging
       var f := Tag{ name := t };
       var feedback := f.validateName();
       if(feedback.exceptions.length > 0) {
-        log("Validation failed!!");
+        //log("Validation failed!!");
         replace(tagValidityFeedback, validationFeedback(feedback));
       } else {
-        log("Validation succeeded!!");
+        //log("Validation succeeded!!");
         i.addTag(tag(t, i.project));
         i.save();
-        return issue(i.project, i.number);
+        //return issue(i.project, i.number);
+        replace(tagBar, tagBarTags(i));
       }
     }
     action updateTagSuggestions(t : String) {
       replace(tagSuggestionsBox, tagSuggestions(t, i));
     }
     
-	  div [class := "TagAddition"] {
+	  div [class = "TagAddition"] {
 		  form { 
 		    inputAppend{
 			    input(t) [class="input-mini", onkeyup := updateTagSuggestions(t), autocomplete:="off"]
-          submit addTag(t, i) [class="btn btn-mini", style="height:14px;padding:7px;display:none;", title="Add tag"] { "Add Tag" }
+          submit addTag(t, i) [style="display:none;", title="Add tag"] { "Add Tag" }
 			    submitlink addTag(t, i) [class="btn btn-mini", style="height:14px;padding:7px;", title="Add tag"] { iTag }
 			    tagHelp
 			  }
-			  placeholder tagValidityFeedback {""}
+			  placeholder tagValidityFeedback { }
 		  }
 		  placeholder tagSuggestionsBox { }
 	  }
@@ -192,13 +209,13 @@ section tagging
 		  return ""; 
  	  }
 	  return "@%";
-  } 
+  }
   
-  // NOTE: Do not make this publicly available, the AJAX causes a lot of bad links
   ajax template tagSuggestions(tagPrefix : String, issue : Issue) {
 	  var suggestions : List<Tag> := tagSuggestions(tagPrefix, issue);
     action addSuggestedTag(suggestion : Tag) {
       issue.addTag(suggestion);
+      replace(tagBar, tagBarTags(issue));
     } 
     div[class="dropdown open"]{   
       dropdownMenu{
@@ -207,16 +224,5 @@ section tagging
 	      }
 	    }
 	  }
-    /*  var suggestions : List<Tag> := (
-      select  t
-      from  Tag as t
-      where i._project = ~issue.project and
-          t._project = ~issue.project and
-          t._name like ~tagSearchString and
-          t._name not like ~tagSuggestionFilter(tagPrefix)
-      order by (select count(i) from Issue as i where t in i._tags) desc
-      limit 5
-      ) as List<Tag>;
-    */  
   }
    

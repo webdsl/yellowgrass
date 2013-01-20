@@ -3,7 +3,11 @@ module tag/ac
 imports tag/tag
 
 access control rules
-	
+
+  rule ajaxtemplate tagBarTags(i: Issue) {
+    mayAccess(i.project)
+  }  
+	 
 	rule template addTag(i : Issue) {
 		principal in i.project.members
 	}
