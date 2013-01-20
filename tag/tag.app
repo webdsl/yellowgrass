@@ -155,7 +155,9 @@ section displaying tags
 section tag bar on issue page
   
   template tagBar(i: Issue) {
-    placeholder tagBar { tagBarTags(i) }
+    well{
+      placeholder tagBar { tagBarTags(i) }
+    } 
   }
   
   ajax template tagBarTags(i: Issue) {
@@ -165,6 +167,7 @@ section tag bar on issue page
       }
     }
     pullRight{ addTag(i) }
+    clear 
   }
 
 section tagging
