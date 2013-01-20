@@ -145,11 +145,11 @@ section displaying tags
   }
 
   template tags(ts : List<Tag>, p : Project) {
-    span[class="tags"] { pullRight{
+    span[class="tags"] { //pullRight{
 	    for(tag : Tag in ts) {
 			  showTag(p, tag) 
 		  } separated-by { " " }
-		} } 
+		} //} 
   }
   
 section tag bar on issue page
@@ -204,7 +204,7 @@ section tagging
 	  }
   }
 
-  function tagSuggestionFilter(tagPrefix : String) : String{
+  function tagSuggestionFilter(tagPrefix : String) : String {
 	  if(tagPrefix != "") {
 		  return ""; 
  	  }
