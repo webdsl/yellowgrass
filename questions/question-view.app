@@ -65,7 +65,7 @@ section question page
     title { output(q.title) " Questions at YellowGrass" }
     bmain(p) {
       questionToolbar(q)
-      pageHeader2{ output(q.title) }
+      pageHeader2{ editableString(q.title) } 
       editableText(q.description, q.preview)
       if(answers == 0) {
         pageHeader2{ "No answers yet" }
