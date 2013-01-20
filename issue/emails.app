@@ -78,6 +78,8 @@ section emails
 	  issueByLine(i) 
 	  par { output(i.getTitle()) }
 	  par {}
+	  par { "New Issue" }
+	  par {}
 	  par { output(i.description) }
 	  par {}
 	  issueFooter(i)
