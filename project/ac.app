@@ -56,6 +56,14 @@ access control rules
 		p.memberRequests.length > 0
 	}
 	
+	rule template inviteMember(p: Project) {
+	  principal in p.members
+	}
+	
+	rules ajaxtemplate invitationCandidates(p: Project, query: String) {
+	  principal in p.members	
+	}
+	
 	// rule template projectSideBar(p : Project) {
 	// 	mayAccess(p)
 	// }
@@ -134,30 +142,30 @@ access control rules
   //     loggedIn && 
   //     !(principal in p.members) &&
   //     !(principal in p.memberRequests)
-  //   }
+  //   } 
   // }
   
-  rule template projectMenu(p : Project) {
-    mayAccess(p)
-    
-    rule action followProject(p : Project) {
-      loggedIn && 
-      !(principal in p.followers) &&
-      !(principal in p.members) &&
-      !(principal in p.memberRequests)
-    }
-    
-    rule action unfollowProject(p : Project) {
-      loggedIn &&
-      (principal in p.followers)
-    }
-    
-    rule action requestJoinProject(p : Project) {
-      loggedIn && 
-      !(principal in p.members) &&
-      !(principal in p.memberRequests)
-    }
-  }
+  // rule template projectMenu(p : Project) {
+  //   mayAccess(p)
+  //   
+  //   rule action followProject(p : Project) {
+  //     loggedIn && 
+  //     !(principal in p.followers) &&
+  //     !(principal in p.members) &&
+  //     !(principal in p.memberRequests)
+  //   }
+  //   
+  //   rule action unfollowProject(p : Project) {
+  //     loggedIn &&
+  //     (principal in p.followers)
+  //   }
+  //   
+  //   rule action requestJoinProject(p : Project) {
+  //     loggedIn && 
+  //     !(principal in p.members) &&
+  //     !(principal in p.memberRequests)
+  //   }
+  // }
   	
 	// rule template projectCommands(p : Project) {
 	// 	mayAccess(p)

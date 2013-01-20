@@ -11,9 +11,6 @@ section data model
     description      :: WikiText
     url              :: URL
     issues           -> Set<Issue>
-    members          -> Set<User>
-    memberRequests   -> Set<User>
-    followers        -> Set<User>
     private          :: Bool (searchable)
     email            :: Email
 
@@ -27,20 +24,6 @@ section data model
       return key; 
     }
     
-  }
-  
-section operations
-
-  extend entity Project {    
-    function follow() {
-      followers.add(securityContext.principal);
-    }
-    function unfollow() {
-      followers.remove(securityContext.principal);
-    }    
-    function requestJoin() {
-      memberRequests.add(securityContext.principal);
-    }    
   }
 
 section queries

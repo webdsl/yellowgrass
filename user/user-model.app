@@ -1,17 +1,16 @@
 module user/user-model 
 
-entity User {
-  name      :: String   (validate(name.length() >= 3, "Names need to be at least 3 characters"))
-  email     :: Email    (validate(!userEmailTaken(), "Another user already registered using this email address"), validate(email != "", "Enter a valid email address"))
-  notifications   :: Bool
-  password    :: Secret   (validate(password.length() >= 8, "Password needs to be at least 8 characters"))
-  projects    -> Set<Project> (inverse = Project.members)
-  url       :: URL
-  tag       :: String   (validate(
-                    tag.length() >= 3 && 
-                    /[a-z0-9]*/.match(tag), 
-                    "User names consist of lowercase characters and numbers. Their minimum length is 3 characters."),
-                   validate(!userTagTaken(), "Another user already registered this user name"))
+  entity User {
+    name          :: String   (searchable, validate(name.length() >= 3, "Names need to be at least 3 characters"))
+    email         :: Email    (validate(!userEmailTaken(), "Another user already registered using this email address"), validate(email != "", "Enter a valid email address"))
+    notifications :: Bool
+    password      :: Secret   (validate(password.length() >= 8, "Password needs to be at least 8 characters"))
+    projects      -> Set<Project> (inverse = Project.members)
+    url           :: URL
+    tag           :: String   (searchable, validate(
+                               tag.length() >= 3 && /[a-z0-9]*/.match(tag), 
+                               "User names consist of lowercase characters and numbers. Their minimum length is 3 characters."),
+                               validate(!userTagTaken(), "Another user already registered this user name"))
   }
   
 section queries

@@ -83,13 +83,15 @@ section user interface
   			
 			    pageHeader2 { "Project Members" }
 			    par { users(p.members) }
-			    		    
-          projectMembershipRequests(p)
-			
+                   			
 			    if(p.followers.length > 0) {
 				    pageHeader2 { "Project Followers" }
 				    par { users(p.followers) }
-				  }				
+				  }
+				                   
+          projectMembershipRequests(p)
+				  
+          inviteMember(p) 		
 			  }
 		  }
 	  }
