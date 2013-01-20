@@ -90,13 +90,13 @@ section editable string
   ajax template editableString(x: Ref<String>) {
     var t := "editString" + getTemplate().getUniqueId();
     if(mayEdit(x.getEntity())) {
-      placeholder (t as String) { editableStringShow(t, x) }
-    } else { output(x) }
+      placeholder (t as String) { editableStringShow(t, x){ elements } }
+    } else { output(x) elements } 
   }
    
   ajax template editableStringShow(t: String, x: Ref<String>) {
     action edit() { replace(t as String, editableStringEdit(t, x, x)); } 
-    div[onclick=edit(), ondblclick=edit(), title= "Click to edit"]{ output(x) }
+    div[onclick=edit(), ondblclick=edit(), title= "Click to edit"]{ output(x) elements }
   }
   
   ajax template editableStringEdit(t: String, x: Ref<String>, old: String) {
