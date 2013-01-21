@@ -39,7 +39,10 @@ section issue page
     "Submitted "
     reporter(issue, "by ")
     "on " output(issue.submitted.format("d MMMM yyyy 'at' HH:mm"))
-  }  
+    pullRight{
+      dueDate(issue)
+    }
+  }
  
   page issue(p : Project, issueNumber : Int) {
     var i := getIssue(p, issueNumber);
@@ -53,7 +56,7 @@ section issue page
           " "
           if(nrVotes > 0) { " (" output(nrVotes) ") " } 
           if(!i.open) { iOk }
-        }      
+        }
       }
       gridRow{
         gridSpan(12){
@@ -187,4 +190,89 @@ section issues posted by principal
 		  par { issues(postedIssues.set(), true, true, true, 50, true, true) }
 	  }
   }
+  
+// section due date
+// 
+//   template dueDate(i: Issue) {
+//     placeholder dueDate { dueDateView(i) } 
+//   }
+//    
+//   ajax template dueDateView(i: Issue) {
+//     action edit() { 
+//       replace(dueDate, dueDateEdit(i)); 
+//     } 
+//     submitlink edit() [class="btn " + i.dueWarning()] { 
+//       iCalendar 
+//       if(i.hasDueDate) {
+//         " " output(i.due.format("d MM yyyy")) 
+//       }
+//     }
+//   }
+//    
+//   ajax template dueDateEdit(i: Issue) {
+//     action save() {  
+//       i.hasDueDate := true;
+//       replace(dueDate, dueDateView(i));
+//     }
+//     buttonGroup{
+//       form{
+//         inputAppend{
+//           input(i.due)
+//           submitlink save() [class="btn btn-primary"] { iCalendarWhite " Save" }
+//         }
+//       }
+//     }
+//   }
+  
+section due date
+
+  template dueDate(i: Issue) {
+    div[id="dueDateView"]{ dueDateView(i) } 
+    div[id="dueDateEdit", style="display:none;"]{ dueDateEdit(i) } 
+  }
+   
+  ajax template dueDateView(i: Issue) {
+    action edit() { 
+      visibility("dueDateView", hide);
+      visibility("dueDateEdit", show); 
+      //replace(dueDate, dueDateEdit(i)); 
+    }
+    submitlink edit() [
+      class="btn " + i.dueWarning(), 
+      title= if(i.hasDueDate) "Change due date" else "Set due date"
+    ] { 
+      if(i.hasDueDate) {
+        iCalendarWhite
+        " " output(i.due.format("d/M/yyyy"))
+      } else {
+        iCalendar
+      }
+    }
+  }
+   
+  template dueDateEdit(i: Issue) {
+    action save() {  
+      i.hasDueDate := true;
+      replace("dueDateView", dueDateView(i));
+      visibility("dueDateView", show);
+      visibility("dueDateEdit", hide);
+    }
+    action notdue() {
+      i.hasDueDate := false;
+      replace("dueDateView", dueDateView(i));
+      visibility("dueDateView", show);
+      visibility("dueDateEdit", hide);     
+    }
+    buttonGroup{
+      form{
+        inputAppend{
+          input(i.due)
+          submitlink save() [class="btn btn-primary"] { "Save" }
+          submitlink notdue() [class="btn"] { "Cancel" }
+        }
+      }
+    }
+  }
+   
+  
   

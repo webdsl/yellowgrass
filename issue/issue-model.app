@@ -12,15 +12,11 @@ section data model
     reporter    -> User
     open        :: Bool
     log         -> Set<Event>
-    tags        -> Set<Tag>
     email       :: Email // Only when reporter == null
     nrVotes     :: Int := [ t | t : Tag in tags where /!.*/.match(t.name)].length
     attachments -> Set<Attachment>
     comments    -> Set<Comment> := getComments()
-    
-    hasDueDate  :: Bool (default=false)
-    due         :: Date (default=null)
-  
+     
     reporterName :: String := 
       if (reporter != null && reporter.name != null)
         reporter.name
@@ -38,6 +34,28 @@ section data model
         due
     }
 
+  }
+  
+section due date
+
+  extend entity Issue {
+    hasDueDate  :: Bool (default=false)
+    due         :: Date (default=null)
+    
+    function timeLeft(): Long {
+      return if(hasDueDate && due != null) diffDays(due, now()) else 1000L;
+    } 
+    
+    function dueWarning(): String {
+      var left := timeLeft();
+      if(!open) { return ""; } else {       
+        if(left < 0L) { return "btn-danger"; }
+        if(left <= 2L) { return "btn-warning"; }
+        if(left <= 14L) { return "btn-primary"; }
+        if(left >= 1000L) { return ""; }
+        return "btn-info";
+      } 
+    }
   }
     
 section operations

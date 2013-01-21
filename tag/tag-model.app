@@ -108,8 +108,9 @@ section suggest tags
 section issue tags
 
   extend entity Issue {
+    tags -> Set<Tag>
     
-    function addTag(t : Tag) {
+    function addTag(t : Tag) { 
       tags.add(t);
       log.add(
         TagAddition{ 
@@ -127,7 +128,8 @@ section issue tags
           actor := securityContext.principal
           tag := t
         }
-      );
+      );      
+      tagCleanup(t);
     }
     function hasTag(tagName : String) : Bool {
       for(t : Tag in tags) {

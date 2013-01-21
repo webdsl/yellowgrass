@@ -150,3 +150,15 @@ access control rules
 	rule page confirmGhost(g :IssueGhost) {
 		true
 	}
+
+   rule ajaxtemplate dueDateView(i: Issue) {
+     mayAccess(i.project)
+     rule action edit() { 
+       i.mayEdit()
+     }
+   }
+   
+   rule template dueDateEdit(i: Issue) {
+      i.mayEdit()
+   } 
+   

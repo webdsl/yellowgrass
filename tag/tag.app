@@ -89,11 +89,8 @@ section displaying tags
     action deleteTag(i : Issue, t : Tag) {
       var id := tag.id;
       i.deleteTag(t);
-      i.save();
-      tagCleanup(t);
-      //return issue(i.project, i.number);
       replace("showTag" + id, empty);
-    } 
+    }
     buttonGroupSpan{
       navigate tag(i.project, tag.name) [class="btn btn-mini " + tag.getStylingClass()] { output(tag.name) }     
       if(editing) {
