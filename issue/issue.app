@@ -129,7 +129,8 @@ section user interface
           gridSpan(titleSpan + tagsSpan) {
             if(!i.open) { iOk " " } 
               navigate issue(i.project, i.number) [title=i.getTitle()] {
-                output(abbreviate(i.getTitle(), titleLength))          
+                //output(abbreviate(i.getTitle(), titleLength))    
+                output(i.getTitle())      
                 if(showNrVotes && i.nrVotes > 0) {
                   " (" output(i.nrVotes) ")"
                 }
