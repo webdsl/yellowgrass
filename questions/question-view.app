@@ -64,7 +64,7 @@ section question page
     init{  
       q := p.getQuestion(number); 
       if(q == null) { return questions(p); } 
-      else { q.answers.length; }
+      else { answers := q.answers.length; }
     }
     title { output(q.title) " Questions at YellowGrass" }
     bmain(p) {
