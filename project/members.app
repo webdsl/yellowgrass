@@ -104,7 +104,7 @@ section membership request
 section emails
 
   email template membershipRequest(p: Project, u: User, member: User) {
-    to(u.email)
+    to(member.email)
     from(EMAIL_FROM())
     subject("Membership request for the " + p.name + " project on YellowGrass")
     par{
