@@ -60,11 +60,12 @@ section question page
 
   page question(p: Project, number: Int) {
     var q : Question;
-    init{ 
+    var answers : Int; 
+    init{  
       q := p.getQuestion(number); 
       if(q == null) { return questions(p); } 
-    }  
-    var answers := q.answers.length;
+      else { q.answers.length; }
+    }
     title { output(q.title) " Questions at YellowGrass" }
     bmain(p) {
       questionToolbar(q)
