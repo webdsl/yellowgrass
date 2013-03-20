@@ -7,3 +7,5 @@ application.ini
 application.ini.server
 .dependencies.webdsl
 .saved-but-not-built
+elib-svn
+archive
