@@ -97,7 +97,10 @@ section view
       
 	  pageHeader3 { "New Comment" } 
 	  horizontalForm { 
-			par { input(newCommentText)[onkeyup := updateCommentPreview(newCommentText), placeholder="Your comment"] }
+			par { 
+			  input(newCommentText)[onkeyup := updateCommentPreview(newCommentText), placeholder="Your comment"]{
+			    validate(!isEmptyString(newCommentText), "Comment should not be empty")
+			  } }
 			if(!i.open) {
 				par { "This issue is closed! Are you sure you want to add a comment?" }
 			}						
