@@ -166,7 +166,20 @@ section issue tags
     } else {
       return tags[0];
     }
-  }
+  } 
+  
+  // function assigned(t: Tag): User {
+  //   if(t.name.get(0) == '@') { 
+  //       var tagSuffixArray := t.name.split();
+  //       tagSuffixArray.removeAt(0);
+  //       var tagSuffix := tagSuffixArray.concat();
+  //       var us : List<User> := 
+  //         from User
+  //         where _tag = ~tagSuffix;
+  //       if(us.length > 0) {
+  //         followers.add(us.get(0));
+  //   }  
+  // }
 
   function getFollowers(ts : Set<Tag>) : Set<User> {
     var followers : Set<User> := {User{}};
