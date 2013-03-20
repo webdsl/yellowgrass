@@ -9,13 +9,13 @@ access control rules
   }  
 	 
 	rule template addTag(i : Issue) {
-		principal in i.project.members
+		loggedIn && principal() in i.project.members
 	}
 	
 	rule ajaxtemplate tagSuggestions(tagPrefix : String, i : Issue) {
 		mayAccess(i.project)
 		rule action addSuggestedTag(suggestion : Tag) {
-			principal in i.project.members
+			loggedIn && principal() in i.project.members
 		}
 	}
 	
@@ -25,7 +25,7 @@ access control rules
 	}
 	
 	rule page editTag(p : Project, t : Tag) {
-		principal in t.project.members
+		loggedIn && principal() in t.project.members
 	}
 	
 	rule template tags(i : Issue, editing : Bool) {
@@ -35,8 +35,8 @@ access control rules
 	rule template tags(i : Issue, editing : Bool, summary : Bool) {
 		mayAccess(i.project)
 		rule action deleteTag(i : Issue, t : Tag) {
-			principal in i.project.members || 
-			(loggedIn && principal == i.reporter)
+			loggedIn && (principal in i.project.members
+			             || principal == i.reporter)
 		}
 	}
 	
@@ -47,14 +47,21 @@ access control rules
   rule template showTag(owner : Tag, t : Tag, editing : Bool) {
     mayAccess(owner.project)
     rule action deleteTag(tagToRemoveFrom : Tag, tagToRemove : Tag) {
-      principal in tagToRemoveFrom.project.members
+      loggedIn && principal() in tagToRemoveFrom.project.members
     }
   }
 
   rule template showTag(i: Issue, tag: Tag, editing: Bool) {
     mayAccess(i.project)
     rule action deleteTag(i : Issue, t : Tag) {
-      principal in i.project.members
+      loggedIn && principal() in i.project.members
+    }
+  }
+  
+  rule template showTagView(i: Issue, tag: Tag, editing: Bool) {
+    mayAccess(i.project)
+    rule action deleteTag(i : Issue, t : Tag) {
+      loggedIn && principal() in i.project.members
     }
   }
   	
@@ -65,13 +72,13 @@ access control rules
   rule template tagCommandsToolbar(t : Tag) {
     mayAccess(t.project)
     rule action makeRelease(tag : Tag, p : Project) {
-      principal in p.members && !tag.hasTag("release")
+      loggedIn && principal() in p.members && !tag.hasTag("release")
     }
     rule action makeIssueType(tag : Tag, p : Project) {
-      principal in p.members && !tag.hasTag(ISSUE_TYPE_TAG()) 
+      loggedIn && principal() in p.members && !tag.hasTag(ISSUE_TYPE_TAG()) 
     }
     rule action color(t : Tag, p : Project, color : String) {
-      principal in p.members && !t.isColored()
+      loggedIn && principal() in p.members && !t.isColored()
     }
   }
   	
