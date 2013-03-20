@@ -36,6 +36,7 @@ imports issue/types
 		  submitlink regenerateIssueTypes(p) [class="btn"] { "Regenerate default issue types" }
 	  }
 	  action save(){
+	    p.setName(p.name); 
 		  return project(p);
 	  }
 	  action leaveProject(p : Project) {
