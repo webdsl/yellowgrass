@@ -28,6 +28,7 @@ section templates
   define ajax showWikiText(t: String, text : Ref<WikiText>, preview: Ref<WikiText>) {
     action edit(){ 
       replace("showText" + t, editWikiText(t, text, preview)); 
+      toggleCommentAdditionBox();
     }   
     blockquote{  
       pullRight{ 
@@ -38,11 +39,15 @@ section templates
     }
   }
   
+  function toggleCommentAdditionBox(){
+    visibility(commentAdditionBox, toggle);
+  }
+  
   define ajax editWikiText(editT: String, text : Ref<WikiText>, preview: Ref<WikiText>) {
     var t := getTemplate().getUniqueId();
     init{ preview := text; }
-    action save() { text := preview; replace("showText" + editT, showWikiText(editT, text, preview)); }
-    action cancel() { replace("showText" + editT, showWikiText(editT, text, preview)); }
+    action save() { text := preview; replace("showText" + editT, showWikiText(editT, text, preview)); toggleCommentAdditionBox(); }
+    action cancel() { replace("showText" + editT, showWikiText(editT, text, preview)); toggleCommentAdditionBox(); }
     action updateTextPreview() {    
       replace("preview" + t, textPreview(preview));  
     }

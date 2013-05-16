@@ -83,7 +83,9 @@ section question page
         } //separated-by{ hrule }
       }
       if(q.open) {
-        answerQuestion(q) 
+        placeholder commentAdditionBox{
+          answerQuestion(q) 
+        }
       } else {
         par{ "Question is closed" }
       }
