@@ -3,7 +3,7 @@ module project/project-model
 section data model
 
   entity Project {
-    name        :: String (id, searchable,  
+    name        :: String (id, 
       validate(isUniqueProject(this), "Another project with this name already exists"), 
       validate(name.length() >= 3, "Project names should be three characters or longer"),
       validate(/[a-z0-9A-Z._]*/.match(name), "Project names may contain characters, numbers, dots and underscores."))
@@ -22,6 +22,10 @@ section data model
     function getkey(): String {
       if(key == null || key == "") { key := name.toLowerCase(); }
       return key; 
+    }
+    
+    search mapping{
+    	name using none //index untokenized
     }
     
   }
