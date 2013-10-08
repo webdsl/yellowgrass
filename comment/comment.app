@@ -55,7 +55,7 @@ section operations
 section view
 
   template byline(c: Comment) {
-    "On " output(c.moment.format("d MMMM yyyy 'at' HH:mm")) " " nav(c.author) " commented:"
+    div[class="CommentHeader"]{"On " output(c.moment.format("d MMMM yyyy 'at' HH:mm")) " " nav(c.author) " commented:"}
   }
 
   template comment(c : Comment) {
