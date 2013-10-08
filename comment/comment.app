@@ -55,7 +55,7 @@ section operations
 section view
 
   template byline(c: Comment) {
-    "Submitted on " output(c.moment.format("d MMMM yyyy 'at' HH:mm")) " by " nav(c.author)
+    "On " output(c.moment.format("d MMMM yyyy 'at' HH:mm")) " " nav(c.author) " commented:"
   }
 
   template comment(c : Comment) {
@@ -63,8 +63,7 @@ section view
 		 //  "On " output(c.moment.format("d MMMM yyyy 'at' HH:mm")) " " nav(c.author) " wrote: "
 		 //  navigate editComment(c) [title="edit comment"] { iPencil }
 	  // } 	  
-	  editableText(c.text, c.preview)  
-	  hrule
+	  editableText(c.text, c.preview)
   }
 
   template commentAddition(i : Issue) { 

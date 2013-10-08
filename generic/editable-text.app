@@ -26,16 +26,19 @@ section templates
   }
   
   define ajax showWikiText(t: String, text : Ref<WikiText>, preview: Ref<WikiText>) {
+  	// var owningEntity := text.getEntity(); //does not work -> http://yellowgrass.org/issue/WebDSL/754
+  	var isComment := (text.getEntity() is a Comment);
     action edit(){ 
       replace("showText" + t, editWikiText(t, text, preview)); 
       toggleCommentAdditionBox();
     }   
-    blockquote{  
+    blockquote{
+      if (isComment) { small{ byline(text.getEntity()) } }  
       pullRight{ 
         submitlink edit() [class="btn", style="height:14px;padding:7px;margin:0 0 10px 30px;", title="Edit"] { iPencil } 
       }
       output(text)
-      small{ byline(text.getEntity()) } 
+      if (!isComment) { small{ byline(text.getEntity()) } }  
     }
   }
   

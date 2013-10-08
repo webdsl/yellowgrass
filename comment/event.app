@@ -19,7 +19,7 @@ entity Event {
 template events(es : Set<Event>) {
 	for(e : Event in es order by e.moment asc) {
 		eventDescription(e)
-	}
+	}separated-by{ hrule }
 }
 
 template eventDescription(e : Event) {
