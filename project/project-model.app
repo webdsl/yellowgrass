@@ -5,8 +5,7 @@ section data model
   entity Project {
     name        :: String (id, 
       validate(isUniqueProject(this), "Another project with this name already exists"), 
-      validate(name.length() >= 3, "Project names should be three characters or longer"),
-      validate(/[a-z0-9A-Z._]*/.match(name), "Project names may contain characters, numbers, dots and underscores."))
+      validate(/\w[\w. ]*\w/.match(name), "Project names should start and end with a letter/number/underscore and should at least be 2 characters long."))
 
     description      :: WikiText
     url              :: URL
