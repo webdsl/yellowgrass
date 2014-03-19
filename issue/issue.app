@@ -144,6 +144,57 @@ section user interface
       } } }
     }
   }
+  
+  template highLightedIssues(is : List<Issue>, showProjectName : Bool, showTicks : Bool, showNumbers : Bool, titleLength : Int, showTags : Bool, showNrVotes : Bool, searcher : IssueSearcher) { 
+    var projectSpan := 2;
+    var titleSpan := 6;
+    var tagsSpan := 4;
+    init{
+      if(showProjectName && showTags) {
+        projectSpan := 4;
+        titleSpan := 5; 
+        tagsSpan := 3;
+      }
+      if(showProjectName && !showTags) {
+        projectSpan := 4;
+        titleSpan := 8;
+        tagsSpan := 0;
+      }
+    }
+    for(i : Issue in is) {
+      gridRow{ gridSpan(12){ container{
+        gridRow(if(!i.open) "issueRow issueRowDone" else "issueRow") { 
+          gridSpan(projectSpan) { 
+            if(!showProjectName) {
+              highlight(searcher, "number"){ output(i.number) }          
+            } else {
+              navigate project(i.project) [title=i.project.name] { output(abbreviate(i.project.name, 20)) }
+            } " "
+            pullRight{ div[class := "Date"] { output(format(i.submitted)) } }  
+          }
+          gridSpan(titleSpan + tagsSpan) {
+            if(!i.open) { iOk " " } 
+              
+	            //output(abbreviate(i.getTitle(), titleLength))    
+	            
+	            	navigate issue(i.project, i.number) [title=i.getTitle()] {
+	                	highlight(searcher, "title"){ output(i.getTitle()) }    
+		                if(showNrVotes && i.nrVotes > 0) {
+		                  " (" output(i.nrVotes) ")"
+		                }
+	                }
+	                if(showTags) { highlight(searcher, "tags.name"){ tags(i, true, true, true)  } } 
+	            
+	            gridRow{
+	            	small{ highlightedSummary(searcher, "description", i.description) }
+	            } 
+              
+              
+          }
+         }
+      } } }
+    }
+  }
 
 // section edit issue 
 // 	

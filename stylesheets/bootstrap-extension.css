@@ -171,3 +171,8 @@ input.inputEmail {
 .table-striped tbody tr:nth-child(2n+1) td.alert-success, .table-striped tbody tr:nth-child(2n+1) th.alert-success {
 	 background-color: #DFF0D8;
 }
+
+
+.highlightcontent {
+background-color: #dddddd;
+}

@@ -62,7 +62,7 @@ section project toolbar
     buttonGroup{
       form{
         inputAppend{
-          input(query)[placeholder="Search", class="span2"]  
+          input(query)[placeholder="Search", class="span2 search-bar", autofocus=""]  
           submit search(query) [class="btn", style="height:18px; padding:5px; margin:0px;display:none;"] { "Search" }
           submitlink search(query) [class="btn", style="height:18px; padding:5px; margin:0px;"] { iSearch }
         }
