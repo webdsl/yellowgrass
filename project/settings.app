@@ -11,7 +11,10 @@ imports issue/types
 			  controlGroup("Project name") { input(p.name) }
 			  controlGroup("Project description") { input(p.description)}
 			  controlGroup("Project web page") { input(p.url) }
-			  controlGroup("Project mailing list") { input(p.email) }
+			  controlGroup("Project mailing list") { 
+			  	input(p.email) 
+			  	helpBlock{ "Warn: When a mailing list is set, notifications will only be sent to the mailing list and not to individual members of the project." }
+			  }
 			  controlGroup("Project is private") { input(p.private) }
 			  formActions{
 			    submitlink save() [class="btn btn-primary"] { "Save" } " "
