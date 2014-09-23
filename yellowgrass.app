@@ -90,9 +90,10 @@ section about page
 		  "Contributions "
 		  list{
 		    listitem{ "Sander Vermolen" }
+		    listitem{ "Elmer van Chastelet" }
 		    listitem{ "Chris Melman" }
 		    listitem{ "Danny Groenewegen" }
-		    listitem{ "Eelco Visser" }
+		    listitem{ "Eelco Visser" }		    
 		  }
 	  }
   }
