@@ -7,36 +7,41 @@ section issue commands
     action reopen(issue : Issue){ issue.reopen(); }   
     action vote(issue : Issue)  { issue.vote();   }  
     gridRow{
-      gridSpan(12){
-        pullLeft{     
-          buttonToolbar{     
-            projectTools(i.project)
+      gridCol(7){
+          
+          pullLeft{
+          	buttonToolbar{     
+            	projectTools(i.project)
+            }
           }
-        }
-        pullRight{
-          buttonToolbar{
-            //buttonGroup{        
-              // dropdownCaret{
-              //   dropdownMenuItem{ reporter(i, "") } 
-              //   dropdownMenuItem{ <a href="#">"Submitted on " output(format(i.submitted)) </a> }
-              //   dropdownMenuItem{ if(i.nrVotes > 0) { <a href="#"> output(i.nrVotes) " Votes" </a> } }
-              // }
-            //}
-            buttonGroup{       
-              nav(i)[class="btn"]        
-              //navigate   editIssue(i)  [class="btn", title="Edit Issue", style="height:14px;padding:7px;"] { iPencil } 
-              attachmentAdditionTool(i)
-              //commentAdditionTool(i)
-              submitlink close(i)      [class="btn", title="Close Issue", style="height:14px;padding:7px;"] { iOk } 
-              submitlink reopen(i)     [class="btn btn-inverse", title="Reopen Issue", style="height:14px;padding:7px;"] { iOkWhite }
-              submitlink vote(i)       [class="btn", title="Vote and Follow", style="height:14px;padding:7px;"] { iThumbsUp  }
-              issueMoveTargetsMenu(i) 
-              // addTag(i) 
-            } 
-          }
-        }
       }
+      gridCol(5){
+            pullRight{
+	          buttonToolbar{
+	            //buttonGroup{        
+	              // dropdownCaret{
+	              //   dropdownMenuItem{ reporter(i, "") } 
+	              //   dropdownMenuItem{ <a href="#">"Submitted on " output(format(i.submitted)) </a> }
+	              //   dropdownMenuItem{ if(i.nrVotes > 0) { <a href="#"> output(i.nrVotes) " Votes" </a> } }
+	              // }
+	            //}
+	            buttonGroup{       
+	              nav(i)[class="btn btn-default"]        
+	              //navigate   editIssue(i)  [class="btn btn-default", title="Edit Issue"] { iPencil } 
+	              attachmentAdditionTool(i)
+	              //commentAdditionTool(i)
+	              submitlink close(i)      [class="btn btn-default", title="Close Issue"] { iOk } 
+	              submitlink reopen(i)     [class="btn btn-default btn-inverse", title="Reopen Issue"] { iOk }
+	              submitlink vote(i)       [class="btn btn-default", title="Vote and Follow"] { iThumbsUp  }
+	              issueMoveTargetsMenu(i) 
+	              // addTag(i) 
+	            }
+	          } 
+	        }
+          
+        }
     }
+    
   }
   
   template issueMoveTargetsMenu (i : Issue) {

@@ -35,7 +35,7 @@ section templates
     if (isComment) { byline(owningEntity) } 
     blockquote{
       pullRight{ 
-        submitlink edit() [class="btn", style="height:14px;padding:7px;margin:0 0 10px 30px;", title="Edit"] { iPencil } 
+        submitlink edit() [class="btn btn-default btn-sm", title="Edit"] { iPencil } 
       }
       output(text)
       if (!isComment) { small{ byline(owningEntity) } }  
@@ -43,7 +43,7 @@ section templates
   }
   
   function toggleCommentAdditionBox(){
-    visibility(commentAdditionBox, toggle);
+    visibility("commentAdditionBox", toggle);
   }
   
   define ajax editWikiText(editT: String, text : Ref<WikiText>, preview: Ref<WikiText>) {
@@ -58,16 +58,16 @@ section templates
       input(preview)[onkeyup := updateTextPreview(), style="height: 300px;width: 98.5%;"]
       par{
         <a href="http://en.wikipedia.org/wiki/Markdown#Syntax_examples"
-           class="btn" target="_blank" title="Learn about markdown syntax; opens in new window/tab">        
+           class="btn btn-default" target="_blank" title="Learn about markdown syntax; opens in new window/tab">        
           iQuestionSign " Markdown Syntax Help"
         </a>
         pullRight{
           submitlink save() [class="btn btn-primary"] { "Save" } " "
-          submitlink cancel() [class="btn"] { "Cancel" }
+          submitlink cancel() [class="btn btn-default"] { "Cancel" }
         }
       }
     }
-    clear
+    // clear
     placeholder "preview" + t { textPreview(preview) }
   }
   
@@ -121,11 +121,11 @@ section editable string
           input(x)[style="width: 60%;"] 
           submit save() [style="display:none;"] { "Save" }
           submitlink save() [class="btn btn-primary"] { "Save" } " "
-          submitlink cancel() [class="btn"] { "Cancel" }
+          submitlink cancel() [class="btn btn-default"] { "Cancel" }
         }
       }
     }
-    clear
+    // clear
   }
   
   

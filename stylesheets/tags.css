@@ -292,15 +292,15 @@ div.Date {
 	display: inline;
 }
 
-.row .issueRow {
+.row.issueRow {
 	border-bottom: 1px solid #ccc;
 	padding: 3px 0;
 }
-.row .issueRowDone {
+.row.issueRowDone {
 	background: #efefef; 
 	color: #777;
 }
-.row .issueRowDone a {
+.row.issueRowDone a {
   color: #777;
 }
 

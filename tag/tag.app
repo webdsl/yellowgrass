@@ -32,9 +32,9 @@ section tag page
 	  bmain{  
 	    tagCommandsToolbar(t) 
 	    pageHeader2{ "Tagged " output(t.name) }
-      gridRow{ gridSpan(12){ pullRight{ par{ tags(t, true) } } } } 
+      gridRow{ gridCol(12){ pullRight{ par{ tags(t, true) } } } } 
       gridRow{
-        gridSpan(12) {
+        gridCol(12) {
 				  if(t.description != null && t.description != "") {
 					  par{ <i> output(t.description) </i> }
 				  }
@@ -59,7 +59,7 @@ section tag page
 			  controlGroup("Description") { input(t.description) }
 			  formActions{
 			    submitlink save() [class="btn btn-primary"] { "Save" } " "
-				  navigate tag(t.project, t.name) [class="btn"] { "Cancel" }
+				  navigate tag(t.project, t.name) [class="btn btn-default"] { "Cancel" }
 				}
 			}
 		}
@@ -74,9 +74,9 @@ section displaying tags
       //return tag(tag.project, tag.name);
     }   
     buttonGroupSpan{
-      navigate tag(tag.project, tag.name) [class="btn btn-mini " + tag.getStylingClass()] { output(tag.name) } 
+      navigate tag(tag.project, tag.name) [class="btn btn-default btn-xs " + tag.getStylingClass()] { output(tag.name) } 
       if(editing) {
-        submitlink deleteTag(owner, tag) [class="btn btn-mini " + tag.getStylingClass()] { "x" }
+        submitlink deleteTag(owner, tag) [class="btn btn-default btn-xs " + tag.getStylingClass()] { "x" }
       }
     }
   }
@@ -92,16 +92,16 @@ section displaying tags
       replace("showTag" + id, empty);
     }
     buttonGroupSpan{
-      navigate tag(i.project, tag.name) [class="btn btn-mini " + tag.getStylingClass()] { output(tag.name) }     
+      navigate tag(i.project, tag.name) [class="btn btn-default btn-xs " + tag.getStylingClass()] { output(tag.name) }     
       if(editing) {
-        submitlink deleteTag(i, tag) [class="btn btn-mini " + tag.getStylingClass()] { "x" }
+        submitlink deleteTag(i, tag) [class="btn btn-default btn-xs " + tag.getStylingClass()] { "x" }
       }
     }
   }
 
   template showTag(p: Project, tag: Tag) {
     buttonGroupSpan{
-      navigate tag(p, tag.name) [class="btn btn-mini " + tag.getStylingClass()] { output(tag.name) }     
+      navigate tag(p, tag.name) [class="btn btn-default btn-xs " + tag.getStylingClass()] { output(tag.name) }     
     }
   } 
   
@@ -153,18 +153,22 @@ section tag bar on issue page
   
   template tagBar(i: Issue) {
     well{
-      placeholder tagBar { tagBarTags(i) }
+      placeholder "tagBar" { tagBarTags(i) }
     } 
   }
   
   ajax template tagBarTags(i: Issue) {
-    span[class="tags"] { 
-      for(tag : Tag in arrangeTags(i.tags, false)) {
-        showTag(i, tag, true) 
-      }
-    }
-    pullRight{ addTag(i) }
-    clear 
+     gridRow{ 
+     	gridCol(8){ span[class="tags"]{
+	      for(tag : Tag in arrangeTags(i.tags, false)) {
+	        showTag(i, tag, true) 
+	      }	      
+        } }
+    	gridCol(4){
+    		pullRight{ addTag(i) }
+    // clear 
+		}
+	}
   }
 
 section tagging
@@ -177,30 +181,32 @@ section tagging
       var feedback := f.validateName();
       if(feedback.exceptions.length > 0) {
         //log("Validation failed!!");
-        replace(tagValidityFeedback, validationFeedback(feedback));
+        replace("tagValidityFeedback", validationFeedback(feedback));
       } else {
         //log("Validation succeeded!!");
         i.addTag(tag(t, i.project));
         i.save();
         //return issue(i.project, i.number);
-        replace(tagBar, tagBarTags(i));
+        replace("tagBar", tagBarTags(i));
       }
     }
     action updateTagSuggestions(t : String) {
-      replace(tagSuggestionsBox, tagSuggestions(t, i));
+      replace("tagSuggestionsBox", tagSuggestions(t, i));
     }
     
 	  div [class = "TagAddition"] {
 		  form { 
-		    inputAppend{
-			    input(t) [class="input-mini", onkeyup := updateTagSuggestions(t), autocomplete:="off"]
-          submit addTag(t, i) [style="display:none;", title="Add tag"] { "Add Tag" }
-			    submitlink addTag(t, i) [class="btn btn-mini", style="height:14px;padding:7px;", title="Add tag"] { iTag }
-			    tagHelp
+		    inputGroup{
+			    input(t) [class="input-sm", onkeyup := updateTagSuggestions(t), autocomplete:="off"]
+          		submit addTag(t, i) [style="display:none;", title="Add tag"] { "Add Tag" }
+			    inputGroupButton{ 
+			    	submitlink addTag(t, i) [class="btn btn-default btn-sm", title="Add tag"] { iTag }
+			    	tagHelp
+		    	} 
 			  }
-			  placeholder tagValidityFeedback { }
+			  placeholder "tagValidityFeedback" { }
 		  }
-		  placeholder tagSuggestionsBox { }
+		  placeholder "tagSuggestionsBox" { }
 	  }
   }
 
@@ -215,7 +221,7 @@ section tagging
 	  var suggestions : List<Tag> := tagSuggestions(tagPrefix, issue);
     action addSuggestedTag(suggestion : Tag) {
       issue.addTag(suggestion);
-      replace(tagBar, tagBarTags(issue));
+      replace("tagBar", tagBarTags(issue));
     } 
     div[class="dropdown open"]{   
       dropdownMenu{

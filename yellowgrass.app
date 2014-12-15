@@ -18,7 +18,7 @@ section root page
 	  title{"YellowGrass.org - The Tag-Based Issue Tracker"}      
 	  bmain{		
 		  gridRow{
-		    gridSpan(4){		  
+		    gridCol(4){		  
 		      pageHeader2{ "About YellowGrass" }  
 		      well{    
 				    par {
@@ -31,7 +31,7 @@ section root page
 				    }
 				  }
 		    }
-        gridSpan(8){ 
+        gridCol(8){ 
           pageHeader2{ "Some Active Projects" }
           tableBordered {
             for(p : Project in activeProjects()) {
@@ -45,7 +45,7 @@ section root page
         }
 	    }
 	    gridRow{
-	      gridSpan(12){		
+	      gridCol(12){		
 			    pageHeader2{ "Recent Issues" }
 		      par { issues(recentIssues().set(), true, false, false, 40) }
 		    }

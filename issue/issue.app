@@ -18,7 +18,7 @@ imports issue/ghost
 section navigation
 
   template nav(i: Issue) {
-    navigate issue(i.project, i.number) [all attributes] { "#" output(i.number) }
+    navigate issue(i.project, i.number) [class=attribute("class"), all attributes] { "#" output(i.number) }
   }
    
   template reporter(i: Issue) {
@@ -59,15 +59,15 @@ section issue page
         }
       }
       gridRow{
-        gridSpan(12){
+        gridCol(12){
           editableText(i.description, i.preview)           
         }
       }
       gridRow{
-        gridSpan(12){ tagBar(i) }
+        gridCol(12){ tagBar(i) }
       }
       gridRow{
-        gridSpan(12){      
+        gridCol(12){      
           attachmentList(i)
           //attachmentAddition(i)
             
@@ -119,9 +119,9 @@ section user interface
       }
     }
     for(i : Issue in is) {
-      gridRow{ gridSpan(12){ container{
+      // gridRow{ gridCol(12){ container{
         gridRow(if(!i.open) "issueRow issueRowDone" else "issueRow") { 
-          gridSpan(projectSpan) { 
+          gridCol(projectSpan) { 
             if(!showProjectName) {
               output(i.number)          
             } else {
@@ -129,7 +129,7 @@ section user interface
             } " "
             pullRight{ div[class := "Date"] { output(format(i.submitted)) } }  
           }
-          gridSpan(titleSpan + tagsSpan) {
+          gridCol(titleSpan + tagsSpan) {
             if(!i.open) { iOk " " } 
               navigate issue(i.project, i.number) [title=i.getTitle()] {
                 //output(abbreviate(i.getTitle(), titleLength))    
@@ -141,7 +141,7 @@ section user interface
               if(showTags) { tags(i, true, true, true) } 
           }
          }
-      } } }
+      // } } }
     }
   }
   
@@ -162,9 +162,9 @@ section user interface
       }
     }
     for(i : Issue in is) {
-      gridRow{ gridSpan(12){ container{
+      // gridRow{ gridCol(12){ container{
         gridRow(if(!i.open) "issueRow issueRowDone" else "issueRow") { 
-          gridSpan(projectSpan) { 
+          gridCol(projectSpan) { 
             if(!showProjectName) {
               highlight(searcher, "number"){ output(i.number) }          
             } else {
@@ -172,7 +172,7 @@ section user interface
             } " "
             pullRight{ div[class := "Date"] { output(format(i.submitted)) } }  
           }
-          gridSpan(titleSpan + tagsSpan) {
+          gridCol(titleSpan + tagsSpan) {
             if(!i.open) { iOk " " } 
               
 	            //output(abbreviate(i.getTitle(), titleLength))    
@@ -192,7 +192,7 @@ section user interface
               
           }
          }
-      } } }
+      // } } }
     }
   }
 
@@ -219,7 +219,7 @@ section user interface
 //  			  placeholder issuePreview {} 
 //  			  formActions{
 //  			    submitlink save() [class="btn btn-primary"] { "Save" } " " 
-//  				  navigate issue(i.project, i.number) [class="btn"] {"Cancel"}			
+//  				  navigate issue(i.project, i.number) [class="btn btn-default"] {"Cancel"}			
 //  			  }
 //  		  }
 //  	  }
@@ -252,7 +252,7 @@ section issues posted by principal
 //     action edit() { 
 //       replace(dueDate, dueDateEdit(i)); 
 //     } 
-//     submitlink edit() [class="btn " + i.dueWarning()] { 
+//     submitlink edit() [class="btn btn-default " + i.dueWarning()] { 
 //       iCalendar 
 //       if(i.hasDueDate) {
 //         " " output(i.due.format("d MM yyyy")) 
@@ -269,7 +269,7 @@ section issues posted by principal
 //       form{
 //         inputAppend{
 //           input(i.due)
-//           submitlink save() [class="btn btn-primary"] { iCalendarWhite " Save" }
+//           submitlink save() [class="btn btn-primary"] { iCalendar " Save" }
 //         }
 //       }
 //     }
@@ -283,17 +283,18 @@ section due date
   }
    
   ajax template dueDateView(i: Issue) {
+  	init{if(i.hasDueDate==null){ i.hasDueDate:=false;}}
     action edit() { 
       visibility("dueDateView", hide);
       visibility("dueDateEdit", show); 
       //replace(dueDate, dueDateEdit(i)); 
     }
     submitlink edit() [
-      class="btn " + i.dueWarning(), 
+      class="btn btn-default btn-xs " + i.dueWarning(), 
       title= if(i.hasDueDate) "Change due date" else "Set due date"
     ] { 
       if(i.hasDueDate) {
-        iCalendarWhite
+        iCalendar
         " " output(i.due.format("d/M/yyyy"))
       } else {
         iCalendar
@@ -319,7 +320,7 @@ section due date
         inputAppend{
           input(i.due)
           submitlink save() [class="btn btn-primary"] { "Save" }
-          submitlink notdue() [class="btn"] { "Cancel" }
+          submitlink notdue() [class="btn btn-default"] { "Cancel" }
         }
       }
     }

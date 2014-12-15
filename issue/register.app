@@ -45,22 +45,22 @@ module issue/register
     }
     action ignore-validation updateIssueSuggestions(t : String, p : Project) {
       if(mayAccess(p)) {
-        replace(issueSuggestionsBox, issueSuggestions(t, p));
+        replace("issueSuggestionsBox", issueSuggestions(t, p));
       }
     }
     action ignore-validation updateIssuePreview(d : WikiText) {
-      replace(issuePreview, issuePreview(d));
+      replace("issuePreview", issuePreview(d));
     }
 
 	  bmain{		
       projectToolbar(p) 
 		  gridRow{
-		    gridSpan(12){		      
+		    gridCol(12){		      
 			    pageHeader2{ "Post New " output(p.name) " Issue" }
 			    horizontalForm {		
 				    controlGroup("Title") {
 					    input (ig.title) [class="span8", onkeyup := updateIssueSuggestions(ig.title, p), autocomplete:="off"]
-					    placeholder issueSuggestionsBox { 
+					    placeholder "issueSuggestionsBox" { 
 					      issueSuggestions(ig.title, p)
 					    }
 				    }
@@ -72,7 +72,7 @@ module issue/register
 				    controlGroup("Description") { 
 						  input(ig.description)[onkeyup := updateIssuePreview(ig.description), style="height:400px;"] 
 					  }			
-				    placeholder issuePreview {} 
+				    placeholder "issuePreview" {} 
 				    par [align = "center"] { 
 				      navigate(url("http://en.wikipedia.org/wiki/Markdown#Syntax_examples")) [target:="_blank"] { "Syntax help" } 
 				    }
@@ -102,7 +102,7 @@ module issue/register
 					  formActions{
 					    submit post() [style="display: none;"] { "Post" }
               submitlink post() [class="btn btn-primary"] { "Post" } " "
-              navigate project(p) [class="btn"] { "Cancel" } 
+              navigate project(p) [class="btn btn-default"] { "Cancel" } 
 					  }
 					}
 				}

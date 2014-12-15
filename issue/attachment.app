@@ -18,7 +18,7 @@ section view
             row { 
               column{ iFile " " output(a.file) } 
               column{ output(a.date.format("d MMMM yyyy 'at' HH:mm")) }
-              column{ submitlink deleteAttachment(a) [class="btn"] { iRemove } }
+              column{ submitlink deleteAttachment(a) [class="btn btn-default"] { iRemove } }
             } 
           }
         }
@@ -36,14 +36,14 @@ section adding attachments
   //   //action add() { replace(attachmentAdditionBox, attachmentAdditionInput(i));  }
   //   placeholder attachmentAdditionBox {
   //     // pullRight{ 
-  //     //   par{ submitlink add() [class="btn btn-mini"] { iPlus " Add Attachment" } }
+  //     //   par{ submitlink add() [class="btn btn-default btn-xs"] { iPlus " Add Attachment" } }
   //     // }
   //   } 
   // } 
    
   template attachmentAdditionTool(i : Issue) {
     //action add() { replace(attachmentAdditionBox, attachmentAdditionInput(i));  }
-    navigate attachment(i) [class="btn", title="Add Attachment", style="height:14px;padding:7px;"] { iFile  }
+    navigate attachment(i) [class="btn btn-default", title="Add Attachment"] { iFile  }
   }  
 
   template attachmentAdditionInput(i : Issue) {
@@ -94,7 +94,7 @@ section add attachment page
 // 	  form {
 // 		  par { 
 // 			  input(newFile) {validate(newFile != null && newFile.fileName() != "", "")}
-// 			  submitlink addAttachment(newFile, i) [class="btn"] { iPlus " Add" }
+// 			  submitlink addAttachment(newFile, i) [class="btn btn-default"] { iPlus " Add" }
 // 		  }
 // 	  }
 // 	

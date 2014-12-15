@@ -43,6 +43,7 @@ section operations
 	}
 
   function createComment(t : WikiText) : Comment {
+  	  validate(!isEmptyString(t), "Comment should not be empty");
 	  var c := Comment {
 		  text := t
 		  moment := now()
@@ -67,10 +68,10 @@ section view
   }
 
   template commentAddition(i : Issue) { 
-	  placeholder commentAdditionBox {
+	  placeholder "commentAdditionBox" {
 	    commentAdditionInput(i)
 		  // pullRight { par{
-		  //   submitlink showCommentAdditionInput(i) [class="btn btn-mini"] { iPlus " New Comment" } 
+		  //   submitlink showCommentAdditionInput(i) [class="btn btn-default btn-xs"] { iPlus " New Comment" } 
 		  // } }
 	  }
 	  // action showCommentAdditionInput( i : Issue ) {
@@ -79,7 +80,7 @@ section view
   }
 
   // template commentAdditionTool(i : Issue) { 
-  //   submitlink showCommentAdditionInput(i) [class="btn btn-mini", title="New Comment", style="height:14px;padding:7px;"] { 
+  //   submitlink showCommentAdditionInput(i) [class="btn btn-default btn-xs", title="New Comment"] { 
   //     iComment  
   //   } 
   //   action showCommentAdditionInput( i : Issue ) {
@@ -89,26 +90,24 @@ section view
     
   ajax template commentAdditionInput(i : Issue) {
   	
-  	action ignore-validation updateCommentPreview(d : WikiText) {
-      replace(commentPreview, commentPreview(d, false)); 
-    }
 	  var newCommentText : WikiText := ""; 
       
 	  pageHeader3 { "New Comment" } 
 	  horizontalForm { 
 			par { 
-			  input(newCommentText)[onkeyup := updateCommentPreview(newCommentText), placeholder="Your comment"]{
-			    validate(!isEmptyString(newCommentText), "Comment should not be empty")
-			  } }
+			  inputWithPreview(newCommentText, false, "commentPreview")
+		    }
 			if(!i.open) {
 				par { "This issue is closed! Are you sure you want to add a comment?" }
 			}						
-			placeholder commentPreview {} 
-			formActions { 
-				submitlink comment(newCommentText, i) [class="btn"] { "Post Comment" }
+			gridRow{ gridCol(12){
+				submitlink comment(newCommentText, i) [class="btn btn-default"] { "Post Comment" }
 				" "
-				submitlink commentClose(newCommentText, i) [class="btn"] { "Post Comment & Close" }
-			}
+				submitlink commentClose(newCommentText, i) [class="btn btn-default"] { "Post Comment & Close" }
+			} }
+			gridRow{ gridCol(12){
+				wikiTextPreview(newCommentText, false, "commentPreview")
+			} }
 		}
 	
 	  action comment(text : WikiText, issue : Issue) {
@@ -161,7 +160,7 @@ section view
 	// 		   placeholder commentPreview { }
 	// 		   formActions {
 	// 		     submitlink save() [class="btn btn-primary"] { "Save" } " "
-	// 			   navigate issue(i.project, i.number) [class="btn"] {"Cancel"}
+	// 			   navigate issue(i.project, i.number) [class="btn btn-default"] {"Cancel"}
 	// 			 }
 	// 		}
 	// 	}

@@ -56,7 +56,7 @@ section edit user profile
 			  controlGroup("Home Page") { input(u.url)}
 			  formActions{
 				  submitlink save() [class="btn btn-primary"]{ "Save" } " "
-				  navigate home() [class="btn"] { "Cancel" }
+				  navigate home() [class="btn btn-default"] { "Cancel" }
 			  }
 		  }
 	  }

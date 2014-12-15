@@ -37,7 +37,7 @@ section project lists
     title{"YellowGrass.org - Public Projects List"}
     bmain{
       gridRow{
-        gridSpan(8,2){
+        gridCol(8,2){
           pageHeader{ "Project List" }      
           block [class := "Listing"] {
             projects(projectList)
@@ -64,7 +64,7 @@ section user interface
 	  bmain(p){ 
       projectToolbar(p) 
 	    gridRow{
-        gridSpan(12){        
+        gridCol(12){        
         	pageHeader { output(p.name) } 
         	
         	par{ output( p.description ) }
@@ -101,7 +101,7 @@ section user interface
     title{ output(p.name) " statistics on YellowGrass.org" } 
     bmain(p){
       gridRow{
-        gridSpan(12){
+        gridCol(12){
           projectToolbar(p) 
           pageHeader{ output(p.name) " Statistics "}
           par { <i> "Issue Count (weekly)" </i> } 
@@ -128,7 +128,7 @@ section project issues
 	  bmain(p){
 	    projectToolbar(p) 
 	    gridRow{      
-	      gridSpan(12){
+	      gridCol(12){
           pageHeader2{ 
             if(filterOpen) { "Open " } "Issues of Project " output(p.name)
           }

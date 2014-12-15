@@ -1,0 +1,9 @@
+[submodule "elib/elib-utils"]
+	path = elib/elib-utils
+	url = https://github.com/webdsl/elib-utils.git
+[submodule "elib/elib-bootstrap"]
+	path = elib/elib-bootstrap
+	url = https://github.com/webdsl/elib-bootstrap.git
+[submodule "elib/elib-tablesorter"]
+	path = elib/elib-tablesorter
+	url = https://github.com/webdsl/elib-tablesorter.git

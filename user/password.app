@@ -25,7 +25,7 @@ section change password
 			    input(temp){ validate(pw == temp, "Passwords do not match") } 
 			  }
 			  formActions{
-			    navigate home() [class="btn"] { "Cancel" } " "
+			    navigate home() [class="btn btn-default"] { "Cancel" } " "
 			    submitlink changePassword() [class="btn btn-primary"] { "Change" }
 			  }
 		  }

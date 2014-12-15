@@ -33,7 +33,7 @@ page registerUser(){
 			}	
 			formActions {
         submitlink register() [class="btn btn-primary"] { "Register" } " "
-				navigate root() [class="btn"] {"Cancel"}
+				navigate root() [class="btn btn-default"] {"Cancel"}
 			}
 		}
 	}

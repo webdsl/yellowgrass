@@ -1,7 +1,7 @@
 module tag/manual
 
   template tagHelp(){
-	  navigate tagManual() [class="btn btn-mini", style="height:14px;padding:7px;", title="Tag Help"] { iQuestionSign }
+	  navigate tagManual() [class="btn btn-default btn-sm", title="Tag Help"] { iQuestionSign }
   }
  
 page tagManual() {

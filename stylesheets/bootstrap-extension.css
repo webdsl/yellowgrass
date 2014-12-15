@@ -28,6 +28,9 @@ hr {
 	margin: 0;
 }
 
+#content{
+	padding-top: 20px;
+}
 .footer{
 	font-size: 13px;
 }
@@ -129,7 +132,7 @@ h2 a, h3 a {
 
 textarea {
   width: 95%;
-  height: 150px;
+  height: 150px !important;
 }
 
 form{

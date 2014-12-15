@@ -11,13 +11,14 @@ section project roadmap
 	  bmain(p){		
       projectToolbar(p) 
 		  gridRow{
-		    gridSpan(12){
+		    gridCol(12){
 			    pageHeader2{ "Roadmap" }
-			    placeholder releases roadmapRelease(releases.get(0))
+			    placeholder "releases" roadmapRelease(releases.get(0))
 			  }
 		  }
 		}
 	}
+	
 
   ajax template roadmapRelease(r : Tag) {
 	  var previousRelease := previousRelease(r);
@@ -34,16 +35,16 @@ section project roadmap
 	  } 
 	  if(!releaseDone) {
 	    gridRow{	    
-        gridSpan(6) { progressBar(completed[2])  }
+        gridCol(6) { progressBar(completed[0],completed[1])  }
 	      pullRight{
-	        par { submitlink postponeOpen(r) [class="btn"] { "Postpone Open Issues to " output(nextRelease(r).name) } }
+	        par { submitlink postponeOpen(r) [class="btn btn-default"] { "Postpone Open Issues to " output(nextRelease(r).name) } }
 	      }
 	    }
     }
 	  issues(issues, false, true, true, 50, true, true)
 	  if(previousRelease != null) {
 		  block[class="Ghost"] {
-			  submitlink showPreviousRelease(previousRelease) [id="continuousLoader"+r.name+r.id, class="btn continuousLoader"] { "Show More" }
+			  submitlink showPreviousRelease(previousRelease) [id="continuousLoader"+r.name+r.id, class="btn btn-default continuousLoader"] { "Show More" }
 		  } 
 	  }
 	
@@ -58,7 +59,7 @@ section project roadmap
 	  }
 	  action showPreviousRelease(release : Tag) {
 		  if(release != null) {
-			  append(releases, roadmapRelease(release));
+			  append("releases", roadmapRelease(release));
 		  }
 	  }
   }

@@ -1,6 +1,7 @@
 module templates
 
 imports templates-bootstrap
+// imports admin/admin-ui
 
 imports search
 
@@ -23,21 +24,18 @@ define main() {
 // }
 
 template main(project : Project) {
-  includeCSS("tags.css")
   mainResponsive{  
     body()
   }
 }
 
 template bmain(project : Project) {
-  includeCSS("tags.css")
   mainResponsive(project){  
     elements 
   }
 }
 
 template bmain() {
-  includeCSS("tags.css")
   mainResponsive{  
     elements
   } 

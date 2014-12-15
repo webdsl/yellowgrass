@@ -20,7 +20,7 @@ module project/register
 			  controlGroup("Project name") { input(p.name) }
 			  formActions {
           submitlink create() [class="btn btn-primary"] { "Create" } " "
-				  navigate home() [class="btn"] {"Cancel"}
+				  navigate home() [class="btn btn-default"] {"Cancel"}
 			  }
 		  }
 	  }

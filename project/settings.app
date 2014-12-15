@@ -18,7 +18,7 @@ imports issue/types
 			  controlGroup("Project is private") { input(p.private) }
 			  formActions{
 			    submitlink save() [class="btn btn-primary"] { "Save" } " "
-				  navigate project(p) [class="btn"] {"Cancel"}
+				  navigate project(p) [class="btn btn-default"] {"Cancel"}
 				}
 			}
 		  if(p.members.length > 1) {
@@ -27,7 +27,7 @@ imports issue/types
 				  "Note that upon leaving, issues in this project assigned to you will no longer be assigned. "
 				  "However, upon leaving a project, no issues will be lost. "
 			  }
-			  submitlink leaveProject(p) [class="btn"] { output("Leave Project " + p.name) }
+			  submitlink leaveProject(p) [class="btn btn-default"] { output("Leave Project " + p.name) }
 		  }
 		  pageHeader3{ "Regenerate Issue Types" }
 		  par {
@@ -36,7 +36,7 @@ imports issue/types
 			  "A small set of default types is automatically generated on project creation. "
 			  "This default set can be regenerated without loss of other issue types: "	  
 		  }	
-		  submitlink regenerateIssueTypes(p) [class="btn"] { "Regenerate default issue types" }
+		  submitlink regenerateIssueTypes(p) [class="btn btn-default"] { "Regenerate default issue types" }
 	  }
 	  action save(){
 	    p.setName(p.name); 

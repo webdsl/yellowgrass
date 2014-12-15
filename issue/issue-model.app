@@ -43,7 +43,7 @@ section due date
     due         :: Date (default=null)
     
     function timeLeft(): Long {
-      return if(hasDueDate && due != null) diffDays(due, now()) else 1000L;
+      return if(hasDueDate!=null && hasDueDate && due != null) diffDays(due, now()) else 1000L;
     } 
     
     function dueWarning(): String {

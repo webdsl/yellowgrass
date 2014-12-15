@@ -9,15 +9,15 @@ section operations for user
 
   template homeToolbar(u: User) {
     gridRow{
-      gridSpan(12){
+      gridCol(12){
         buttonGroup{
-          navigate home() [class="btn"] { iUser " " output(u.name) }
-          navigate postedIssues() [class="btn", title="Issues posted by you", style="height:14px;padding:7px;"] { iListAlt }     
-          navigate registerProject()   [class="btn", title="Create new project", style="height:14px;padding:7px;"] { iPlus }
-          navigate editUser(u)         [class="btn", title="Edit your profile", style="height:14px;padding:7px;"] { iPencil  }
-          navigate editUserPassword(u) [class="btn", title="Change your password", style="height:14px;padding:7px;"] { iLock  }
+          navigate home() [class="btn btn-default"] { iUser " " output(u.name) }
+          navigate postedIssues() [class="btn btn-default", title="Issues posted by you"] { iListAlt }     
+          navigate registerProject()   [class="btn btn-default", title="Create new project"] { iPlus }
+          navigate editUser(u)         [class="btn btn-default", title="Edit your profile"] { iPencil  }
+          navigate editUserPassword(u) [class="btn btn-default", title="Change your password"] { iLock  }
           if (u.deviceKeySet.length > 0) { 
-            navigate manageDevices(u)  [class="btn", title="Manage devices", style="height:14px;padding:7px;"] { iCamera  } 
+            navigate manageDevices(u)  [class="btn btn-default", title="Manage devices"] { iCamera  } 
           }
         }
       } 
@@ -66,28 +66,28 @@ section home page of user
 	  bmain{
       buttonToolbar{ homeToolbar(u) } 
 	    gridRow{
-        gridSpan(12){
+        gridCol(12){
           pageHeader2{ output(u.name) } 
           
           pageHeader3{ "Your Projects" }     
           gridRow{
-            // gridSpan(2){
+            // gridCol(2){
             //   pageHeader3{ "Recent Projects" }
             //   projectsAbbreviated(recentProjects)
             // }
-            gridSpan(2){
+            gridCol(2){
               projectsAbbreviated([p | p : Project in u.projects.list() limit 5 offset 0])
             }
-            gridSpan(2){
+            gridCol(2){
               projectsAbbreviated([p | p : Project in u.projects.list() limit 5 offset 5])
             }
-            gridSpan(2){
+            gridCol(2){
               projectsAbbreviated([p | p : Project in u.projects.list() limit 5 offset 10])
             }
-            gridSpan(2){
+            gridCol(2){
               projectsAbbreviated([p | p : Project in u.projects.list() limit 5 offset 15])
             }
-            gridSpan(2){
+            gridCol(2){
               projectsAbbreviated([p | p : Project in u.projects.list() limit 5 offset 20])
             }
           }

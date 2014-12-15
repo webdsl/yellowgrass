@@ -1,24 +1,30 @@
 module templates-bootstrap
 
-imports elib/lib 
+imports elib/elib-utils/lib
+imports elib/elib-bootstrap/lib
+imports elib/elib-tablesorter/lib
 
-  define mainResponsiveStyle() {    
-    includeCSS("bootstrap/css/bootstrap.css") 
-    includeCSS("bootstrap/css/bootstrap-responsive.css")   
-    includeCSS("bootstrap/css/bootstrap-adapt.css")
-    includeCSS("bootstrap-extension.css")
+  define mainResponsiveStyle() {
+  	includeCSS("tags.css?1")
+    includeCSS("bootstrap/css/bootstrap.min.css?1") 
+    includeCSS("bootstrap/css/bootstrap-responsive.css?1")   
+    includeCSS("bootstrap/css/bootstrap-adapt.css?1")
+    includeCSS("bootstrap-extension.css?1")
     includeJS(IncludePaths.jQueryJS())
-    includeJS("bootstrap/js/bootstrap.js")
-    includeHead("<meta name='viewport' content='width=device-width, initial-scale=1.0'>")   
+    includeJS("bootstrap/js/bootstrap.min.js?1")
+    // includeHead("<meta name='viewport' content='width=device-width, initial-scale=1.0'>")   
     //includeHead(rendertemplate(rssLink()))
     //includeHead(rendertemplate(analytics))
     //includeHead(rendertemplate(bitterfont))
     //<link href="http://fonts.googleapis.com/css?family=Bitter" rel="stylesheet" type="text/css">
     elements
+	<script>
+		$('input[type=text],input[type=search],input[type=password],select,textarea').addClass('form-control');
+	</script>
   }
   
   override template brand() { 
-    navigate root() [class="brand"]{ "YellowGrass" }
+    navigate root() [class="navbar-brand"]{ "YellowGrass" }
   }
   
   template aboutMenu() {
@@ -43,7 +49,7 @@ imports elib/lib
         }
         pullRight{ signInOut } 
       }
-      gridContainer{  
+      gridContainer[id="content"]{  
         messages
         elements 
       }
@@ -60,7 +66,7 @@ imports elib/lib
         }
         pullRight{ signInOut } 
       }
-      gridContainer{  
+      gridContainer[id="content"]{  
         messages
         elements 
       }
@@ -71,9 +77,9 @@ imports elib/lib
   
   template ygfooter() {
     footer{
-      gridContainer{     
+      gridContainer[id="content"]{     
         gridRow{ 
-          gridSpan(12){
+          gridCol(12){
             "YellowGrass.org - for all your project management"
           }
         }
@@ -81,3 +87,11 @@ imports elib/lib
     }
   }
   
+  template progressBar(now : Int, max : Int){
+	var percent := if(max == 0) 0 else (now * 100) / max;
+	<div class="progress progress-striped">
+	  <div class="progress-bar" role="progressbar" aria-valuenow=""+now aria-valuemin="0" aria-valuemax=""+max style="width: "+ percent + "%;">
+	    elements
+	  </div>
+	</div>
+  }

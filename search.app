@@ -45,7 +45,7 @@ module search
   //   action search(q: String) { return search(p, q); }
   //   form{
   //   	input(query)
-  //     submitlink search(query) [class="btn"] { iSearch }
+  //     submitlink search(query) [class="btn btn-default"] { iSearch }
   //   }
   // }
 
@@ -55,7 +55,7 @@ module search
     form[class="navbar-form"]{
     	inputAppend{ 
     	  input(query)[placeholder="Search", class="span2 search-bar"]  
-        submitlink search(query) [class="btn", style="height:18px; padding:5px; margin:0px;"] { iSearch }
+          inputGroupButton{ submitlink search(query) [class="btn btn-default"] { iSearch } }
       }
     }
   }
@@ -65,7 +65,7 @@ module search
   //   action search(q: String) { return search(p, q); }
   //   form[class="navbar-form"]{
   //     input(query)[placeholder="Search", class="span2"]  
-  //     submitlink search(query) [class="btn", style="height:18px; padding:5px; margin:0px;"] { iSearch }
+  //     submitlink search(query) [class="btn btn-default", style="height:18px; padding:5px; margin:0px;"] { iSearch }
   //   }
   // }
   

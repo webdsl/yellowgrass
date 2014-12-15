@@ -2,7 +2,7 @@ module issue/issueBrowser
 
 /*
 define template issues(is : List<Issue>, showProjectName : Bool, showTicks : Bool, showNumbers : Bool, titleLength : Int, showTags : Bool) {
-	placeholder issueDetails {}
+	placeholder "issueDetails" {}
 	block [class := "Listing"] {
 		table {
 			for(i : Issue in is) {
@@ -38,7 +38,7 @@ define template issues(is : List<Issue>, showProjectName : Bool, showTicks : Boo
 		}
 	}
 	action showIssueDetails(i : Issue){
-		replace(issueDetails, issueDetails(i));
+		replace("issueDetails", issueDetails(i));
 	}
 }
 

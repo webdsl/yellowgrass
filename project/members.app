@@ -41,24 +41,24 @@ section members and followers
 section memberhship invitation
 
   template inviteMember(p: Project) {
-    var query: String;
+    var query: String
     action showCandidates() {
-      replace(candidatesMenu, invitationCandidates(p, query));
+      replace("candidatesMenu", invitationCandidates(p, query));
     }   
     pageHeader2{ "Invite Registered User as Member" } 
-    par{ buttonGroup{
+    gridRow{ gridCol(5){ buttonGroup{
       form{
         inputPrepend{
-          div[class="btn", style="height:18px; padding:5px; margin:0px;"] { iUser }
+          span[class="input-group-addon"]{ iUser } 
           input(query)[placeholder="Name of new member", onkeyup=showCandidates()]
         }
       }
-      placeholder candidatesMenu { } 
-    } }
+      placeholder "candidatesMenu" { } 
+    } } }
   }
   
   ajax template invitationCandidates(p: Project, query: String) {
-    var candidates : List<User> := searchUser(query);
+    var candidates : List<User> := searchUser(query)
     action add(u: User) {
       p.addMember(u); 
     }
@@ -80,7 +80,7 @@ section membership request
 	  for(r : User in p.memberRequests order by r.name) {
 		  par { 
 		    buttonGroup{
-			    navigate user(r.tag) [class="btn"] { output(r.name) }
+			    navigate user(r.tag) [class="btn btn-default"] { output(r.name) }
 			    submitlink acceptMembershipRequest(r, p) [class="btn btn-success"] { "Accept" }
 			    submitlink declineMembershipRequest(r, p) [class="btn btn-danger"] { "Decline" }
 			    submitlink turnMembershipRequestIntoFollower(r, p) [class="btn btn-info"] { "Make follower instead" }

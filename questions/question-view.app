@@ -9,14 +9,14 @@ section toolbar
   template questionsTools(p: Project) {    
     projectButton(p)
     buttonGroup{
-      navigate questions(p) [class="btn", title="Questions and answers for " + p.name] { "Q&A" }
-      navigate newQuestion(p) [class="btn", title="Ask a question about " + p.name] { "Ask" }
+      navigate questions(p) [class="btn btn-default", title="Questions and answers for " + p.name] { "Q&A" }
+      navigate newQuestion(p) [class="btn btn-default", title="Ask a question about " + p.name] { "Ask" }
     }
   }
   
   template questionsToolbar(p: Project) {    
     gridRow{
-      gridSpan(12){
+      gridCol(12){
         pullLeft{ buttonToolbar{ questionsTools(p) } }
       }
     }
@@ -24,12 +24,12 @@ section toolbar
   
   template questionToolbar(q: Question) {
     gridRow{
-      gridSpan(12){
+      gridCol(12){
         pullLeft{ buttonToolbar{ questionsTools(q.project) } }
         pullRight{
           buttonToolbar{
             buttonGroup{
-              navigate question(q.project, q.number) [class="btn",title=(q.project.name + " Question #" + q.number), style="height:14px;padding:7px;"] { 
+              navigate question(q.project, q.number) [class="btn btn-default",title=(q.project.name + " Question #" + q.number)] { 
                 "Question # " output(q.number) 
               }
             }
@@ -83,7 +83,7 @@ section question page
         } //separated-by{ hrule }
       }
       if(q.open) {
-        placeholder commentAdditionBox{
+        placeholder "commentAdditionBox"{
           answerQuestion(q) 
         }
       } else {
@@ -117,7 +117,7 @@ section question page
         controlGroup("Description") { input(description) }
         formActions{
           submitlink save() [class="btn btn-primary"]{ "Post" } " "
-          navigate project(p) [class="btn"] { "Cancel" }
+          navigate project(p) [class="btn btn-default"] { "Cancel" }
         }
       }
     }
@@ -135,7 +135,7 @@ section question page
   //       controlGroup("Description") { input(q.description) }
   //       formActions{
   //         submitlink save() [class="btn btn-primary"]{ "Post" } " "
-  //         navigate question(q.project, q.number) [class="btn"] { "Cancel" }
+  //         navigate question(q.project, q.number) [class="btn btn-default"] { "Cancel" }
   //       }
   //     }
   //   }

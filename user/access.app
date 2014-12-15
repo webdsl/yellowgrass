@@ -2,7 +2,7 @@ module user/access
 
   page signin() {
     mainResponsive{
-      gridRow{ gridSpan(12){ login } }
+      gridRow{ gridCol(12){ login } }
     }
   }
 
@@ -103,7 +103,7 @@ extend session securityContext {
 	    controlGroup("Stay logged in") { input(keepLoggedIn) }
 		  formActions {
 			  submitlink login() [class="btn btn-primary"] { "Sign In" } " "
-		    navigate resetUserPassword() [class="btn"] { "Reset Password" } 
+		    navigate resetUserPassword() [class="btn btn-default"] { "Reset Password" } 
 		  }
 	  }
   }
@@ -115,7 +115,7 @@ extend session securityContext {
     }
     yourProjects
 	  navItem{	      
-	    navigate home() { iUserWhite " " output(securityContext.principal.name) }
+	    navigate home() { iUser " " output(securityContext.principal.name) }
 	  }
 	  navItem{ submitlink logout() { "Sign Out" } }
   }
