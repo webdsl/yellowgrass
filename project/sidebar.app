@@ -59,7 +59,7 @@ section project toolbar
   template searchBoxInToolbar(p: Project, q: String) {
     var query : String := q
     action search(q: String) { return search(p, q); }
-    buttonGroup[style="width:25%"]{
+    buttonGroup[style="width:180px"]{
       form{
         inputAppend{
           input(query)[placeholder="Search", class="span2 search-bar", autofocus=""]  
