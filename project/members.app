@@ -53,8 +53,9 @@ section memberhship invitation
           input(query)[placeholder="Name of new member", onkeyup=showCandidates()]
         }
       }
-      placeholder "candidatesMenu" { } 
-    } } }
+    }
+    placeholder "candidatesMenu" { } 
+    } }
   }
   
   ajax template invitationCandidates(p: Project, query: String) {
