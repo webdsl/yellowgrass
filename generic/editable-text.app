@@ -35,7 +35,7 @@ section templates
     if (isComment) { byline(owningEntity) } 
     blockquote{
       pullRight{ 
-        submitlink edit() [class="btn btn-default btn-sm", title="Edit"] { iPencil } 
+        submitlink edit() [title="Edit"] { iPencil } 
       }
       output(text)
       if (!isComment) { small{ byline(owningEntity) } }  
@@ -55,15 +55,15 @@ section templates
       replace("preview" + t, textPreview(preview));  
     }
     form{  
-      input(preview)[onkeyup := updateTextPreview(), style="height: 300px;width: 98.5%;"]
+      input(preview)[onkeyup := updateTextPreview(), style="height: 300px;"]
       par{
         <a href="http://en.wikipedia.org/wiki/Markdown#Syntax_examples"
-           class="btn btn-default" target="_blank" title="Learn about markdown syntax; opens in new window/tab">        
+           target="_blank" title="Learn about markdown syntax; opens in new window/tab">        
           iQuestionSign " Markdown Syntax Help"
         </a>
         pullRight{
-          submitlink save() [class="btn btn-primary"] { "Save" } " "
-          submitlink cancel() [class="btn btn-default"] { "Cancel" }
+          submitlink save() [ignore default class, class="btn btn-primary"] { "Save" } " "
+          submitlink cancel() [] { "Cancel" }
         }
       }
     }
@@ -104,7 +104,8 @@ section editable string
    
   ajax template editableStringShow(t: String, x: Ref<String>) {
     action edit() { replace(t as String, editableStringEdit(t, x, x)); } 
-    div[onclick=edit(), ondblclick=edit(), title= "Click to edit"]{ output(x) elements }
+    div[onclick=edit(), ondblclick=edit(), title= "Click to edit"]{ output(x) elements " " small{submitlink edit()[ignore default class]{ iPencil }} }
+    
   }
   
   ajax template editableStringEdit(t: String, x: Ref<String>, old: String) {
@@ -115,16 +116,20 @@ section editable string
       x := old; 
       replace(t as String, editableStringShow(t, x));
     }
-    buttonGroup{
+    
       form{ 
-        inputAppend{ 
-          input(x)[style="width: 60%;"] 
-          submit save() [style="display:none;"] { "Save" }
-          submitlink save() [class="btn btn-primary"] { "Save" } " "
-          submitlink cancel() [class="btn btn-default"] { "Cancel" }
-        }
+        <span class="input-group" style="width: 60%;"> 
+          input(x)
+          inputGroupButton{ 
+          	// buttonGroup{
+          	// submit save() [style="display:none;"] { "Save" }
+	          submitlink save() [ignore default class, class="btn btn-primary"] { "Save" } " "
+	          submitlink cancel() [] { "Cancel" }
+	        // }
+          }
+        </span>
       }
-    }
+    
     // clear
   }
   

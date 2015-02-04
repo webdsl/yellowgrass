@@ -81,10 +81,10 @@ section membership request
 	  for(r : User in p.memberRequests order by r.name) {
 		  par { 
 		    buttonGroup{
-			    navigate user(r.tag) [class="btn btn-default"] { output(r.name) }
-			    submitlink acceptMembershipRequest(r, p) [class="btn btn-success"] { "Accept" }
-			    submitlink declineMembershipRequest(r, p) [class="btn btn-danger"] { "Decline" }
-			    submitlink turnMembershipRequestIntoFollower(r, p) [class="btn btn-info"] { "Make follower instead" }
+			    navigate user(r.tag) [submit attributes] { output(r.name) }
+			    submitlink acceptMembershipRequest(r, p) [ignore default class, class="btn btn-success"] { "Accept" }
+			    submitlink declineMembershipRequest(r, p) [ignore default class, class="btn btn-danger"] { "Decline" }
+			    submitlink turnMembershipRequestIntoFollower(r, p) [ignore default class, class="btn btn-info"] { "Make follower instead" }
 		    }
 		  }
 	  }

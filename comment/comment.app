@@ -71,7 +71,7 @@ section view
 	  placeholder "commentAdditionBox" {
 	    commentAdditionInput(i)
 		  // pullRight { par{
-		  //   submitlink showCommentAdditionInput(i) [class="btn btn-default btn-xs"] { iPlus " New Comment" } 
+		  //   submitlink showCommentAdditionInput(i) [ignore default class, class="btn btn-default btn-xs"] { iPlus " New Comment" } 
 		  // } }
 	  }
 	  // action showCommentAdditionInput( i : Issue ) {
@@ -80,7 +80,7 @@ section view
   }
 
   // template commentAdditionTool(i : Issue) { 
-  //   submitlink showCommentAdditionInput(i) [class="btn btn-default btn-xs", title="New Comment"] { 
+  //   submitlink showCommentAdditionInput(i) [ignore default class, class="btn btn-default btn-xs", title="New Comment"] { 
   //     iComment  
   //   } 
   //   action showCommentAdditionInput( i : Issue ) {
@@ -101,9 +101,9 @@ section view
 				par { "This issue is closed! Are you sure you want to add a comment?" }
 			}						
 			gridRow{ gridCol(12){
-				submitlink comment(newCommentText, i) [class="btn btn-default"] { "Post Comment" }
+				submitlink comment(newCommentText, i) [] { "Post Comment" }
 				" "
-				submitlink commentClose(newCommentText, i) [class="btn btn-default"] { "Post Comment & Close" }
+				submitlink commentClose(newCommentText, i) [] { "Post Comment & Close" }
 			} }
 			gridRow{ gridCol(12){
 				wikiTextPreview(newCommentText, false, "commentPreview")
@@ -159,8 +159,8 @@ section view
 	// 		   }
 	// 		   placeholder commentPreview { }
 	// 		   formActions {
-	// 		     submitlink save() [class="btn btn-primary"] { "Save" } " "
-	// 			   navigate issue(i.project, i.number) [class="btn btn-default"] {"Cancel"}
+	// 		     submitlink save() [ignore default class, class="btn btn-primary"] { "Save" } " "
+	// 			   navigate issue(i.project, i.number) [] {"Cancel"}
 	// 			 }
 	// 		}
 	// 	}

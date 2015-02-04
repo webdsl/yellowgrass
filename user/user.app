@@ -55,8 +55,8 @@ section edit user profile
 			  controlGroup("Receive notifications on issue changes via email?") { input(u.notifications) }
 			  controlGroup("Home Page") { input(u.url)}
 			  formActions{
-				  submitlink save() [class="btn btn-primary"]{ "Save" } " "
-				  navigate home() [class="btn btn-default"] { "Cancel" }
+				  submitlink save() [ignore default class, class="btn btn-primary"]{ "Save" } " "
+				  navigate home() [submit attributes] { "Cancel" }
 			  }
 		  }
 	  }

@@ -9,8 +9,8 @@ section toolbar
   template questionsTools(p: Project) {    
     projectButton(p)
     buttonGroup{
-      navigate questions(p) [class="btn btn-default", title="Questions and answers for " + p.name] { "Q&A" }
-      navigate newQuestion(p) [class="btn btn-default", title="Ask a question about " + p.name] { "Ask" }
+      navigate questions(p) [title="Questions and answers for " + p.name] { "Q&A" }
+      navigate newQuestion(p) [title="Ask a question about " + p.name] { "Ask" }
     }
   }
   
@@ -29,7 +29,7 @@ section toolbar
         pullRight{
           buttonToolbar{
             buttonGroup{
-              navigate question(q.project, q.number) [class="btn btn-default",title=(q.project.name + " Question #" + q.number)] { 
+              navigate question(q.project, q.number) [title=(q.project.name + " Question #" + q.number)] { 
                 "Question # " output(q.number) 
               }
             }
@@ -116,8 +116,8 @@ section question page
         controlGroup("Title") { input(title)[class="span8"] }
         controlGroup("Description") { input(description) }
         formActions{
-          submitlink save() [class="btn btn-primary"]{ "Post" } " "
-          navigate project(p) [class="btn btn-default"] { "Cancel" }
+          submitlink save() [ignore default class, class="btn btn-primary"]{ "Post" } " "
+          navigate project(p) [submit attributes] { "Cancel" }
         }
       }
     }
@@ -134,8 +134,8 @@ section question page
   //       controlGroup("Title") { input(q.title)[class="span8"] }
   //       controlGroup("Description") { input(q.description) }
   //       formActions{
-  //         submitlink save() [class="btn btn-primary"]{ "Post" } " "
-  //         navigate question(q.project, q.number) [class="btn btn-default"] { "Cancel" }
+  //         submitlink save() [ignore default class, class="btn btn-primary"]{ "Post" } " "
+  //         navigate question(q.project, q.number) [] { "Cancel" }
   //       }
   //     }
   //   }
@@ -152,7 +152,7 @@ section answering questions
     horizontalForm{
       input(text) [placeholder="Your Answer"]
       formActions{ 
-        submitlink save() [class="btn btn-primary"] { "Save" }
+        submitlink save() [ignore default class, class="btn btn-primary"] { "Save" }
       }
     }
   }

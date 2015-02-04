@@ -26,13 +26,13 @@ section issue commands
 	              // }
 	            //}
 	            buttonGroup{       
-	              nav(i)[class="btn btn-default"]        
-	              //navigate   editIssue(i)  [class="btn btn-default", title="Edit Issue"] { iPencil } 
+	              nav(i)[submit attributes]        
+	              //navigate   editIssue(i)  [title="Edit Issue"] { iPencil } 
 	              attachmentAdditionTool(i)
 	              //commentAdditionTool(i)
-	              submitlink close(i)      [class="btn btn-default", title="Close Issue"] { iOk } 
-	              submitlink reopen(i)     [class="btn btn-default btn-inverse", title="Reopen Issue"] { iOk }
-	              submitlink vote(i)       [class="btn btn-default", title="Vote and Follow"] { iThumbsUp  }
+	              submitlink close(i)      [title="Close Issue"] { iOk } 
+	              submitlink reopen(i)     [ignore default class, class="btn btn-default btn-inverse", title="Reopen Issue"] { iOk }
+	              submitlink vote(i)       [title="Vote and Follow"] { iThumbsUp  }
 	              issueMoveTargetsMenu(i) 
 	              // addTag(i) 
 	            }
@@ -51,7 +51,7 @@ section issue commands
     }
     dropdownButton("Move") {
       for(p : Project in securityContext.principal.projects where p != i.project) {
-        dropdownMenuItem{ submitlink moveIssue(i, p) { output(p.name) } } 
+        dropdownMenuItem{ submitlink moveIssue(i, p)[ignore default class] { output(p.name) } } 
       }
     }
   }

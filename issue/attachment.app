@@ -18,7 +18,7 @@ section view
             row { 
               column{ iFile " " output(a.file) } 
               column{ output(a.date.format("d MMMM yyyy 'at' HH:mm")) }
-              column{ submitlink deleteAttachment(a) [class="btn btn-default"] { iRemove } }
+              column{ submitlink deleteAttachment(a) [] { iRemove } }
             } 
           }
         }
@@ -36,14 +36,14 @@ section adding attachments
   //   //action add() { replace(attachmentAdditionBox, attachmentAdditionInput(i));  }
   //   placeholder attachmentAdditionBox {
   //     // pullRight{ 
-  //     //   par{ submitlink add() [class="btn btn-default btn-xs"] { iPlus " Add Attachment" } }
+  //     //   par{ submitlink add() [ignore default class, class="btn btn-default btn-xs"] { iPlus " Add Attachment" } }
   //     // }
   //   } 
   // } 
    
   template attachmentAdditionTool(i : Issue) {
     //action add() { replace(attachmentAdditionBox, attachmentAdditionInput(i));  }
-    navigate attachment(i) [class="btn btn-default", title="Add Attachment"] { iFile  }
+    navigate attachment(i) [submit attributes, title="Add Attachment"] { iFile  }
   }  
 
   template attachmentAdditionInput(i : Issue) {
@@ -61,7 +61,7 @@ section adding attachments
         input(newFile) { validate(newFile != null && newFile.fileName() != "", "") }
       }
       formActions{
-        submit addAttachment(newFile, i) [class="btn btn-primary"] { "Add Attachment" }
+        submit addAttachment(newFile, i) [ignore default class, class="btn btn-primary"] { "Add Attachment" }
       }
     }
   }
@@ -94,7 +94,7 @@ section add attachment page
 // 	  form {
 // 		  par { 
 // 			  input(newFile) {validate(newFile != null && newFile.fileName() != "", "")}
-// 			  submitlink addAttachment(newFile, i) [class="btn btn-default"] { iPlus " Add" }
+// 			  submitlink addAttachment(newFile, i) [] { iPlus " Add" }
 // 		  }
 // 	  }
 // 	

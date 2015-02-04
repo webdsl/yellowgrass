@@ -32,8 +32,8 @@ page registerUser(){
 			  captcha() 
 			}	
 			formActions {
-        submitlink register() [class="btn btn-primary"] { "Register" } " "
-				navigate root() [class="btn btn-default"] {"Cancel"}
+        submitlink register() [ignore default class, class="btn btn-primary"] { "Register" } " "
+				navigate root() [submit attributes] {"Cancel"}
 			}
 		}
 	}

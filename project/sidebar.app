@@ -16,7 +16,7 @@ section project toolbar
    
   template projectButton(p: Project) {
     buttonGroup{     
-      navigate project(p) [class="btn btn-default", title=(if(p.private) "Private " else "") + "Project " + p.name] { 
+      navigate project(p) [submit attributes, title=(if(p.private) "Private " else "") + "Project " + p.name] { 
         if(p.private) { iLock " " }
         output(abbreviateNE(p.name,12)) 
       }
@@ -40,18 +40,18 @@ section project toolbar
     projectButton(p)
     
     buttonGroup{ 
-      navigate questions(p) [class="btn btn-default"] { "Q&A" }
+      navigate questions(p) [submit attributes] { "Q&A" }
     }
     buttonGroup{     
-      navigate createIssue(p)          [class="btn btn-default", title="New Issue"] { iPlus  }        
-      navigate roadmap(p)              [class="btn btn-default", title="Roadmap"] { iRoad }    
-      navigate projectIssues(p, true)  [class="btn btn-default", title="Open issues"] { iList }  
-      navigate projectIssues(p, false) [class="btn btn-default", title="All issues"] { iListAlt }     
-      navigate edit(p)                 [class="btn btn-default", title="Project Settings"] { iWrench } 
+      navigate createIssue(p)          [submit attributes, title="New Issue"] { iPlus  }        
+      navigate roadmap(p)              [submit attributes, title="Roadmap"] { iRoad }    
+      navigate projectIssues(p, true)  [submit attributes, title="Open issues"] { iList }  
+      navigate projectIssues(p, false) [submit attributes, title="All issues"] { iListAlt }     
+      navigate edit(p)                 [submit attributes, title="Project Settings"] { iWrench } 
         
-      submitlink followProject(p)      [class="btn btn-default", title="Follow Project"] { iStarEmpty  }  
-      submitlink unfollowProject(p)    [class="btn btn-default", title="Unfollow Project"] { iStar } 
-      submitlink requestJoinProject(p) [class="btn btn-default", title="Request Project Membership"] { iUser }     
+      submitlink followProject(p)      [submit attributes, title="Follow Project"] { iStarEmpty  }  
+      submitlink unfollowProject(p)    [submit attributes, title="Unfollow Project"] { iStar } 
+      submitlink requestJoinProject(p) [submit attributes, title="Request Project Membership"] { iUser }     
     }
     searchBoxInToolbar(p, "")
   }
@@ -64,7 +64,7 @@ section project toolbar
         inputAppend{
           input(query)[placeholder="Search", class="span2 search-bar", autofocus=""]  
           submit search(query) [style="display:none;"] { "Search" }
-          inputGroupButton{ submitlink search(query) [class="btn btn-default"] { iSearch } }
+          inputGroupButton{ submitlink search(query) [] { iSearch } }
         }
       }
     }

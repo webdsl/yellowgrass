@@ -25,8 +25,8 @@ section change password
 			    input(temp){ validate(pw == temp, "Passwords do not match") } 
 			  }
 			  formActions{
-			    navigate home() [class="btn btn-default"] { "Cancel" } " "
-			    submitlink changePassword() [class="btn btn-primary"] { "Change" }
+			    navigate home() [submit attributes] { "Cancel" } " "
+			    submitlink changePassword() [ignore default class, class="btn btn-primary"] { "Change" }
 			  }
 		  }
 	  }
@@ -48,7 +48,7 @@ section reset password
 				  input(email){ validate(findUserByEmail(email).length > 0, "Unknown email address") } 
 			  }
 			  formActions{ 
-			    submitlink resetPassword() [class="btn btn-primary"] { "Reset Password" }
+			    submitlink resetPassword() [ignore default class, class="btn btn-primary"] { "Reset Password" }
 			  }
 			}
 		} 

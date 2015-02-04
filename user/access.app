@@ -102,8 +102,8 @@ extend session securityContext {
 	    controlGroup("Password") { input(pass) }
 	    controlGroup("Stay logged in") { input(keepLoggedIn) }
 		  formActions {
-			  submitlink login() [class="btn btn-primary"] { "Sign In" } " "
-		    navigate resetUserPassword() [class="btn btn-default"] { "Reset Password" } 
+			  submitlink login() [ignore default class, class="btn btn-primary"] { "Sign In" } " "
+		    navigate resetUserPassword() [submit attributes] { "Reset Password" } 
 		  }
 	  }
   }
@@ -117,5 +117,5 @@ extend session securityContext {
 	  navItem{	      
 	    navigate home() { iUser " " output(securityContext.principal.name) }
 	  }
-	  navItem{ submitlink logout() { "Sign Out" } }
+	  navItem{ submitlink logout()[ignore default class] { "Sign Out" } }
   }

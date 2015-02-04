@@ -19,8 +19,8 @@ module project/register
 		  horizontalForm { 
 			  controlGroup("Project name") { input(p.name) }
 			  formActions {
-          submitlink create() [class="btn btn-primary"] { "Create" } " "
-				  navigate home() [class="btn btn-default"] {"Cancel"}
+          submitlink create() [ignore default class, class="btn btn-primary"] { "Create" } " "
+				  navigate home() [submit attributes] {"Cancel"}
 			  }
 		  }
 	  }

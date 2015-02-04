@@ -11,13 +11,13 @@ section operations for user
     gridRow{
       gridCol(12){
         buttonGroup{
-          navigate home() [class="btn btn-default"] { iUser " " output(u.name) }
-          navigate postedIssues() [class="btn btn-default", title="Issues posted by you"] { iListAlt }     
-          navigate registerProject()   [class="btn btn-default", title="Create new project"] { iPlus }
-          navigate editUser(u)         [class="btn btn-default", title="Edit your profile"] { iPencil  }
-          navigate editUserPassword(u) [class="btn btn-default", title="Change your password"] { iLock  }
+          navigate home() [submit attributes] { iUser " " output(u.name) }
+          navigate postedIssues() [submit attributes, title="Issues posted by you"] { iListAlt }     
+          navigate registerProject()   [submit attributes, title="Create new project"] { iPlus }
+          navigate editUser(u)         [submit attributes, title="Edit your profile"] { iPencil  }
+          navigate editUserPassword(u) [submit attributes, title="Change your password"] { iLock  }
           if (u.deviceKeySet.length > 0) { 
-            navigate manageDevices(u)  [class="btn btn-default", title="Manage devices"] { iCamera  } 
+            navigate manageDevices(u)  [submit attributes, title="Manage devices"] { iCamera  } 
           }
         }
       } 

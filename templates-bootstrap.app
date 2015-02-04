@@ -6,10 +6,9 @@ imports elib/elib-tablesorter/lib
 
   define mainResponsiveStyle() {
   	includeCSS("tags.css?1")
-    includeCSS("bootstrap/css/bootstrap.min.css?1") 
-    includeCSS("bootstrap/css/bootstrap-responsive.css?1")   
+    includeCSS("bootstrap/css/bootstrap.min.css?2") 
     includeCSS("bootstrap/css/bootstrap-adapt.css?1")
-    includeCSS("bootstrap-extension.css?1")
+    includeCSS("bootstrap-extension.css?2")
     includeJS(IncludePaths.jQueryJS())
     includeJS("bootstrap/js/bootstrap.min.js?1")
     // includeHead("<meta name='viewport' content='width=device-width, initial-scale=1.0'>")   
@@ -43,7 +42,7 @@ imports elib/elib-tablesorter/lib
   
   template mainResponsive() { 
     mainResponsiveStyle{ 
-      navbarResponsive{  
+      ygnavbar{  
         navItems{
           aboutMenu
         }
@@ -60,7 +59,7 @@ imports elib/elib-tablesorter/lib
   
   define mainResponsive(p: Project) { 
     mainResponsiveStyle{ 
-      navbarResponsive{ 
+      ygnavbar{ 
         navItems{
           aboutMenu
         }
@@ -73,6 +72,20 @@ imports elib/elib-tablesorter/lib
       ygfooter
     }
     //analytics
+  }
+  
+  template ygnavbar() {
+    div[class="navbar navbar-default navbar-fixed-top", style="background-color: #CFD67E !important;"]{
+      gridContainer{
+        div[class="navbar-header"]{
+        	brand
+        	navCollapseButton
+        }
+        div[class="navbar-collapse collapse", style="height: 0px;"]{
+          elements
+        }
+      }
+    }
   }
   
   template ygfooter() {

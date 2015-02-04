@@ -37,14 +37,14 @@ section project roadmap
 	    gridRow{	    
         gridCol(6) { progressBar(completed[0],completed[1])  }
 	      pullRight{
-	        par { submitlink postponeOpen(r) [class="btn btn-default"] { "Postpone Open Issues to " output(nextRelease(r).name) } }
+	        par { submitlink postponeOpen(r) [] { "Postpone Open Issues to " output(nextRelease(r).name) } }
 	      }
 	    }
     }
 	  issues(issues, false, true, true, 50, true, true)
 	  if(previousRelease != null) {
 		  block[class="Ghost"] {
-			  submitlink showPreviousRelease(previousRelease) [id="continuousLoader"+r.name+r.id, class="btn btn-default continuousLoader"] { "Show More" }
+			  submitlink showPreviousRelease(previousRelease) [id="continuousLoader"+r.name+r.id, ignore default class, class="btn btn-default continuousLoader"] { "Show More" }
 		  } 
 	  }
 	

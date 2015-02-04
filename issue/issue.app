@@ -18,7 +18,7 @@ imports issue/ghost
 section navigation
 
   template nav(i: Issue) {
-    navigate issue(i.project, i.number) [class=attribute("class"), all attributes] { "#" output(i.number) }
+    navigate issue(i.project, i.number) [all attributes] { "#" output(i.number) }
   }
    
   template reporter(i: Issue) {
@@ -218,8 +218,8 @@ section user interface
 //  			  }
 //  			  placeholder issuePreview {} 
 //  			  formActions{
-//  			    submitlink save() [class="btn btn-primary"] { "Save" } " " 
-//  				  navigate issue(i.project, i.number) [class="btn btn-default"] {"Cancel"}			
+//  			    submitlink save() [ignore default class, class="btn btn-primary"] { "Save" } " " 
+//  				  navigate issue(i.project, i.number) [] {"Cancel"}			
 //  			  }
 //  		  }
 //  	  }
@@ -252,7 +252,7 @@ section issues posted by principal
 //     action edit() { 
 //       replace(dueDate, dueDateEdit(i)); 
 //     } 
-//     submitlink edit() [class="btn btn-default " + i.dueWarning()] { 
+//     submitlink edit() [ignore default class, class="btn btn-default " + i.dueWarning()] { 
 //       iCalendar 
 //       if(i.hasDueDate) {
 //         " " output(i.due.format("d MM yyyy")) 
@@ -269,7 +269,7 @@ section issues posted by principal
 //       form{
 //         inputAppend{
 //           input(i.due)
-//           submitlink save() [class="btn btn-primary"] { iCalendar " Save" }
+//           submitlink save() [ignore default class, class="btn btn-primary"] { iCalendar " Save" }
 //         }
 //       }
 //     }
@@ -290,7 +290,7 @@ section due date
       //replace(dueDate, dueDateEdit(i)); 
     }
     submitlink edit() [
-      class="btn btn-default btn-xs " + i.dueWarning(), 
+      class=i.dueWarning(), 
       title= if(i.hasDueDate) "Change due date" else "Set due date"
     ] { 
       if(i.hasDueDate) {
@@ -319,8 +319,8 @@ section due date
       form{
         inputAppend{
           input(i.due)
-          submitlink save() [class="btn btn-primary"] { "Save" }
-          submitlink notdue() [class="btn btn-default"] { "Cancel" }
+          submitlink save() [ignore default class, class="btn btn-primary"] { "Save" }
+          submitlink notdue() [] { "Cancel" }
         }
       }
     }

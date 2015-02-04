@@ -58,8 +58,8 @@ section tag page
 			  controlGroup("Name") { input(tagName) }
 			  controlGroup("Description") { input(t.description) }
 			  formActions{
-			    submitlink save() [class="btn btn-primary"] { "Save" } " "
-				  navigate tag(t.project, t.name) [class="btn btn-default"] { "Cancel" }
+			    submitlink save() [ignore default class, class="btn btn-primary"] { "Save" } " "
+				  navigate tag(t.project, t.name) [submit attributes] { "Cancel" }
 				}
 			}
 		}
@@ -74,9 +74,9 @@ section displaying tags
       //return tag(tag.project, tag.name);
     }   
     buttonGroupSpan{
-      navigate tag(tag.project, tag.name) [class="btn btn-default btn-xs " + tag.getStylingClass()] { output(tag.name) } 
+      navigate tag(tag.project, tag.name) [ignore default class, class="btn btn-default btn-xs " + tag.getStylingClass()] { output(tag.name) } 
       if(editing) {
-        submitlink deleteTag(owner, tag) [class="btn btn-default btn-xs " + tag.getStylingClass()] { "x" }
+        submitlink deleteTag(owner, tag) [ignore default class, class="btn btn-default btn-xs " + tag.getStylingClass()] { "x" }
       }
     }
   }
@@ -92,16 +92,16 @@ section displaying tags
       replace("showTag" + id, empty);
     }
     buttonGroupSpan{
-      navigate tag(i.project, tag.name) [class="btn btn-default btn-xs " + tag.getStylingClass()] { output(tag.name) }     
+      navigate tag(i.project, tag.name) [ignore default class, class="btn btn-default btn-xs " + tag.getStylingClass()] { output(tag.name) }     
       if(editing) {
-        submitlink deleteTag(i, tag) [class="btn btn-default btn-xs " + tag.getStylingClass()] { "x" }
+        submitlink deleteTag(i, tag) [ignore default class, class="btn btn-default btn-xs " + tag.getStylingClass()] { "x" }
       }
     }
   }
 
   template showTag(p: Project, tag: Tag) {
     buttonGroupSpan{
-      navigate tag(p, tag.name) [class="btn btn-default btn-xs " + tag.getStylingClass()] { output(tag.name) }     
+      navigate tag(p, tag.name) [ignore default class, class="btn btn-default btn-xs " + tag.getStylingClass()] { output(tag.name) }     
     }
   } 
   
@@ -200,7 +200,7 @@ section tagging
 			    input(t) [class="input-sm", onkeyup := updateTagSuggestions(t), autocomplete:="off"]
           		submit addTag(t, i) [style="display:none;", title="Add tag"] { "Add Tag" }
 			    inputGroupButton{ 
-			    	submitlink addTag(t, i) [class="btn btn-default btn-sm", title="Add tag"] { iTag }
+			    	submitlink addTag(t, i) [ignore default class, class="btn btn-default btn-sm", title="Add tag"] { iTag }
 			    	tagHelp
 		    	} 
 			  }
@@ -226,7 +226,7 @@ section tagging
     div[class="dropdown open"]{   
       dropdownMenu{
 	      for(suggestion : Tag in suggestions) {
-			    dropdownMenuItem{ submitlink addSuggestedTag(suggestion) { output(suggestion.name) } }
+			    dropdownMenuItem{ submitlink addSuggestedTag(suggestion)[ignore default class] { output(suggestion.name) } }
 	      }
 	    }
 	  }

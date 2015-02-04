@@ -101,8 +101,8 @@ module issue/register
 						}
 					  formActions{
 					    submit post() [style="display: none;"] { "Post" }
-              submitlink post() [class="btn btn-primary"] { "Post" } " "
-              navigate project(p) [class="btn btn-default"] { "Cancel" } 
+              submitlink post() [ignore default class, class="btn btn-primary"] { "Post" } " "
+              navigate project(p) [submit attributes] { "Cancel" } 
 					  }
 					}
 				}
