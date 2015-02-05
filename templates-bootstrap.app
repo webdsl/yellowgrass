@@ -8,7 +8,7 @@ imports elib/elib-tablesorter/lib
   	includeCSS("tags.css?1")
     includeCSS("bootstrap/css/bootstrap.min.css?2") 
     includeCSS("bootstrap/css/bootstrap-adapt.css?1")
-    includeCSS("bootstrap-extension.css?2")
+    includeCSS("yellowgrass.css?2")
     includeJS(IncludePaths.jQueryJS())
     includeJS("bootstrap/js/bootstrap.min.js?1")
     // includeHead("<meta name='viewport' content='width=device-width, initial-scale=1.0'>")   
@@ -16,7 +16,9 @@ imports elib/elib-tablesorter/lib
     //includeHead(rendertemplate(analytics))
     //includeHead(rendertemplate(bitterfont))
     //<link href="http://fonts.googleapis.com/css?family=Bitter" rel="stylesheet" type="text/css">
-    elements
+	div[class="frame"]{
+		elements
+	}    
 	<script>
 		$('input[type=text],input[type=search],input[type=password],select,textarea').addClass('form-control');
 	</script>
@@ -93,7 +95,7 @@ imports elib/elib-tablesorter/lib
       gridContainer[id="content"]{     
         gridRow{ 
           gridCol(12){
-            "YellowGrass.org - for all your project management"
+            "YellowGrass.org - the tag-based issue tracker"
           }
         }
       }

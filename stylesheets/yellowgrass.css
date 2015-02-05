@@ -1,3 +1,14 @@
+.Error {
+	color: #a81a1a;
+	font-weight: bold;
+	font-style: italic;
+}
+
+.highlightcontent {
+	background-color: #dddddd;
+}
+
+/*bootstrap adaptations*/
 
 .btn, .dropdown-menu {
   font-family: Arial, sans-serif;
@@ -30,9 +41,24 @@ hr {
 
 #content{
 	padding-top: 20px;
+	margin-bottom: 25px;
+}
+
+.frame{
+	display: table;
+	table-layout: fixed;
+	height: 100%;
+	width: 100%;
+}
+html, body{
+	height: 100%;
+	margin: 0pt;
 }
 .footer{
 	font-size: 13px;
+	height:1px;
+	width:100%;
+	display: table-row;
 }
 .navbar{
 	font-size: 14px;
@@ -43,39 +69,6 @@ h1, h2, h3, h4, h5, h6, .navbar, .byline, .wikibyline, .pagination, .attachments
 li{ 
 	line-height: 1.5em;
 }
-
-/*
-div.byline {
-  margin: 4px 0 20px 0;
-}
-div.byline .date {
-  font-size : 16px;
-  font-weight: bold;
-  padding: 0 0 5px 0;
-  border-bottom: 1px solid #ddd;
-}
-div.byline .draft {
-  font-size : 16px;
-  font-weight: bold;
-  padding: 10px 0 5px 0;
-  border-bottom: 1px solid #ddd;
-}
-div.wikibyline {
-  font-size : 14px;
-  border: 1px solid #E5E5E5;
-  background-color: #F5F5F5;
-  padding: 10px;
-  margin: 20px 0 20px 0;
-}
-div.attachments{
-	margin: 20px 0 20px 0;
-	font-size: 14px;
-}
-*/
-
-/* img {
-	margin: 10px;
-} */
 
 h1{
 	font-size: 26px;
@@ -98,27 +91,6 @@ h3 {
 .page-header h2, .page-header h3  {
 	border: 0
 }
-
-/*
-.postContent pre, .postContent pre code {
-	font-size: 15px;
-}
-.postContent code {
-	background-color: transparent;
-	border: none;
-	color: black;
-	padding: 0;
-	font-size: 15px;
-}
-.postContent p, .postContent ul, .postContent li {
-  font-size: 16px;
-  font-family: Georgia,serif;
-  line-height: 1.5em;
-}
-.postContent blockquote, .postContent ul, .postContent li  {
-  font-family: Georgia,serif;
-}
-*/
 
 h3 {
   line-height: 1.2em;
@@ -144,13 +116,6 @@ form{
 	padding: 0 5px 0px 5px;
 }
 
-/* input.inputString {
-	width: 95%;
-}
-input.inputEmail {
-	width: 95%;
-} */
-
 .ibtn {
   height: 18px;
 }
@@ -173,11 +138,6 @@ input.inputEmail {
 }
 .table-striped tbody tr:nth-child(2n+1) td.alert-success, .table-striped tbody tr:nth-child(2n+1) th.alert-success {
 	 background-color: #DFF0D8;
-}
-
-
-.highlightcontent {
-background-color: #dddddd;
 }
 
 .navbar-default .navbar-nav>li>a:hover, .navbar-default .navbar-nav>li>a:focus {
@@ -204,4 +164,46 @@ background-color: #dddddd;
 }
 a {
 	color: #828A2B;
+}
+
+.Ghost {
+    display: none;
+}
+
+.btn-group input[type="text"] {
+  margin : 0;
+}
+
+.btn-group form .input-append input {
+  vertical-align: middle;
+}
+
+.tags .btn-group + .btn-group {
+    margin: 0 3px 3px;
+}
+.tags .btn-group {
+	margin: 0 0 3px 3px;
+}
+
+.CommentHeader {
+        color: gray;
+        font-style: italic;
+        font-size: small;
+        margin-bottom: 2px;
+}
+
+div.Date {
+	display: inline;
+}
+
+.row.issueRow {
+	border-bottom: 1px solid #ccc;
+	padding: 3px 0;
+}
+.row.issueRowDone {
+	background: #efefef; 
+	color: #777;
+}
+.row.issueRowDone a {
+  color: #777;
 }

@@ -115,7 +115,7 @@ extend session securityContext {
     }
     yourProjects
 	  navItem{	      
-	    navigate home() { iUser " " output(securityContext.principal.name) }
+	    navigate home() { iUser " " output(securityContext.principal.tag) }
 	  }
 	  navItem{ submitlink logout()[ignore default class] { "Sign Out" } }
   }
