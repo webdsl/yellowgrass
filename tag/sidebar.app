@@ -24,14 +24,14 @@ module tag/sidebar
         pullRight{
           buttonToolbar{ 
             buttonGroup{
-              navigate createTaggedIssue(t.project, t) [title="New " + t.name + " Issue"] { iPlus }
-              navigate editTag(t.project, t) [title="Edit"] { iPencil }            
-              submitlink makeRelease(t, t.project) [ignore default class, class="btn btn-default ReleaseTag", title="Make release"] {"Release" }
-              submitlink makeIssueType(t, t.project) [ignore default class, class="btn btn-default IssuetypeTag", title="Make issue type"] {"Issue Type" }
-              submitlink color(t, t.project, "red") [ignore default class, class="btn btn-default RedTag", title="Color red"] { "Red" }
-              submitlink color(t, t.project, "green") [ignore default class, class="btn btn-default GreenTag", title="Color green"] { "Green" }
-              submitlink color(t, t.project, "grey") [ignore default class, class="btn btn-default GreyTag", title="Color grey"] { "Grey" }
-              submitlink color(t, t.project, "purple") [ignore default class, class="btn btn-default PurpleTag", title="Color purple"] { "Purple" }      
+              navigate createTaggedIssue(t.project, t)[submitlink attributes, title="New " + t.name + " Issue"] { iPlus }
+              navigate editTag(t.project, t) [submitlink attributes, title="Edit"] { iPencil }            
+              submitlink makeRelease(t, t.project) [class="ReleaseTag", title="Make release"] {"Release" }
+              submitlink makeIssueType(t, t.project) [class="IssuetypeTag", title="Make issue type"] {"Issue Type" }
+              submitlink color(t, t.project, "red") [class="RedTag", title="Color red"] { "Red" }
+              submitlink color(t, t.project, "green") [class="GreenTag", title="Color green"] { "Green" }
+              submitlink color(t, t.project, "grey") [class="GreyTag", title="Color grey"] { "Grey" }
+              submitlink color(t, t.project, "purple") [class="PurpleTag", title="Color purple"] { "Purple" }      
             }
           } 
         } 
