@@ -9,8 +9,8 @@ section toolbar
   template questionsTools(p: Project) {    
     projectButton(p)
     buttonGroup{
-      navigate questions(p) [title="Questions and answers for " + p.name] { "Q&A" }
-      navigate newQuestion(p) [title="Ask a question about " + p.name] { "Ask" }
+      navigate questions(p) [submit attributes, title="Questions and answers for " + p.name] { "Q&A" }
+      navigate newQuestion(p) [submit attributes, title="Ask a question about " + p.name] { "Ask" }
     }
   }
   
