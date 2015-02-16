@@ -279,8 +279,8 @@ function checkNewIssueObjects(json : JSONArray) {
           number := newIssueNumber(project)
         };
         var tags := object.getJSONArray("tags");
-        for(i : Int from 0 to tags.length()) {
-          newObject.tags.add(loadTag(tags.getJSONObject(i).getString("id").parseUUID()));
+        for(j : Int from 0 to tags.length()) {
+          newObject.tags.add(loadTag(tags.getJSONObject(j).getString("id").parseUUID()));
         }
         var newComments := checkNewCommentObjects(object.getJSONArray("comments"));
         for(comment : Comment in newComments) {

@@ -17,10 +17,10 @@ access control rules
 		mayAccess(p)
 	}
 		
-	rule page edit(p : Project) {
-		principal in p.members
+	rule page edit(project : Project) {
+		principal in project.members
 		rule action save() {
-			principal in p.members
+			principal in project.members
 		}
 		rule action leaveProject(p : Project) {
 			principal in p.members &&
@@ -101,8 +101,8 @@ access control rules
 		}
 	}
 
-  rule template projectTools(p : Project) {
-    mayAccess(p)
+  rule template projectTools(project : Project) {
+    mayAccess(project)
     
     rule action followProject(p : Project) {
       loggedIn && 

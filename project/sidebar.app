@@ -23,7 +23,7 @@ section project toolbar
     }
   }
 
-  template projectTools(p: Project) {
+  template projectTools(project: Project) {
     action followProject(p : Project) {
       p.follow();
       message("You will now receive email updates upon events in this project");
@@ -37,28 +37,28 @@ section project toolbar
       message("Project membership requested, awaiting project member approval...");
     }
     
-    projectButton(p)
+    projectButton(project)
     
     buttonGroup{ 
-      navigate questions(p) [submit attributes] { "Q&A" }
+      navigate questions(project) [submit attributes] { "Q&A" }
     }
     buttonGroup{     
-      navigate createIssue(p)          [submit attributes, title="New Issue"] { iPlus  }        
-      navigate roadmap(p)              [submit attributes, title="Roadmap"] { iRoad }    
-      navigate projectIssues(p, true)  [submit attributes, title="Open issues"] { iList }  
-      navigate projectIssues(p, false) [submit attributes, title="All issues"] { iListAlt }     
-      navigate edit(p)                 [submit attributes, title="Project Settings"] { iWrench } 
+      navigate createIssue(project)          [submit attributes, title="New Issue"] { iPlus  }        
+      navigate roadmap(project)              [submit attributes, title="Roadmap"] { iRoad }    
+      navigate projectIssues(project, true)  [submit attributes, title="Open issues"] { iList }  
+      navigate projectIssues(project, false) [submit attributes, title="All issues"] { iListAlt }     
+      navigate edit(project)                 [submit attributes, title="Project Settings"] { iWrench } 
         
-      submitlink followProject(p)      [submit attributes, title="Follow Project"] { iStarEmpty  }  
-      submitlink unfollowProject(p)    [submit attributes, title="Unfollow Project"] { iStar } 
-      submitlink requestJoinProject(p) [submit attributes, title="Request Project Membership"] { iUser }     
+      submitlink followProject(project)      [submit attributes, title="Follow Project"] { iStarEmpty  }  
+      submitlink unfollowProject(project)    [submit attributes, title="Unfollow Project"] { iStar } 
+      submitlink requestJoinProject(project) [submit attributes, title="Request Project Membership"] { iUser }     
     }
-    searchBoxInToolbar(p, "")
+    searchBoxInToolbar(project, "")
   }
   
   template searchBoxInToolbar(p: Project, q: String) {
     var query : String := q
-    action search(q: String) { return search(p, q); }
+    action search(newq: String) { return search(p, newq); }
     buttonGroup[style="width:180px"]{
       form{
         inputAppend{

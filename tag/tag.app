@@ -85,16 +85,16 @@ section displaying tags
     span[id="showTag" + tag.id]{ showTagView(i, tag, editing) } 
   } 
     
-  template showTagView(i: Issue, tag: Tag, editing: Bool) {
+  template showTagView(issue: Issue, tag: Tag, editing: Bool) {
     action deleteTag(i : Issue, t : Tag) {
       var id := tag.id;
       i.deleteTag(t);
       replace("showTag" + id, empty);
     }
     buttonGroupSpan{
-      navigate tag(i.project, tag.name) [ignore default class, class="btn btn-default btn-xs " + tag.getStylingClass()] { output(tag.name) }     
+      navigate tag(issue.project, tag.name) [ignore default class, class="btn btn-default btn-xs " + tag.getStylingClass()] { output(tag.name) }     
       if(editing) {
-        submitlink deleteTag(i, tag) [ignore default class, class="btn btn-default btn-xs " + tag.getStylingClass()] { "x" }
+        submitlink deleteTag(issue, tag) [ignore default class, class="btn btn-default btn-xs " + tag.getStylingClass()] { "x" }
       }
     }
   }
@@ -173,10 +173,10 @@ section tag bar on issue page
 
 section tagging
 
-  template addTag(i : Issue) { 
-	  var t : String := ""
-    action addTag(t : String, i : Issue) {
-      var t := tagify(t); 
+  template addTag(issue : Issue) { 
+    var tag : String := ""
+    action addTag(tagname : String, i : Issue) {
+      var t := tagify(tagname); 
       var f := Tag{ name := t };
       var feedback := f.validateName();
       if(feedback.exceptions.length > 0) {
@@ -191,16 +191,16 @@ section tagging
       }
     }
     action updateTagSuggestions(t : String) {
-      replace("tagSuggestionsBox", tagSuggestions(t, i));
+      replace("tagSuggestionsBox", tagSuggestions(t, issue));
     }
     
 	  div [class = "TagAddition"] {
 		  form { 
 		    inputGroup{
-			    input(t) [class="input-sm", onkeyup := updateTagSuggestions(t), autocomplete:="off"]
-          		submit addTag(t, i) [style="display:none;", title="Add tag"] { "Add Tag" }
+			    input(tag) [class="input-sm", onkeyup := updateTagSuggestions(tag), autocomplete:="off"]
+          		submit addTag(tag, issue) [style="display:none;", title="Add tag"] { "Add Tag" }
 			    inputGroupButton{ 
-			    	submitlink addTag(t, i) [ignore default class, class="btn btn-default btn-sm", title="Add tag"] { iTag }
+			    	submitlink addTag(tag, issue) [ignore default class, class="btn btn-default btn-sm", title="Add tag"] { iTag }
 			    	tagHelp
 		    	} 
 			  }

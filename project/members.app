@@ -76,15 +76,15 @@ section memberhship invitation
  
 section membership request
 
-  template projectMembershipRequests(p : Project) {
+  template projectMembershipRequests(project : Project) {
 	  pageHeader3{ "Membership Requests"}
-	  for(r : User in p.memberRequests order by r.name) {
+	  for(r : User in project.memberRequests order by r.name) {
 		  par { 
 		    buttonGroup{
 			    navigate user(r.tag) [submit attributes] { output(r.name) }
-			    submitlink acceptMembershipRequest(r, p) [ignore default class, class="btn btn-success"] { "Accept" }
-			    submitlink declineMembershipRequest(r, p) [ignore default class, class="btn btn-danger"] { "Decline" }
-			    submitlink turnMembershipRequestIntoFollower(r, p) [ignore default class, class="btn btn-info"] { "Make follower instead" }
+			    submitlink acceptMembershipRequest(r, project) [ignore default class, class="btn btn-success"] { "Accept" }
+			    submitlink declineMembershipRequest(r, project) [ignore default class, class="btn btn-danger"] { "Decline" }
+			    submitlink turnMembershipRequestIntoFollower(r, project) [ignore default class, class="btn btn-info"] { "Make follower instead" }
 		    }
 		  }
 	  }

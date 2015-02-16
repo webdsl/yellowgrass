@@ -32,8 +32,8 @@ access control rules
 		mayAccess(i.project)
 	}
 	
-	rule template tags(i : Issue, editing : Bool, summary : Bool) {
-		mayAccess(i.project)
+	rule template tags(issue : Issue, editing : Bool, summary : Bool) {
+		mayAccess(issue.project)
 		rule action deleteTag(i : Issue, t : Tag) {
 			loggedIn && (principal in i.project.members
 			             || principal == i.reporter)
@@ -51,15 +51,15 @@ access control rules
     }
   }
 
-  rule template showTag(i: Issue, tag: Tag, editing: Bool) {
-    mayAccess(i.project)
+  rule template showTag(issue: Issue, tag: Tag, editing: Bool) {
+    mayAccess(issue.project)
     rule action deleteTag(i : Issue, t : Tag) {
       loggedIn && principal() in i.project.members
     }
   }
   
-  rule template showTagView(i: Issue, tag: Tag, editing: Bool) {
-    mayAccess(i.project)
+  rule template showTagView(issue: Issue, tag: Tag, editing: Bool) {
+    mayAccess(issue.project)
     rule action deleteTag(i : Issue, t : Tag) {
       loggedIn && principal() in i.project.members
     }
@@ -77,8 +77,8 @@ access control rules
     rule action makeIssueType(tag : Tag, p : Project) {
       loggedIn && principal() in p.members && !tag.hasTag(ISSUE_TYPE_TAG()) 
     }
-    rule action color(t : Tag, p : Project, color : String) {
-      loggedIn && principal() in p.members && !t.isColored()
+    rule action color(tag : Tag, p : Project, color : String) {
+      loggedIn && principal() in p.members && !tag.isColored()
     }
   }
   	

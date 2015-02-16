@@ -1,6 +1,6 @@
 module tag/sidebar
 
-  template tagCommandsToolbar(t : Tag) {
+  template tagCommandsToolbar(tag : Tag) {
     action makeRelease(t : Tag, p : Project) {
       t.makeRelease(p);
     }
@@ -17,21 +17,21 @@ module tag/sidebar
           buttonToolbar{
             buttonGroup{     
               //projectDropdown(t.project) 
-              projectTools(t.project)   
+              projectTools(tag.project)   
             }
           }
         }
         pullRight{
           buttonToolbar{ 
             buttonGroup{
-              navigate createTaggedIssue(t.project, t)[submitlink attributes, title="New " + t.name + " Issue"] { iPlus }
-              navigate editTag(t.project, t) [submitlink attributes, title="Edit"] { iPencil }            
-              submitlink makeRelease(t, t.project) [class="ReleaseTag", title="Make release"] {"Release" }
-              submitlink makeIssueType(t, t.project) [class="IssuetypeTag", title="Make issue type"] {"Issue Type" }
-              submitlink color(t, t.project, "red") [class="RedTag", title="Color red"] { "Red" }
-              submitlink color(t, t.project, "green") [class="GreenTag", title="Color green"] { "Green" }
-              submitlink color(t, t.project, "grey") [class="GreyTag", title="Color grey"] { "Grey" }
-              submitlink color(t, t.project, "purple") [class="PurpleTag", title="Color purple"] { "Purple" }      
+              navigate createTaggedIssue(tag.project, tag)[submitlink attributes, title="New " + tag.name + " Issue"] { iPlus }
+              navigate editTag(tag.project, tag) [submitlink attributes, title="Edit"] { iPencil }            
+              submitlink makeRelease(tag, tag.project) [class="ReleaseTag", title="Make release"] {"Release" }
+              submitlink makeIssueType(tag, tag.project) [class="IssuetypeTag", title="Make issue type"] {"Issue Type" }
+              submitlink color(tag, tag.project, "red") [class="RedTag", title="Color red"] { "Red" }
+              submitlink color(tag, tag.project, "green") [class="GreenTag", title="Color green"] { "Green" }
+              submitlink color(tag, tag.project, "grey") [class="GreyTag", title="Color grey"] { "Grey" }
+              submitlink color(tag, tag.project, "purple") [class="PurpleTag", title="Color purple"] { "Purple" }      
             }
           } 
         } 

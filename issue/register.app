@@ -8,19 +8,19 @@ module issue/register
 	  createIssue(p, initialTag)
   }
 
-  template createIssue(p : Project, initialTag : Tag) { 
-    title{output(p.name) " - Create new issue on YellowGrass.org"}
+  template createIssue(project : Project, initialTag : Tag) { 
+    title{output(project.name) " - Create new issue on YellowGrass.org"}
 
-    var pass : Secret;
-    var keepLoggedIn : Bool;
+    var pass : Secret
+    var keepLoggedIn : Bool
         
-	  var issuetypes : List<Tag> := p.issueTypes();
+	var issuetypes : List<Tag> := project.issueTypes()
 	  
-    var ig := IssueGhost{ alive := false }; 
-    var type : Tag;
+    var ig := IssueGhost{ alive := false }
+    var type : Tag
 
     action post() {
-      ig.project := p; 
+      ig.project := project; 
       if(initialTag != null) {
         ig.tags := {initialTag};
       }
@@ -53,15 +53,15 @@ module issue/register
     }
 
 	  bmain{		
-      projectToolbar(p) 
+      projectToolbar(project) 
 		  gridRow{
 		    gridCol(12){		      
-			    pageHeader2{ "Post New " output(p.name) " Issue" }
+			    pageHeader2{ "Post New " output(project.name) " Issue" }
 			    horizontalForm {		
 				    controlGroup("Title") {
-					    input (ig.title) [class="span8", onkeyup := updateIssueSuggestions(ig.title, p), autocomplete:="off"]
+					    input (ig.title) [class="span8", onkeyup := updateIssueSuggestions(ig.title, project), autocomplete:="off"]
 					    placeholder "issueSuggestionsBox" { 
-					      issueSuggestions(ig.title, p)
+					      issueSuggestions(ig.title, project)
 					    }
 				    }
 				    if(issuetypes.length > 0) {
@@ -102,7 +102,7 @@ module issue/register
 					  formActions{
 					    submit post() [style="display: none;"] { "Post" }
               submitlink post() [ignore default class, class="btn btn-primary"] { "Post" } " "
-              navigate project(p) [submit attributes] { "Cancel" } 
+              navigate project(project) [submit attributes] { "Cancel" } 
 					  }
 					}
 				}
@@ -110,14 +110,14 @@ module issue/register
 		}
   }
 
-  ajax template issueSuggestions(t : String, p : Project) {
+  ajax template issueSuggestions(t : String, project : Project) {
 	  // Cannot search on project names (yet), so doing bigger search and project limit
-	  var suggestions := searchIssue(t+" "+p.name, 20);
-	  var projectSuggestions := [ i | i : Issue in suggestions where i.project == p limit 5];
+	  var suggestions := searchIssue(t+" "+project.name, 20)
+	  var projectSuggestions := [ i | i : Issue in suggestions where i.project == project limit 5]
 	  list[class="listbox"] {
       for(i : Issue in projectSuggestions) {
 		    listitem {
-			    navigate(issue(p, i.number)) [target:="_blank"] { output(i.getTitle()) }
+			    navigate(issue(project, i.number)) [target:="_blank"] { output(i.getTitle()) }
 			  }
 			}
 	 	}

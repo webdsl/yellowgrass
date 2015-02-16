@@ -47,11 +47,11 @@ section adding attachments
   }  
 
   template attachmentAdditionInput(i : Issue) {
-    var newFile : File;
-    action addAttachment(newFile : File, issue : Issue) {
+    var newFile : File
+    action addAttachment(newFileUpload : File, issue : Issue) {
       var newAttachment := Attachment {
         date := now()
-        file := newFile
+        file := newFileUpload
       };
       issue.attachments.add(newAttachment);
       return issue(i.project, i.number); 

@@ -51,7 +51,7 @@ module search
 
   template searchBox(p: Project, q: String) {
     var query : String := q
-    action search(q: String) { return search(p, q); }
+    action search(newq: String) { return search(p, newq); }
     form[class="navbar-form"]{
     	inputAppend{ 
     	  input(query)[placeholder="Search", class="span2 search-bar"]  

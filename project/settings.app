@@ -2,32 +2,32 @@ module project/settings
 
 imports issue/types
 
-  page edit(p : Project) {
-	  title{output(p.name) " on YellowGrass.org [Editing]"}
-	  bmain(p){  
-      projectToolbar(p) 
-		  pageHeader2{ "Edit Project " output(p.name) } 
+  page edit(project : Project) {
+	  title{output(project.name) " on YellowGrass.org [Editing]"}
+	  bmain(project){  
+      projectToolbar(project) 
+		  pageHeader2{ "Edit Project " output(project.name) } 
 		  horizontalForm {
-			  controlGroup("Project name") { input(p.name) }
-			  controlGroup("Project description") { input(p.description)}
-			  controlGroup("Project web page") { input(p.url) }
+			  controlGroup("Project name") { input(project.name) }
+			  controlGroup("Project description") { input(project.description)}
+			  controlGroup("Project web page") { input(project.url) }
 			  controlGroup("Project mailing list") { 
-			  	input(p.email) 
+			  	input(project.email) 
 			  	helpBlock{ "Warn: When a mailing list is set, notifications will only be sent to the mailing list and not to individual members of the project." }
 			  }
-			  controlGroup("Project is private") { input(p.private) }
+			  controlGroup("Project is private") { input(project.private) }
 			  formActions{
 			    submitlink save() [ignore default class, class="btn btn-primary"] { "Save" } " "
-				  navigate project(p) [submit attributes] {"Cancel"}
+				  navigate project(project) [submit attributes] {"Cancel"}
 				}
 			}
-		  if(p.members.length > 1) {
+		  if(project.members.length > 1) {
 			  pageHeader3{ "Leave project" }
 			  par {
 				  "Note that upon leaving, issues in this project assigned to you will no longer be assigned. "
 				  "However, upon leaving a project, no issues will be lost. "
 			  }
-			  submitlink leaveProject(p) [] { output("Leave Project " + p.name) }
+			  submitlink leaveProject(project) [] { output("Leave Project " + project.name) }
 		  }
 		  pageHeader3{ "Regenerate Issue Types" }
 		  par {
@@ -36,11 +36,11 @@ imports issue/types
 			  "A small set of default types is automatically generated on project creation. "
 			  "This default set can be regenerated without loss of other issue types: "	  
 		  }	
-		  submitlink regenerateIssueTypes(p) [] { "Regenerate default issue types" }
+		  submitlink regenerateIssueTypes(project) [] { "Regenerate default issue types" }
 	  }
 	  action save(){
-	    p.setName(p.name); 
-		  return project(p);
+	    project.setName(project.name); 
+		return project(project);
 	  }
 	  action leaveProject(p : Project) {
 		  p.members.remove(securityContext.principal);
