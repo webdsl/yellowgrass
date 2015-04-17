@@ -9,3 +9,10 @@ application.ini.server
 .saved-but-not-built
 elib-svn
 archive
+WebContent/*
+.settings/*
+build.xml
+clean-project.xml
+yellowgrass build.xml.launch
+yellowgrass clean-project.xml.launch
+
