@@ -87,9 +87,9 @@ section displaying tags
     
   template showTagView(issue: Issue, tag: Tag, editing: Bool) {
     action deleteTag(i : Issue, t : Tag) {
-      var id := tag.id;
+      var id_ := tag.id;
       i.deleteTag(t);
-      replace("showTag" + id, empty);
+      replace("showTag" + id_, empty);
     }
     buttonGroupSpan{
       navigate tag(issue.project, tag.name) [ignore default class, class="btn btn-default btn-xs " + tag.getStylingClass()] { output(tag.name) }     

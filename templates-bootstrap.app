@@ -4,6 +4,8 @@ imports elib/elib-utils/lib
 imports elib/elib-bootstrap/lib
 imports elib/elib-tablesorter/lib
 
+override attributes submitlink{ submit attributes }
+
   define mainResponsiveStyle() {
   	includeCSS("tags.css?1")
     includeCSS("bootstrap/css/bootstrap.min.css?2") 
@@ -11,6 +13,7 @@ imports elib/elib-tablesorter/lib
     includeCSS("yellowgrass.css?2")
     includeJS(IncludePaths.jQueryJS())
     includeJS("bootstrap/js/bootstrap.min.js?1")
+    tooltipsBS
     // includeHead("<meta name='viewport' content='width=device-width, initial-scale=1.0'>")   
     //includeHead(rendertemplate(rssLink()))
     //includeHead(rendertemplate(analytics))
@@ -18,10 +21,7 @@ imports elib/elib-tablesorter/lib
     //<link href="http://fonts.googleapis.com/css?family=Bitter" rel="stylesheet" type="text/css">
 	div[class="frame"]{
 		elements
-	}    
-	<script>
-		$('input[type=text],input[type=search],input[type=password],select,textarea').addClass('form-control');
-	</script>
+	}
   }
   
   override template brand() { 
