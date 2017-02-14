@@ -14,6 +14,9 @@ override attributes submitlink{ submit attributes }
     includeJS(IncludePaths.jQueryJS())
     includeJS("bootstrap/js/bootstrap.min.js?1")
     tooltipsBS
+    includeCSS("prism.css")
+    includeHead("<script type=\"text/javascript\" src=\""+ navigate(root()) + "javascript/prism.js\" data-manual></script>")
+    postProcess("Prism.highlightAll( node );")
     // includeHead("<meta name='viewport' content='width=device-width, initial-scale=1.0'>")   
     //includeHead(rendertemplate(rssLink()))
     //includeHead(rendertemplate(analytics))
