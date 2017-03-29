@@ -60,7 +60,7 @@ section issue page
       }
       gridRow{
         gridCol(12){
-          editableText(i.description, i.preview)           
+          editableText(i.description)           
         }
       }
       gridRow{

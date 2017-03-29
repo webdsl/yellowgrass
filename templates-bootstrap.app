@@ -17,6 +17,15 @@ override attributes submitlink{ submit attributes }
     includeCSS("prism.css")
     includeHead("<script type=\"text/javascript\" src=\""+ navigate(root()) + "javascript/prism.js\" data-manual></script>")
     postProcess("Prism.highlightAll( node );")
+    <script>
+	    onkeyupdelay = function(){
+	      var timer = 0; //scoped inside this function block, triggering onkeyup again before timeout resets the timer for that particular action
+	      return function(delay, callback){
+	        clearTimeout(timer);
+	        timer = setTimeout(callback, 1500);
+	      }
+	    }();
+	  </script>
     // includeHead("<meta name='viewport' content='width=device-width, initial-scale=1.0'>")   
     //includeHead(rendertemplate(rssLink()))
     //includeHead(rendertemplate(analytics))

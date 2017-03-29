@@ -8,7 +8,7 @@ section data model
   entity Comment : Event {
 	  // submitted		:: DateTime
 	  text			:: WikiText		(searchable(default))
-	  preview   :: WikiText
+	  // preview   :: WikiText
 	  author		-> User 
 	
 	  function toJSON() : JSONObject {
@@ -64,7 +64,7 @@ section view
 		 //  "On " output(c.moment.format("d MMMM yyyy 'at' HH:mm")) " " nav(c.author) " wrote: "
 		 //  navigate editComment(c) [title="edit comment"] { iPencil }
 	  // } 	  
-	  editableText(c.text, c.preview)
+	  editableText(c.text)
   }
 
   template commentAddition(i : Issue) { 

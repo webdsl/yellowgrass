@@ -6,7 +6,7 @@ section data model
     number      :: Int
     title       :: String (validate(title.length() >= 5, "Use a longer and more descriptive title"))
     description :: WikiText
-    preview     :: WikiText  
+    // preview     :: WikiText  
     submitted   :: DateTime
     project     -> Project  (inverse = Project.issues)
     reporter    -> User

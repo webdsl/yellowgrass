@@ -70,7 +70,7 @@ section question page
     bmain(p) {
       questionToolbar(q)
       pageHeader2{ editableString(q.title) } 
-      editableText(q.description, q.preview)
+      editableText(q.description)
       if(answers == 0) {
         pageHeader2{ "No answers yet" }
       } else {
@@ -78,7 +78,7 @@ section question page
           output(answers) if(answers == 1) { " Answer" } else { " Answers" } 
         }
         for(a: Answer in q.answers order by a.created asc) {
-          editableText(a.text, a.preview)
+          editableText(a.text)
           hrule
         } //separated-by{ hrule }
       }

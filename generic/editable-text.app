@@ -4,32 +4,29 @@ imports generic/entity
 
 access control rules  
 
-  rule ajaxtemplate editableText(text : Ref<WikiText>, preview: Ref<WikiText>) {
+  rule ajaxtemplate editableText(text : Ref<WikiText>) {
     true 
   }
-  rule ajaxtemplate showWikiText(editT: String, text : Ref<WikiText>, preview: Ref<WikiText>) {
+  rule ajaxtemplate showWikiText(editT: String, text : Ref<WikiText>) {
     mayView(text.getEntity()) 
     rule action edit() { mayEdit(text.getEntity()) }
   }
-  rule ajaxtemplate editWikiText(editT: String, text : Ref<WikiText>, preview: Ref<WikiText>) {
+  rule ajaxtemplate editWikiText(editT: String, text : Ref<WikiText>) {
     mayEdit(text.getEntity())
-  }
-  rule ajaxtemplate textPreview(text: Ref<WikiText>) {
-    mayEdit(text.getEntity()) 
   }
   
 section templates 
 
-  define ajax editableText(text : Ref<WikiText>, preview: Ref<WikiText>) { 
+  define ajax editableText(text : Ref<WikiText>) { 
     var t := getTemplate().getUniqueId();
-    placeholder "showText" + t { showWikiText(t, text, preview){ elements } }
+    placeholder "showText" + t { showWikiText(t, text){ elements } }
   }
   
-  define ajax showWikiText(t: String, text : Ref<WikiText>, preview: Ref<WikiText>) {
+  define ajax showWikiText(t: String, text : Ref<WikiText>) {
   	var owningEntity := text.getEntity(); //requires r5803 of Webdsl -> http://yellowgrass.org/issue/WebDSL/754
   	var isComment := (owningEntity is a Comment);
     action edit(){ 
-      replace("showText" + t, editWikiText(t, text, preview)); 
+      replace("showText" + t, editWikiText(t, text)); 
       toggleCommentAdditionBox();
     }   
     if (isComment) { byline(owningEntity) } 
@@ -46,37 +43,19 @@ section templates
     visibility("commentAdditionBox", toggle);
   }
   
-  define ajax editWikiText(editT: String, text : Ref<WikiText>, preview: Ref<WikiText>) {
-    var t := getTemplate().getUniqueId();
-    init{ preview := text; }
-    action save() { text := preview; replace("showText" + editT, showWikiText(editT, text, preview)); toggleCommentAdditionBox(); }
-    action cancel() { replace("showText" + editT, showWikiText(editT, text, preview)); toggleCommentAdditionBox(); }
-    action updateTextPreview() {    
-      replace("preview" + t, textPreview(preview));  
-    }
-    form{  
-      input(preview)[onkeyup := updateTextPreview(), style="height: 300px;"]
+  define ajax editWikiText(editT: String, text : Ref<WikiText>) {
+    action save() { /*text := preview;*/ replace("showText" + editT, showWikiText(editT, text)); toggleCommentAdditionBox(); }
+    action cancel() { replace("showText" + editT, showWikiText(editT, text)); toggleCommentAdditionBox(); }
+    form{
+      inputWithPreview(text)[style="height: 300px;"]
       par{
-        <a href="http://en.wikipedia.org/wiki/Markdown#Syntax_examples"
-           target="_blank" title="Learn about markdown syntax; opens in new window/tab">        
-          iQuestionSign " Markdown Syntax Help"
-        </a>
         pullRight{
           submitlink save() [ignore default class, class="btn btn-primary"] { "Save" } " "
           submitlink cancel() [] { "Cancel" }
         }
       }
     }
-    // clear
-    placeholder "preview" + t { textPreview(preview) }
-  }
-  
-  ajax template textPreview(text: Ref<WikiText>) {
-    par{ "Preview" }
-    blockquote{ 
-      output(text)  
-      small{ byline(text.getEntity()) } 
-    }
+    wikiTextPreview(text)
   }
   
 access control rules 
