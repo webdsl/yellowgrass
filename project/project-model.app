@@ -32,12 +32,17 @@ section data model
 section queries
 
   function activeProjects(): List<Project> {
+    // return select p
+    //   from Project as p
+    //   join p.issues as i
+    //   where _private=false
+    //   group by p
+    //   order by max(i._submitted) desc
+    //   limit 10;
     return select p
       from Project as p
-      join p.issues as i
       where _private=false
-      group by p
-      order by max(i._submitted) desc
+      order by p.modified desc
       limit 10;
   }
 
@@ -70,7 +75,9 @@ section queries
     }
   
     function popularIssues(n: Int): List<Issue> {
-      return select i
+      //Use 2 separate queries to obtain the issues, because selecting the whole issue (including wikitext props)
+      //in this group-by query causes a temp disk table to be created.
+      var ids := select i.id
         from Issue as i 
         left join i.tags as t
         where 
@@ -80,6 +87,12 @@ section queries
         group by i 
         order by count(t._name) desc //order by aggregation is not supported in MySQL :(
         limit ~n;
+        
+        if(ids.length > 0){
+          return from Issue where id in ~ids;
+        } else {
+          return List<Issue>();
+        }
     }
   
     function getCommonTags(nr : Int): List<Tag> {
@@ -90,7 +103,7 @@ section queries
               (t._project = ~this) and // Not needed, but used for performance
               (t._name not like ~"@%") and 
               (t._name not like ~"!%")
-          group by t._name
+          group by substring(t._name,1,100)
           order by count(i) desc
           limit ~nr
         ) as List<Tag>;

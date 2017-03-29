@@ -334,10 +334,17 @@ function newIssueNumber(p: Project) : Int {
 }
 
   function recentIssues(): List<Issue> {
-    return from Issue as i
+    //Use 2 separate queries to obtain the issues, because selecting the whole issue (including wikitext props)
+    //in this order-by query causes a temp disk table to be created.
+    var ids := select i.id from Issue as i
           where i._project._private = false
        order by _submitted desc
           limit 27;
+    if(ids.length > 0){
+      return [i | i in (from Issue where id in ~(ids)) order by i.submitted desc];
+    } else {
+      return List<Issue>();
+    }
   } 
 
 section completed

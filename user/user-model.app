@@ -18,12 +18,16 @@ section queries
   extend entity User {
     
     function reportedIssues() : List<Issue> {
-      return 
-        select i
+      var ids := select i.id
         from Issue as i
         where _reporter = ~this and _project._private=false //not( project.private)
         order by _submitted desc
         limit 15;
+      if(ids.length > 0){
+        return [i | i in (from Issue where id in ~ids) order by i.submitted desc ];
+      } else {
+        return List<Issue>();
+      }
     }
      
     function projects() : List<Project> {
@@ -36,25 +40,38 @@ section queries
     } 
     
     function recentIssues(): List<Issue> {
-      return select i from Issue as i
+      //Use 2 separate queries to obtain the entities, because selecting the whole ent (including wikitext props)
+      //in this group-by query causes a temp disk table to be created.
+      var ids := select i.id from Issue as i
         left join i._project as p
         where (~this in elements(i._project._members)) or 
           ((i._reporter != null) and (i._reporter._name = ~this.name)) or
           (i._email = ~this.email)
         order by i._submitted desc
         limit 15;
+        
+      if(ids.length > 0){
+        return from Issue where id in ~ids;
+      } else {
+        return List<Issue>();
+      }
     }
     
     function recentProjects(): List<Project> {
-      var recentProjects : List<Project> := ( 
-        select p from Issue as i
-          left join i._project as p
-         where i._reporter=~this
-         group by p
-         order by max(i._submitted) desc
-         limit 25
-        ) as List<Project>;
-      return recentProjects; 
+      //Use 2 separate queries to obtain the entities, because selecting the whole ent (including wikitext props)
+      //in this group-by query causes a temp disk table to be created.
+      var ids := select p.id from Issue as i
+	          left join i._project as p
+	         where i._reporter=~this
+	         group by p
+	         order by max(i._submitted) desc
+	         limit 25;
+        
+      if(ids.length > 0){
+        return [p | p in (from Project where id in ~ids) order by p.modified];
+      } else {
+        return List<Project>();
+      }
     } 
     
     function userEmailTaken() : Bool {
