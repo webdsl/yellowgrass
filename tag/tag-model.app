@@ -9,6 +9,7 @@ section data model
     description :: String
     project     -> Project
     tags        -> Set<Tag>
+    orderString     :: String
     
     function makeRelease(p: Project) {
       tags.add(tag("release", p));
@@ -18,6 +19,26 @@ section data model
       tags.add(tag(ISSUE_TYPE_TAG(), p));
     }
     
+    extend function setName(n : String){
+      deriveOrdinal(n);     
+    }
+    function deriveOrdinal(n : String){
+      var normalized :=  /[\W]/.replaceAll(".", n.replace("_", "") );
+      var parts := normalized.split(".");
+      var result := "";
+      for(p in parts){
+        var filled := p;
+        for(i : Int from 0 to (4 - p.length())){
+	        filled := "0" + filled;
+	      }
+	      result := result + filled;
+      }
+      if(result.length() > 100){
+        result := result.substring(0,100);
+      }      
+      log("name: "  + n + "   orderString: " + result);
+      orderString := result; 
+    }
     function color(p : Project, color : String) {
       tags.add(tag(color, p));
     }

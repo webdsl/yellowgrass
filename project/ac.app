@@ -92,7 +92,8 @@ access control rules
 		}
 	}
 */	
-	rule ajaxtemplate roadmapRelease(r : Tag) {
+
+	rule ajaxtemplate roadmapRelease(r : Tag, issuesToShow : Int) {
 		mayAccess(r.project) && r.isRelease()
 		rule action postponeOpen(release : Tag) {
 			principal in release.project.members && 
@@ -195,7 +196,8 @@ access control rules
 	
 	rule page statistics() {
 		true
-	}	
+	}
+	
 section proxy
 
   extend session securityContext {

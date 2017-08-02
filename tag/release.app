@@ -13,7 +13,7 @@ function releases(p : Project) : List<Tag> {
 		left join t.tags as tt
 		where   t._project=~p	
 			and tt._name = ~"release"
-		order by t._name desc
+		order by t.orderString desc
 		limit 5000;
 }
 
@@ -24,8 +24,8 @@ function nextRelease(r : Tag) : Tag {
 		left join t.tags as tt
 		where   t._project=~r.project 
 			and tt._name = ~"release"
-			and t._name > ~r.name
-		order by t._name asc
+			and t.orderString > ~r.orderString
+		order by t.orderString asc
 		limit 1;
 	
 	if(next.length != 0) {
@@ -41,8 +41,8 @@ function previousRelease(r : Tag) : Tag {
 		left join t.tags as tt
 		where   t._project=~r.project 
 			and tt._name = ~"release"
-			and t._name < ~r.name
-		order by t._name desc
+			and t.orderString < ~r.orderString
+		order by t.orderString desc
 		limit 1;
 	
 	if(previous.length != 0) {

@@ -55,7 +55,7 @@ section queries
         t1.project = ~this and
         t2.project = ~this and
         t2.name = ~ISSUE_TYPE_TAG()
-      group by t1.name
+      group by t1.name, t1.id
       order by t1.name;
     }
     
@@ -103,7 +103,7 @@ section queries
               (t._project = ~this) and // Not needed, but used for performance
               (t._name not like ~"@%") and 
               (t._name not like ~"!%")
-          group by substring(t._name,1,100)
+          group by substring(t._name,1,100), t.id
           order by count(i) desc
           limit ~nr
         ) as List<Tag>;

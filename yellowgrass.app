@@ -98,3 +98,25 @@ section about page
 	  }
   }
 
+
+access control rules
+rule page fixData(){
+  isAdministrator()
+}
+section fixData
+
+page fixData(){
+  action ignore-validation setTagOrdinals(){
+     for(t : Tag){
+       if(t.name.length() > 1  && /[a-zA-Z0-9\.\-_@!]*/.match(t.name)){
+          t.deriveOrdinal( t.name );
+        }
+      }
+  }
+  
+  bmain{
+    submit setTagOrdinals(){ "Set all tag orderString values" }
+
+ 
+  }
+}

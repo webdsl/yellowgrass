@@ -5,7 +5,7 @@ imports issue/issue
 section project roadmap
 
   page roadmap(p : Project) {
-    var releases := releases(p)   
+    var releases := releases(p); 
 	  continuousLoading()
 	  title{output(p.name) " Roadmap - on YellowGrass.org"}
 	  bmain(p){		
@@ -13,18 +13,18 @@ section project roadmap
 		  gridRow{
 		    gridCol(12){
 			    pageHeader2{ "Roadmap" }
-			    placeholder "releases" roadmapRelease(releases.get(0))
+			    placeholder "releases" roadmapRelease( releases[0], 50)
 			  }
 		  }
 		}
 	}
 	
-
-  ajax template roadmapRelease(r : Tag) {
+  ajax template roadmapRelease(r : Tag, issuesToShow : Int) {
 	  var previousRelease := previousRelease(r);
 	  var issues := releaseIssues(r);
 	  var completed := completed(issues);
 	  var releaseDone := releaseDone(r);
+	  var issuesLeftToShow := issuesToShow - issues.length;
 	  pageHeader2{ 
 		  navigate tag(r.project, r.name) { output(r.name) } 
 		  " (" if(!releaseDone) { output(completed[0]) "/" } output(completed[1]) ") "
@@ -43,9 +43,13 @@ section project roadmap
     }
 	  issues(issues, false, true, true, 50, true, true)
 	  if(previousRelease != null) {
-		  block[class="Ghost"] {
-			  submitlink showPreviousRelease(previousRelease) [id="continuousLoader"+r.name+r.id, ignore default class, class="btn btn-default continuousLoader"] { "Show More" }
-		  } 
+		  if(issuesLeftToShow > 0){
+		    roadmapRelease(previousRelease, issuesLeftToShow)
+		  } else {
+        block[class="Ghost"] {
+	        submitlink showPreviousRelease(previousRelease) [id="continuousLoader"+r.name+r.id, ignore default class, class="btn btn-default continuousLoader"] { "Show More" }
+	      } 
+		  }
 	  }
 	
 	  action postponeOpen(release : Tag) {
@@ -59,7 +63,7 @@ section project roadmap
 	  }
 	  action showPreviousRelease(release : Tag) {
 		  if(release != null) {
-			  append("releases", roadmapRelease(release));
+			  append("releases", roadmapRelease(release, 50));
 		  }
 	  }
   }
