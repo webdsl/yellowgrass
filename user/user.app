@@ -13,9 +13,16 @@ section user page
 	  var reportedIssues : List<Issue> := u.reportedIssues();
 	  var projects : List<Project> := u.projects();
 	 
+	  action proxy(usr : User){
+	    usr.proxy();
+	  }
+	 
 	  title{output(u.name) " on YellowGrass.org" }
 	  bmain{
-		  pageHeader2 { output(u.name) }
+		  pageHeader2 {
+		    output(u.name)
+		    " " submit proxy(u){ "Proxy" }
+		  }
 		  if(u.url != null && u.url != "") {
 			  par { "Home Page: " output(u.url) }
 		  }

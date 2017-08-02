@@ -110,12 +110,21 @@ extend session securityContext {
 
   override template logout() {
     action logout(){
+      if(principal().isByProxy()){
+        principal().unProxy();
+      } else {
       securityContext.principal := null;
+      }
       return root();
     }
     yourProjects
 	  navItem{	      
-	    navigate home() { iUser " " output(securityContext.principal.tag) }
+	    navigate home() { 
+	      iUser " " output(principal().tag)
+	      if(principal().isByProxy()){
+	        " " small[title="proxied"]{ iSunglasses } 
+	      }
+	    }
 	  }
 	  navItem{ submitlink logout()[ignore default class] { "Sign Out" } }
   }

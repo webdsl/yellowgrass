@@ -11,6 +11,12 @@ module user/user-model
                                tag.length() >= 3 && /[a-z0-9]*/.match(tag), 
                                "User names consist of lowercase characters and numbers. Their minimum length is 3 characters."),
                                validate(!userTagTaken(), "Another user already registered this user name"))
+                               
+    isAdmin       :: Bool (default=false)
+    
+    function isAdmin() : Bool {
+      return isAdmin != null && isAdmin;
+    }
   }
   
 section queries

@@ -25,6 +25,12 @@ access control rules
 	rule page user(tag : String) {
 		true
 		// Not checking whether user exists anymore, due to performance issues in generating navigates
+	  
+	  rule action proxy(u : User){
+	    isAdministrator()
+	  }
+		
+		
 	}
 	
 	rule page editUser(u : User) {

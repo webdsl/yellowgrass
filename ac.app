@@ -75,6 +75,6 @@ module ac
 	rule page logoutDevice() {
 		true
 	} 
-	 rule logsql {
-	 	loggedIn && principal.email=="sandervermolen@gmail.com"
-	 }
+	rule logsql {
+	 	isAdministrator()
+	}

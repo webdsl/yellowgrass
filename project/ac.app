@@ -13,6 +13,10 @@ access control rules
 		securityContext.principal in p.members
 	}
 	
+	predicate isAdministrator(){
+	  loggedIn() && principal().isAdmin()
+	}
+	
 	rule page project(p : Project) {	
 		mayAccess(p)
 	}
@@ -191,4 +195,39 @@ access control rules
 	
 	rule page statistics() {
 		true
-	}
+	}	
+section proxy
+
+  extend session securityContext {
+      proxy -> User
+  }
+ 
+    extend entity User {
+      function proxy() {
+        validate(isAdministrator(), "Only administrators are allowed to proxy someone.");
+        securityContext.proxy := securityContext.principal;
+        securityContext.principal := this;
+      }
+      
+      function unProxy() {
+        securityContext.principal := securityContext.proxy;
+        securityContext.proxy := null;
+      }
+      
+      function mayProxy(): Bool {
+        return isAdministrator()
+          && principal() != this;
+      }
+      
+      function isByProxy() : Bool {
+        return loggedIn() 
+          && securityContext.proxy != null;
+      }
+      
+      function proxyBy() : User {
+        if(isByProxy()){
+          return securityContext.proxy;
+        }
+        return null;
+      }
+    }
