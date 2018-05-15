@@ -310,7 +310,7 @@ function checkDirtyIssueObjects(json : JSONArray) {
 function getIssue(p : Project, issueNumber : Int) : Issue {
   var issuesWithNumber : List<Issue> := 
     from Issue as i
-    where i._project = ~p and i._number = ~issueNumber
+    where i.project = ~p and i.number = ~issueNumber
     limit 1;
   
   if(issuesWithNumber.length != 0) {
@@ -337,7 +337,7 @@ function newIssueNumber(p: Project) : Int {
     //Use 2 separate queries to obtain the issues, because selecting the whole issue (including wikitext props)
     //in this order-by query causes a temp disk table to be created.
     var ids := select i.id from Issue as i
-          where i._project._private = false
+          where i.project.private = false
        order by _submitted desc
           limit 27;
     if(ids.length > 0){
