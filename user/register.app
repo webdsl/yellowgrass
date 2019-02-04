@@ -5,6 +5,7 @@ page registerUser(){
 	var temp : Secret := "";
 	 
 	action register(){
+	  validate(checkCaptcha(), "Incorrect catpcha");
     u.password := u.password.digest();
     u.notifications := true;
     u.save();
@@ -29,7 +30,7 @@ page registerUser(){
 				input(temp){ validate(u.password == temp, "Passwords do not match") } 
 		  }
 			controlGroup("Are you human?"){
-			  captcha() 
+			  gcaptcha() 
 			}	
 			formActions {
         submitlink register() [ignore default class, class="btn btn-primary"] { "Register" } " "

@@ -5,6 +5,7 @@ imports user/ac
 imports user/home
 imports user/register
 imports user/access
+imports user/gcaptcha
 
 section user page
 
