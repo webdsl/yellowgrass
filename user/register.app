@@ -5,7 +5,7 @@ page registerUser(){
 	var temp : Secret := "";
 	 
 	action register(){
-	  validate(checkCaptcha(), "Incorrect catpcha");
+	  validate(checkCaptcha(), "Captcha verification failed.");
     u.password := u.password.digest();
     u.notifications := true;
     u.save();
