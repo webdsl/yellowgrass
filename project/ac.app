@@ -64,7 +64,7 @@ access control rules
 	  principal in p.members
 	}
 	
-	rules ajaxtemplate invitationCandidates(p: Project, query: String) {
+	rule ajaxtemplate invitationCandidates(p: Project, query: String) {
 	  principal in p.members	
 	}
 	

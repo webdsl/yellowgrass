@@ -14,7 +14,7 @@ section data model
     email            :: Email
 
     key              :: String    
-    function setName(x: String) {
+    extend function setName(x: String) {
       key := x.toLowerCase();
     }
     getkey :: String := getkey()  
