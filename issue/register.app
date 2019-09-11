@@ -66,7 +66,7 @@ module issue/register
 				    }
 				    if(issuetypes.length > 0) {
 					    controlGroup("Type") { 
-							  select(type from issuetypes)
+							  input(type, issuetypes)
 						  }
 					  }
 				    controlGroup("Description") { 
