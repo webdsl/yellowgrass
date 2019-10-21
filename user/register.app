@@ -47,7 +47,7 @@ email template registerUserEmail(u : User) {
 	par { "Dear " output(u.name) " (" output(u.tag) ")," }
 	par { "" }
 	par { 	"Your account at YellowGrass has been registered successfully. "
-			"You can now login at http://yellowgrass.org." //output(navigate(root()))
+			"You can now login at http://yellowgrass.org. " //output(navigate(root()))
 			"Add your project to YellowGrass and start managing issues right away."}
 	par { "" }
 	par { "-- The YellowGrass Team" }
