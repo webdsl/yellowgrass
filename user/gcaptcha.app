@@ -1,8 +1,8 @@
-module misc/gcaptcha
+module user/gcaptcha
 
 entity CaptchaKeyConfig {
-  gcaptchaSite   : String (default="6LeXBy4UAAAAADDJDqeYP9OFn9xRRQitgYpVm3lD")  // requested through webdslorg@gmail.com
-  gcaptchaSecret : String (default="")
+  gcaptchaSite   : String (default="6Le6E50UAAAAAMutOhNhebLYxSuNuOTurxw8F7Ia")  // requested through webdslorg@gmail.com
+  gcaptchaSecret : String (default="6Le6E50UAAAAACxirx31ZyVjnykYayWouo6i2g1s")
   cache
 }
 
