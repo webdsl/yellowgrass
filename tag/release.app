@@ -52,12 +52,16 @@ function previousRelease(r : Tag) : Tag {
 }
 
 function releaseIssues(r : Tag) : List<Issue> {
-	return
-		select i 
-		from Issue as i 
-		left join i._tags as t 
-		where t=~r
-		order by i._open desc, i._submitted desc;
+ return r.issues();
+}
+extend entity Tag{
+  cached function issues() : List<Issue>{
+    return
+	    select i 
+	    from Issue as i 
+	    where (~this) in elements(i.tags)
+	    order by i.open desc, i.submitted desc;
+  }
 }
 
 // Ugly and inefficient implementation, but queries kept failing on HQL syntax errors 
