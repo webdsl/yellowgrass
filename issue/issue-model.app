@@ -86,18 +86,24 @@ section operations
       notifyReopen();
     }
     function notifyRegister() {
-      for(e : Email in mailinglist()){
-        email(issueNotification(this, e));
+      if(project.notifications){
+        for(e : Email in mailinglist()){
+          email(issueNotification(this, e));
+        }
       }
     }  
     function notifyClose() {
-      for(e : Email in mailinglist()){
-        email(issueCloseNotification(this, e));
+      if(project.notifications){
+        for(e : Email in mailinglist()){
+          email(issueCloseNotification(this, e));
+        }
       }
     }
     function notifyReopen() {
-      for(e : Email in mailinglist()){
-        email(issueReopenNotification(this, e));
+      if(project.notifications){
+        for(e : Email in mailinglist()){
+          email(issueReopenNotification(this, e));
+        }
       }
     }
     
@@ -163,8 +169,10 @@ section queries
     log.add(c);    
     this.save();
     IndexManager.reindex(this); //comments are a derived property, which are not checked for changes
-    for(e : Email in mailinglist()){
-      email(issueCommentNotification(this, e, c));
+    if(project.notifications){
+      for(e : Email in mailinglist()){
+        email(issueCommentNotification(this, e, c));
+      }
     }
   }
   function commentClose(c : Comment) {
@@ -172,8 +180,10 @@ section queries
     close();
     this.save();
     IndexManager.reindex(this); //comments are a derived property, which are not checked for changes
-    for(e : Email in mailinglist()){
-      email(issueCommentCloseNotification(this, e, c));
+    if(project.notifications){
+      for(e : Email in mailinglist()){
+        email(issueCommentCloseNotification(this, e, c));
+      }
     }
   }
   

@@ -15,6 +15,7 @@ imports issue/types
 			  	input(project.email) 
 			  	helpBlock{ "Warn: When a mailing list is set, notifications will only be sent to the mailing list and not to individual members of the project." }
 			  }
+			  controlGroup("Project notifications enabled"){ input(project.notifications) }
 			  controlGroup("Project is private") { input(project.private) }
 			  formActions{
 			    submitlink save() [ignore default class, class="btn btn-primary"] { "Save" } " "

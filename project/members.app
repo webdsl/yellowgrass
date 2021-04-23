@@ -12,23 +12,31 @@ section members and followers
       followers.remove(u); 
       memberRequests.remove(u);
       tag("@"+u.tag, this);
-      email membershipNotification(this, u);
+      if(notifications){
+        email membershipNotification(this, u);
+      }
     }    
     function requestJoin() {
       var u: User := securityContext.principal;
       memberRequests.add(u);
-      for(member: User in members) {
-        email membershipRequest(this, u, member);
+      if(notifications){
+        for(member: User in members) {
+          email membershipRequest(this, u, member);
+        }
       }
     }
     function declineMembershipRequest(u: User) {
       memberRequests.remove(u);
-      email membershipDeclined(this, u); 
+      if(notifications){
+        email membershipDeclined(this, u);
+      }
     }
     function acceptRequestAsFollower(u: User) {
       memberRequests.remove(u);
       followers.add(u);
-      email memberRequestToFollower(this, u.email);
+      if(notifications){
+        email memberRequestToFollower(this, u.email);
+      }
     }
     function follow() {
       followers.add(securityContext.principal);

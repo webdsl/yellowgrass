@@ -45,23 +45,31 @@ imports emails
 	  }
 	  
     function notifyQuestion() {
-      for(e : Email in mailinglist()){
-        email questionNotification(this, e);
+      if(project.notifications){
+        for(e : Email in mailinglist()){
+          email questionNotification(this, e);
+        }
       }
     }
     function notifyAnswer(a: Answer) {
-      for(e : Email in mailinglist()){
-        email questionAnswerNotification(this, e, a);
-      }  
+      if(project.notifications){
+        for(e : Email in mailinglist()){
+          email questionAnswerNotification(this, e, a);
+        }
+      }
     }    
     function notifyClose() {
-      for(e : Email in mailinglist()){
-        email questionCloseNotification(this, e);
+      if(project.notifications){
+        for(e : Email in mailinglist()){
+          email questionCloseNotification(this, e);
+        }
       }
     }
     function notifyReopen() {
-      for(e : Email in mailinglist()){
-        email questionReopenNotification(this, e);
+      if(project.notifications){
+        for(e : Email in mailinglist()){
+          email questionReopenNotification(this, e);
+        }
       }
     }
   }

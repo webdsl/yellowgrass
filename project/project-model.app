@@ -12,7 +12,7 @@ section data model
     issues           -> Set<Issue>
     private          :: Bool (searchable)
     email            :: Email
-
+    notifications : Bool
     key              :: String    
     extend function setName(x: String) {
       key := x.toLowerCase();

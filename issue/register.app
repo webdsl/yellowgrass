@@ -38,7 +38,9 @@ module issue/register
           var i : Issue := ig.realize();
           return issue(i.project, i.number);
         } else {
-          email issueConfirmationEmail(ig); 
+          if(project.notifications){
+            email issueConfirmationEmail(ig);
+          }
         }
         return issueConfirmation();
       }

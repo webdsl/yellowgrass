@@ -237,7 +237,7 @@ service createIssueService() {
 	}
 	if (errors.length() == 0) {
 		ig.save();
-		email(issueConfirmationEmail(ig));
+		if(ig.project.notifications){ email(issueConfirmationEmail(ig)); }
 		jsonobject.put("answer", true);
 	} else {
 		jsonobject.put("errors", errors);
