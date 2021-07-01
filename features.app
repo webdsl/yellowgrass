@@ -1,5 +1,9 @@
 module features
 
+imports built-in
+imports templates
+imports tag/manual
+
 define page features() {
 	title{"The features of YellowGrass.org - The Tag-Based Issue Tracker"}
 	main()

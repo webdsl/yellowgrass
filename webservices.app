@@ -1,7 +1,10 @@
 module webservices
 
-imports
-webservice/model
+imports built-in
+imports issue/issue-model
+imports project/project-model
+imports user/user-model
+imports webservice/model
 /**
 @ param username: valid email of excisting user
 @ param password: valid password of the user asociated to the username

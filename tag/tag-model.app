@@ -1,5 +1,12 @@
 module tag/tag-model
 
+imports built-in
+imports comment/tagControl
+imports issue/issue-model
+imports issue/types
+imports project/project-model
+imports user/user-model
+
 section data model
 
   entity Tag { 

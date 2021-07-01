@@ -1,5 +1,16 @@
 module tag/sidebar
 
+imports built-in
+imports issue/register
+imports project/project-model
+imports project/sidebar
+imports tag/tag
+imports tag/tag-model
+
+imports elib-bootstrap-3/icons
+imports elib/elib-bootstrap/lib
+imports elib/elib-utils/markup
+
   template tagCommandsToolbar(tag : Tag) {
     action makeRelease(t : Tag, p : Project) {
       t.makeRelease(p);

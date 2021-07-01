@@ -1,5 +1,17 @@
 module issue/register
 
+imports built-in
+imports templates
+imports issue/ghost
+imports issue/issue
+imports issue/issue-model
+imports project/ac
+imports project/project-model
+imports project/sidebar
+imports tag/tag-model
+
+imports elib/elib-bootstrap/lib
+
   page createIssue(p : Project) {
 	  createIssue(p, null as Tag)
   }

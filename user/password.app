@@ -1,6 +1,13 @@
 module user/password
 
+imports built-in
 imports emails
+imports templates
+imports user/access
+imports user/home
+imports user/user-model
+
+imports elib/elib-bootstrap/lib
 
 section change password
 

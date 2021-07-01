@@ -1,6 +1,15 @@
 module project/settings
 
+imports built-in
+imports templates
 imports issue/types
+imports project/project
+imports project/project-model
+imports project/sidebar
+imports tag/tag-model
+imports user/home
+
+imports elib/elib-bootstrap/lib
 
   page edit(project : Project) {
 	  title{output(project.name) " on YellowGrass.org [Editing]"}

@@ -1,5 +1,17 @@
 module project/members
 
+imports built-in
+imports yellowgrass
+imports emails
+imports project/project
+imports project/project-model
+imports tag/tag-model
+imports user/user
+imports user/user-model
+
+imports elib-bootstrap-3/icons
+imports elib/elib-bootstrap/lib
+
 section members and followers
 
   extend entity Project {  

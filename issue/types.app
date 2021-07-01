@@ -1,5 +1,8 @@
 module issue/types
 
+imports project/project-model
+imports tag/tag-model
+
 function ISSUE_TYPE_TAG() : String {return "issuetype";}
 	
 function createIssueTypes(project : Project) {

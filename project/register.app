@@ -1,5 +1,14 @@
 module project/register
 
+imports built-in
+imports templates
+imports issue/types
+imports project/project-model
+imports project/settings
+imports user/home
+
+imports elib/elib-bootstrap/lib
+
   page registerProject(){
 	  var p := Project{};
 	  	  
