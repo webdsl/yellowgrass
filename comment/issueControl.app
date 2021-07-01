@@ -1,7 +1,14 @@
 module comment/issueControl
 
+imports built-in
 imports comment/ac
 imports comment/comment
+imports comment/event
+imports issue/issue
+imports issue/issue-model
+imports project/project
+imports user/user
+imports user/user-model
 
   entity IssueClose : Event {
 	  actor -> User

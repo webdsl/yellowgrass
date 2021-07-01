@@ -1,5 +1,13 @@
 module templates-bootstrap
 
+imports built-in
+imports yellowgrass
+imports features
+imports project/project
+imports project/project-model
+imports tag/manual
+imports user/access
+
 imports elib/elib-utils/lib
 imports elib/elib-bootstrap/lib
 imports elib/elib-tablesorter/lib

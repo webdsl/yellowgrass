@@ -1,5 +1,16 @@
 module issue/ghost
 
+imports built-in
+imports emails
+imports templates
+imports issue/issue
+imports issue/issue-model
+imports project/project-model
+imports tag/tag-model
+imports user/register
+
+imports elib/elib-bootstrap/lib
+
 section data model
 
   entity IssueGhost {

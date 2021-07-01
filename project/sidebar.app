@@ -1,5 +1,18 @@
 module project/sidebar
 
+imports built-in
+imports search
+imports issue/register
+imports project/project
+imports project/project-model
+imports project/roadmap
+imports project/settings
+imports questions/question-view
+
+imports elib-bootstrap-3/icons
+imports elib/elib-bootstrap/lib
+imports elib/elib-utils/string
+
 section project toolbar
 
   template projectToolbar(p: Project) {

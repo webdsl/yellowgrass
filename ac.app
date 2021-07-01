@@ -1,5 +1,14 @@
 module ac
 
+imports yellowgrass
+imports auxiliary
+imports features
+imports search
+imports webservices
+imports project/ac
+
+imports elib/elib-utils/lib
+
 	access control rules
 	
 	rule page root() {	

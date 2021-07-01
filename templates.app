@@ -1,9 +1,12 @@
 module templates
 
+imports built-in
+imports search
 imports templates-bootstrap
+imports project/project-model
 // imports admin/admin-ui
 
-imports search
+imports elib/elib-bootstrap/lib
 
 define main() {
 	var p : Project := null

@@ -1,5 +1,13 @@
 module project/project-model
 
+imports built-in
+imports auxiliary
+imports issue/issue-model
+imports project/project-model
+imports tag/tag-model
+imports user/user-model
+imports webservice/model
+
 section data model
 
   entity Project {

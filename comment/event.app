@@ -1,8 +1,12 @@
 module comment/event
 
+imports built-in
 imports comment/ac
 imports comment/comment
+imports comment/issueControl
 imports comment/tagControl
+
+imports elib/elib-utils/markup
 
 
 entity Event {

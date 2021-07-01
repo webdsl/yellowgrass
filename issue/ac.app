@@ -1,7 +1,11 @@
 module issue/ac
 
+imports issue/attachment
 imports issue/issue
+imports issue/issue-model
+imports project/ac
 imports project/project
+imports user/ac
 imports user/user
 
 section predicates

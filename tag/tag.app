@@ -1,13 +1,22 @@
 module tag/tag
 
+imports built-in
+imports auxiliary
+imports templates
+imports comment/tagControl
+imports issue/issue
+imports issue/issue-model
+imports project/project-model
+imports project/roadmap
 imports tag/tag-model
 imports tag/ac
 imports tag/sidebar
 imports tag/manual
 imports user/user
-imports issue/issue
-imports project/roadmap
-imports comment/tagControl
+
+imports elib-bootstrap-3/icons
+imports elib/elib-bootstrap/lib
+imports elib/elib-utils/lib
 
 section navigation
 

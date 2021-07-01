@@ -1,5 +1,14 @@
 module issue/attachment
 
+imports built-in
+imports templates
+imports issue/issue
+imports issue/issue-model
+imports issue/sidebar
+
+imports elib-bootstrap-3/icons
+imports elib/elib-bootstrap/lib
+
 section data model
 
   entity Attachment {

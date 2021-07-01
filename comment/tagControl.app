@@ -1,7 +1,13 @@
 module comment/tagControl
 
+imports built-in
 imports comment/ac
 imports comment/comment
+imports comment/event
+imports tag/tag
+imports tag/tag-model
+imports user/user
+imports user/user-model
 
   entity TagAddition : Event {
 	  actor -> User

@@ -1,7 +1,9 @@
 module questions/question-model
 
 imports project/project-model
-imports questions/question-emails 
+imports questions/question-emails
+imports tag/tag-model
+imports user/user-model
 
 section data model
 

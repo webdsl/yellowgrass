@@ -1,5 +1,15 @@
 module user/register
 
+imports built-in
+imports yellowgrass
+imports emails
+imports templates
+imports user/gcaptcha
+imports user/home
+imports user/user-model
+
+imports elib/elib-bootstrap/lib
+
 page registerUser(){
 	var u := User{};
 	var temp : Secret := "";

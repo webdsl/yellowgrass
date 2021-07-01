@@ -1,5 +1,9 @@
 module tag/release
 
+imports issue/issue-model
+imports project/project-model
+imports tag/tag-model
+
 extend entity Tag {
 	function isRelease() : Bool {
 		return hasTag("release");

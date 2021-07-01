@@ -1,5 +1,14 @@
 module search
 
+imports templates
+imports issue/issue
+imports issue/issue-model
+imports project/project-model
+imports project/sidebar
+
+imports elib/elib-bootstrap/lib
+imports elib-bootstrap-3/icons
+
   page search(p: Project, q : String) {
 	  searchtmpl(p ,q)
 	  <script>$('.search-bar').val('~q');</script>

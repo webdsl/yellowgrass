@@ -1,5 +1,7 @@
 module project/project
 
+imports built-in
+imports templates
 imports project/project-model
 imports project/ac
 imports project/register
@@ -8,9 +10,12 @@ imports project/members
 imports project/sidebar
 imports project/settings
 imports project/statistics
+imports issue/issue-model
 imports issue/issue
 imports tag/tag
 imports user/user 
+
+imports elib/elib-bootstrap/lib
 
 section project lists
 

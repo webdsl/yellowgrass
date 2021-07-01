@@ -1,5 +1,11 @@
 module project/statistics
 
+imports built-in
+imports templates
+imports project/project-model
+
+imports elib/elib-bootstrap/lib
+
 function obtainPageViewStatisticsGraph(projects : List<Project>) : String {
 	var stats : List<ProjectIntTuple>;
 	var bound : DateTime := now().addMonths(-1);

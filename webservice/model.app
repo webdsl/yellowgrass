@@ -1,5 +1,12 @@
 module webservice/model
 
+imports built-in
+imports issue/issue-model
+imports project/project-model
+imports tag/release
+imports tag/tag-model
+imports user/user-model
+
 entity Release{
 	name	:: String
 	issues	-> List<Issue>

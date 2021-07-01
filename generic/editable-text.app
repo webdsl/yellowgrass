@@ -1,6 +1,12 @@
 module generic/editable-text
 
-imports generic/entity 
+imports built-in
+imports comment/comment
+imports generic/entity
+
+imports elib-bootstrap-3/icons
+imports elib/elib-bootstrap/lib
+imports elib/elib-utils/wikitext
 
 access control rules  
 

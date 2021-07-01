@@ -1,7 +1,17 @@
 module comment/comment
 
+imports built-in
 imports comment/ac
 imports comment/event
+imports issue/issue
+imports issue/issue-model
+imports user/user
+imports user/user-model
+
+imports elib/elib-bootstrap/lib
+imports generic/editable-text
+imports elib/elib-utils/string
+imports elib/elib-utils/wikitext
 
 section data model
 

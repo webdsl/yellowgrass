@@ -1,5 +1,9 @@
 module user/user-model 
 
+imports built-in
+imports issue/issue-model
+imports project/project-model
+
   entity User {
     name          :: String   (searchable, validate(name.length() >= 3, "Names need to be at least 3 characters"))
     email         :: Email    (validate(!userEmailTaken(), "Another user already registered using this email address"), validate(email != "", "Enter a valid email address"))
