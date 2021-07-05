@@ -1,11 +1,6 @@
 module user/ac
 
-imports user/access
-imports user/home
-imports user/password
-imports user/register
-imports user/user
-imports user/user-model
+imports user/-
 
 section principal
 

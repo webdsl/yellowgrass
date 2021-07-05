@@ -1,10 +1,7 @@
 module comment/event
 
 imports built-in
-imports comment/ac
-imports comment/comment
-imports comment/issueControl
-imports comment/tagControl
+imports comment/-
 
 imports elib/elib-utils/markup
 

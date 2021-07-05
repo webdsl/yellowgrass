@@ -4,9 +4,7 @@ imports built-in
 imports yellowgrass
 imports emails
 imports templates
-imports user/gcaptcha
-imports user/home
-imports user/user-model
+imports user/-
 
 imports elib/elib-bootstrap/lib
 

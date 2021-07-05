@@ -3,15 +3,11 @@ module questions/question-view
 imports built-in
 imports templates
 imports generic/editable-text
-imports project/project
-imports project/project-model
-imports project/sidebar
-imports questions/question-ac
-imports questions/question-model
+imports project/-
+imports questions/-
 imports user/user
 
-imports elib/elib-bootstrap/lib
-imports elib/elib-utils/markup
+imports elib/-
 
 section toolbar
 

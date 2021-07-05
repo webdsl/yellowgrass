@@ -3,8 +3,7 @@ module questions/question-emails
 imports built-in
 imports emails
 imports project/project
-imports questions/question-model
-imports questions/question-view
+imports questions/-
 imports user/user-model
 
   extend entity Question {

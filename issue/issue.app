@@ -3,26 +3,14 @@ module issue/issue
 imports built-in
 imports auxiliary
 imports templates
-imports comment/comment
-imports comment/event
-imports comment/issueControl
+imports comment/-
 imports generic/editable-text
-imports issue/ac
-imports issue/attachment
-imports issue/emails
-imports issue/ghost
-imports issue/issue-model
-imports issue/issueBrowser
-imports issue/register
-imports issue/sidebar
-imports issue/types
-imports project/project
-imports project/project-model
+imports issue/-
+imports project/-
 imports tag/tag
 imports user/user
 
-imports elib/elib-bootstrap/lib
-imports elib/elib-utils/string
+imports elib/-
 imports elib-bootstrap-3/icons
 
 section navigation

@@ -1,10 +1,8 @@
 module search
 
 imports templates
-imports issue/issue
-imports issue/issue-model
-imports project/project-model
-imports project/sidebar
+imports issue/-
+imports project/-
 
 imports elib/elib-bootstrap/lib
 imports elib-bootstrap-3/icons

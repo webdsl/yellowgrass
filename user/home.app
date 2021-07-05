@@ -2,14 +2,9 @@ module user/home
 
 imports built-in
 imports templates
-imports issue/issue
-imports issue/issue-model
-imports project/project
-imports project/project-model
-imports project/register
-imports user/password
-imports user/user
-imports user/user-model
+imports issue/-
+imports project/-
+imports user/-
 
 imports elib-bootstrap-3/icons
 imports elib/elib-bootstrap/lib

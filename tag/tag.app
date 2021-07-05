@@ -4,19 +4,13 @@ imports built-in
 imports auxiliary
 imports templates
 imports comment/tagControl
-imports issue/issue
-imports issue/issue-model
-imports project/project-model
-imports project/roadmap
-imports tag/tag-model
-imports tag/ac
-imports tag/sidebar
-imports tag/manual
+imports issue/-
+imports project/-
+imports tag/-
 imports user/user
 
+imports elib/-
 imports elib-bootstrap-3/icons
-imports elib/elib-bootstrap/lib
-imports elib/elib-utils/lib
 
 section navigation
 

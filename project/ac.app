@@ -1,16 +1,8 @@
 module project/ac
 
-imports project/members
-imports project/project
-imports project/project-model
-imports project/register
-imports project/roadmap
-imports project/settings
-imports project/statistics
-imports tag/tag-model
-imports tag/release
-imports user/ac
-imports user/user-model
+imports project/-
+imports tag/-
+imports user/-
 
 access control rules
 	

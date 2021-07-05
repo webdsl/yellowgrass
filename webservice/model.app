@@ -3,8 +3,7 @@ module webservice/model
 imports built-in
 imports issue/issue-model
 imports project/project-model
-imports tag/release
-imports tag/tag-model
+imports tag/-
 imports user/user-model
 
 entity Release{

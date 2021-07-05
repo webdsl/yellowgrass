@@ -3,8 +3,7 @@ module issue/ghost
 imports built-in
 imports emails
 imports templates
-imports issue/issue
-imports issue/issue-model
+imports issue/-
 imports project/project-model
 imports tag/tag-model
 imports user/register

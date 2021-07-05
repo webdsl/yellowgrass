@@ -4,13 +4,9 @@ imports built-in
 imports auxiliary
 imports templates
 imports templates-bootstrap
-imports issue/issue
-imports issue/issue-model
-imports project/project-model
-imports project/sidebar
-imports tag/release
-imports tag/tag
-imports tag/tag-model
+imports issue/-
+imports project/-
+imports tag/-
 
 imports elib/elib-bootstrap/lib
 

@@ -1,15 +1,11 @@
 module issue/sidebar
 
 imports built-in
-imports issue/attachment
-imports issue/issue
-imports issue/issue-model
-imports project/project-model
-imports project/sidebar
+imports issue/-
+imports project/-
 imports tag/tag
 
-imports elib/elib-bootstrap/lib
-imports elib/elib-utils/markup
+imports elib/-
 imports elib-bootstrap-3/icons
 
 section issue commands
