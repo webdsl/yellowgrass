@@ -3,10 +3,7 @@ module user/access
 imports built-in
 imports yellowgrass
 imports templates-bootstrap
-imports user/ac
-imports user/home
-imports user/password
-imports user/register
+imports user/-
 
 imports elib-bootstrap-3/icons
 imports elib/elib-bootstrap/lib

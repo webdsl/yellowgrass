@@ -1,11 +1,8 @@
 module issue/issue-model
 
 imports built-in
-imports comment/comment
-imports comment/event
-imports comment/issueControl
-imports issue/attachment
-imports issue/emails
+imports comment/-
+imports issue/-
 imports project/project-model
 imports tag/tag-model
 imports user/user-model

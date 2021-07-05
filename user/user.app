@@ -2,15 +2,9 @@ module user/user
 
 imports built-in
 imports templates
-imports issue/issue
-imports issue/issue-model
+imports issue/-
 imports project/project-model
-imports user/user-model
-imports user/ac
-imports user/home
-imports user/register
-imports user/access
-imports user/gcaptcha
+imports user/-
 imports webservice/model
 
 imports elib-bootstrap-3/icons

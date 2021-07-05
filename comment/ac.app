@@ -1,8 +1,6 @@
 module comment/ac
 
-imports comment/comment
-imports comment/issueControl
-imports comment/tagControl
+imports comment/-
 imports issue/issue-model
 imports project/ac
 

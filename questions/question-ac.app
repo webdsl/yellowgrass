@@ -1,9 +1,7 @@
 module questions/question-ac
 
-imports project/ac
-imports project/project-model
-imports questions/question-model
-imports questions/question-view
+imports project/-
+imports questions/-
 imports user/ac
   
   extend entity Question {

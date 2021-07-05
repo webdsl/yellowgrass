@@ -3,8 +3,7 @@ module project/register
 imports built-in
 imports templates
 imports issue/types
-imports project/project-model
-imports project/settings
+imports project/-
 imports user/home
 
 imports elib/elib-bootstrap/lib

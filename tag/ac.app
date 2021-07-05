@@ -1,10 +1,8 @@
 module tag/ac
 
 imports issue/issue-model
-imports project/ac
-imports project/project-model
-imports tag/sidebar
-imports tag/tag
+imports project/-
+imports tag/-
 imports user/ac
 
 access control rules
