@@ -2,6 +2,7 @@ module issue/ac
 
 imports issue/-
 imports project/-
+imports tag/tag-model
 imports user/-
 
 section predicates
