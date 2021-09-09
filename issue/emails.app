@@ -6,6 +6,7 @@ imports comment/comment
 imports issue/-
 imports project/project
 imports user/user-model
+imports tag/tag-model
 
   extend entity Issue {
     

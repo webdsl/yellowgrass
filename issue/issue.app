@@ -8,7 +8,7 @@ imports generic/editable-text
 imports issue/-
 imports project/-
 imports tag/tag
-imports user/user
+imports user/-
 
 imports elib/-
 imports elib-bootstrap-3/icons
