@@ -3,6 +3,7 @@ module webservices
 imports built-in
 imports issue/issue-model
 imports project/project-model
+imports tag/tag-model
 imports user/user-model
 imports webservice/model
 /**
