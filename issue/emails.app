@@ -2,7 +2,7 @@ module issue/emails
 
 imports built-in
 imports emails
-imports comment/comment
+imports comment/-
 imports issue/-
 imports project/project
 imports user/user-model

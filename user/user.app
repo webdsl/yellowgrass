@@ -3,7 +3,7 @@ module user/user
 imports built-in
 imports templates
 imports issue/-
-imports project/project-model
+imports project/-
 imports user/-
 imports webservice/model
 

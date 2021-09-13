@@ -5,6 +5,7 @@ imports templates
 imports issue/-
 imports project/-
 imports tag/tag-model
+imports user/access
 
 imports elib/elib-bootstrap/lib
 
