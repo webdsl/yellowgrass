@@ -1,6 +1,5 @@
 module templates
 
-imports built-in
 imports search
 imports templates-bootstrap
 imports project/project-model

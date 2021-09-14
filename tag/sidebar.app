@@ -1,6 +1,5 @@
 module tag/sidebar
 
-imports built-in
 imports issue/register
 imports project/-
 imports tag/-

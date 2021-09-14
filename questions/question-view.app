@@ -1,6 +1,5 @@
 module questions/question-view
 
-imports built-in
 imports templates
 imports generic/editable-text
 imports project/-

@@ -1,6 +1,5 @@
 module user/user-model 
 
-imports built-in
 imports issue/issue-model
 imports project/project-model
 

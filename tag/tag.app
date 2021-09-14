@@ -1,6 +1,5 @@
 module tag/tag
 
-imports built-in
 imports auxiliary
 imports templates
 imports comment/tagControl

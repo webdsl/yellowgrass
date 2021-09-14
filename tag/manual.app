@@ -1,6 +1,5 @@
 module tag/manual
 
-imports built-in
 imports templates
 
 imports elib-bootstrap-3/icons

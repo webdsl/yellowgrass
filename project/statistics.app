@@ -1,6 +1,5 @@
 module project/statistics
 
-imports built-in
 imports templates
 imports project/project-model
 

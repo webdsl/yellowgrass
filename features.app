@@ -1,6 +1,5 @@
 module features
 
-imports built-in
 imports templates
 imports tag/manual
 

@@ -1,6 +1,5 @@
 module user/register
 
-imports built-in
 imports yellowgrass
 imports emails
 imports templates

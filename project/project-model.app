@@ -1,6 +1,5 @@
 module project/project-model
 
-imports built-in
 imports auxiliary
 imports issue/issue-model
 imports project/project-model

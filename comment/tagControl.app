@@ -1,6 +1,5 @@
 module comment/tagControl
 
-imports built-in
 imports comment/-
 imports tag/-
 imports user/-

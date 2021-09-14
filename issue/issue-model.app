@@ -1,6 +1,5 @@
 module issue/issue-model
 
-imports built-in
 imports comment/-
 imports issue/-
 imports project/project-model

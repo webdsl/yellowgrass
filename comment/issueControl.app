@@ -1,6 +1,5 @@
 module comment/issueControl
 
-imports built-in
 imports comment/-
 imports issue/-
 imports project/project

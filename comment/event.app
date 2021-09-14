@@ -1,6 +1,5 @@
 module comment/event
 
-imports built-in
 imports comment/-
 
 imports elib/elib-utils/markup

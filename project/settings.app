@@ -1,6 +1,5 @@
 module project/settings
 
-imports built-in
 imports templates
 imports issue/types
 imports project/-

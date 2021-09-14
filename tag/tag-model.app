@@ -1,6 +1,5 @@
 module tag/tag-model
 
-imports built-in
 imports comment/tagControl
 imports issue/-
 imports project/project-model

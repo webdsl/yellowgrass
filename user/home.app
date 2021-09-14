@@ -1,6 +1,5 @@
 module user/home
 
-imports built-in
 imports templates
 imports issue/-
 imports project/-
