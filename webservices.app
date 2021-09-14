@@ -1,6 +1,5 @@
 module webservices
 
-imports built-in
 imports issue/-
 imports project/project-model
 imports tag/tag-model

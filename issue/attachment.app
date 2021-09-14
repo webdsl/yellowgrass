@@ -1,6 +1,5 @@
 module issue/attachment
 
-imports built-in
 imports templates
 imports issue/-
 

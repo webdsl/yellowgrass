@@ -1,6 +1,5 @@
 module comment/comment
 
-imports built-in
 imports comment/-
 imports issue/-
 imports user/-

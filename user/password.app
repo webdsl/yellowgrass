@@ -1,6 +1,5 @@
 module user/password
 
-imports built-in
 imports emails
 imports templates
 imports user/-

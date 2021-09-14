@@ -1,6 +1,5 @@
 module generic/editable-text
 
-imports built-in
 imports comment/comment
 imports generic/entity
 

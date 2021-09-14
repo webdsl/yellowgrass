@@ -1,6 +1,5 @@
 module project/sidebar
 
-imports built-in
 imports search
 imports issue/register
 imports project/-

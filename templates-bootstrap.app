@@ -1,6 +1,5 @@
 module templates-bootstrap
 
-imports built-in
 imports yellowgrass
 imports features
 imports project/-
