@@ -4,8 +4,7 @@ imports templates
 imports issue/-
 imports project/-
 
-imports elib/elib-bootstrap/lib
-imports elib-bootstrap-3/icons
+imports elib/elib-bootstrap/-
 
   page search(p: Project, q : String) {
 	  searchtmpl(p ,q)

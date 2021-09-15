@@ -4,8 +4,7 @@ imports yellowgrass
 imports templates-bootstrap
 imports user/-
 
-imports elib-bootstrap-3/icons
-imports elib/elib-bootstrap/lib
+imports elib/elib-bootstrap/-
 
   page signin() {
     mainResponsive{

@@ -6,7 +6,6 @@ imports project/-
 imports questions/question-view
 
 imports elib/-
-imports elib-bootstrap-3/icons
 
 section project toolbar
 

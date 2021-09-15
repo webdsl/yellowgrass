@@ -3,7 +3,6 @@ module generic/editable-text
 imports comment/comment
 imports generic/entity
 
-imports elib-bootstrap-3/icons
 imports elib/-
 
 access control rules  

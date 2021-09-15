@@ -6,7 +6,6 @@ imports project/-
 imports user/-
 imports webservice/model
 
-imports elib-bootstrap-3/icons
 imports elib/-
 
 section user page

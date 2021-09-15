@@ -2,8 +2,7 @@ module tag/manual
 
 imports templates
 
-imports elib-bootstrap-3/icons
-imports elib/elib-bootstrap/lib
+imports elib/elib-bootstrap/-
 
   template tagHelp(){
 	  navigate tagManual() [title="Tag Help"] { iQuestionSign }

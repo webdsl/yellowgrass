@@ -9,7 +9,6 @@ imports tag/-
 imports user/user
 
 imports elib/-
-imports elib-bootstrap-3/icons
 
 section navigation
 

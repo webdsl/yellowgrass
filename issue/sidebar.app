@@ -5,7 +5,6 @@ imports project/-
 imports tag/tag
 
 imports elib/-
-imports elib-bootstrap-3/icons
 
 section issue commands
 
