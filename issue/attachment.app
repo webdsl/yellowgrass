@@ -3,8 +3,7 @@ module issue/attachment
 imports templates
 imports issue/-
 
-imports elib-bootstrap-3/icons
-imports elib/elib-bootstrap/lib
+imports elib/elib-bootstrap/-
 
 section data model
 

@@ -5,7 +5,6 @@ imports project/-
 imports tag/-
 
 imports elib/-
-imports elib-bootstrap-3/icons
 
   template tagCommandsToolbar(tag : Tag) {
     action makeRelease(t : Tag, p : Project) {
