@@ -1,6 +1,6 @@
 ---
 id: org.example:yellowgrass:0.1.0-SNAPSHOT
-name: webdsl-statix
+name: yellowgrass
 dependencies:
   compile:
   - org.example:webdslstatix:0.1.0-SNAPSHOT
