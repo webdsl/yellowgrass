@@ -123,7 +123,7 @@ service getProject() {
 	var name 		:= json.getString("name");
 	var versions 	:= json.getJSONObject("versions");
 	log("called service: getProject:" + name);
-	var project 	:= loadProject(name);
+	var project 	:= findProject(name);
 	if(project.private && !(securityContext.principal in project.members) ){
 		var errors := JSONArray();
 		errors.put("you are not authenticated for this project");
@@ -138,7 +138,7 @@ service getIssues() {
 	var json 	:= JSONObject(readRequestBody());
 	var name 	:= json.getString("project");
 	log("called service: getIssues:" + name);
-	var project := loadProject(name);
+	var project := findProject(name);
 	if(project.private && !(securityContext.principal in project.members) ){
 		var errors := JSONArray();
 		errors.put("you are not authenticated for this project");
@@ -158,7 +158,7 @@ service getIssuesDetails() {
 	var name 		:= json.getString("project");
 	var versions 	:= json.getJSONObject("versions").getJSONArray("issues");
 	log("called service: getIssuesDetails:" + name);
-	var project 	:= loadProject(name);
+	var project 	:= findProject(name);
 	if(project.private && !(securityContext.principal in project.members)) {
 		var errors := JSONArray();
 		errors.put("you are not authenticated for this project");
@@ -188,7 +188,7 @@ service getRoadmap() {
 	var name := json.getString("project");
 	
 	log("called service: getRoadmap:" + name);
-	var project := loadProject(name);
+	var project := findProject(name);
 	if(project.private && !(securityContext.principal in project.members)) {
 		var errors := JSONArray();
 		errors.put("you are not authenticated for this project");
@@ -208,7 +208,7 @@ service createIssueService() {
 	var jsonobject 		:= JSONObject();
 	var errors 			:= JSONArray();
 	var json			:= JSONObject(readRequestBody());
-	var project 		:= loadProject(json.getString("project"));
+	var project 		:= findProject(json.getString("project"));
 	var title 			:= json.getString("title");
 	var description 	:= json.getString("description") as WikiText;
 	var tags := Set<Tag>();
@@ -251,7 +251,7 @@ service createIssueService() {
 }
 
 define page testing() {
-	var project := loadProject("WebDSL")
+	var project := findProject("WebDSL")
 	// output(project.toJSON().toString())
 }
 
