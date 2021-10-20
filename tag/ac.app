@@ -1,6 +1,6 @@
 module tag/ac
 
-imports issue/issue-model
+imports issue/-
 imports project/-
 imports tag/-
 imports user/ac
