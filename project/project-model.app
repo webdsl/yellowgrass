@@ -201,7 +201,7 @@ section json
     var version := old.getInt("version");
     if(version < this.version) {
       jsonobject.put("name", name);
-      jsonobject.put("description", description.format());
+      jsonobject.put("description", description.format(""));
       jsonobject.put("url", url);
       jsonobject.put("version", this.version);
     }

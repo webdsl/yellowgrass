@@ -208,7 +208,7 @@ section queries
     json.put("id", id);
     json.put("number", number);
     json.put("title", title);
-    // json.put("description",description.format());
+    // json.put("description",description.format(""));
     json.put("submitted", submitted.getTime()/1000L);
 
     json.put("nrVotes", nrVotes);
@@ -244,7 +244,7 @@ section queries
     json.put("id", id);
     json.put("number", number);
     json.put("title", title);
-    json.put("description", description.format());
+    json.put("description", description.format(""));
     json.put("submitted", submitted.getTime()/1000L);
     json.put("nrVotes", nrVotes);
     json.put("project", project.toSimpleJSON());
