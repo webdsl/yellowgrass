@@ -6,6 +6,9 @@ dependencies:
   - org.example:webdslstatix:0.1.0-SNAPSHOT
 debug:
   typesmart: false
+language:
+  statix:
+    mode: concurrent
 build:
   useBuildSystemSpec: true
 runtime:
