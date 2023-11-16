@@ -13,12 +13,12 @@ module user/user-model
                                validate(!userTagTaken(), "Another user already registered this user name"))
                                
     isAdmin       :: Bool (default=false)
-    
+ 
     function isAdmin() : Bool {
       return isAdmin != null && isAdmin;
     }
   }
-  
+
 section queries
 
   extend entity User {
@@ -131,3 +131,43 @@ section queries
   }
 }
 
+
+function abandonUser( u : User, makeProjectsPrivate : Bool, clearComments : Bool ){
+  var timeStr := ""+now().format("yyyyMMddHHmmss");
+  var newName := "deleteduser" + timeStr;
+  message("User ~u.tag has been renamed to ~newName"); 
+  u.tag := newName;
+  u.name := newName;
+  var pass : Secret := randomUUID().toString();
+  u.password := pass.digest();
+  u.notifications := false;
+  u.url := "";
+  message("Changed password for ~newName");
+  if(clearComments){
+    var comments := from Comment where author = ~u;
+    for(c in comments){
+      c.text := "-removed comment-";
+    }
+    message("removed text from ~comments.length comments posted by ~newName");
+  }
+  u.email := u.email.replace("@", "-at-") + "@" + u.tag + ".yellowgrass.org";
+  if(makeProjectsPrivate){
+	  for(p in u.projects){
+	  	if(p.private == false){
+	  		if(p.members.length == 1 && u in p.members){
+	  			p.private := true;
+	  			message("project ~p.name, which was owned by ~newName, is now set to private");
+	  	  } else {
+	  	  	message("~newName was also member of a public project: ~p.name");
+	  	  }
+	  	} else {
+	  		message("~newName was also member of a private project: ~p.name");
+	  	}
+	  }
+  }
+  for(s in from SessionManager where securityContext.principal = ~u){
+    s.securityContext.principal := null;
+    message("Logged off all sessions for ~newName");
+  }
+   
+}

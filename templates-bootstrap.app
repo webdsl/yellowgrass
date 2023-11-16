@@ -116,3 +116,32 @@ override attributes submitlink{ submit attributes }
 	  </div>
 	</div>
   }
+  
+template warnAction( btnText: String, message : String, isDeleteAction : Bool ){
+  warnAction( btnText , (message as WikiText), isDeleteAction)[all attributes]{ elements }
+}
+
+template warnActionModalLink(idAttr : String){
+  modalLink(idAttr) [all attributes, rel="tooltip", data-placement="bottom"]{
+    elements
+  }
+}
+
+template warnAction( btnText : String, message : WikiText, isDeleteAction : Bool ){
+  warnActionModalLink(id)[all attributes]{
+    if(isDeleteAction){ iTrash " " } output(btnText)
+  }
+  warnActionModal(id, if(btnText == "" && isDeleteAction) "Delete item" else btnText, message){
+    elements
+  }
+}
+template warnActionModal(modalId : String, btnText : String, message : WikiText){
+  modal(modalId){
+    modalHeader{ header1{ output(btnText) } }
+    modalBody{ output(message) }
+    modalFooter{
+      elements
+      modalCloseLink[class = "btn btn-default"] { iStop() " Cancel" }
+    }
+  }
+}

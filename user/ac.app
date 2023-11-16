@@ -30,6 +30,9 @@ access control rules
 	    isAdministrator()
 	  }
 		
+		rule action abandonUser(){
+		  isAdministrator()
+		}
 		
 	}
 	
